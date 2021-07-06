@@ -21,7 +21,7 @@ class Tukang extends Model
     ];
 
     public function user(){
-        return $this->belongsTo('User');
+        return $this->belongsTo(User::class, 'kode_user', 'id');
     }
 
     public function produk(){

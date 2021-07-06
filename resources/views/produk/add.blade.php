@@ -5,17 +5,17 @@
     <br>
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Edit produk .</h3>
+            <h3 class="card-title">Add produk .</h3>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-            <form id="form-edit-produk" method="post" action="{{ route('update.produk', $data->id) }} " enctype="multipart/form-data">
+            <form id="form-edit-produk" method="post" action="{{ route('store.produk') }} " enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
                             <label for="nama_produk">Nama Produk</label>
-                            <input value="{{$data->nama_produk}}" type="text"
+                            <input type="text"
                                    class="form-control @error('nama_produk') is-invalid @enderror" id="nama_produk"
                                    name="nama_produk" placeholder="Masukan Nama Produk">
                             @error('nama_produk')
@@ -31,7 +31,7 @@
                                     <!-- text input -->
                                     <div class="form-group">
                                         <label>Minimum</label>
-                                        <input required value="{{$data->range_min}}" type="number" class="form-control @error('range_min') is-invalid @enderror"
+                                        <input required value="10000" type="number" class="form-control @error('range_min') is-invalid @enderror"
                                                id="range_min" name="range_min" placeholder="10000">
                                         @error('range_min')
                                         <span class="invalid-feedback" role="alert">
@@ -43,7 +43,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Maximum</label>
-                                        <input required value="{{$data->range_max}}" type="number" class="form-control @error('range_max') is-invalid @enderror"
+                                        <input required value="10000" type="number" class="form-control @error('range_max') is-invalid @enderror"
                                                id="range_max" name="range_max" placeholder="100000">
                                         @error('range_max')
                                         <span class="invalid-feedback" role="alert">
@@ -57,7 +57,7 @@
                         <div class="form-group">
                             <label for="diskripsi">Diskripsi Produk</label>
                             <textarea type="text" name="diskripsi" class="form-control" id="diskripsi" class="form-control @error('diskripsi') is-invalid @enderror" rows="3"
-                                      placeholder="Berisi tentang produk jasa yang anda tawarkan kepada pelanggan.">{{$data->diskripsi}}</textarea>
+                                      placeholder="Berisi tentang produk jasa yang anda tawarkan kepada pelanggan."></textarea>
                             @error('diskripsi')
                             <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -67,14 +67,14 @@
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <label for="path_show">Gambar produk</label>
+                            <label for="path_add">Gambar produk</label>
                             <div class="input-group">
                                 <div class="custom-file">
-                                    <input type="file"  class="custom-file-input @error('path_show') is-invalid @enderror" id="path_show" name="path_show[]" multiple>
-                                    <label class="custom-file-label" for="path_show">Choose file</label>
+                                    <input type="file" class="custom-file-input @error('path_add') is-invalid @enderror" id="path_add" name="path_add[]" multiple>
+                                    <label class="custom-file-label" for="path_add">Choose file</label>
                                 </div>
                             </div>
-                            @error('path_show')
+                            @error('path_add')
                             <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
@@ -83,7 +83,7 @@
                     </div>
                 </div>
 
-                <button type="button" id="btn-sub" class="btn btn-primary">Update Data</button>
+                <button type="button" id="btn-sub" class="btn btn-primary">Simpan Data</button>
             </form>
         </div>
         <!-- /.card-body -->
@@ -91,5 +91,5 @@
     <!-- /.card -->
 @endsection
 @push('page_scripts')
-        <script src="{{ mix('js/show_produk.js') }}" defer></script>
+        <script src="{{ mix('js/add_produk.js') }}" defer></script>
 @endpush

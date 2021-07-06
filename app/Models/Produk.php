@@ -9,6 +9,8 @@ class Produk extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['kode_tukang','nama_produk', 'range_min', 'range_max', 'diskripsi', 'multipath' , 'path'];
+
     public function user(){
         return $this->belongsTo('Tukang');
     }

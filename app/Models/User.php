@@ -46,7 +46,7 @@ class User extends Authenticatable
 
     public function tukang()
     {
-        return $this->hasOne('Tukang');
+        return $this->hasOne(Tukang::class, 'id', 'kode_user');
     }
 
     public function client()
