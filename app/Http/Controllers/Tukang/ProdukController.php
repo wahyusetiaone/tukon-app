@@ -37,7 +37,7 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        return view('produk.all');
+        return view('tukang.produk.all');
     }
 
     /**
@@ -47,7 +47,7 @@ class ProdukController extends Controller
      */
     public function create()
     {
-        return view('produk.add');
+        return view('tukang.produk.add');
     }
 
     /**
@@ -75,7 +75,7 @@ class ProdukController extends Controller
                 if ($file->isValid()) {
                     $path = $file->store('images/produk', 'public');
                     $path = substr($path, 6);
-                    $path = "storage".$path;
+                    $path = "storage/images".$path;
                     if ($full_path == ""){
                         $full_path = $path;
                     }else{
@@ -104,13 +104,13 @@ class ProdukController extends Controller
      * Display the specified resource.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function show(Request $request)
     {
         $data = Produk::find($request->id);
 
-        return view('produk.show')->with(compact('data'));
+        return view('tukang.produk.show')->with(compact('data'));
     }
 
     /**
@@ -149,7 +149,7 @@ class ProdukController extends Controller
                 if ($file->isValid()) {
                     $path = $file->store('images/produk', 'public');
                     $path = substr($path, 6);
-                    $path = "storage".$path;
+                    $path = "storage/images".$path;
                     if ($full_path == ""){
                         $full_path = $path;
                     }else{

@@ -27,7 +27,7 @@ class ProdukController extends Controller
     {
         $user = Auth::user()->kode_user;
         $tukang = Tukang::find($user);
-        $data = $tukang->produk;
+        $data = $tukang->produk()->paginate(10);
         return (new ProdukResourceController($data))->response()->setStatusCode(200);
     }
 
@@ -60,7 +60,7 @@ class ProdukController extends Controller
                 if ($file->isValid()) {
                     $path = $file->store('images/produk', 'public');
                     $path = substr($path, 6);
-                    $path = "storage".$path;
+                    $path = "storage/images".$path;
                     if ($full_path == ""){
                         $full_path = $path;
                     }else{
@@ -121,7 +121,7 @@ class ProdukController extends Controller
                 if ($file->isValid()) {
                     $path = $file->store('images/produk', 'public');
                     $path = substr($path, 6);
-                    $path = "storage".$path;
+                    $path = "storage/images".$path;
                     if ($full_path == ""){
                         $full_path = $path;
                     }else{
@@ -158,5 +158,17 @@ class ProdukController extends Controller
         $data = Produk::where('id',$id)->delete();
 
         return (new ProdukResourceController(['id' => $id,'status' => $data]))->response()->setStatusCode(200);
+    }
+
+    /**
+     * Search the specified resource from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool|\Illuminate\Http\JsonResponse|object
+     */
+    public function search(Request $request){
+        $data = Produk::where('nama_produk', 'LIKE', '%'.$request->query_search.'%')->paginate(10);
+
+        return (new ProdukResourceController($data))->response()->setStatusCode(200);
     }
 }

@@ -27,4 +27,5 @@ class Tukang extends Model
     public function produk(){
         return $this->hasMany(Produk::class, 'kode_tukang', 'id');
     }
+
 }
