@@ -1,4 +1,8 @@
-.scrolling-wrapper{
+.scrolling-wrapper {
     overflow-x: auto;
+}
+
+.checked {
+    color: orange;
 }
 

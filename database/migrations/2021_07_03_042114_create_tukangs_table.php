@@ -21,6 +21,7 @@ class CreateTukangsTable extends Migration
             $table->string('remember_token',100);
             $table->string('kode_lokasi', 6);
             $table->string('path_icon', 255);
+            $table->double('rate')->default(0);
             $table->timestamps();
         });
     }

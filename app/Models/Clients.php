@@ -22,4 +22,9 @@ class Clients extends Model
     {
         return $this->belongsTo(User::class, 'kode_user', 'id');
     }
+
+    public function wishlist()
+    {
+        return $this->hasMany(Wishlist::class, 'kode_client', 'id');
+    }
 }

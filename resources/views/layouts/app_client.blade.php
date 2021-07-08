@@ -31,16 +31,18 @@
         <ul class="navbar-nav">
             <li class="nav-item">
             <li class="nav-item d-none d-sm-inline-block">
-                <a href="../index3.html" class="nav-link">Home</a>
-            </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <a href="#" class="nav-link">Contact</a>
+                <a href="{{route('homeclient')}}" class="nav-link">Home</a>
             </li>
             </li>
         </ul>
 
         <ul class="navbar-nav ml-auto">
             @if(!Auth::guest())
+                <li class="nav-item">
+                    <a href="{{ route('wishlist') }}" class="nav-link active">
+                        <i class="nav-icon fas fa-cart-plus"></i>
+                    </a>
+                </li>
                 <li class="nav-item dropdown user-menu">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                         <img src="{{url('images/profile.png')}}"
@@ -71,6 +73,7 @@
                         </li>
                     </ul>
                 </li>
+
             @else
                 @if (Route::has('login'))
                     @auth

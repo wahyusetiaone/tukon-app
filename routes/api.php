@@ -43,4 +43,8 @@ Route::group(['middleware' => 'auth:api'], function () {
         });
     });
     Route::post('rate-it', 'App\Http\Controllers\API\RatingController@send')->name('send_it');
+    Route::post('change-rate/{id}', 'App\Http\Controllers\API\RatingController@change')->name('change-it');
+    Route::get('wishlist', 'App\Http\Controllers\API\WishlistController@index')->name('wishlist');
+    Route::post('wishlist/remove', 'App\Http\Controllers\API\WishlistController@remove')->name('wishlist.remove');
+    Route::post('wishlist/add', 'App\Http\Controllers\API\WishlistController@add')->name('wishlist.add');
 });

@@ -17,6 +17,7 @@ class HomeClientController extends Controller
        tukangs.nomor_telepon as nomor_telepon,
        tukangs.kota as kota,
        tukangs.alamat as alamat,
+       tukangs.rate as rate,
        tukangs.kode_lokasi as kode_lokasi,
        tukangs.path_icon as path_icon,
        tukangs.created_at as tukang_created,
@@ -40,6 +41,7 @@ class HomeClientController extends Controller
        tukangs.nomor_telepon as nomor_telepon,
        tukangs.kota as kota,
        tukangs.alamat as alamat,
+       tukangs.rate as rate,
        tukangs.kode_lokasi as kode_lokasi,
        tukangs.path_icon as path_icon,
        tukangs.created_at as tukang_created,
@@ -62,11 +64,13 @@ class HomeClientController extends Controller
        tukangs.nomor_telepon as nomor_telepon,
        tukangs.kota as kota,
        tukangs.alamat as alamat,
+       tukangs.rate as rate,
        tukangs.kode_lokasi as kode_lokasi,
        tukangs.path_icon as path_icon,
        tukangs.created_at as tukang_created,
        tukangs.updated_at as tukang_updated'))
-            ->join('users', 'tukangs.id', '=', 'users.kode_user')->take(8)->get();
+            ->join('users', 'tukangs.id', '=', 'users.kode_user')
+            ->orderBy('rate', 'desc')->take(8)->get();
 
         $tukang = DB::table('tukangs')
             ->select(DB::raw('users.name,
@@ -74,6 +78,7 @@ class HomeClientController extends Controller
        tukangs.nomor_telepon as nomor_telepon,
        tukangs.kota as kota,
        tukangs.alamat as alamat,
+       tukangs.rate as rate,
        tukangs.kode_lokasi as kode_lokasi,
        tukangs.path_icon as path_icon,
        tukangs.created_at as tukang_created,

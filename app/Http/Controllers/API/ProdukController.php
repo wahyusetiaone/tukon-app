@@ -167,6 +167,15 @@ class ProdukController extends Controller
      * @return bool|\Illuminate\Http\JsonResponse|object
      */
     public function search(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'query_search' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return (new ProdukResourceController(['error'=>$validator->errors()]))->response()->setStatusCode(401);
+        }
+
         $data = Produk::where('nama_produk', 'LIKE', '%'.$request->query_search.'%')->paginate(10);
 
         return (new ProdukResourceController($data))->response()->setStatusCode(200);

@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Rate;
 use App\Models\User;
 use App\Models\VoteRate;
+use App\Observers\RateObserver;
 use App\Observers\UserObserver;
 use App\Observers\VoteRateObserver;
 use Illuminate\Support\ServiceProvider;

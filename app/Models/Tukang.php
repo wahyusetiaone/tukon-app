@@ -13,6 +13,7 @@ class Tukang extends Model
      *
      * @var array
      */
+    protected $primaryKey = 'id';
     protected $fillable = [
         'id',
         'nomor_telepon',
@@ -21,7 +22,7 @@ class Tukang extends Model
     ];
 
     public function user(){
-        return $this->belongsTo(User::class, 'kode_user', 'id');
+        return $this->belongsTo(User::class, 'id', 'kode_user');
     }
 
     public function produk(){
