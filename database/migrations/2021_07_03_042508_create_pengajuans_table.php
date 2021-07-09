@@ -19,7 +19,7 @@ class CreatePengajuansTable extends Migration
         // if false is fill by id client
         Schema::create('pengajuans', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('kode_client');
+            $table->bigInteger('kode_client')->default(0);
             $table->string('nama_proyek', 100);
             $table->text('diskripsi_proyek');
             $table->string('alamat', 255);
@@ -29,8 +29,9 @@ class CreatePengajuansTable extends Migration
             $table->bigInteger('range_min')->nullable();
             $table->bigInteger('range_max')->nullable();
             $table->date('deadline')->nullable();
-            $table->string('kode_status', 4);
+            $table->string('kode_status', 4)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

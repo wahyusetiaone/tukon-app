@@ -25,6 +25,10 @@ class Tukang extends Model
         return $this->belongsTo(User::class, 'id', 'kode_user');
     }
 
+    public function pin(){
+        return $this->belongsTo(Pin::class, 'id', 'kode_tukang');
+    }
+
     public function produk(){
         return $this->hasMany(Produk::class, 'kode_tukang', 'id');
     }

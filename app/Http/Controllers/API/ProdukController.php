@@ -78,7 +78,6 @@ class ProdukController extends Controller
             return (new ProdukResourceController($data))->response()->setStatusCode(200);
         }else{
             $data = Produk::create($request->all());
-            Alert::success('Succesfully Saved', 'Data has been saved !!!');
             return (new ProdukResourceController($data))->response()->setStatusCode(200);
         }
         return (new ProdukResourceController(['error'=>'Unauthorised']))->response()->setStatusCode(401);
