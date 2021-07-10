@@ -21,4 +21,12 @@ class Penawaran extends Model
         'harga_total',
         'kode_status',
     ];
+
+    public function pin(){
+        return $this->belongsTo(Pin::class, 'id', 'kode_penawaran');
+    }
+
+    public function komponen(){
+        return $this->hasMany(Komponen::class, 'kode_penawaran', 'id');
+    }
 }

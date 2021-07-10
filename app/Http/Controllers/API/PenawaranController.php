@@ -44,7 +44,7 @@ class PenawaranController extends Controller
             return (new PenawaranResourceController(['error' => $validator->errors()]))->response()->setStatusCode(401);
         }
 
-        if (sizeof($request->input('nama_komponen')) !== sizeof($request->input('harga_komponen'))){
+        if (sizeof($request->input('nama_komponen')) !== sizeof($request->input('harga_komponen'))) {
             return (new PenawaranResourceController(['error' => 'nama_komponen not same length with harga_komponen !']))->response()->setStatusCode(401);
         }
         $id = User::with('client')->find(Auth::id())->kode_user;
@@ -56,7 +56,7 @@ class PenawaranController extends Controller
             $nama = $request->input('nama_komponen');
             $harga = $request->input('harga_komponen');
             $dump = null;
-            for ($i = 0; $i < sizeof($nama); $i++ ){
+            for ($i = 0; $i < sizeof($nama); $i++) {
                 $komponen = new Komponen();
                 $komponen->kode_penawaran = $data->id;
                 $komponen->nama_komponen = $nama[$i];
@@ -77,7 +77,7 @@ class PenawaranController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -88,7 +88,7 @@ class PenawaranController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -99,7 +99,7 @@ class PenawaranController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -110,19 +110,63 @@ class PenawaranController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
      */
     public function update(Request $request, $id)
     {
-        //
+        if (!count($request->all())) {
+            return (new PenawaranResourceController(['error' => 'mush have one input.']))->response()->setStatusCode(401);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'keuntungan' => 'integer',
+            'harga_total' => 'integer',
+            'nama_komponen' => 'array',
+            'harga_komponen' => 'array',
+        ]);
+
+        if ($validator->fails()) {
+            return (new PenawaranResourceController(['error' => $validator->errors()]))->response()->setStatusCode(401);
+        }
+
+        if ($request->has('nama_komponen') && $request->has('harga_komponen')) {
+            if (sizeof($request->input('nama_komponen')) !== sizeof($request->input('harga_komponen'))) {
+                return (new PenawaranResourceController(['error' => 'nama_komponen not same length with harga_komponen !']))->response()->setStatusCode(401);
+            }
+        }
+        $kode_user = User::with('tukang')->find(Auth::id())->kode_user;
+        $request['kode_tukang'] = $kode_user;
+        $request['kode_status'] = 'S02';
+        try {
+            Pin::where(['kode_penawaran' => $id, 'kode_tukang' => $kode_user])->firstOrFail();
+            $data = Penawaran::findOrFail($id);
+            $data->update($request->except(['nama_komponen', 'harga_komponen', 'kode_client']));
+            if ($request->has('nama_komponen') && $request->has('harga_komponen')) {
+                $nama = $request->input('nama_komponen');
+                $harga = $request->input('harga_komponen');
+                $dump = null;
+                for ($i = 0; $i < sizeof($nama); $i++) {
+                    $komponen = new Komponen();
+                    $komponen->kode_penawaran = $data->id;
+                    $komponen->nama_komponen = $nama[$i];
+                    $komponen->harga = $harga[$i];
+                    $komponen->save();
+                    $dump[$i] = $komponen;
+                }
+                $request['komponen'] = $dump;
+            }
+            return (new PenawaranResourceController($request))->response()->setStatusCode(200);
+        } catch (ModelNotFoundException $e) {
+            return (new PenawaranResourceController(['error' => $e->getMessage()]))->response()->setStatusCode(401);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
      */
     public function destroy($id)
@@ -130,10 +174,69 @@ class PenawaranController extends Controller
         try {
             $data = Penawaran::findOrFail($id)->delete();
 
-        } catch (ModelNotFoundException $e){
+        } catch (ModelNotFoundException $e) {
             $data['status'] = 'error';
             $data['message'] = $e->getMessage();
         }
-        return (new PenawaranResourceController(['id' => $id,'status' => $data]))->response()->setStatusCode(200);
+        return (new PenawaranResourceController(['id' => $id, 'status' => $data]))->response()->setStatusCode(200);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
+     */
+    public function destroy_komponen($id)
+    {
+        $kode_user = User::with('tukang')->find(Auth::id())->kode_user;
+        try {
+            $komponen = Komponen::with('penawaran', 'penawaran.pin')->findOrFail($id);
+            $read_kode_tukang = $komponen->penawaran->pin->kode_tukang;
+            if ( $read_kode_tukang == $kode_user){
+                $data = Komponen::findOrFail($id)->delete();
+                $komponen['status'] = $data;
+                return (new PenawaranResourceController($komponen))->response()->setStatusCode(200);
+            }else{
+                return (new PenawaranResourceController(['error' => 'you not have permission to modif this record !']))->response()->setStatusCode(401);
+            }
+        } catch (ModelNotFoundException $e) {
+            return (new PenawaranResourceController(['error' => $e->getMessage()]))->response()->setStatusCode(401);
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
+     */
+    public function update_komponen(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'nama_komponen' => 'required|string',
+            'harga_komponen' => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return (new PenawaranResourceController(['error' => $validator->errors()]))->response()->setStatusCode(401);
+        }
+
+        $kode_user = User::with('tukang')->find(Auth::id())->kode_user;
+        try {
+            $komponen = Komponen::with('penawaran', 'penawaran.pin')->findOrFail($id);
+            $read_kode_tukang = $komponen->penawaran->pin->kode_tukang;
+            if ( $read_kode_tukang == $kode_user){
+                $komponen['harga'] = $request->input('harga_komponen');
+                $stat = $komponen->update($request->except('harga_komponen'));
+                $komponen['status'] = $stat;
+                return (new PenawaranResourceController($komponen))->response()->setStatusCode(200);
+            }else{
+                return (new PenawaranResourceController(['error' => 'you not have permission to modif this record !']))->response()->setStatusCode(401);
+            }
+        } catch (ModelNotFoundException $e) {
+            return (new PenawaranResourceController(['error' => $e->getMessage()]))->response()->setStatusCode(401);
+        }
     }
 }

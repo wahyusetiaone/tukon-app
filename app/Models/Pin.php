@@ -28,4 +28,8 @@ class Pin extends Model
     public function tukang(){
         return $this->hasOne(Tukang::class, 'id', 'kode_tukang');
     }
+
+    public function penawaran(){
+        return$this->hasOne(Penawaran::class, 'id', 'kode_penawaran');
+    }
 }

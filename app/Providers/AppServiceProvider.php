@@ -11,6 +11,7 @@ use App\Observers\RateObserver;
 use App\Observers\UserObserver;
 use App\Observers\VoteRateObserver;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Passport;
 
 class AppServiceProvider extends ServiceProvider
 {

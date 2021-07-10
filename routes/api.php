@@ -31,9 +31,9 @@ Route::group(['prefix' => 'guest', 'as' => 'guest'], function () {
     });
 });
 
-Route::group(['middleware' => ['auth:api','roles']], function () {
+Route::group(['middleware' => ['auth:api', 'roles']], function () {
     Route::get('details', 'App\Http\Controllers\API\UserController@details');
-    Route::group(['prefix' => 'tukang', 'as' => 'tukang', 'roles'=>'tukang'], function () {
+    Route::group(['prefix' => 'tukang', 'as' => 'tukang', 'roles' => 'tukang'], function () {
         Route::group(['prefix' => 'produk', 'as' => 'produk'], function () {
             Route::get('get', 'App\Http\Controllers\API\ProdukController@index')->name('get');
             Route::get('show/{id}', 'App\Http\Controllers\API\ProdukController@show')->name('show');
@@ -43,19 +43,28 @@ Route::group(['middleware' => ['auth:api','roles']], function () {
         });
         Route::group(['prefix' => 'penawaran', 'as' => 'penawaran'], function () {
             Route::post('add', 'App\Http\Controllers\API\PenawaranController@create')->name('add');
+            Route::post('update/{id}', 'App\Http\Controllers\API\PenawaranController@update')->name('update');
             Route::delete('remove/{id}', 'App\Http\Controllers\API\PenawaranController@destroy')->name('remove');
+            Route::delete('komponen/remove/{id}', 'App\Http\Controllers\API\PenawaranController@destroy_komponen')->name('komponen.remove');
+            Route::post('komponen/update/{id}', 'App\Http\Controllers\API\PenawaranController@update_komponen')->name('komponen.update');
         });
 
     });
-    Route::group(['prefix' => 'client', 'as' => 'client', 'roles' => 'klien'],function (){
+    Route::group(['prefix' => 'client', 'as' => 'client', 'roles' => 'klien'], function () {
         Route::post('rate-it', 'App\Http\Controllers\API\RatingController@send')->name('send_it');
         Route::post('change-rate/{id}', 'App\Http\Controllers\API\RatingController@change')->name('change-it');
-        Route::get('wishlist', 'App\Http\Controllers\API\WishlistController@index')->name('wishlist');
-        Route::post('wishlist/remove', 'App\Http\Controllers\API\WishlistController@remove')->name('wishlist.remove');
-        Route::post('wishlist/add', 'App\Http\Controllers\API\WishlistController@add')->name('wishlist.add');
-        Route::post('pengajuan/add', 'App\Http\Controllers\API\PengajuanController@create')->name('pengajuan.add');
-        Route::delete('pengajuan/remove/{id}', 'App\Http\Controllers\API\PengajuanController@destroy')->name('pengajuan.remove');
-        Route::post('pengajuan/update/{id}', 'App\Http\Controllers\API\PengajuanController@update')->name('pengajuan.update');
-        Route::post('pengajuan/remove/photo/{id}', 'App\Http\Controllers\API\PengajuanController@destroy_photo')->name('pengajuan.remove.photo');
+        Route::group(['prefix' => 'wishlist', 'as' => 'wishlist'], function () {
+            Route::get('get', 'App\Http\Controllers\API\WishlistController@index')->name('get');
+            Route::post('remove', 'App\Http\Controllers\API\WishlistController@remove')->name('remove');
+            Route::post('add', 'App\Http\Controllers\API\WishlistController@add')->name('add');
+        });
+        Route::group(['prefix' => 'pengajuan', 'as' => 'pengajuan'], function () {
+            Route::get('get', 'App\Http\Controllers\API\PengajuanController@index')->name('get');
+            Route::post('add', 'App\Http\Controllers\API\PengajuanController@create')->name('add');
+            Route::delete('remove/{id}', 'App\Http\Controllers\API\PengajuanController@destroy')->name('remove');
+            Route::post('update/{id}', 'App\Http\Controllers\API\PengajuanController@update')->name('update');
+            Route::post('remove/photo/{id}', 'App\Http\Controllers\API\PengajuanController@destroy_photo')->name('remove.photo');
+            Route::post('remove/tukang/{id}', 'App\Http\Controllers\API\PengajuanController@destroy_tukang')->name('remove.tukang');
+        });
     });
 });

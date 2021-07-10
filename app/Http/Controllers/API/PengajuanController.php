@@ -17,11 +17,20 @@ class PengajuanController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
      */
     public function index()
     {
-        //
+        $id = User::with('client')->find(Auth::id())->kode_user;
+        try {
+            $data = Pengajuan::with('pin', 'pin.tukang')->where('kode_client', $id)->paginate(10);
+
+        } catch (ModelNotFoundException $e) {
+            $data['status'] = 'error';
+            $data['message'] = $e->getMessage();
+            return (new PengajuanResourceController($data))->response()->setStatusCode(401);
+        }
+        return (new PengajuanResourceController($data))->response()->setStatusCode(200);
     }
 
     /**
@@ -132,8 +141,6 @@ class PengajuanController extends Controller
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
      */
 
-    //TODO:: Update image path must be check multipath status
-    // because if old data is false and add photo by update will not be change it.//
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -176,8 +183,8 @@ class PengajuanController extends Controller
                         ];
                     }
                 }
-                $request['multipath'] = sizeof($files) > 1;
-                $request['path'] = $old->path.','.$full_path;
+                $request['path'] = $old->path . ',' . $full_path;
+                $request['multipath'] = true;
                 $request['kode_status'] = 'T02';
                 $data = Pengajuan::findOrFail($id)->update($request->except(['path_photo', 'kode_tukang']));
                 if ($request->has('kode_tukang')) {
@@ -204,7 +211,7 @@ class PengajuanController extends Controller
                 $data->update($request->except(['kode_tukang']));
                 $data['kode_tukang'] = $request->input('kode_tukang');
                 return (new PengajuanResourceController($data))->response()->setStatusCode(200);
-            } else{
+            } else {
                 $data = Pengajuan::findOrFail($id)->update($request->all());
                 return (new PengajuanResourceController(['update_status' => $data]))->response()->setStatusCode(200);
             }
@@ -230,6 +237,7 @@ class PengajuanController extends Controller
         } catch (ModelNotFoundException $e) {
             $data['status'] = 'error';
             $data['message'] = $e->getMessage();
+            return (new PengajuanResourceController(['id' => $id, 'status' => $data]))->response()->setStatusCode(401);
         }
         return (new PengajuanResourceController(['id' => $id, 'status' => $data]))->response()->setStatusCode(200);
     }
@@ -241,27 +249,71 @@ class PengajuanController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
      */
-    public function destroy_photo(Request $request,int $id)
+    public function destroy_photo(Request $request, int $id)
     {
+        $validator = Validator::make($request->all(), [
+            'remove_photo_path' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return (new PengajuanResourceController(['error' => $validator->errors()]))->response()->setStatusCode(401);
+        }
+
         try {
             $kode_user = User::with('client')->find(Auth::id())->kode_user;
-            $data = Pengajuan::where(['id'=>$id, 'kode_client' => $kode_user])->firstOrFail();
+            $data = Pengajuan::where(['id' => $id, 'kode_client' => $kode_user])->firstOrFail();
             $old_path = $data->path;
-            if ($data->multipath){
-                $query = $request->input('remove_photo_path').',';
-            }else{
+            if ($data->multipath) {
+                $query = $request->input('remove_photo_path') . ',';
+            } else {
                 $query = $request->input('remove_photo_path');
             }
-            if(strpos($old_path, $query) !== false){
+            if (strpos($old_path, $query) !== false) {
                 $new_path = str_replace($query, '', $old_path);
-                $data->update(['path' => $new_path]);
-            } else{
-                return (new PengajuanResourceController(['status' => 0, 'error' => 'path photo cant found', 'path'=>$query]))->response()->setStatusCode(401);
+                $multipath = substr_count($new_path, ",") > 0 ? true : false;
+                $data->update(['path' => $new_path, 'multipath' => $multipath]);
+            } else {
+                return (new PengajuanResourceController(['status' => 0, 'error' => 'path photo cant found', 'path' => $query]))->response()->setStatusCode(401);
+            }
+        } catch (ModelNotFoundException $e) {
+            $data['status'] = 'error';
+            $data['message'] = $e->getMessage();
+            return (new PengajuanResourceController(['id' => $id, 'status' => $data]))->response()->setStatusCode(401);
+        }
+        return (new PengajuanResourceController(['id' => $id, 'status' => $data, 'new_path' => $new_path]))->response()->setStatusCode(200);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
+     */
+    public function destroy_tukang(Request $request, int $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'kode_pin' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return (new PengajuanResourceController(['error' => $validator->errors()]))->response()->setStatusCode(401);
+        }
+
+        try {
+            $kode_user = User::with('client')->find(Auth::id())->kode_user;
+            $data = Pengajuan::where(['id' => $id, 'kode_client' => $kode_user])->firstOrFail();
+            try {
+                $res = Pin::where(['id' => $request->kode_pin, 'kode_pengajuan' => $id])->firstOrFail();
+                $res->delete();
+                return (new PengajuanResourceController([$data, 'kode_pin' => $request->kode_pin]))->response()->setStatusCode(200);
+            }catch (ModelNotFoundException $ee){
+                return (new PengajuanResourceController(['status' => 0, 'error' => 'record not found or you do have access this record.', 'message' => $ee->getMessage()]))->response()->setStatusCode(401);
             }
         } catch (ModelNotFoundException $e) {
             $data['status'] = 'error';
             $data['message'] = $e->getMessage();
         }
-        return (new PengajuanResourceController(['id' => $id, 'status' => $data, 'new_path' => $new_path]))->response()->setStatusCode(200);
+        return (new PengajuanResourceController([$res,$data]))->response()->setStatusCode(401);
     }
 }
