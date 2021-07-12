@@ -12,7 +12,7 @@ class Produk extends Model
     protected $fillable = ['kode_tukang','nama_produk', 'range_min', 'range_max', 'diskripsi', 'multipath' , 'path'];
 
     public function tukang(){
-        return $this->belongsTo(Tukang::class, 'id');
+        return $this->belongsTo(Tukang::class, 'kode_tukang','id');
     }
 
     public function wishlist(){

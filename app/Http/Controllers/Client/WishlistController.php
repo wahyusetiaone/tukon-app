@@ -17,8 +17,7 @@ class WishlistController extends Controller
      */
     public function index()
     {
-        $data = Wishlist::with('produk','produk.tukang', 'produk.tukang.user')->paginate(20);
-//        return $data;
+        $data = Wishlist::with('produk','produk.tukang', 'produk.tukang.user')->paginate(5)->toArray();
         return view('client.wishlist.all')->with(compact('data'));
     }
 
@@ -79,17 +78,18 @@ class WishlistController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
      */
     public function destroy($id)
     {
-        //
+        $data = Wishlist::destroy($id);
+        return response()->json(['action' => 'delete', 'id' => $id, 'status'=>$data])->setStatusCode(200);
     }
 }

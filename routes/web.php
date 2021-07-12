@@ -28,13 +28,18 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::get('/', [App\Http\Controllers\HomeClientController::class, 'index'])->name('/');
+Route::get('search/{fiter}/{search}', [App\Http\Controllers\Client\SearchController::class, 'index'])->name('search');
 
 Auth::routes();
-Route::group(['middleware' => ['auth','roles']], function () {
+Route::group(['middleware' => ['auth', 'roles']], function () {
     Route::group(['prefix' => 'client', 'roles' => 'klien'], function () {
         Route::get('home', [App\Http\Controllers\HomeClientController::class, 'index'])->name('homeclient');
         Route::get('wishlist', [App\Http\Controllers\Client\WishlistController::class, 'index'])->name('wishlist');
-        Route::get('wishlist/add/{id}', [App\Http\Controllers\Client\WishlistController::class, 'create'])->name('add.wishlist');
+        Route::group(['prefix' => 'wishlist'], function () {
+            Route::get('add/{id}', [App\Http\Controllers\Client\WishlistController::class, 'create'])->name('add.wishlist');
+            Route::get('remove/{id}', [App\Http\Controllers\Client\WishlistController::class, 'destroy'])->name('remove.wishlist');
+        });
+
     });
     Route::group(['roles' => 'admin'], function () {
         Route::get('home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -1,7 +1,7 @@
 @extends('layouts.app_client')
 
 @section('third_party_stylesheets')
-
+    <link href="{{ mix('css/wishlist.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -12,15 +12,10 @@
         <!-- Default box -->
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Projects</h3>
+                <h3 class="card-title">Wishlist</h3>
 
                 <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
-                            title="Collapse">
-                        <i class="fas fa-minus"></i></button>
-                    <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip"
-                            title="Remove">
-                        <i class="fas fa-times"></i></button>
+
                 </div>
             </div>
             <div class="card-body p-0">
@@ -31,13 +26,13 @@
                             #
                         </th>
                         <th style="width: 20%">
-                            Nama Tukang dan Produk
+                            Nama Produk dan Tukang
                         </th>
                         <th style="width: 20%">
-                            Diskripsi Produk
+                            Gambar Produk
                         </th>
                         <th style="width: 30%">
-                            Gambar Produk
+                            Diskripsi Produk
                         </th>
                         <th>
                             Peringkat Tukang
@@ -46,77 +41,111 @@
                         </th>
                     </tr>
                     </thead>
-                    <tbody>}}
-                    @foreach($data as $dat)
-
-{{--                        <tr>--}}
-{{--                            <td>--}}
-{{--                                #--}}
-{{--                            </td>--}}
-{{--                            <td>--}}
-{{--                                <a>--}}
-{{--                                    {{$dat->nama_produk}}--}}
-{{--                                </a>--}}
-{{--                                <br/>--}}
-{{--                                <small>--}}
-{{--                                    {{$dat->tukang->user->name}}--}}
-{{--                                </small>--}}
-{{--                            </td>--}}
-{{--                            <td>--}}
-{{--                                <ul class="list-inline">--}}
-{{--                                    <li class="list-inline-item">--}}
-{{--                                        <img alt="Avatar" class="table-avatar" src="../../dist/img/avatar.png">--}}
-{{--                                    </li>--}}
-{{--                                    <li class="list-inline-item">--}}
-{{--                                        <img alt="Avatar" class="table-avatar" src="../../dist/img/avatar2.png">--}}
-{{--                                    </li>--}}
-{{--                                    <li class="list-inline-item">--}}
-{{--                                        <img alt="Avatar" class="table-avatar" src="../../dist/img/avatar3.png">--}}
-{{--                                    </li>--}}
-{{--                                    <li class="list-inline-item">--}}
-{{--                                        <img alt="Avatar" class="table-avatar" src="../../dist/img/avatar04.png">--}}
-{{--                                    </li>--}}
-{{--                                </ul>--}}
-{{--                            </td>--}}
-{{--                            <td class="project_progress">--}}
-{{--                                <div class="progress progress-sm">--}}
-{{--                                    <div class="progress-bar bg-green" role="progressbar" aria-volumenow="57"--}}
-{{--                                         aria-volumemin="0" aria-volumemax="100" style="width: 57%">--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <small>--}}
-{{--                                    57% Complete--}}
-{{--                                </small>--}}
-{{--                            </td>--}}
-{{--                            <td class="project-state">--}}
-{{--                                <span class="badge badge-success">Success</span>--}}
-{{--                            </td>--}}
-{{--                            <td class="project-actions text-right">--}}
-{{--                                <a class="btn btn-primary btn-sm" href="#">--}}
-{{--                                    <i class="fas fa-folder">--}}
-{{--                                    </i>--}}
-{{--                                    View--}}
-{{--                                </a>--}}
-{{--                                <a class="btn btn-info btn-sm" href="#">--}}
-{{--                                    <i class="fas fa-pencil-alt">--}}
-{{--                                    </i>--}}
-{{--                                    Edit--}}
-{{--                                </a>--}}
-{{--                                <a class="btn btn-danger btn-sm" href="#">--}}
-{{--                                    <i class="fas fa-trash">--}}
-{{--                                    </i>--}}
-{{--                                    Delete--}}
-{{--                                </a>--}}
-{{--                            </td>--}}
-{{--                        </tr>--}}
+                    <tbody>
+                    {{--                    {{var_dump($data)}}--}}
+                    @foreach($data['data'] as $dat)
+                        <tr>
+                            <td>
+                                #
+                            </td>
+                            <td>
+                                <a>
+                                    {{$dat['produk']['nama_produk']}}
+                                </a>
+                                <br/>
+                                <small>
+                                    {{$dat['produk']['tukang']['user']['name']}}
+                                </small>
+                            </td>
+                            <td>
+                                <ul class="list-inline">
+                                    @if($dat['produk']['multipath'])
+                                        @php
+                                            $mpath = $dat['produk']['path'];
+                                            $apath = explode(',',$mpath);
+                                            $cpath = count($apath);
+                                        @endphp
+                                        <li class="list-inline-item">
+                                            <div id="carouselExampleIndicators" class="carousel slide"
+                                                 data-ride="carousel">
+                                                <ol class="carousel-indicators">
+                                                    @for($i=0;$i<$cpath;$i++)
+                                                        <li data-target="#carouselExampleIndicators"
+                                                            data-slide-to="{{$i}}"
+                                                            class="{{ $i == 0  ? 'active' : '' }}"></li>
+                                                    @endfor
+                                                </ol>
+                                                <div class="carousel-inner">
+                                                    @foreach($apath as $key=>$path)
+                                                        <div class="carousel-item {{ $key == 0  ? 'active' : '' }}">
+                                                            <img class="d-block w-100" src="{{url($path)}}"
+                                                                 alt="First slide">
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                            {{--                                                <img alt="Img" class="img-thumbnail" src="{{url($path)}}">--}}
+                                        </li>
+                                    @else
+                                        <li class="list-inline-item">
+                                            <img alt="Img" class="img-thumbnail" src="{{url($dat['produk']['path'])}}">
+                                        </li>
+                                    @endif
+                                </ul>
+                            </td>
+                            <td class="project_progress">
+                                {{$dat['produk']['diskripsi']}}
+                            </td>
+                            <td class="project-state">
+                                @for($i = 0; $i < 5; $i++)
+                                    @if($i < $dat['produk']['tukang']['rate'])
+                                        <span class="fa fa-star checked"></span>
+                                    @else
+                                        <span class="fa fa-star"></span>
+                                    @endif
+                                @endfor
+                            </td>
+                            <td class="project-actions text-right">
+                                <a class="btn btn-primary btn-sm" href="#">
+                                    <i class="fas fa-paper-plane">
+                                    </i>
+                                    Kirim Pengajuan
+                                </a>
+                                <button class="btn btn-danger btn-sm" value="{{$dat['id']}}" id="btn_remove_wishlist">
+                                    <i class="fas fa-trash">
+                                    </i>
+                                    Hapus
+                                </button>
+                            </td>
+                        </tr>
                     @endforeach
                     </tbody>
                 </table>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        @foreach($data['links'] as $dat)
+                            <li class="page-item {{$dat['active'] ? "active" : ""}} {{$dat['url'] ?? 'disabled'}}">
+                                <a class="page-link" href="{{$dat['url']}}">@php echo $dat['label']; @endphp</a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </nav>
             </div>
             <!-- /.card-body -->
+
+            <a href="#" class="second-float">
+                <h3 class="fa my-second-float">10</h3>
+            </a>
+            <a href="#" class="float" data-toggle="tooltip" data-placement="left" title="Kirim pengajuan ke banyak tukang">
+                <i class="fa fa-paper-plane my-float"></i>
+            </a>
         </div>
         <!-- /.card -->
 
     </section>
     <!-- /.content -->
+@endsection
+
+@section('third_party_scripts')
+    <script src="{{ mix('js/wishlist.js') }}" defer></script>
 @endsection

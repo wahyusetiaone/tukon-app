@@ -16,5 +16,9 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/show_produk.js', 'public/js')
     .js('resources/js/add_produk.js', 'public/js')
     .js('resources/js/home_client.js', 'public/js')
+    .js('resources/js/wishlist.js', 'public/js')
+
     .sass('resources/sass/app.scss', 'public/css')
-    .postCss('resources/css/home_client.css', 'public/css');
+
+    .postCss('resources/css/home_client.css', 'public/css')
+    .postCss('resources/css/wishlist.css', 'public/css');

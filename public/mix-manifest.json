@@ -4,6 +4,8 @@
     "/js/show_produk.js": "/js/show_produk.js",
     "/js/add_produk.js": "/js/add_produk.js",
     "/js/home_client.js": "/js/home_client.js",
+    "/js/wishlist.js": "/js/wishlist.js",
     "/css/app.css": "/css/app.css",
+    "/css/wishlist.css": "/css/wishlist.css",
     "/css/home_client.css": "/css/home_client.css"
 }

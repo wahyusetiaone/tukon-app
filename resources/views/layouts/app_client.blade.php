@@ -35,6 +35,16 @@
             </li>
             </li>
         </ul>
+        <ul class="navbar-nav ml-auto w-25 nav-justified">
+            <div class="input-group">
+                <select class="form-control w-25  border border-secondary text-secondary" type="search" id="filter-search">
+                    <option class="select2-results__option">Tukang</option>
+                    <option class="select2-results__option">Produk</option>
+                    <option class="select2-results__option" disabled>Lokasi</option>
+                </select>
+                    <input class="form-control text-primary border border-primary w-75" type="search" placeholder="Tukang Lemari" id="search-input">
+            </div>
+        </ul>
 
         <ul class="navbar-nav ml-auto">
             @if(!Auth::guest())

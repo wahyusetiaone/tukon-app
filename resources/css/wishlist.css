@@ -1,0 +1,35 @@
+.float{
+    position:fixed;
+    width:60px;
+    height:60px;
+    bottom:40px;
+    right:40px;
+    background-color: #2196F3;
+    color:#FFF;
+    border-radius:50px;
+    text-align:center;
+    box-shadow: 2px 2px 3px #999;
+}
+
+.second-float{
+    margin-right: 15px;
+    position:fixed;
+    width:100px;
+    height:50px;
+    bottom:44px;
+    right:40px;
+    background-color: #BBDEFB;
+    color:#FF5722;
+    text-align:left;
+    box-shadow: 2px 2px 3px #999;
+}
+
+.my-float{
+    margin-top:22px;
+}
+
+.my-second-float{
+    margin-left: 13px;
+    margin-top:13px;
+}
+

@@ -20,7 +20,7 @@ class WishlistController extends Controller
     {
         $kode_client = Auth::user();
         $kode_client = $kode_client->kode_user;
-        $data = Wishlist::with('produk', 'produk.tukang', 'produk.tukang.user')->where('kode_client', $kode_client)->paginate(20);
+        $data = Wishlist::with('produk', 'produk.tukang', 'produk.tukang.user')->where('kode_client', $kode_client)->paginate(10);
 
         return (new WishlistResourceController($data))->response()->setStatusCode(200);
     }
