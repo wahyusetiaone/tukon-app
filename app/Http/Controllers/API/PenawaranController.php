@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PenawaranResourceController;
+use App\Models\History_Penawaran;
 use App\Models\Komponen;
 use App\Models\Penawaran;
 use App\Models\Pin;
@@ -142,6 +143,8 @@ class PenawaranController extends Controller
         try {
             Pin::where(['kode_penawaran' => $id, 'kode_tukang' => $kode_user])->firstOrFail();
             $data = Penawaran::findOrFail($id);
+            //TODO:: need chack
+            History_Penawaran::create($data);
             $data->update($request->except(['nama_komponen', 'harga_komponen', 'kode_client']));
             if ($request->has('nama_komponen') && $request->has('harga_komponen')) {
                 $nama = $request->input('nama_komponen');

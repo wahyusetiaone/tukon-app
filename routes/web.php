@@ -27,6 +27,8 @@ use Illuminate\Support\Facades\Route;
 //    Route::resource('user', 'UserController');
 //});
 
+Route::get('/helper', [\App\Http\Controllers\HelperView::class, 'index'])->name('helperview');
+
 Route::get('/', [App\Http\Controllers\HomeClientController::class, 'index'])->name('/');
 Route::get('search/{fiter}/{search}', [App\Http\Controllers\Client\SearchController::class, 'index'])->name('search');
 

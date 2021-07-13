@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PengajuanResourceController;
+use App\Models\History_Pengajuan;
 use App\Models\Pengajuan;
 use App\Models\Pin;
 use App\Models\User;
@@ -212,7 +213,10 @@ class PengajuanController extends Controller
                 $data['kode_tukang'] = $request->input('kode_tukang');
                 return (new PengajuanResourceController($data))->response()->setStatusCode(200);
             } else {
-                $data = Pengajuan::findOrFail($id)->update($request->all());
+                $data = Pengajuan::findOrFail($id);
+                //TODO:: need chack
+                History_Pengajuan::create($data);
+                $data->update($request->all());
                 return (new PengajuanResourceController(['update_status' => $data]))->response()->setStatusCode(200);
             }
         } catch (ModelNotFoundException $e) {
@@ -307,13 +311,13 @@ class PengajuanController extends Controller
                 $res = Pin::where(['id' => $request->kode_pin, 'kode_pengajuan' => $id])->firstOrFail();
                 $res->delete();
                 return (new PengajuanResourceController([$data, 'kode_pin' => $request->kode_pin]))->response()->setStatusCode(200);
-            }catch (ModelNotFoundException $ee){
+            } catch (ModelNotFoundException $ee) {
                 return (new PengajuanResourceController(['status' => 0, 'error' => 'record not found or you do have access this record.', 'message' => $ee->getMessage()]))->response()->setStatusCode(401);
             }
         } catch (ModelNotFoundException $e) {
             $data['status'] = 'error';
             $data['message'] = $e->getMessage();
         }
-        return (new PengajuanResourceController([$res,$data]))->response()->setStatusCode(401);
+        return (new PengajuanResourceController([$res, $data]))->response()->setStatusCode(401);
     }
 }

@@ -13,7 +13,7 @@ class CreatePengajuansTable extends Migration
      */
     public function up()
     {
-        // TODO As Note for table pengajuan between offline and online
+        //:: TODO As Note for table pengajuan between offline and online
         // kode can be a id of client or tukang, look for
         // column offline, if true kode will fill by id tukang,
         // if false is fill by id client

@@ -4,6 +4,7 @@ require( '../../node_modules/datatables.net/js/jquery.dataTables.js' );
 require( '../../node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js' );
 
 import $ from 'jquery';
+import daterangepicker from 'admin-lte/plugins/daterangepicker'
 window.$ = window.jQuery = $;
 $( document ).ready(function() {
     var hidden_tk = $("#hidden_tk");

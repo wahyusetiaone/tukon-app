@@ -15,6 +15,7 @@ class CreateHistoryPengajuansTable extends Migration
     {
         Schema::create('history_pengajuans', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('kode_pengajuan')->default(0);
             $table->bigInteger('kode_client')->default(0);
             $table->string('nama_proyek', 100);
             $table->text('diskripsi_proyek');
