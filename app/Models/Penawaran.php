@@ -29,4 +29,8 @@ class Penawaran extends Model
     public function komponen(){
         return $this->hasMany(Komponen::class, 'kode_penawaran', 'id');
     }
+
+    public function history_penawaran(){
+        return $this->hasMany(History_Penawaran::class, 'kode_penawaran', 'id');
+    }
 }

@@ -15,8 +15,8 @@ class CreatePembayaransTable extends Migration
     {
         Schema::create('pembayarans', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('kode_penawaran');
-            $table->string('kode_status', 4);
+            $table->bigInteger('kode_pin');
+            $table->string('kode_status', 4)->default("P01");
             $table->timestamps();
         });
     }

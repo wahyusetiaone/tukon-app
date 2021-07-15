@@ -48,7 +48,9 @@ Route::group(['middleware' => ['auth:api', 'roles']], function () {
             Route::delete('komponen/remove/{id}', 'App\Http\Controllers\API\PenawaranController@destroy_komponen')->name('komponen.remove');
             Route::post('komponen/update/{id}', 'App\Http\Controllers\API\PenawaranController@update_komponen')->name('komponen.update');
         });
-
+        Route::group(['prefix' => 'persetujuan', 'as' => 'persetujuan'], function () {
+            Route::get('accept/{id}', 'App\Http\Controllers\API\PersetujuanController@accept_tukang')->name('accpet_tukang');
+        });
     });
     Route::group(['prefix' => 'client', 'as' => 'client', 'roles' => 'klien'], function () {
         Route::post('rate-it', 'App\Http\Controllers\API\RatingController@send')->name('send_it');
@@ -66,5 +68,20 @@ Route::group(['middleware' => ['auth:api', 'roles']], function () {
             Route::post('remove/photo/{id}', 'App\Http\Controllers\API\PengajuanController@destroy_photo')->name('remove.photo');
             Route::post('remove/tukang/{id}', 'App\Http\Controllers\API\PengajuanController@destroy_tukang')->name('remove.tukang');
         });
+        Route::group(['prefix' => 'persetujuan', 'as' => 'persetujuan'], function () {
+            Route::get('accept/{id}', 'App\Http\Controllers\API\PersetujuanController@accept_client')->name('accpet_client');
+        });
+        Route::group(['prefix' => 'pembayaran', 'as' => 'pembayaran'], function () {
+            Route::get('lihat/tagihan/{id}', 'App\Http\Controllers\API\PembayaranController@show')->name('lihat_tagihan');
+            Route::post('upload/{id}', 'App\Http\Controllers\API\PembayaranController@create')->name('upload');
+            Route::post('reupload/{id}', 'App\Http\Controllers\API\PembayaranController@create')->name('upload');
+        });
     });
+
+    if (env('DEV_MODE', true)) {
+        Route::group(['prefix' => 'admin', 'as' => 'admin', 'roles' => 'admin'], function () {
+            Route::post('pembayaran/accept/{id}', 'App\Http\Controllers\API\AdminPembayaranController@accept')->name('accept');
+            Route::post('pembayaran/reject/{id}', 'App\Http\Controllers\API\AdminPembayaranController@reject')->name('reject');
+        });
+    }
 });

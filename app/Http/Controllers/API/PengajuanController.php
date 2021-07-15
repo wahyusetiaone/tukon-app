@@ -215,7 +215,7 @@ class PengajuanController extends Controller
             } else {
                 $data = Pengajuan::findOrFail($id);
                 //TODO:: need chack
-                History_Pengajuan::create($data);
+//                History_Pengajuan::create($data);
                 $data->update($request->all());
                 return (new PengajuanResourceController(['update_status' => $data]))->response()->setStatusCode(200);
             }

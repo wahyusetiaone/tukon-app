@@ -32,6 +32,12 @@ class KodeStatusSeeder extends Seeder
         $kode2->keterangan='Proses ini telah dibatalkan oleh Admin';
         $kode2->save();
 
+        $kode2a = new KodeStatus();
+        $kode2a->kode_status='B04';
+        $kode2a->nama_kode='Pengajuna telah dimenangkan pihak lain';
+        $kode2a->keterangan='Maaf pengajuan telah dimenangkan oleh pihak lain';
+        $kode2a->save();
+
         $kode3 = new KodeStatus();
         $kode3->kode_status='D01A';
         $kode3->nama_kode='Deal Klien';
@@ -55,6 +61,18 @@ class KodeStatusSeeder extends Seeder
         $kode6->nama_kode='Menunggu Pembayaran';
         $kode6->keterangan='Proses ini telah menunggu pembayaran';
         $kode6->save();
+
+        $kode6a = new KodeStatus();
+        $kode6a->kode_status='P01A';
+        $kode6a->nama_kode='Menunggu ReUploading Pembayaran';
+        $kode6a->keterangan='Menunggu pegulangan pengungahan bukti transaksi';
+        $kode6a->save();
+
+        $kode6b = new KodeStatus();
+        $kode6b->kode_status='P01B';
+        $kode6b->nama_kode='Menunggu Verifikasi Pembayaran';
+        $kode6b->keterangan='Menunggu Verifikasi Transaksi Pembayaran oleh admin';
+        $kode6b->save();
 
         $kode7 = new KodeStatus();
         $kode7->kode_status='P02';
@@ -103,5 +121,41 @@ class KodeStatusSeeder extends Seeder
         $kode15->nama_kode='Sunting';
         $kode15->keterangan='Dokumen telah disunting';
         $kode15->save();
+
+        $kode16 = new KodeStatus();
+        $kode16->kode_status='A01';
+        $kode16->nama_kode='Menunggu Konfrimasi Admin';
+        $kode16->keterangan='Menunggu pembayaran dikonfirmasi oleh admin';
+        $kode16->save();
+
+        $kode17 = new KodeStatus();
+        $kode17->kode_status='A02';
+        $kode17->nama_kode='Pembayaran ditolak Admin';
+        $kode17->keterangan='Transaksi Pembayaran di tolak oleh admin';
+        $kode17->save();
+
+        $kode18 = new KodeStatus();
+        $kode18->kode_status='A03';
+        $kode18->nama_kode='Pembayaran dikonfirmasi oleh Admin';
+        $kode18->keterangan='Transaksi Pembayaran telah dikonfirmasi oleh admin';
+        $kode18->save();
+
+        $kode19 = new KodeStatus();
+        $kode19->kode_status='ON01';
+        $kode19->nama_kode='Dalam proses pengerjaan';
+        $kode19->keterangan='Projek masih dalam proses pengerjaan';
+        $kode19->save();
+
+        $kode20 = new KodeStatus();
+        $kode20->kode_status='ON02';
+        $kode20->nama_kode='Projek selesai';
+        $kode20->keterangan='Projek telah selesai';
+        $kode20->save();
+
+        $kode21 = new KodeStatus();
+        $kode21->kode_status='ON03';
+        $kode21->nama_kode='Projek dibatalkan';
+        $kode21->keterangan='Projek dibatalkan karena alasan tertentu';
+        $kode21->save();
     }
 }

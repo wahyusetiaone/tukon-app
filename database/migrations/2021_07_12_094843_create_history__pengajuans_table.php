@@ -13,7 +13,7 @@ class CreateHistoryPengajuansTable extends Migration
      */
     public function up()
     {
-        Schema::create('history_pengajuans', function (Blueprint $table) {
+        Schema::create('history__pengajuans', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('kode_pengajuan')->default(0);
             $table->bigInteger('kode_client')->default(0);

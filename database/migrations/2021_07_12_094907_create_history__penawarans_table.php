@@ -13,13 +13,14 @@ class CreateHistoryPenawaransTable extends Migration
      */
     public function up()
     {
-        Schema::create('history_penawarans', function (Blueprint $table) {
+        Schema::create('history__penawarans', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('kode_penawaran')->default(0);
             $table->bigInteger('kode_pin')->default(0);
             $table->integer('keuntungan');
             $table->bigInteger('harga_total');
             $table->string('kode_status',4);
+            $table->integer('revisi')->default(0);
             $table->timestamps();
         });
     }

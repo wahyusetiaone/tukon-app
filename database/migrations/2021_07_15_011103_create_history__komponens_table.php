@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateClientsTable extends Migration
+class CreateHistoryKomponensTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateClientsTable extends Migration
      */
     public function up()
     {
-        Schema::create('clients', function (Blueprint $table) {
+        Schema::create('history__komponens', function (Blueprint $table) {
             $table->id();
-            $table->string('nomor_telepon', 12);
-            $table->string('alamat',255);
-            $table->string('kode_lokasi', 6)->nullable();
-            $table->string('path_foto', 255)->nullable();
+            $table->bigInteger('kode_history_penawaran');
+            $table->string('nama_komponen', 255);
+            $table->bigInteger('harga');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateClientsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('clients');
+        Schema::dropIfExists('history__komponens');
     }
 }

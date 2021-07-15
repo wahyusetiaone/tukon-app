@@ -32,4 +32,8 @@ class Pin extends Model
     public function penawaran(){
         return$this->hasOne(Penawaran::class, 'id', 'kode_penawaran');
     }
+
+    public function pembayaran(){
+        return$this->hasOne(Pembayaran::class, 'kode_pin', 'id');
+    }
 }

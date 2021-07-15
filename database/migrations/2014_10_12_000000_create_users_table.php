@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->bigInteger('kode_role');
             $table->bigInteger('kode_user');
-            $table->rememberToken();
+            $table->rememberToken()->default(null);
             $table->timestamps();
         });
     }

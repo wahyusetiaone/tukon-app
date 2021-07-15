@@ -143,8 +143,8 @@ class PenawaranController extends Controller
         try {
             Pin::where(['kode_penawaran' => $id, 'kode_tukang' => $kode_user])->firstOrFail();
             $data = Penawaran::findOrFail($id);
-            //TODO:: need chack
-            History_Penawaran::create($data);
+            //TODO:: AS NOTE this is create history
+//            History_Penawaran::create($data);
             $data->update($request->except(['nama_komponen', 'harga_komponen', 'kode_client']));
             if ($request->has('nama_komponen') && $request->has('harga_komponen')) {
                 $nama = $request->input('nama_komponen');

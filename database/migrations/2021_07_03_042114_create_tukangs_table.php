@@ -18,9 +18,8 @@ class CreateTukangsTable extends Migration
             $table->string('nomor_telepon', 12);
             $table->string('kota',255);
             $table->string('alamat',255);
-            $table->string('remember_token',100);
-            $table->string('kode_lokasi', 6);
-            $table->string('path_icon', 255);
+            $table->string('kode_lokasi', 6)->nullable();
+            $table->string('path_icon', 255)->nullable();
             $table->double('rate')->default(0);
             $table->timestamps();
         });

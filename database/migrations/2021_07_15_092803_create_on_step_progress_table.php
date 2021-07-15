@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateClientsTable extends Migration
+class CreateOnStepProgressTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateClientsTable extends Migration
      */
     public function up()
     {
-        Schema::create('clients', function (Blueprint $table) {
+        Schema::create('on_step_progress', function (Blueprint $table) {
             $table->id();
-            $table->string('nomor_telepon', 12);
-            $table->string('alamat',255);
-            $table->string('kode_lokasi', 6)->nullable();
-            $table->string('path_foto', 255)->nullable();
+            $table->bigInteger('kode_project')->default(0);
+            $table->bigInteger('kode_plan_progress')->default(0);
+            $table->text('path')->nullable();
+            $table->text('note_step_progress')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateClientsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('clients');
+        Schema::dropIfExists('on_step_progress');
     }
 }
