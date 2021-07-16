@@ -160,7 +160,7 @@
                                         </div>
                                         <div class="col-5 text-center">
                                             @if(isset($ptr->path_icon))
-                                                <img src="{{url($ptr->path)}}" alt="user-avatar"
+                                                <img src="{{url($ptr->path_icon)}}" alt="user-avatar"
                                                      class="img-circle img-fluid">
                                             @else
                                                 <img
@@ -299,7 +299,7 @@
                                         </div>
                                         <div class="col-5 text-center">
                                             @if(isset($ptr->path_icon))
-                                                <img src="{{url($ptr->path)}}" alt="user-avatar"
+                                                <img src="{{url($ptr->path_icon)}}" alt="user-avatar"
                                                      class="img-circle img-fluid">
                                             @else
                                                 <img

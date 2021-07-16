@@ -149,6 +149,22 @@
 
                     <div class="input-group mb-3">
                         <input type="text"
+                               name="kota_cl"
+                               class="form-control @error('kota_cl') is-invalid @enderror"
+                               value="{{ old('kota_cl') }}"
+                               placeholder="Surakarta">
+                        <div class="input-group-append">
+                            <div class="input-group-text"><span class="fas fa-address-book"></span></div>
+                        </div>
+                        @error('kota_cl')
+                        <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                        @enderror
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <input type="text"
                                name="alamat_cl"
                                class="form-control @error('alamat') is-invalid @enderror"
                                value="{{ old('alamat_cl') }}"

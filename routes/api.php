@@ -29,10 +29,18 @@ Route::group(['prefix' => 'guest', 'as' => 'guest'], function () {
         Route::post('new_product', 'App\Http\Controllers\API\BerandaController@search_new_product')->name('produk_terbaru');
         Route::post('top_tukang', 'App\Http\Controllers\API\BerandaController@search_top_tukang')->name('top.tukang');
     });
+    Route::group(['prefix' => 'helper', 'as' => 'helper'], function () {
+        Route::get('kode_status', 'App\Http\Controllers\API\HelperGuestController@kode_status')->name('kode_status');
+        Route::get('roles', 'App\Http\Controllers\API\HelperGuestController@roles')->name('roles');
+        Route::get('plan_progress', 'App\Http\Controllers\API\HelperGuestController@plan_progress')->name('plan_progress');
+
+    });
 });
 
 Route::group(['middleware' => ['auth:api', 'roles']], function () {
     Route::get('details', 'App\Http\Controllers\API\UserController@details');
+    Route::post('upload_image', 'App\Http\Controllers\API\UserController@upload_image');
+
     Route::group(['prefix' => 'tukang', 'as' => 'tukang', 'roles' => 'tukang'], function () {
         Route::group(['prefix' => 'produk', 'as' => 'produk'], function () {
             Route::get('get', 'App\Http\Controllers\API\ProdukController@index')->name('get');
@@ -51,7 +59,16 @@ Route::group(['middleware' => ['auth:api', 'roles']], function () {
         Route::group(['prefix' => 'persetujuan', 'as' => 'persetujuan'], function () {
             Route::get('accept/{id}', 'App\Http\Controllers\API\PersetujuanController@accept_tukang')->name('accpet_tukang');
         });
+        Route::group(['prefix' => 'progress', 'as' => 'progress'], function () {
+            Route::post('upload/{id_project}/{id_progress}', 'App\Http\Controllers\API\ProgressController@create')->name('upload');
+        });
+        Route::group(['prefix' => 'project', 'as' => 'project'], function () {
+            Route::get('lihat/{id}', 'App\Http\Controllers\API\ProjectController@tukang_show_project')->name('tukang_show_project');
+            Route::get('konfirmasi/selesai/{id}', 'App\Http\Controllers\API\ProjectController@tukang_approve')->name('client_approve');
+        });
     });
+
+
     Route::group(['prefix' => 'client', 'as' => 'client', 'roles' => 'klien'], function () {
         Route::post('rate-it', 'App\Http\Controllers\API\RatingController@send')->name('send_it');
         Route::post('change-rate/{id}', 'App\Http\Controllers\API\RatingController@change')->name('change-it');
@@ -76,6 +93,12 @@ Route::group(['middleware' => ['auth:api', 'roles']], function () {
             Route::post('upload/{id}', 'App\Http\Controllers\API\PembayaranController@create')->name('upload');
             Route::post('reupload/{id}', 'App\Http\Controllers\API\PembayaranController@create')->name('upload');
         });
+
+        Route::group(['prefix' => 'project', 'as' => 'project'], function () {
+            Route::get('lihat/{id}', 'App\Http\Controllers\API\ProjectController@client_show_project')->name('client_show_project');
+            Route::get('konfirmasi/selesai/{id}', 'App\Http\Controllers\API\ProjectController@client_approve')->name('client_approve');
+        });
+
     });
 
     if (env('DEV_MODE', true)) {

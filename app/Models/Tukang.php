@@ -17,6 +17,7 @@ class Tukang extends Model
     protected $fillable = [
         'id',
         'nomor_telepon',
+        'path_icon',
         'kota',
         'alamat'
     ];

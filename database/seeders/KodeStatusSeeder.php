@@ -148,8 +148,8 @@ class KodeStatusSeeder extends Seeder
 
         $kode20 = new KodeStatus();
         $kode20->kode_status='ON02';
-        $kode20->nama_kode='Projek selesai';
-        $kode20->keterangan='Projek telah selesai';
+        $kode20->nama_kode='Projek selesai Klien';
+        $kode20->keterangan='Projek telah diverikiasi selesai oleh Klien';
         $kode20->save();
 
         $kode21 = new KodeStatus();
@@ -157,5 +157,17 @@ class KodeStatusSeeder extends Seeder
         $kode21->nama_kode='Projek dibatalkan';
         $kode21->keterangan='Projek dibatalkan karena alasan tertentu';
         $kode21->save();
+
+        $kode22 = new KodeStatus();
+        $kode22->kode_status='ON04';
+        $kode22->nama_kode='Projek selesai Tukang';
+        $kode22->keterangan='Projek telah diverikiasi selesai oleh Tukang';
+        $kode22->save();
+
+        $kode23 = new KodeStatus();
+        $kode23->kode_status='ON05';
+        $kode23->nama_kode='Projek selesai';
+        $kode23->keterangan='Projek telah selesai';
+        $kode23->save();
     }
 }

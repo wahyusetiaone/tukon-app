@@ -17,6 +17,7 @@ class CreatePembayaransTable extends Migration
             $table->id();
             $table->bigInteger('kode_pin');
             $table->string('kode_status', 4)->default("P01");
+            $table->bigInteger('total_tagihan');
             $table->timestamps();
         });
     }

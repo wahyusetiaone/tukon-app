@@ -96,7 +96,8 @@ class RegisterController extends Controller
             Clients::create([
                 'id'=>$new_id,
                 'nomor_telepon'=>$data['nomor_telepon_cl'],
-                'alamat'=>$data['alamat_cl']
+                'alamat'=>$data['alamat_cl'],
+                'kota'=>$data['kota_cl'],
             ]);
         }
 

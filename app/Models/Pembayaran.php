@@ -16,4 +16,8 @@ class Pembayaran extends Model
     public function transaksi_pembayaran(){
         return $this->hasMany(Transaksi_Pembayaran::class, 'kode_pembayaran','id');
     }
+
+    public function project(){
+        return $this->hasOne(Project::class, 'kode_pembayaran', 'id');
+    }
 }
