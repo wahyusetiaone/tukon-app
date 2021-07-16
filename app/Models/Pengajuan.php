@@ -32,4 +32,8 @@ class Pengajuan extends Model
     public function pin(){
         return $this->hasMany(Pin::class, 'kode_pengajuan', 'id');
     }
+
+    public function client(){
+        return $this->belongsTo(Clients::class,'kode_client','id');
+    }
 }

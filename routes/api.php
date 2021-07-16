@@ -24,10 +24,12 @@ Route::group(['prefix' => 'guest', 'as' => 'guest'], function () {
     Route::get('beranda', 'App\Http\Controllers\API\BerandaController@index')->name('beranda');
     Route::get('new_product', 'App\Http\Controllers\API\BerandaController@new_product')->name('produk.terbaru');
     Route::get('top_tukang', 'App\Http\Controllers\API\BerandaController@top_tukang')->name('top.tukang');
+    Route::get('location/{location}', 'App\Http\Controllers\API\BerandaController@filter_by_location')->name('by.location');
     Route::group(['prefix' => 'search', 'as' => 'search'], function () {
         Route::post('produk', 'App\Http\Controllers\API\ProdukController@search')->name('produk');
         Route::post('new_product', 'App\Http\Controllers\API\BerandaController@search_new_product')->name('produk_terbaru');
         Route::post('top_tukang', 'App\Http\Controllers\API\BerandaController@search_top_tukang')->name('top.tukang');
+        Route::post('location/{location}', 'App\Http\Controllers\API\BerandaController@search_by_location')->name('by.location');
     });
     Route::group(['prefix' => 'helper', 'as' => 'helper'], function () {
         Route::get('kode_status', 'App\Http\Controllers\API\HelperGuestController@kode_status')->name('kode_status');
@@ -66,6 +68,7 @@ Route::group(['middleware' => ['auth:api', 'roles']], function () {
             Route::get('lihat/{id}', 'App\Http\Controllers\API\ProjectController@tukang_show_project')->name('tukang_show_project');
             Route::get('konfirmasi/selesai/{id}', 'App\Http\Controllers\API\ProjectController@tukang_approve')->name('client_approve');
         });
+        Route::get('pengajuan', 'App\Http\Controllers\API\PengajuanController@pengajuan_base_tukang')->name('pengajuan_base_tukang');
     });
 
 

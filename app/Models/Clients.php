@@ -22,11 +22,16 @@ class Clients extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'kode_user', 'id');
+        return $this->belongsTo(User::class, 'id', 'kode_user');
     }
 
     public function wishlist()
     {
         return $this->hasMany(Wishlist::class, 'kode_client', 'id');
+    }
+
+    public function pengajuan()
+    {
+        return $this->hasMany(Pengajuan::class, 'kode_client', 'id');
     }
 }

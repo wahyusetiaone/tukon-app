@@ -203,6 +203,75 @@ class BerandaController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     * @param String  $location
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
+     */
+    public function filter_by_location(String $location)
+    {
+        $data = DB::table('produks')
+            ->select(DB::raw('users.name,
+       tukangs.id as kode_tukang,
+       tukangs.nomor_telepon as nomor_telepon,
+       tukangs.kota as kota,
+       tukangs.alamat as alamat,
+       tukangs.kode_lokasi as kode_lokasi,
+       tukangs.path_icon as path_icon,
+       tukangs.created_at as tukang_created,
+       tukangs.updated_at as tukang_updated,
+       produks.id as kode_produk,
+       produks.nama_produk as nama_produk,
+       produks.range_min as range_min,
+       produks.range_max as range_max,
+       produks.diskripsi as diskripsi,
+       produks.path as path,
+       produks.multipath as multipath,
+       produks.created_at as produk_created,
+       produks.updated_at as produk_updated'))
+            ->join('tukangs', 'produks.kode_tukang', '=', 'tukangs.id')
+            ->join('users', 'tukangs.id', '=', 'users.kode_user')
+            ->where('kota', '=', $location)->paginate(10);
+
+        return (new BerandaResourceController($data))->response()->setStatusCode(200);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     * @param String  $location
+     * @param \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
+     */
+    public function search_by_location(Request $request, String $location)
+    {
+        $data = DB::table('produks')
+            ->select(DB::raw('users.name,
+       tukangs.id as kode_tukang,
+       tukangs.nomor_telepon as nomor_telepon,
+       tukangs.kota as kota,
+       tukangs.alamat as alamat,
+       tukangs.kode_lokasi as kode_lokasi,
+       tukangs.path_icon as path_icon,
+       tukangs.created_at as tukang_created,
+       tukangs.updated_at as tukang_updated,
+       produks.id as kode_produk,
+       produks.nama_produk as nama_produk,
+       produks.range_min as range_min,
+       produks.range_max as range_max,
+       produks.diskripsi as diskripsi,
+       produks.path as path,
+       produks.multipath as multipath,
+       produks.created_at as produk_created,
+       produks.updated_at as produk_updated'))
+            ->join('tukangs', 'produks.kode_tukang', '=', 'tukangs.id')
+            ->join('users', 'tukangs.id', '=', 'users.kode_user')
+            ->orderBy('produk_created', 'asc')
+            ->where([['nama_produk', 'LIKE', '%'.$request->query_search.'%'],['kota', '=', $location]])
+            ->paginate(10);
+
+        return (new BerandaResourceController($data))->response()->setStatusCode(200);
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

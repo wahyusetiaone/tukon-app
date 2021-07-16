@@ -320,4 +320,23 @@ class PengajuanController extends Controller
         }
         return (new PengajuanResourceController([$res, $data]))->response()->setStatusCode(401);
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
+     */
+    public function pengajuan_base_tukang()
+    {
+        $id = User::with('tukang')->find(Auth::id())->kode_user;
+        try {
+            $data = Pin::with('pengajuan','pengajuan.client','pengajuan.client.user')->where('kode_tukang', $id)->paginate(10);
+
+        } catch (ModelNotFoundException $e) {
+            $data['status'] = 'error';
+            $data['message'] = $e->getMessage();
+            return (new PengajuanResourceController($data))->response()->setStatusCode(401);
+        }
+        return (new PengajuanResourceController($data))->response()->setStatusCode(200);
+    }
 }
