@@ -22,6 +22,12 @@
                 <p>Produk</p>
             </a>
         </li>
+        <li class="nav-item">
+            <a href="{{ route('pengajuan') }}" class="nav-link {{ (request()->segment(1) == 'pengajuan') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-inbox"></i>
+                <p>Pengajuan</p>
+            </a>
+        </li>
     @endif
     @if(Auth::guard('web')->user()->kode_role == 3)
         <li class="nav-item">

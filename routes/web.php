@@ -43,7 +43,7 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
         });
 
     });
-    Route::group(['roles' => 'admin'], function () {
+    Route::group(['roles' => ['admin','tukang']], function () {
         Route::get('home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
         Route::get('produk', [App\Http\Controllers\Tukang\ProdukController::class, 'index'])->name('produk');
         Route::get('produk/add', [App\Http\Controllers\Tukang\ProdukController::class, 'create'])->name('add.produk');
@@ -52,5 +52,10 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
         Route::post('produk/update/{id}', [App\Http\Controllers\Tukang\ProdukController::class, 'update'])->name('update.produk');
         Route::get('produk/delete/{id}', [App\Http\Controllers\Tukang\ProdukController::class, 'destroy'])->name('destroy.produk');
         Route::get('produk/json', [App\Http\Controllers\Tukang\ProdukController::class, 'json'])->name('data.produk.json');
+
+        Route::group(['prefix' => 'pengajuan'], function () {
+            Route::get('/', [App\Http\Controllers\Tukang\PengajuanController::class, 'index'])->name('pengajuan');
+            Route::get('json', [App\Http\Controllers\Tukang\PengajuanController::class, 'json'])->name('data.produk.json');
+        });
     });
 });
