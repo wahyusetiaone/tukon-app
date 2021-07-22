@@ -1,11 +1,12 @@
 import Swal from 'sweetalert2';
+import { base_url } from './app.js'
 
 $(function() {
     var table = $('#produk-table').DataTable({
         "responsive": true, "lengthChange": false, "autoWidth": true,
         processing: true,
         serverSide: true,
-        ajax: '/pengajuan/json',
+        ajax: base_url+'/pengajuan/json',
         columns: [
             { data: 'id', name: 'id' },
             { data: 'pengajuan.nama_proyek', name: 'pengajuan.nama_proyek' },
@@ -22,11 +23,11 @@ $(function() {
             text: 'Do you want to remove this?',
             showCancelButton: true,
             confirmButtonText: 'DELETE',
-            confirmButtonColor: '#F44336',
+            confirmButtonColor: '#f44336',
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '/produk/delete/'+ button.id,
+                    url: base_url+'/produk/delete/'+ button.id,
                     type: "get",
                     success: function (response) {
                         if (response){

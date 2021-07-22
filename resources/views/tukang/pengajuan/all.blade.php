@@ -29,5 +29,5 @@
     <!-- /.card -->
 @endsection
 @push('page_scripts')
-    <script src="{{ mix('js/all_pengajuan.js') }}" defer></script>
+    <script src="{{ asset('js/all_pengajuan.js') }}" defer></script>
 @endpush

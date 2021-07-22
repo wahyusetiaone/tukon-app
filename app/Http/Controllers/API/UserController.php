@@ -50,6 +50,7 @@ class UserController extends Controller
             $validator_tk = Validator::make($request->all(), [
                 'alamat' => 'required',
                 'nomor_telepon' => 'required|max:12',
+                'lokasi' => 'required',
                 'kota' => 'required',
             ]);
 
@@ -61,7 +62,8 @@ class UserController extends Controller
                 'id' => $new_id,
                 'nomor_telepon' => $input['nomor_telepon'],
                 'kota' => $input['kota'],
-                'alamat' => $input['alamat']
+                'alamat' => $input['alamat'],
+                'kode_lokasi' => $input['lokasi']
             ]);
         }
 

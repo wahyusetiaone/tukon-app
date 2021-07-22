@@ -1,11 +1,12 @@
 import Swal from 'sweetalert2';
+import { base_url } from './app.js'
 
 $(function() {
     var table = $('#produk-table').DataTable({
         "responsive": true, "lengthChange": false, "autoWidth": true,
         processing: true,
         serverSide: true,
-        ajax: '/produk/json',
+        ajax: base_url+'/produk/json',
         columns: [
             { data: 'id', name: 'id' },
             { data: 'nama_produk', name: 'nama_produk' },
@@ -26,7 +27,7 @@ $(function() {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '/produk/delete/'+ button.id,
+                    url: base_url+'/produk/delete/'+ button.id,
                     type: "get",
                     success: function (response) {
                         if (response){

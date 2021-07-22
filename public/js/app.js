@@ -1601,6 +1601,9 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "base_url": () => (/* binding */ base_url)
+/* harmony export */ });
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var admin_lte_plugins_daterangepicker__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! admin-lte/plugins/daterangepicker */ "./node_modules/admin-lte/plugins/daterangepicker/daterangepicker.js");
@@ -1634,6 +1637,8 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
     }
   });
 });
+var base_url = "http://localhost:8000";
+
 
 /***/ }),
 

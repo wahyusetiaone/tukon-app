@@ -91,5 +91,5 @@
     <!-- /.card -->
 @endsection
 @push('page_scripts')
-        <script src="{{ mix('js/add_produk.js') }}" defer></script>
+        <script src="{{ asset('js/add_produk.js') }}" defer></script>
 @endpush

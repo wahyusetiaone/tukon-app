@@ -1,7 +1,7 @@
 @extends('layouts.app_client')
 
 @section('third_party_stylesheets')
-    <link href="{{ mix('css/home_client.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/home_client.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -338,5 +338,5 @@
 @endsection
 
 @section('third_party_scripts')
-    <script src="{{ mix('js/home_client.js') }}" defer></script>
+    <script src="{{ asset('js/home_client.js') }}" defer></script>
 @endsection

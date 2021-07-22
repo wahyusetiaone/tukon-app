@@ -55,7 +55,8 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
 
         Route::group(['prefix' => 'pengajuan'], function () {
             Route::get('/', [App\Http\Controllers\Tukang\PengajuanController::class, 'index'])->name('pengajuan');
-            Route::get('json', [App\Http\Controllers\Tukang\PengajuanController::class, 'json'])->name('data.produk.json');
+            Route::get('json', [App\Http\Controllers\Tukang\PengajuanController::class, 'json'])->name('data.pengajuan.json');
+            Route::get('show/{id}', [App\Http\Controllers\Tukang\PengajuanController::class, 'show'])->name('show.pengajuan');
         });
     });
 });

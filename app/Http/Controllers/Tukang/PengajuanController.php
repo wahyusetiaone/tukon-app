@@ -20,8 +20,7 @@ class PengajuanController extends Controller
         $data = Pin::with('pengajuan','pengajuan.client','pengajuan.client.user')->where('kode_tukang', $user)->get();
         return Datatables::of($data)->addIndexColumn()
             ->addColumn('action', function($data){
-                $button = '<a href="'.url('produk/show?id=').$data->id.'"><button type="button" name="show" id="'.$data->id.'" class="edit btn btn-primary btn-sm">Show</button></a>';
-                $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="delete" id="'.$data->id.'" class="delete btn btn-danger btn-sm">Delete</button>';
+                $button = '<a href="'.url('pengajuan/show').'/'.$data->id.'"><button type="button" name="show" id="'.$data->id.'" class="edit btn btn-primary btn-sm">Show</button></a>';
                 return $button;
             })
             ->rawColumns(['action'])
@@ -61,13 +60,21 @@ class PengajuanController extends Controller
 
     /**
      * Display the specified resource.
-     *
+     * @param int $id
      * @param  \App\Models\Tukang\Pengajuan  $pengajuan
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function show(Pengajuan $pengajuan)
+    public function show(Pengajuan $pengajuan, int $id)
     {
-        //
+        $user = Auth::user()->kode_user;
+        $tukang = Tukang::with('user')->where('id',$user)->firstOrFail();
+        try {
+            $data = Pin::find($id)->with('pengajuan','pengajuan.client','pengajuan.client.user')->where('kode_tukang', $user)->firstOrFail();
+
+            return view('tukang.pengajuan.show')->with(compact('data', 'tukang'));
+        }catch (ModelNotFoundException $ee){
+            return View('error.404');
+        }
     }
 
     /**

@@ -1,7 +1,7 @@
 @extends('layouts.app_client')
 
 @section('third_party_stylesheets')
-    <link href="{{ mix('css/wishlist.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/wishlist.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -147,5 +147,5 @@
 @endsection
 
 @section('third_party_scripts')
-    <script src="{{ mix('js/wishlist.js') }}" defer></script>
+    <script src="{{ asset('js/wishlist.js') }}" defer></script>
 @endsection

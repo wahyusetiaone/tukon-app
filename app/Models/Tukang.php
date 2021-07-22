@@ -19,7 +19,8 @@ class Tukang extends Model
         'nomor_telepon',
         'path_icon',
         'kota',
-        'alamat'
+        'alamat',
+        'kode_lokasi'
     ];
 
     public function user(){

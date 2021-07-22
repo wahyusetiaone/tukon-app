@@ -3,93 +3,156 @@
 
 @section('content')
     <br>
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Edit produk .</h3>
-        </div>
-        <!-- /.card-header -->
-        <div class="card-body">
-            <form id="form-edit-produk" method="post" action="{{ route('update.produk', $data->id) }} " enctype="multipart/form-data">
-                @csrf
-                <div class="row">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="nama_produk">Nama Produk</label>
-                            <input value="{{$data->nama_produk}}" type="text"
-                                   class="form-control @error('nama_produk') is-invalid @enderror" id="nama_produk"
-                                   name="nama_produk" placeholder="Masukan Nama Produk">
-                            @error('nama_produk')
-                            <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="range">Jangkauan Harga</label>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <!-- text input -->
-                                    <div class="form-group">
-                                        <label>Minimum</label>
-                                        <input required value="{{$data->range_min}}" type="number" class="form-control @error('range_min') is-invalid @enderror"
-                                               id="range_min" name="range_min" placeholder="10000">
-                                        @error('range_min')
-                                        <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label>Maximum</label>
-                                        <input required value="{{$data->range_max}}" type="number" class="form-control @error('range_max') is-invalid @enderror"
-                                               id="range_max" name="range_max" placeholder="100000">
-                                        @error('range_max')
-                                        <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="diskripsi">Diskripsi Produk</label>
-                            <textarea type="text" name="diskripsi" class="form-control" id="diskripsi" class="form-control @error('diskripsi') is-invalid @enderror" rows="3"
-                                      placeholder="Berisi tentang produk jasa yang anda tawarkan kepada pelanggan.">{{$data->diskripsi}}</textarea>
-                            @error('diskripsi')
-                            <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                            @enderror
-                        </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="callout callout-info">
+                        <h5><i class="fas fa-info"></i> Note:</h5>
+                        This page has been enhanced for printing. Click the print button at the bottom of the invoice to test.
                     </div>
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="path_show">Gambar produk</label>
-                            <div class="input-group">
-                                <div class="custom-file">
-                                    <input type="file"  class="custom-file-input @error('path_show') is-invalid @enderror" id="path_show" name="path_show[]" multiple>
-                                    <label class="custom-file-label" for="path_show">Choose file</label>
-                                </div>
-                            </div>
-                            @error('path_show')
-                            <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
 
-                <button type="button" id="btn-sub" class="btn btn-primary">Update Data</button>
-            </form>
-        </div>
-        <!-- /.card-body -->
-    </div>
-    <!-- /.card -->
+
+                    <!-- Main content -->
+                    <div class="invoice p-3 mb-3">
+                        <!-- title row -->
+                        <div class="row">
+                            <div class="col-12">
+                                <h4>
+                                    <i class="fas fa-globe"></i> Tukang Online (TUKON)
+                                </h4>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- info row -->
+                        <div class="row invoice-info">
+                            <div class="col-sm-4 invoice-col">
+                                Dari
+                                <address>
+                                    <strong>{{$data->pengajuan->client->user->name}}</strong><br>
+                                    {{$data->pengajuan->client->alamat}}<br>
+                                    {{$data->pengajuan->client->kota}}<br>
+                                    Nomor: {{$data->pengajuan->client->nomor_telepon}}<br>
+                                    Email: {{$data->pengajuan->client->user->email}}
+                                </address>
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-sm-4 invoice-col">
+                                Ke
+                                <address>
+                                    <strong>{{$tukang->user->name}}</strong><br>
+                                    {{$tukang->alamat}}<br>
+                                    {{$tukang->kota}}<br>
+                                    Phone: {{$tukang->nomor_telepon}}<br>
+                                    Email: {{$tukang->user->email}}
+                                </address>
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-sm-4 invoice-col">
+                                <b>PIN ID #{{ sprintf("%06d", $data->id)}}</b><br>
+                                <p>Dibuat: {{indonesiaDate($data->created_at)}}<br>
+                                @if($data->created_at == $data->updated_at) @else Diubah: {{indonesiaDate($data->updated_at)}} @endif</p>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+
+                        <!-- Table row -->
+                        <div class="row">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Nama Projek</th>
+                                        <th>Alamat Projek</th>
+                                        <th>Diskripsi Projek</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>{{$data->pengajuan->nama_proyek}}</td>
+                                        <td>{{$data->pengajuan->alamat}}</td>
+                                        <td>{{$data->pengajuan->diskripsi_proyek}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+
+                        <div class="row">
+                            <!-- accepted payments column -->
+                            <div class="col-6">
+                                <p class="lead">Foto:</p>
+                                <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
+                                    @if($data->multipath)
+                                    @php
+                                        $string_array = explode(",",$data->path);
+                                    @endphp
+                                    <div id="carouselExampleControls" style="max-width:200px;width:100%" class="carousel slide" data-ride="carousel">
+                                        <div class="carousel-inner">
+                                            @for($i = 0; $i < sizeof($string_array); $i++)
+                                            <div class="carousel-item @if($i == 0) active @endif ">
+                                                <img class="d-block w-100" style="max-width:200px;width:100%" src="{{url($string_array[$i])}}" alt="First slide">
+                                            </div>
+                                            @endfor
+                                        </div>
+                                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+                                    @else
+                                    <img style="max-width:200px;width:100%" src="{{url($data->pengajuan->path)}}">
+                                    @endif
+                                    </p>
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-6">
+                                <p class="lead">Deadline : {{indonesiaDate($data->pengajuan->deadline)}}</p>
+
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tr>
+                                            <th style="width:50%">Range Min:</th>
+                                            <td>{{indonesiaRupiah($data->pengajuan->range_min)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width:50%">Range Max:</th>
+                                            <td>{{indonesiaRupiah($data->pengajuan->range_max)}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+
+                        <!-- this row will not appear when printing -->
+                        <div class="row no-print">
+                            <div class="col-12">
+                                <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
+                                <button type="button" class="btn btn-success float-right"><i class="far fa-credit-card"></i> Submit
+                                    Payment
+                                </button>
+                                <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
+                                    <i class="fas fa-download"></i> Generate PDF
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.invoice -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
 @endsection
 @push('page_scripts')
-        <script src="{{ mix('js/show_produk.js') }}" defer></script>
+{{--        <script src="{{ asset('js/show_produk.js') }}" defer></script>--}}
 @endpush

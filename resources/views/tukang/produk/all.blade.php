@@ -31,5 +31,5 @@
     <!-- /.card -->
 @endsection
 @push('page_scripts')
-    <script src="{{ mix('js/all_produk.js') }}" defer></script>
+    <script src="{{ asset('js/all_produk.js') }}" defer></script>
 @endpush
