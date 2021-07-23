@@ -16,8 +16,10 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/show_produk.js', 'public/js')
     .js('resources/js/add_produk.js', 'public/js')
     .js('resources/js/all_pengajuan.js', 'public/js')
+    .js('resources/js/show_pengajuan.js', 'public/js')
     .js('resources/js/home_client.js', 'public/js')
     .js('resources/js/wishlist.js', 'public/js')
+    .js('resources/js/add_penawaran_by_pengajuan.js', 'public/js')
 
     .sass('resources/sass/app.scss', 'public/css')
 

@@ -9,7 +9,8 @@
                 <div class="col-12">
                     <div class="callout callout-info">
                         <h5><i class="fas fa-info"></i> Note:</h5>
-                        This page has been enhanced for printing. Click the print button at the bottom of the invoice to test.
+                        This page has been enhanced for printing. Click the print button at the bottom of the invoice to
+                        test.
                     </div>
 
 
@@ -51,7 +52,8 @@
                             <div class="col-sm-4 invoice-col">
                                 <b>PIN ID #{{ sprintf("%06d", $data->id)}}</b><br>
                                 <p>Dibuat: {{indonesiaDate($data->created_at)}}<br>
-                                @if($data->created_at == $data->updated_at) @else Diubah: {{indonesiaDate($data->updated_at)}} @endif</p>
+                                    @if($data->created_at == $data->updated_at) @else
+                                        Diubah: {{indonesiaDate($data->updated_at)}} @endif</p>
                             </div>
                             <!-- /.col -->
                         </div>
@@ -86,28 +88,32 @@
                             <div class="col-6">
                                 <p class="lead">Foto:</p>
                                 <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
-                                    @if($data->multipath)
+                                @if($data->multipath)
                                     @php
                                         $string_array = explode(",",$data->path);
                                     @endphp
-                                    <div id="carouselExampleControls" style="max-width:200px;width:100%" class="carousel slide" data-ride="carousel">
+                                    <div id="carouselExampleControls" style="max-width:200px;width:100%"
+                                         class="carousel slide" data-ride="carousel">
                                         <div class="carousel-inner">
                                             @for($i = 0; $i < sizeof($string_array); $i++)
-                                            <div class="carousel-item @if($i == 0) active @endif ">
-                                                <img class="d-block w-100" style="max-width:200px;width:100%" src="{{url($string_array[$i])}}" alt="First slide">
-                                            </div>
+                                                <div class="carousel-item @if($i == 0) active @endif ">
+                                                    <img class="d-block w-100" style="max-width:200px;width:100%"
+                                                         src="{{url($string_array[$i])}}" alt="First slide">
+                                                </div>
                                             @endfor
                                         </div>
-                                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
+                                           data-slide="prev">
                                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                             <span class="sr-only">Previous</span>
                                         </a>
-                                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                                        <a class="carousel-control-next" href="#carouselExampleControls" role="button"
+                                           data-slide="next">
                                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                             <span class="sr-only">Next</span>
                                         </a>
                                     </div>
-                                    @else
+                                @else
                                     <img style="max-width:200px;width:100%" src="{{url($data->pengajuan->path)}}">
                                     @endif
                                     </p>
@@ -136,13 +142,29 @@
                         <!-- this row will not appear when printing -->
                         <div class="row no-print">
                             <div class="col-12">
-                                <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
-                                <button type="button" class="btn btn-success float-right"><i class="far fa-credit-card"></i> Submit
-                                    Payment
-                                </button>
-                                <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
-                                    <i class="fas fa-download"></i> Generate PDF
-                                </button>
+                                <a href="invoice-print.html" target="_blank" class="btn btn-default"><i
+                                        class="fas fa-print"></i> Print</a>
+                                @if($data->kode_penawaran == null && $data->status == 'N01')
+                                    <button type="button" id="tolak-btn" value="{{$data->id}}"
+                                            class="btn btn-danger float-right" style="margin-right: 5px;">
+                                        Tolak Pengajuan
+                                    </button>
+                                    <a href="{{route('add.penawaran.bypengajuan', $data->id)}}">
+                                        <button type="button" class="btn btn-primary float-right"
+                                                style="margin-right: 5px;">
+                                            <i class="fas fa-download"></i> Terima & Kirim Penawaran
+                                        </button>
+                                    </a>
+                                @elseif($data->kode_penawaran != null &&$data->status == 'N01')
+                                    <button type="button" class="btn btn-success float-right">
+                                        <i class="far fa-credit-card"></i> Submit
+                                        Payment
+                                    </button>
+                                @elseif($data->kode_penawaran != null &&$data->status == 'T03' || $data->kode_penawaran == null &&$data->status == 'T03')
+                                    <button type="button" class="btn btn-secondary float-right" disabled>
+                                        <i class="far fa-trash-alt"></i> Penawaran ditolak
+                                    </button>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -154,5 +176,5 @@
     <!-- /.content -->
 @endsection
 @push('page_scripts')
-{{--        <script src="{{ asset('js/show_produk.js') }}" defer></script>--}}
+    <script src="{{ asset('js/show_pengajuan.js') }}" defer></script>
 @endpush

@@ -57,6 +57,12 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
             Route::get('/', [App\Http\Controllers\Tukang\PengajuanController::class, 'index'])->name('pengajuan');
             Route::get('json', [App\Http\Controllers\Tukang\PengajuanController::class, 'json'])->name('data.pengajuan.json');
             Route::get('show/{id}', [App\Http\Controllers\Tukang\PengajuanController::class, 'show'])->name('show.pengajuan');
+            Route::get('tolak/{id}', [App\Http\Controllers\Tukang\PengajuanController::class, 'tolak_pengajuan'])->name('tolak.pengajuan');
+        });
+
+        Route::group(['prefix' => 'penawaran'], function () {
+            Route::get('/', [App\Http\Controllers\Tukang\PenawaranController::class, 'index'])->name('penawaran');
+            Route::get('add/bypengajuan/{id}', [App\Http\Controllers\Tukang\PenawaranController::class, 'create'])->name('add.penawaran.bypengajuan');
         });
     });
 });

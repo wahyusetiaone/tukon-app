@@ -28,6 +28,12 @@
                 <p>Pengajuan</p>
             </a>
         </li>
+        <li class="nav-item">
+            <a href="{{ route('penawaran') }}" class="nav-link {{ (request()->segment(1) == 'penawaran') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-download"></i>
+                <p>Penawaran</p>
+            </a>
+        </li>
     @endif
     @if(Auth::guard('web')->user()->kode_role == 3)
         <li class="nav-item">

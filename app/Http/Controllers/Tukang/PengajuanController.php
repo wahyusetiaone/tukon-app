@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Tukang;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PengajuanResourceController;
 use App\Models\Pin;
 use App\Models\Tukang;
 use App\Models\Tukang\Pengajuan;
@@ -69,7 +70,7 @@ class PengajuanController extends Controller
         $user = Auth::user()->kode_user;
         $tukang = Tukang::with('user')->where('id',$user)->firstOrFail();
         try {
-            $data = Pin::find($id)->with('pengajuan','pengajuan.client','pengajuan.client.user')->where('kode_tukang', $user)->firstOrFail();
+            $data = Pin::with('pengajuan','pengajuan.client','pengajuan.client.user')->where(['id' => $id,'kode_tukang' => $user])->firstOrFail();
 
             return view('tukang.pengajuan.show')->with(compact('data', 'tukang'));
         }catch (ModelNotFoundException $ee){
@@ -109,5 +110,26 @@ class PengajuanController extends Controller
     public function destroy(Pengajuan $pengajuan)
     {
         //
+    }
+
+    /**
+     * Tolak pengajuan base on PIN the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
+     */
+
+    public function tolak_pengajuan(int $id)
+    {
+        $kode_user = User::with('tukang')->find(Auth::id())->kode_user;
+        try {
+            $old = Pin::where(['id' => $id, 'kode_tukang' => $kode_user])->firstOrFail();
+            $old->update(['status' => 'T03']);
+
+            return (new PengajuanResourceController(['update_status' => $old]))->response()->setStatusCode(200);
+        } catch (ModelNotFoundException $e) {
+            return (new PengajuanResourceController(['error' => $e->getMessage()]))->response()->setStatusCode(401);
+        }
     }
 }

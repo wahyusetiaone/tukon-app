@@ -68,7 +68,10 @@ Route::group(['middleware' => ['auth:api', 'roles']], function () {
             Route::get('lihat/{id}', 'App\Http\Controllers\API\ProjectController@tukang_show_project')->name('tukang_show_project');
             Route::get('konfirmasi/selesai/{id}', 'App\Http\Controllers\API\ProjectController@tukang_approve')->name('client_approve');
         });
-        Route::get('pengajuan', 'App\Http\Controllers\API\PengajuanController@pengajuan_base_tukang')->name('pengajuan_base_tukang');
+        Route::group(['prefix' => 'pengajuan', 'as' => 'pengajuan'], function () {
+            Route::get('/', 'App\Http\Controllers\API\PengajuanController@pengajuan_base_tukang')->name('pengajuan_base_tukang');
+            Route::get('tolak/{id}', 'App\Http\Controllers\API\PengajuanController@tolak_pengajuan')->name('tolak_pengajuan');
+        });
     });
 
 
