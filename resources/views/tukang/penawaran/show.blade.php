@@ -23,6 +23,7 @@
                                     <i class="fas fa-globe"></i> Tukang Online (TUKON)
                                 </h4>
                                 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pengajuan Projek</p>
+
                             </div>
                             <!-- /.col -->
                         </div>
@@ -157,11 +158,9 @@
                                         </button>
                                     </a>
                                 @elseif($data->kode_penawaran != null &&$data->status == 'N01')
-                                    <a href="{{route('show.penawaran', $data->kode_penawaran)}}">
-                                        <button type="button" class="btn btn-success float-right">
-                                            <i class="far fa-download"></i> Lihat Penawaran
-                                        </button>
-                                    </a>
+                                    <button type="button" class="btn btn-success float-right">
+                                        <i class="far fa-download"></i> Lihat Penawaran
+                                    </button>
                                 @elseif($data->kode_penawaran != null &&$data->status == 'T03' || $data->kode_penawaran == null &&$data->status == 'T03')
                                     <button type="button" class="btn btn-secondary float-right" disabled>
                                         <i class="far fa-trash-alt"></i> Penawaran ditolak

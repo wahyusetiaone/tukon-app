@@ -74,7 +74,6 @@ Route::group(['middleware' => ['auth:api', 'roles']], function () {
         });
     });
 
-
     Route::group(['prefix' => 'client', 'as' => 'client', 'roles' => 'klien'], function () {
         Route::post('rate-it', 'App\Http\Controllers\API\RatingController@send')->name('send_it');
         Route::post('change-rate/{id}', 'App\Http\Controllers\API\RatingController@change')->name('change-it');

@@ -48,8 +48,7 @@ class PenawaranController extends Controller
         if (sizeof($request->input('nama_komponen')) !== sizeof($request->input('harga_komponen'))) {
             return (new PenawaranResourceController(['error' => 'nama_komponen not same length with harga_komponen !']))->response()->setStatusCode(401);
         }
-        $id = User::with('client')->find(Auth::id())->kode_user;
-        $request['kode_client'] = $id;
+        $id = User::with('tukang')->find(Auth::id())->kode_user;
         $request['kode_status'] = 'T02';
         try {
             Pin::where(['id' => $request->input('kode_pin'), 'kode_tukang' => $id])->firstOrFail();
@@ -94,7 +93,7 @@ class PenawaranController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**

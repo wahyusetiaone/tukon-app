@@ -40,7 +40,7 @@ $(document).on('click', '[id^=btn-tbh-componen]', function (e) {
         if (result.isConfirmed) {
             var rows = tbl_komponen.tBodies[0].rows.length;
             var row = tbl_komponen.insertRow(rows);
-            row.id = 'tbl_komponent_row_'+index;
+            row.id = 'tbl_komponent_row_' + index;
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
             var cell3 = row.insertCell(2);
@@ -55,9 +55,9 @@ $(document).on('click', '[id^=btn-tbh-componen]', function (e) {
                 sum += parseInt(item[1]);
             });
             h_total_c.value = sum;
-            keuntungan = (sum*parseInt(presentase.value))/100;
+            keuntungan = (sum * parseInt(presentase.value)) / 100;
             h_keuntungan.value = keuntungan;
-            h_total.value =  sum + keuntungan;
+            h_total.value = sum + keuntungan;
         }
     });
     return false;
@@ -75,7 +75,7 @@ $(document).on('click', '[id^=btn_del_com]', function () {
         if (result.isConfirmed) {
             var pos = parseInt(data.val());
             listofcomponent.splice(pos, 1);
-            var rowid = 'tbl_komponent_row_'+pos;
+            var rowid = 'tbl_komponent_row_' + pos;
             var row = document.getElementById(rowid);
             row.parentNode.removeChild(row);
 
@@ -84,19 +84,78 @@ $(document).on('click', '[id^=btn_del_com]', function () {
                 sum += item[1];
             });
             h_total_c.value = sum;
-            keuntungan = (sum*parseInt(presentase.value))/100;
+            keuntungan = (sum * parseInt(presentase.value)) / 100;
             h_keuntungan.value = keuntungan;
-            h_total.value =  sum + keuntungan;
+            h_total.value = sum + keuntungan;
         }
     });
     return false;
 });
 
-$(document).ready(function(){
-    $('#inputPresentase').on('change',function(){
+$(document).ready(function () {
+    $('#inputPresentase').on('change', function () {
         sum = parseInt(h_total_c.value);
-        keuntungan = (sum*parseInt(presentase.value))/100;
+        keuntungan = (sum * parseInt(presentase.value)) / 100;
         h_keuntungan.value = keuntungan;
-        h_total.value =  sum + keuntungan;
+        h_total.value = sum + keuntungan;
     }).change();
+});
+
+$(document).on('click', '[id^=btnsubmitpenawaran]', function () {
+    var data = $(this);
+    Swal.fire({
+        icon: 'question',
+        text: 'Apa kamu yakin akan mengirim penawaran ini?',
+        showCancelButton: true,
+        confirmButtonText: 'Kirim',
+        confirmButtonColor: '#2196F3',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            if(listofcomponent.length !== 0){
+                var dump = [];
+                listofcomponent.forEach(function myFunction(item) {
+                    dump.push({
+                        'nama_komponen' : item[0],
+                        'harga_komponen' : item[1]
+                    });
+                });
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: base_url+'/penawaran/store',
+                    type: "post",
+                    data: {
+                        'kode_pin' : parseInt(data.val()),
+                        'keuntungan' : keuntungan,
+                        'harga_total' : parseInt(h_total.value),
+                        'dump' : dump
+                    },
+                    success: function (response) {
+                        if (response){
+                            console.log(response)
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Penawaran telah terkirim !!!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then((response)=>{
+                                location.reload();
+                            });
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log(textStatus, errorThrown);
+                    }
+                });
+            }else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Mohon untuk minimal memasukan 1 Komponen !'
+                })
+            }
+        }
+    });
+    return false;
 });

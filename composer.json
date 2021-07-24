@@ -14,7 +14,8 @@
         "laravel/passport": "^10.1",
         "laravel/tinker": "^2.5",
         "realrashid/sweet-alert": "^4.0",
-        "yajra/laravel-datatables-oracle": "~9.0"
+        "yajra/laravel-datatables-oracle": "~9.0",
+      "ext-json": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

@@ -77042,150 +77042,43 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
-/*!****************************************************!*\
-  !*** ./resources/js/add_penawaran_by_pengajuan.js ***!
-  \****************************************************/
+/*!***************************************!*\
+  !*** ./resources/js/all_penawaran.js ***!
+  \***************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
+/* harmony import */ var _app_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app.js */ "./resources/js/app.js");
 
 
-var index = 0;
-var sum = 0;
-var keuntungan = 0;
-var listofcomponent = [];
-var tbl_komponen = document.getElementById("tbl_komponen");
-var presentase = document.getElementById("inputPresentase");
-var h_total_c = document.getElementById("inputTotalHargaKomponen");
-var h_keuntungan = document.getElementById("inputKeuntungan");
-var h_total = document.getElementById("inputHargaTotal");
-$(document).on('click', '[id^=btn-tbh-componen]', function (e) {
-  e.preventDefault();
-  sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
-    title: 'Tambah Komponen',
-    html: '<div class="input-group mb-3">' + '<div class="input-group-prepend">' + '<span class="input-group-text"><i class="fas fa-tools"></i></span>' + '</div>' + '<input type="text" id="swal_nama_komponen" class="form-control" placeholder="Nama Komponen">' + '</div>' + '<div class="input-group mb-3">' + '<div class="input-group-prepend">' + '<span class="input-group-text"><i class="fas fa-dice-one"></i></span>' + '</div>' + '<input type="number" id="swal_harga_komponen" class="form-control" placeholder="Harga Komponen">' + '</div>',
-    focusConfirm: false,
-    showCancelButton: true,
-    preConfirm: function preConfirm() {
-      listofcomponent[index] = [document.getElementById('swal_nama_komponen').value, document.getElementById('swal_harga_komponen').value];
-    }
-  }).then(function (result) {
-    if (result.isConfirmed) {
-      var rows = tbl_komponen.tBodies[0].rows.length;
-      var row = tbl_komponen.insertRow(rows);
-      row.id = 'tbl_komponent_row_' + index;
-      var cell1 = row.insertCell(0);
-      var cell2 = row.insertCell(1);
-      var cell3 = row.insertCell(2);
-      cell1.innerHTML = listofcomponent[index][0];
-      cell2.innerHTML = listofcomponent[index][1];
-      cell3.innerHTML = '<div class="btn-group btn-group-sm">\n' + '                                        <button id="btn_del_com" value="' + index + '" class="btn btn-danger"><i class="fas fa-trash"></i></button>\n' + '                                    </div>';
-      index++;
-      sum = 0;
-      listofcomponent.forEach(function myFunction(item) {
-        sum += parseInt(item[1]);
-      });
-      h_total_c.value = sum;
-      keuntungan = sum * parseInt(presentase.value) / 100;
-      h_keuntungan.value = keuntungan;
-      h_total.value = sum + keuntungan;
-    }
+$(function () {
+  var table = $('#produk-table').DataTable({
+    "responsive": true,
+    "lengthChange": false,
+    "autoWidth": true,
+    processing: true,
+    serverSide: true,
+    ajax: _app_js__WEBPACK_IMPORTED_MODULE_1__.base_url + '/penawaran/json',
+    columns: [{
+      data: 'id',
+      name: 'id'
+    }, {
+      data: 'pengajuan.nama_proyek',
+      name: 'pengajuan.nama_proyek'
+    }, {
+      data: 'pengajuan.diskripsi_proyek',
+      name: 'pengajuan.diskripsi_proyek'
+    }, {
+      data: 'pengajuan.alamat',
+      name: 'pengajuan.alamat'
+    }, {
+      data: 'action',
+      name: 'action',
+      orderable: false,
+      serachable: false,
+      sClass: 'text-center'
+    }]
   });
-  return false;
-});
-$(document).on('click', '[id^=btn_del_com]', function () {
-  var data = $(this);
-  sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
-    icon: 'warning',
-    text: 'Apa kamu yakin akan menghapus komponen ini?',
-    showCancelButton: true,
-    confirmButtonText: 'Hapus',
-    confirmButtonColor: '#F44336'
-  }).then(function (result) {
-    if (result.isConfirmed) {
-      var pos = parseInt(data.val());
-      listofcomponent.splice(pos, 1);
-      var rowid = 'tbl_komponent_row_' + pos;
-      var row = document.getElementById(rowid);
-      row.parentNode.removeChild(row);
-      sum = 0;
-      listofcomponent.forEach(function myFunction(item) {
-        sum += item[1];
-      });
-      h_total_c.value = sum;
-      keuntungan = sum * parseInt(presentase.value) / 100;
-      h_keuntungan.value = keuntungan;
-      h_total.value = sum + keuntungan;
-    }
-  });
-  return false;
-});
-$(document).ready(function () {
-  $('#inputPresentase').on('change', function () {
-    sum = parseInt(h_total_c.value);
-    keuntungan = sum * parseInt(presentase.value) / 100;
-    h_keuntungan.value = keuntungan;
-    h_total.value = sum + keuntungan;
-  }).change();
-});
-$(document).on('click', '[id^=btnsubmitpenawaran]', function () {
-  var data = $(this);
-  sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
-    icon: 'question',
-    text: 'Apa kamu yakin akan mengirim penawaran ini?',
-    showCancelButton: true,
-    confirmButtonText: 'Kirim',
-    confirmButtonColor: '#2196F3'
-  }).then(function (result) {
-    if (result.isConfirmed) {
-      if (listofcomponent.length !== 0) {
-        var dump = [];
-        listofcomponent.forEach(function myFunction(item) {
-          dump.push({
-            'nama_komponen': item[0],
-            'harga_komponen': item[1]
-          });
-        });
-        $.ajax({
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          },
-          url: _app__WEBPACK_IMPORTED_MODULE_1__.base_url + '/penawaran/store',
-          type: "post",
-          data: {
-            'kode_pin': parseInt(data.val()),
-            'keuntungan': keuntungan,
-            'harga_total': parseInt(h_total.value),
-            'dump': dump
-          },
-          success: function success(response) {
-            if (response) {
-              console.log(response);
-              sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
-                icon: 'success',
-                title: 'Penawaran telah terkirim !!!',
-                showConfirmButton: false,
-                timer: 1500
-              }).then(function (response) {
-                location.reload();
-              });
-            }
-          },
-          error: function error(jqXHR, textStatus, errorThrown) {
-            console.log(textStatus, errorThrown);
-          }
-        });
-      } else {
-        sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Mohon untuk minimal memasukan 1 Komponen !'
-        });
-      }
-    }
-  });
-  return false;
 });
 })();
 

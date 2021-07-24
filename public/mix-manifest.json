@@ -7,6 +7,7 @@
     "/js/show_pengajuan.js": "/js/show_pengajuan.js",
     "/js/home_client.js": "/js/home_client.js",
     "/js/wishlist.js": "/js/wishlist.js",
+    "/js/all_penawaran.js": "/js/all_penawaran.js",
     "/js/add_penawaran_by_pengajuan.js": "/js/add_penawaran_by_pengajuan.js",
     "/css/app.css": "/css/app.css",
     "/css/wishlist.css": "/css/wishlist.css",

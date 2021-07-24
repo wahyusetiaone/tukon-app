@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@push('head_meta')
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+@endpush
 
 @section('content')
     <br>
@@ -246,8 +249,8 @@
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-12">
-                                <a href="#" class="btn btn-secondary">Batal</a>
-                                <input type="submit" value="Upload Penawaran" class="btn btn-success float-right">
+                                <a href="{{ url()->previous() }}" class="btn btn-secondary">Batal</a>
+                                <button type="button" id="btnsubmitpenawaran" value="{{$data->id}}" class="btn btn-success float-right">Kirim Penawaran</button>
                             </div>
                         </div>
                     </div>

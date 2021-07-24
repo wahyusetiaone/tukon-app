@@ -74,7 +74,7 @@ class PengajuanController extends Controller
 
             return view('tukang.pengajuan.show')->with(compact('data', 'tukang'));
         }catch (ModelNotFoundException $ee){
-            return View('error.404');
+            return View('errors.404');
         }
     }
 
