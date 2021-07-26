@@ -24,5 +24,6 @@ $( document ).ready(function() {
 });
 
 var base_url = process.env.MIX_BASE_URL;
+console.log(base_url);
 
 export { base_url };

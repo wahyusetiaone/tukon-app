@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Validator;
 
 class PembayaranController extends Controller
 {
-
     /**
      * Show the form for creating a new resource.
      * @param int $id

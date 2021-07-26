@@ -78,7 +78,7 @@
                                                 <div class="carousel-inner">
                                                     @foreach($apath as $key=>$path)
                                                         <div class="carousel-item {{ $key == 0  ? 'active' : '' }}">
-                                                            <img class="d-block w-100" src="{{url($path)}}"
+                                                            <img class="d-block w-100" src="{{asset($path)}}"
                                                                  alt="First slide">
                                                         </div>
                                                     @endforeach
@@ -88,7 +88,7 @@
                                         </li>
                                     @else
                                         <li class="list-inline-item">
-                                            <img alt="Img" class="img-thumbnail" src="{{url($dat['produk']['path'])}}">
+                                            <img alt="Img" class="img-thumbnail" src="{{asset($dat['produk']['path'])}}">
                                         </li>
                                     @endif
                                 </ul>

@@ -1638,6 +1638,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
   });
 });
 var base_url = "http://localhost:8000";
+console.log(base_url);
 
 
 /***/ }),

@@ -99,7 +99,7 @@
                                             @for($i = 0; $i < sizeof($string_array); $i++)
                                                 <div class="carousel-item @if($i == 0) active @endif ">
                                                     <img class="d-block w-100" style="max-width:200px;width:100%"
-                                                         src="{{url($string_array[$i])}}" alt="First slide">
+                                                         src="{{asset($string_array[$i])}}" alt="First slide">
                                                 </div>
                                             @endfor
                                         </div>
@@ -115,7 +115,7 @@
                                         </a>
                                     </div>
                                 @else
-                                    <img style="max-width:200px;width:100%" src="{{url($data->pengajuan->path)}}">
+                                    <img style="max-width:200px;width:100%" src="{{asset($data->pengajuan->path)}}">
                                     @endif
                                     </p>
                             </div>

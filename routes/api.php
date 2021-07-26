@@ -92,11 +92,12 @@ Route::group(['middleware' => ['auth:api', 'roles']], function () {
         });
         Route::group(['prefix' => 'persetujuan', 'as' => 'persetujuan'], function () {
             Route::get('accept/{id}', 'App\Http\Controllers\API\PersetujuanController@accept_client')->name('accpet_client');
+            Route::post('revisi/{id}', 'App\Http\Controllers\API\PersetujuanController@revisi_client')->name('revisi_client');
         });
         Route::group(['prefix' => 'pembayaran', 'as' => 'pembayaran'], function () {
             Route::get('lihat/tagihan/{id}', 'App\Http\Controllers\API\PembayaranController@show')->name('lihat_tagihan');
             Route::post('upload/{id}', 'App\Http\Controllers\API\PembayaranController@create')->name('upload');
-            Route::post('reupload/{id}', 'App\Http\Controllers\API\PembayaranController@create')->name('upload');
+            Route::post('reupload/{id}', 'App\Http\Controllers\API\PembayaranController@create')->name('reupload');
         });
 
         Route::group(['prefix' => 'project', 'as' => 'project'], function () {

@@ -101,7 +101,7 @@
                                                                 @if($ptr->multipath)
 
                                                                 @else
-                                                                    <img src="{{url($ptr->path)}}" alt="user-avatar"
+                                                                    <img src="{{asset($ptr->path)}}" alt="user-avatar"
                                                                          class="img-fluid">
                                                                 @endif
                                                             @else
@@ -169,7 +169,7 @@
                                                         </div>
                                                         <div class="col-5 text-center">
                                                             @if(isset($ptr->path_icon))
-                                                                <img src="{{url($ptr->path)}}" alt="user-avatar"
+                                                                <img src="{{asset($ptr->path)}}" alt="user-avatar"
                                                                      class="img-circle img-fluid">
                                                             @else
                                                                 <img

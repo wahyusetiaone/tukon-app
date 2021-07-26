@@ -9,6 +9,7 @@ use App\Models\Pengajuan;
 use App\Models\Pin;
 use App\Models\Project;
 use App\Models\Rate;
+use App\Models\Revisi;
 use App\Models\Transaksi_Pembayaran;
 use App\Models\User;
 use App\Models\VoteRate;
@@ -19,6 +20,7 @@ use App\Observers\PinObserver;
 use App\Observers\ProgressObserver;
 use App\Observers\ProjectObserver;
 use App\Observers\RateObserver;
+use App\Observers\RevisiObserver;
 use App\Observers\TransaksiPembayaranObserver;
 use App\Observers\UserObserver;
 use App\Observers\VoteRateObserver;
@@ -51,5 +53,6 @@ class AppServiceProvider extends ServiceProvider
         Transaksi_Pembayaran::observe(TransaksiPembayaranObserver::class);
         OnStepProgress::observe(ProgressObserver::class);
         Project::observe(ProjectObserver::class);
+        Revisi::observe(RevisiObserver::class);
     }
 }

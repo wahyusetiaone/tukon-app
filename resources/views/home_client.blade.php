@@ -62,7 +62,7 @@
                                     <div class="row">
                                         <div class="col-7">
                                             <p class="text-muted text-sm"><b>Tukang: </b> {{$ptr->name}} <br>
-                                            <b>Diskripsi: </b> {{$ptr->diskripsi}} </p>
+                                                <b>Diskripsi: </b> {{$ptr->diskripsi}} </p>
                                             <ul class="ml-4 mb-0 fa-ul text-muted">
                                                 <li class="small"><span class="fa-li"><i
                                                             class="fas fa-lg fa-building"></i></span>Alamat :
@@ -80,10 +80,34 @@
                                         <div class="col-5 text-center">
                                             @if(isset($ptr->path))
                                                 @if($ptr->multipath)
-
+                                                    @php
+                                                        $myArray = explode(',', $ptr->path);
+                                                    @endphp
+                                                    <div id="carouselExampleControls" style="max-width:200px;width:100%"
+                                                         class="carousel slide" data-ride="carousel">
+                                                        <div class="carousel-inner">
+                                                            @for($i = 0; $i < sizeof($myArray); $i++)
+                                                                <div class="carousel-item @if($i == 0) active @endif ">
+                                                                    <img class="d-block w-100" style="max-width:200px;width:100%"
+                                                                         src="{{asset($myArray[$i])}}" alt="First slide">
+                                                                </div>
+                                                            @endfor
+                                                        </div>
+                                                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
+                                                           data-slide="prev">
+                                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                            <span class="sr-only">Previous</span>
+                                                        </a>
+                                                        <a class="carousel-control-next" href="#carouselExampleControls" role="button"
+                                                           data-slide="next">
+                                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                            <span class="sr-only">Next</span>
+                                                        </a>
+                                                    </div>
                                                 @else
-                                                    <img src="{{url($ptr->path)}}" alt="user-avatar"
+                                                    <img src="{{asset($ptr->path)}}" alt="user-avatar"
                                                          class="img-fluid">
+
                                                 @endif
                                             @else
                                                 <img
@@ -99,7 +123,8 @@
                                         <a href="#" class="btn btn-sm bg-teal">
                                             <i class="fas fa-comments"></i>
                                         </a>
-                                        <button id="add_to_wish" value="{{$ptr->kode_produk}}" class="btn btn-sm bg-danger">
+                                        <button id="add_to_wish" value="{{$ptr->kode_produk}}"
+                                                class="btn btn-sm bg-danger">
                                             <i class="fas fa-cart-plus"></i>
                                         </button>
                                         <a href="#" class="btn btn-sm btn-primary">
@@ -148,19 +173,19 @@
                                                     Telepon : <br>{{$ptr->nomor_telepon}}
                                                 </li>
                                                 <li class="medium">
-                                                        @for($i = 0; $i < 5; $i++)
-                                                            @if($i < $ptr->rate)
-                                                                <span class="fa fa-star checked"></span>
-                                                            @else
-                                                                <span class="fa fa-star"></span>
-                                                            @endif
-                                                        @endfor
+                                                    @for($i = 0; $i < 5; $i++)
+                                                        @if($i < $ptr->rate)
+                                                            <span class="fa fa-star checked"></span>
+                                                        @else
+                                                            <span class="fa fa-star"></span>
+                                                        @endif
+                                                    @endfor
                                                 </li>
                                             </ul>
                                         </div>
                                         <div class="col-5 text-center">
                                             @if(isset($ptr->path_icon))
-                                                <img src="{{url($ptr->path_icon)}}" alt="user-avatar"
+                                                <img src="{{asset($ptr->path_icon)}}" alt="user-avatar"
                                                      class="img-circle img-fluid">
                                             @else
                                                 <img
@@ -210,7 +235,7 @@
                                     <div class="row">
                                         <div class="col-7">
                                             <p class="text-muted text-sm"><b>Tukang: </b> {{$ptr->name}} <br>
-                                            <b>Diskripsi: </b> {{$ptr->diskripsi}} </p>
+                                                <b>Diskripsi: </b> {{$ptr->diskripsi}} </p>
                                             <ul class="ml-4 mb-0 fa-ul text-muted">
                                                 <li class="small"><span class="fa-li"><i
                                                             class="fas fa-lg fa-building"></i></span>Alamat :
@@ -228,9 +253,32 @@
                                         <div class="col-5 text-center">
                                             @if(isset($ptr->path))
                                                 @if($ptr->multipath)
-
+                                                    @php
+                                                        $myArray = explode(',', $ptr->path);
+                                                    @endphp
+                                                    <div id="carouselExampleControls" style="max-width:200px;width:100%"
+                                                         class="carousel slide" data-ride="carousel">
+                                                        <div class="carousel-inner">
+                                                            @for($i = 0; $i < sizeof($myArray); $i++)
+                                                                <div class="carousel-item @if($i == 0) active @endif ">
+                                                                    <img class="d-block w-100" style="max-width:200px;width:100%"
+                                                                         src="{{asset($myArray[$i])}}" alt="First slide">
+                                                                </div>
+                                                            @endfor
+                                                        </div>
+                                                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
+                                                           data-slide="prev">
+                                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                            <span class="sr-only">Previous</span>
+                                                        </a>
+                                                        <a class="carousel-control-next" href="#carouselExampleControls" role="button"
+                                                           data-slide="next">
+                                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                            <span class="sr-only">Next</span>
+                                                        </a>
+                                                    </div>
                                                 @else
-                                                    <img src="{{url($ptr->path)}}" alt="user-avatar"
+                                                    <img src="{{asset($ptr->path)}}" alt="user-avatar"
                                                          class="img-fluid">
                                                 @endif
                                             @else
@@ -299,7 +347,7 @@
                                         </div>
                                         <div class="col-5 text-center">
                                             @if(isset($ptr->path_icon))
-                                                <img src="{{url($ptr->path_icon)}}" alt="user-avatar"
+                                                <img src="{{asset($ptr->path_icon)}}" alt="user-avatar"
                                                      class="img-circle img-fluid">
                                             @else
                                                 <img

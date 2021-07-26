@@ -2,11 +2,16 @@
 
 namespace App\Observers;
 
+use App\Models\History_Penawaran;
 use App\Models\Pembayaran;
+use App\Models\Penawaran;
 use App\Models\Pin;
+use App\Models\Revisi;
+use Illuminate\Support\Facades\Log;
 
 class PinObserver
 {
+
     /**
      * Handle the User "updating" event.
      *
@@ -15,7 +20,7 @@ class PinObserver
      */
     public function updated(Pin $pin)
     {
-        if ($pin->status == "D01A"){
+        if ($pin->status == "D01A") {
             $pins = Pin::where([
                 ['id', '!=', $pin->id],
                 ['kode_pengajuan', '=', $pin->kode_pengajuan],
@@ -24,7 +29,7 @@ class PinObserver
                 Pin::whereId($p->id)->update(['status' => 'B04']);
             }
         }
-        if ($pin->status == "D02"){
+        if ($pin->status == "D02") {
             $dat = Pin::with('penawaran')->find($pin->id)->first();
             $keuntungan = ($dat->penawaran->harga_total * $dat->penawaran->keuntungan) / 100;
             $tharga = $dat->penawaran->harga_total + $keuntungan;

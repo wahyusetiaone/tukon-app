@@ -69,3 +69,13 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
         });
     });
 });
+
+Route::group(['prefix' => 'payment-gateway-testing'], function () {
+    Route::get('/getBalance',[App\Http\Controllers\PaymentGateway\PembayaranController::class, 'getBalance']);
+    Route::get('/createInvoice',[App\Http\Controllers\PaymentGateway\PembayaranController::class, 'createInvoice']);
+    Route::get('/getInvoice/{id}',[App\Http\Controllers\PaymentGateway\PembayaranController::class, 'getInvoice']);
+    Route::get('/getAllInvoice',[App\Http\Controllers\PaymentGateway\PembayaranController::class, 'getAllInvoice']);
+    Route::get('/createPayout',[App\Http\Controllers\PaymentGateway\PembayaranController::class, 'createPayout']);
+    Route::get('/getPayout/{id}',[App\Http\Controllers\PaymentGateway\PembayaranController::class, 'getPayout']);
+    Route::get('/voidPayout/{id}',[App\Http\Controllers\PaymentGateway\PembayaranController::class, 'voidPayout']);
+});
