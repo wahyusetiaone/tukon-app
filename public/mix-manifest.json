@@ -9,6 +9,7 @@
     "/js/wishlist.js": "/js/wishlist.js",
     "/js/all_penawaran.js": "/js/all_penawaran.js",
     "/js/add_penawaran_by_pengajuan.js": "/js/add_penawaran_by_pengajuan.js",
+    "/js/edit_penawaran.js": "/js/edit_penawaran.js",
     "/css/app.css": "/css/app.css",
     "/css/wishlist.css": "/css/wishlist.css",
     "/css/home_client.css": "/css/home_client.css"

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 use Yajra\DataTables\DataTables;
 
 class PenawaranController extends Controller
@@ -98,7 +99,7 @@ class PenawaranController extends Controller
         $user = Auth::user()->kode_user;
         try {
             $tukang = Tukang::with('user')->where('id',$user)->firstOrFail();
-            $data = Pin::with('pengajuan','pengajuan.client','pengajuan.client.user','penawaran')->where(['kode_penawaran' => $id,'kode_tukang' => $user])->firstOrFail();
+            $data = Pin::with('revisi','pengajuan','pengajuan.client','pengajuan.client.user','penawaran','penawaran.komponen')->where(['kode_penawaran' => $id,'kode_tukang' => $user])->firstOrFail();
 
             return view('tukang.penawaran.show')->with(compact('data', 'tukang'));
         }catch (ModelNotFoundException $ee){
@@ -110,12 +111,19 @@ class PenawaranController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
-    }
+        $user = Auth::user()->kode_user;
+        try {
+            $tukang = Tukang::with('user')->where('id',$user)->firstOrFail();
+            $data = Pin::with('revisi','pengajuan','pengajuan.client','pengajuan.client.user','penawaran','penawaran.komponen')->where(['kode_penawaran' => $id,'kode_tukang' => $user])->firstOrFail();
+
+            return view('tukang.penawaran.edit')->with(compact('data', 'tukang'));
+        }catch (ModelNotFoundException $ee){
+            return view('errors.404');
+        }    }
 
     /**
      * Update the specified resource in storage.

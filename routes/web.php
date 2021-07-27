@@ -64,6 +64,7 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
             Route::get('/', [App\Http\Controllers\Tukang\PenawaranController::class, 'index'])->name('penawaran');
             Route::get('json', [App\Http\Controllers\Tukang\PenawaranController::class, 'json'])->name('data.penawaran.json');
             Route::get('show/{id}', [App\Http\Controllers\Tukang\PenawaranController::class, 'show'])->name('show.penawaran');
+            Route::get('edit/{id}', [App\Http\Controllers\Tukang\PenawaranController::class, 'edit'])->name('edit.penawaran');
             Route::get('add/bypengajuan/{id}', [App\Http\Controllers\Tukang\PenawaranController::class, 'create'])->name('add.penawaran.bypengajuan');
             Route::post('store', [App\Http\Controllers\Tukang\PenawaranController::class, 'store'])->name('store.penawaran.json');
         });

@@ -21,19 +21,28 @@ class Pin extends Model
         'status',
     ];
 
-    public function pengajuan(){
-        return $this->belongsTo(Pengajuan::class, 'kode_pengajuan','id');
+    public function pengajuan()
+    {
+        return $this->belongsTo(Pengajuan::class, 'kode_pengajuan', 'id');
     }
 
-    public function tukang(){
+    public function tukang()
+    {
         return $this->hasOne(Tukang::class, 'id', 'kode_tukang');
     }
 
-    public function penawaran(){
-        return$this->hasOne(Penawaran::class, 'id', 'kode_penawaran');
+    public function penawaran()
+    {
+        return $this->hasOne(Penawaran::class, 'id', 'kode_penawaran');
     }
 
-    public function pembayaran(){
-        return$this->hasOne(Pembayaran::class, 'kode_pin', 'id');
+    public function pembayaran()
+    {
+        return $this->hasOne(Pembayaran::class, 'kode_pin', 'id');
+    }
+
+    public function revisi()
+    {
+        return $this->hasMany(Revisi::class, 'kode_penawaran', 'kode_penawaran');
     }
 }

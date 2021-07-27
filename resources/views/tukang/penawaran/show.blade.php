@@ -7,14 +7,31 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <div class="callout callout-info">
-                        <h5><i class="fas fa-info"></i> Note:</h5>
-                        This page has been enhanced for printing. Click the print button at the bottom of the invoice to
-                        test.
-                    </div>
+                    @if($data->penawaran->kode_status == "T02")
+                        <div class="callout callout-info">
+                            <h5><i class="fas fa-info"></i> Note:</h5>
+                            This page has been enhanced for printing. Click the print button at the bottom of the
+                            invoice to
+                            test.
+                        </div>
+                    @elseif($data->penawaran->kode_status == "T02A")
+                        @if(isset($data->kode_revisi))
+                            <div class="callout callout-danger">
+                                <h5><i class="fas fa-ban"></i> Penawaran Ditolak !!!</h5>
+                                Penawaran anda ditolak, mohon untuk mengajukan ulang revisi penawaran !
+                                <br>
+                                Catatan Penolakan : <b>{{$data->revisi[0]->note}}</b>
+                            </div>
+                        @else
+                            <div class="callout callout-danger">
+                                <h5><i class="fas fa-ban"></i> Penawaran Ditolak !!!</h5>
+                                Penawaran anda ditolak, mohon untuk mengajukan ulang revisi penawaran !
+                            </div>
+                    @endif
+                @endif
 
 
-                    <!-- Main content -->
+                <!-- Main content -->
                     <div class="invoice p-3 mb-3">
                         <!-- title row -->
                         <div class="row">
@@ -22,7 +39,7 @@
                                 <h4>
                                     <i class="fas fa-globe"></i> Tukang Online (TUKON)
                                 </h4>
-                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pengajuan Projek</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Penawaran Projek</p>
 
                             </div>
                             <!-- /.col -->
@@ -31,17 +48,6 @@
                         <div class="row invoice-info">
                             <div class="col-sm-4 invoice-col">
                                 Dari
-                                <address>
-                                    <strong>{{$data->pengajuan->client->user->name}}</strong><br>
-                                    {{$data->pengajuan->client->alamat}}<br>
-                                    {{$data->pengajuan->client->kota}}<br>
-                                    Nomor: {{$data->pengajuan->client->nomor_telepon}}<br>
-                                    Email: {{$data->pengajuan->client->user->email}}
-                                </address>
-                            </div>
-                            <!-- /.col -->
-                            <div class="col-sm-4 invoice-col">
-                                Ke
                                 <address>
                                     <strong>{{$tukang->user->name}}</strong><br>
                                     {{$tukang->alamat}}<br>
@@ -52,10 +58,22 @@
                             </div>
                             <!-- /.col -->
                             <div class="col-sm-4 invoice-col">
+                                Ke
+                                <address>
+                                    <strong>{{$data->pengajuan->client->user->name}}</strong><br>
+                                    {{$data->pengajuan->client->alamat}}<br>
+                                    {{$data->pengajuan->client->kota}}<br>
+                                    Nomor: {{$data->pengajuan->client->nomor_telepon}}<br>
+                                    Email: {{$data->pengajuan->client->user->email}}
+                                </address>
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-sm-4 invoice-col">
                                 <b>PIN ID #{{ sprintf("%06d", $data->id)}}</b><br>
-                                <p>Dibuat: {{indonesiaDate($data->created_at)}}<br>
-                                    @if($data->created_at == $data->updated_at) @else
-                                        Diubah: {{indonesiaDate($data->updated_at)}} @endif</p>
+                                <b>Nomor Penawaran #{{ sprintf("%06d", $data->penawaran->id)}}</b><br>
+                                <p>Dibuat: {{indonesiaDate($data->penawaran->created_at)}}<br>
+                                    @if($data->penawaran->created_at == $data->penawaran->updated_at) @else
+                                        Diubah: {{indonesiaDate($data->penawaran->updated_at)}} @endif</p>
                             </div>
                             <!-- /.col -->
                         </div>
@@ -64,11 +82,15 @@
                         <!-- Table row -->
                         <div class="row">
                             <div class="col-12 table-responsive">
+                                <h5>Informasi Projek</h5>
+
                                 <table class="table table-striped">
                                     <thead>
                                     <tr>
                                         <th>Nama Projek</th>
                                         <th>Alamat Projek</th>
+                                        <th>Dealine</th>
+                                        <th>Range Harga</th>
                                         <th>Diskripsi Projek</th>
                                     </tr>
                                     </thead>
@@ -76,6 +98,9 @@
                                     <tr>
                                         <td>{{$data->pengajuan->nama_proyek}}</td>
                                         <td>{{$data->pengajuan->alamat}}</td>
+                                        <td>{{indonesiaDate($data->pengajuan->deadline)}}</td>
+                                        <td>{{indonesiaRupiah($data->pengajuan->range_min)}}
+                                            - {{indonesiaRupiah($data->pengajuan->range_max)}}</td>
                                         <td>{{$data->pengajuan->diskripsi_proyek}}</td>
                                     </tr>
                                     </tbody>
@@ -84,7 +109,29 @@
                             <!-- /.col -->
                         </div>
                         <!-- /.row -->
+                        <div class="row">
+                            <div class="col-12 table-responsive">
+                                <h5>Informasi Penawaran Projek</h5>
 
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Nama Komponen</th>
+                                        <th>Harga</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($data->penawaran->komponen as $item)
+                                        <tr>
+                                            <td>{{$item->nama_komponen}}</td>
+                                            <td>{{indonesiaRupiah($item->harga)}}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.col -->
+                        </div>
                         <div class="row">
                             <!-- accepted payments column -->
                             <div class="col-6">
@@ -122,17 +169,27 @@
                             </div>
                             <!-- /.col -->
                             <div class="col-6">
-                                <p class="lead">Deadline : {{indonesiaDate($data->pengajuan->deadline)}}</p>
+                                <p class="lead">Informasi Harga</p>
 
                                 <div class="table-responsive">
                                     <table class="table">
                                         <tr>
-                                            <th style="width:50%">Range Min:</th>
-                                            <td>{{indonesiaRupiah($data->pengajuan->range_min)}}</td>
+                                            <th style="width:50%">Total Harga Komponen:</th>
+                                            <td>{{indonesiaRupiah($data->penawaran->harga_total - $data->penawaran->keuntungan)}}</td>
                                         </tr>
                                         <tr>
-                                            <th style="width:50%">Range Max:</th>
-                                            <td>{{indonesiaRupiah($data->pengajuan->range_max)}}</td>
+                                            <th style="width:50%">Keuntungan (%):</th>
+                                            <td>{{($data->penawaran->keuntungan / ($data->penawaran->harga_total - $data->penawaran->keuntungan)) * 100}}
+                                                %
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width:50%">Keuntungan (Rp.):</th>
+                                            <td>{{indonesiaRupiah($data->penawaran->keuntungan)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width:50%">Total Harga (Rp.):</th>
+                                            <td>{{indonesiaRupiah($data->penawaran->harga_total)}}</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -146,25 +203,17 @@
                             <div class="col-12">
                                 <a href="invoice-print.html" target="_blank" class="btn btn-default"><i
                                         class="fas fa-print"></i> Print</a>
-                                @if($data->kode_penawaran == null && $data->status == 'N01')
-                                    <button type="button" id="tolak-btn" value="{{$data->id}}"
+                                @if($data->penawaran->kode_status == "T02")
+                                    <button type="button" disabled id="tolak-btn" value="{{$data->id}}"
                                             class="btn btn-danger float-right" style="margin-right: 5px;">
-                                        Tolak Pengajuan
+                                        Menunggu response klien
                                     </button>
-                                    <a href="{{route('add.penawaran.bypengajuan', $data->id)}}">
-                                        <button type="button" class="btn btn-primary float-right"
-                                                style="margin-right: 5px;">
-                                            <i class="fas fa-download"></i> Terima & Kirim Penawaran
+                                @elseif($data->penawaran->kode_status == "T02A")
+                                    <a href="{{route('edit.penawaran', $data->kode_penawaran)}}">
+                                        <button type="button" class="btn btn-warning float-right">
+                                            <i class="fas fa-download"></i> Ajukan Ulang Revisi
                                         </button>
                                     </a>
-                                @elseif($data->kode_penawaran != null &&$data->status == 'N01')
-                                    <button type="button" class="btn btn-success float-right">
-                                        <i class="far fa-download"></i> Lihat Penawaran
-                                    </button>
-                                @elseif($data->kode_penawaran != null &&$data->status == 'T03' || $data->kode_penawaran == null &&$data->status == 'T03')
-                                    <button type="button" class="btn btn-secondary float-right" disabled>
-                                        <i class="far fa-trash-alt"></i> Penawaran ditolak
-                                    </button>
                                 @endif
                             </div>
                         </div>
