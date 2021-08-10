@@ -8,12 +8,37 @@
             <div class="row">
                 <div class="col-12">
                     @if($data->penawaran->kode_status == "T02")
-                        <div class="callout callout-info">
-                            <h5><i class="fas fa-info"></i> Note:</h5>
-                            This page has been enhanced for printing. Click the print button at the bottom of the
-                            invoice to
-                            test.
-                        </div>
+                        @if($data->status == "N01")
+                            <div class="callout callout-info">
+                                <h5><i class="fas fa-info"></i> Note:</h5>
+                                This page has been enhanced for printing. Click the print button at the bottom of the
+                                invoice to
+                                test.
+                            </div>
+                        @elseif($data->status == "D01A")
+                            <div class="callout callout-success">
+                                <h5><i class="fas fa-check"></i> Selamat, penawaran anda disetujui.</h5>
+                                Penawaran anda telah disetujui klien, segera konfirmasi persetujuan kesangupan anda
+                                untuk melakukan pekerjaan projek ini !
+                            </div>
+                        @elseif($data->status == "D02")
+                            @if($data->pembayaran->kode_status == "P01" )
+                                <div class="callout callout-secondary">
+                                    <h5><i class="fas fa-clock"></i> Menunggu pembayaran dilakuan oleh Klien.</h5>
+                                    Projek menunggu pembayaran dari klien.
+                                </div>
+                            @elseif($data->pembayaran->kode_status == "P01B")
+                                <div class="callout callout-secondary">
+                                    <h5><i class="fas fa-clock"></i> Klien telah berhasil melakukan pembayaran.</h5>
+                                    Klien telah melakukan pembayaran, pembayaran menuggu validasi dari admin.
+                                </div>
+                            @elseif($data->pembayaran->kode_status == "P03")
+                                <div class="callout callout-success">
+                                    <h5><i class="fas fa-clock"></i> Penawaran telah diterima.</h5>
+                                    Proses ini berlanjut ke tahap pengerjaan projek.
+                                </div>
+                            @endif
+                        @endif
                     @elseif($data->penawaran->kode_status == "T02A")
                         @if(isset($data->kode_revisi))
                             <div class="callout callout-danger">
@@ -203,11 +228,35 @@
                             <div class="col-12">
                                 <a href="invoice-print.html" target="_blank" class="btn btn-default"><i
                                         class="fas fa-print"></i> Print</a>
-                                @if($data->penawaran->kode_status == "T02")
-                                    <button type="button" disabled id="tolak-btn" value="{{$data->id}}"
-                                            class="btn btn-danger float-right" style="margin-right: 5px;">
-                                        Menunggu response klien
-                                    </button>
+                                @if($data->penawaran->kode_status == "T02" || $data->penawaran->kode_status == "S02")
+                                    @if($data->status == "N01")
+                                        <button type="button" disabled id="menunggu-btn" value="{{$data->id}}"
+                                                class="btn btn-danger float-right" style="margin-right: 5px;">
+                                            Menunggu response klien
+                                        </button>
+                                    @elseif($data->status == "D01A")
+                                        <button type="button" id="konfirmasi-btn" value="{{$data->kode_penawaran}}"
+                                                class="btn btn-info float-right" style="margin-right: 5px;">
+                                            Konfirmasi Persetujuan
+                                        </button>
+                                    @elseif($data->status == "D02")
+                                        @if($data->pembayaran->kode_status == "P01")
+                                            <button type="button" disabled id="menunggu-btn" value="{{$data->id}}"
+                                                    class="btn btn-secondaru float-right" style="margin-right: 5px;">
+                                                Menunggu pembayaran klien
+                                            </button>
+                                        @elseif($data->pembayaran->kode_status == "P01B")
+                                            <button type="button" disabled id="menunggu-btn" value="{{$data->id}}"
+                                                    class="btn btn-secondaru float-right" style="margin-right: 5px;">
+                                                Klien telah melakukan pembayaran, menuggu konfirmasi admin
+                                            </button>
+                                        @elseif($data->pembayaran->kode_status == "P03")
+                                            <button type="button" disabled id="menunggu-btn" value="{{$data->id}}"
+                                                    class="btn btn-secondaru float-right" style="margin-right: 5px;">
+                                                Lihat Projek
+                                            </button>
+                                        @endif
+                                    @endif
                                 @elseif($data->penawaran->kode_status == "T02A")
                                     <a href="{{route('edit.penawaran', $data->kode_penawaran)}}">
                                         <button type="button" class="btn btn-warning float-right">

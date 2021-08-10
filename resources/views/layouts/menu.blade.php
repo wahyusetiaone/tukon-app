@@ -34,6 +34,18 @@
                 <p>Penawaran</p>
             </a>
         </li>
+        <li class="nav-item">
+            <a href="{{ route('projek') }}" class="nav-link {{ (request()->segment(1) == 'projek') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-building"></i>
+                <p>Projek</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('history') }}" class="nav-link {{ (request()->segment(1) == 'history') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-history"></i>
+                <p>Riwayat Projek</p>
+            </a>
+        </li>
     @endif
     @if(Auth::guard('web')->user()->kode_role == 3)
         <li class="nav-item">

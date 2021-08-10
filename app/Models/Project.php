@@ -10,10 +10,19 @@ class Project extends Model
     use HasFactory;
 
     protected $fillable = [
-      "kode_status",
+        "kode_status",
+        "persentase_progress"
     ];
 
     public function pembayaran(){
         return $this->belongsTo(Pembayaran::class, 'kode_pembayaran', 'id');
+    }
+
+    public function progress(){
+        return $this->hasOne(Progress::class, 'kode_project', 'id');
+    }
+
+    public function penarikan(){
+        return $this->hasOne(PenarikanDana::class, 'kode_project','id');
     }
 }

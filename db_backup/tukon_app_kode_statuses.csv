@@ -1,0 +1,53 @@
+1,B01,Dibatalkan Oleh Klien,Proses ini telah dibatalkan oleh Klien,2021-07-21 08:00:10,2021-07-21 08:00:10
+2,B02,Dibatalkan Oleh Tukang,Proses ini telah dibatalkan oleh Tukang,2021-07-21 08:00:10,2021-07-21 08:00:10
+3,B03,Dibatalkan Oleh Admin,Proses ini telah dibatalkan oleh Admin,2021-07-21 08:00:10,2021-07-21 08:00:10
+4,B04,Pengajuna telah dimenangkan pihak lain,Maaf pengajuan telah dimenangkan oleh pihak lain,2021-07-21 08:00:10,2021-07-21 08:00:10
+5,D01A,Deal Klien,Proses ini telah disetujui oleh Klien,2021-07-21 08:00:10,2021-07-21 08:00:10
+6,D01B,Deal Tukang,Proses ini telah disetujui oleh Tukang,2021-07-21 08:00:10,2021-07-21 08:00:10
+7,D02,Deal,Proses ini telah disetujui kedua belah pihak,2021-07-21 08:00:11,2021-07-21 08:00:11
+8,P01,Menunggu Pembayaran,Proses ini telah menunggu pembayaran,2021-07-21 08:00:11,2021-07-21 08:00:11
+9,P01A,Menunggu ReUploading Pembayaran,Menunggu pegulangan pengungahan bukti transaksi,2021-07-21 08:00:11,2021-07-21 08:00:11
+10,P01B,Menunggu Verifikasi Pembayaran,Menunggu Verifikasi Transaksi Pembayaran oleh admin,2021-07-21 08:00:11,2021-07-21 08:00:11
+11,P02,Pembayaran Gagal,Proses ini dihentikan karena proses pembayaran tidak di laksanakan,2021-07-21 08:00:11,2021-07-21 08:00:11
+12,P03,Pembayaran Sukses,Proses pembarayan sukses,2021-07-21 08:00:11,2021-07-21 08:00:11
+13,T01,Pengajuan Terkirim,Pengajuan telah terkirim ke tukang,2021-07-21 08:00:11,2021-07-21 08:00:11
+14,T02,Tukang menerbitkan penawaran,Tukang menerbitkan sebuah penawaran untuk projek ini,2021-07-21 08:00:11,2021-07-21 08:00:11
+15,T03,Tukang Menolak Pengajuan,Pengajuan telah ditolak oleh tukang,2021-07-21 08:00:11,2021-07-21 08:00:11
+16,N01,Pengajuan Diterima,Sebuah pengajuan telah diterima,2021-07-21 08:00:11,2021-07-21 08:00:11
+17,S01,Tidak disunting,Dokumen tidak disunting,2021-07-21 08:00:11,2021-07-21 08:00:11
+18,S02,Sunting,Dokumen telah disunting,2021-07-21 08:00:11,2021-07-21 08:00:11
+19,A01,Menunggu Konfrimasi Admin,Menunggu pembayaran dikonfirmasi oleh admin,2021-07-21 08:00:11,2021-07-21 08:00:11
+20,A02,Pembayaran ditolak Admin,Transaksi Pembayaran di tolak oleh admin,2021-07-21 08:00:11,2021-07-21 08:00:11
+21,A03,Pembayaran dikonfirmasi oleh Admin,Transaksi Pembayaran telah dikonfirmasi oleh admin,2021-07-21 08:00:11,2021-07-21 08:00:11
+22,ON01,Dalam proses pengerjaan,Projek masih dalam proses pengerjaan,2021-07-21 08:00:11,2021-07-21 08:00:11
+23,ON02,Projek selesai Klien,Projek telah diverikiasi selesai oleh Klien,2021-07-21 08:00:11,2021-07-21 08:00:11
+24,ON03,Projek dibatalkan,Projek dibatalkan karena alasan tertentu,2021-07-21 08:00:11,2021-07-21 08:00:11
+25,ON04,Projek selesai Tukang,Projek telah diverikiasi selesai oleh Tukang,2021-07-21 08:00:11,2021-07-21 08:00:11
+26,ON05,Projek selesai,Projek telah selesai,2021-07-21 08:00:12,2021-07-21 08:00:12
+27,B01,Dibatalkan Oleh Klien,Proses ini telah dibatalkan oleh Klien,2021-08-06 01:53:58,2021-08-06 01:53:58
+28,B02,Dibatalkan Oleh Tukang,Proses ini telah dibatalkan oleh Tukang,2021-08-06 01:53:59,2021-08-06 01:53:59
+29,B03,Dibatalkan Oleh Admin,Proses ini telah dibatalkan oleh Admin,2021-08-06 01:53:59,2021-08-06 01:53:59
+30,B04,Pengajuna telah dimenangkan pihak lain,Maaf pengajuan telah dimenangkan oleh pihak lain,2021-08-06 01:53:59,2021-08-06 01:53:59
+31,D01A,Deal Klien,Proses ini telah disetujui oleh Klien,2021-08-06 01:53:59,2021-08-06 01:53:59
+32,D01B,Deal Tukang,Proses ini telah disetujui oleh Tukang,2021-08-06 01:53:59,2021-08-06 01:53:59
+33,D02,Deal,Proses ini telah disetujui kedua belah pihak,2021-08-06 01:53:59,2021-08-06 01:53:59
+34,P01,Menunggu Pembayaran,Proses ini telah menunggu pembayaran,2021-08-06 01:53:59,2021-08-06 01:53:59
+35,P01A,Menunggu ReUploading Pembayaran,Menunggu pegulangan pengungahan bukti transaksi,2021-08-06 01:53:59,2021-08-06 01:53:59
+36,P01B,Menunggu Verifikasi Pembayaran,Menunggu Verifikasi Transaksi Pembayaran oleh admin,2021-08-06 01:53:59,2021-08-06 01:53:59
+37,P02,Pembayaran Gagal,Proses ini dihentikan karena proses pembayaran tidak di laksanakan,2021-08-06 01:53:59,2021-08-06 01:53:59
+38,P03,Pembayaran Sukses,Proses pembarayan sukses,2021-08-06 01:53:59,2021-08-06 01:53:59
+39,T01,Pengajuan Terkirim,Pengajuan telah terkirim ke tukang,2021-08-06 01:53:59,2021-08-06 01:53:59
+40,T02,Tukang menerbitkan penawaran,Tukang menerbitkan sebuah penawaran untuk projek ini,2021-08-06 01:53:59,2021-08-06 01:53:59
+41,T02A,Klien meminta revisi penawaran,Klien telah meminta perubahan penawaran untuk projek ini,2021-08-06 01:53:59,2021-08-06 01:53:59
+42,T03,Tukang Menolak Pengajuan,Pengajuan telah ditolak oleh tukang,2021-08-06 01:53:59,2021-08-06 01:53:59
+43,N01,Pengajuan Diterima,Sebuah pengajuan telah diterima,2021-08-06 01:53:59,2021-08-06 01:53:59
+44,S01,Tidak disunting,Dokumen tidak disunting,2021-08-06 01:54:00,2021-08-06 01:54:00
+45,S02,Sunting,Dokumen telah disunting,2021-08-06 01:54:00,2021-08-06 01:54:00
+46,A01,Menunggu Konfrimasi Admin,Menunggu pembayaran dikonfirmasi oleh admin,2021-08-06 01:54:00,2021-08-06 01:54:00
+47,A02,Pembayaran ditolak Admin,Transaksi Pembayaran di tolak oleh admin,2021-08-06 01:54:00,2021-08-06 01:54:00
+48,A03,Pembayaran dikonfirmasi oleh Admin,Transaksi Pembayaran telah dikonfirmasi oleh admin,2021-08-06 01:54:00,2021-08-06 01:54:00
+49,ON01,Dalam proses pengerjaan,Projek masih dalam proses pengerjaan,2021-08-06 01:54:00,2021-08-06 01:54:00
+50,ON02,Projek selesai Klien,Projek telah diverikiasi selesai oleh Klien,2021-08-06 01:54:00,2021-08-06 01:54:00
+51,ON03,Projek dibatalkan,Projek dibatalkan karena alasan tertentu,2021-08-06 01:54:00,2021-08-06 01:54:00
+52,ON04,Projek selesai Tukang,Projek telah diverikiasi selesai oleh Tukang,2021-08-06 01:54:00,2021-08-06 01:54:00
+53,ON05,Projek selesai,Projek telah selesai,2021-08-06 01:54:00,2021-08-06 01:54:00

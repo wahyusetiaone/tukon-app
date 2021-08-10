@@ -61,6 +61,7 @@
                 <div class="card card-solid">
                     <blockquote class="blockquote">
                         <p class="mb-0">Semua Produk</p>
+{{--                        {{var_dump($obj)}}}--}}
                     </blockquote>
                     <div class="card-body pb-0">
                         <div class="row d-flex align-items-stretch">
@@ -76,33 +77,46 @@
                                                 <div class="card-body pt-0">
                                                     <div class="row">
                                                         <div class="col-7">
-                                                            <p class="text-muted text-sm"><b>Tukang: </b> {{$ptr->name}}
-                                                                <br>
-                                                                <b>Diskripsi: </b> {{$ptr->diskripsi}} </p>
-                                                            <ul class="ml-4 mb-0 fa-ul text-muted">
-                                                                <li class="small"><span class="fa-li"><i
-                                                                            class="fas fa-lg fa-building"></i></span>Alamat
-                                                                    :
-                                                                    <br> {{$ptr->alamat}}
-                                                                </li>
-                                                                <li class="small"><span class="fa-li"><i
-                                                                            class="fas fa-lg fa-phone"></i></span>
-                                                                    Telepon : <br>{{$ptr->nomor_telepon}}
-                                                                </li>
-                                                                <li class="small"><span class="fa-li"><i
-                                                                            class="fas fa-lg fa-dollar-sign"></i></span>
-                                                                    Harga : <br>{{$ptr->range_min}}
-                                                                    - {{$ptr->range_max}}
-                                                                </li>
-                                                            </ul>
+                                                            <p class="text-muted text-sm"><b>Tukang: </b> {{$ptr->name}} <br>
+                                                                <b>Diskripsi: </b> @if(strlen($ptr->diskripsi) < 50 ){{$ptr->diskripsi}} @else {{substr($ptr->diskripsi, 0, 50) }} ... @endif </p>
                                                         </div>
                                                         <div class="col-5 text-center">
                                                             @if(isset($ptr->path))
                                                                 @if($ptr->multipath)
-
+                                                                    @php
+                                                                        $myArray = explode(',', $ptr->path);
+                                                                    @endphp
+                                                                    <div id="carouselExampleControls" style="max-width:200px;width:100%"
+                                                                         class="carousel slide" data-ride="carousel">
+                                                                        <div class="carousel-inner">
+                                                                            @for($i = 0; $i < sizeof($myArray); $i++)
+                                                                                <div class="carousel-item @if($i == 0) active @endif ">
+                                                                                    <img class="d-block w-100"
+                                                                                         style="max-width:200px;width:100%"
+                                                                                         src="{{asset($myArray[$i])}}"
+                                                                                         alt="First slide">
+                                                                                </div>
+                                                                            @endfor
+                                                                        </div>
+                                                                        <a class="carousel-control-prev" href="#carouselExampleControls"
+                                                                           role="button"
+                                                                           data-slide="prev">
+                                                            <span class="carousel-control-prev-icon"
+                                                                  aria-hidden="true"></span>
+                                                                            <span class="sr-only">Previous</span>
+                                                                        </a>
+                                                                        <a class="carousel-control-next" href="#carouselExampleControls"
+                                                                           role="button"
+                                                                           data-slide="next">
+                                                            <span class="carousel-control-next-icon"
+                                                                  aria-hidden="true"></span>
+                                                                            <span class="sr-only">Next</span>
+                                                                        </a>
+                                                                    </div>
                                                                 @else
                                                                     <img src="{{asset($ptr->path)}}" alt="user-avatar"
                                                                          class="img-fluid">
+
                                                                 @endif
                                                             @else
                                                                 <img
@@ -112,17 +126,41 @@
                                                             @endif
                                                         </div>
                                                     </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <ul class="ml-4 mb-0 fa-ul text-muted">
+                                                                <li class="small"><span class="fa-li"><i
+                                                                            class="fas fa-lg fa-building"></i></span>Alamat :
+                                                                    <br> {{$ptr->alamat}}
+                                                                </li>
+                                                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span>
+                                                                    Telepon : <br>{{$ptr->nomor_telepon}}
+                                                                </li>
+                                                                <li class="small"><span class="fa-li"><i
+                                                                            class="fas fa-lg fa-dollar-sign"></i></span>
+                                                                    Harga : <br>{{$ptr->range_min}} - {{$ptr->range_max}}
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="card-footer">
                                                     <div class="text-right">
                                                         <a href="#" class="btn btn-sm bg-teal">
                                                             <i class="fas fa-comments"></i>
                                                         </a>
-                                                        <a href="#" class="btn btn-sm bg-danger">
+                                                        <button id="add_to_wish" value="{{$ptr->kode_produk}}"
+                                                                class="btn btn-sm bg-danger">
                                                             <i class="fas fa-cart-plus"></i>
-                                                        </a>
-                                                        <a href="#" class="btn btn-sm btn-primary">
+                                                        </button>
+                                                        <button id="send_pengajuan" value="{{$ptr->kode_tukang}}"
+                                                                class="btn btn-sm bg-primary">
                                                             <i class="fas fa-paper-plane"></i> Ajukan
+                                                        </button>
+                                                        <a href="{{route('show.produk.guest', $ptr->kode_produk)}}">
+                                                            <button class="btn btn-sm bg-secondary">
+                                                                <i class="fas fa-eye"></i> Lihat
+                                                            </button>
                                                         </a>
                                                     </div>
                                                 </div>

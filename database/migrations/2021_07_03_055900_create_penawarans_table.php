@@ -17,6 +17,7 @@ class CreatePenawaransTable extends Migration
             $table->id();
             $table->bigInteger('kode_pin')->default(0);
             $table->integer('keuntungan');
+            $table->bigInteger('kode_bpa')->default(0);
             $table->bigInteger('harga_total');
             $table->string('kode_status',4);
             $table->timestamps();

@@ -18,6 +18,10 @@ class CreateHistoryKomponensTable extends Migration
             $table->bigInteger('kode_history_penawaran');
             $table->string('nama_komponen', 255);
             $table->bigInteger('harga');
+            $table->string('merk_type', 50);
+            $table->string('spesifikasi_teknis', 80);
+            $table->string('satuan', 20);
+            $table->bigInteger('total_unit');
             $table->timestamps();
         });
     }

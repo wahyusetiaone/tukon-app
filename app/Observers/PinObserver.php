@@ -30,12 +30,10 @@ class PinObserver
             }
         }
         if ($pin->status == "D02") {
-            $dat = Pin::with('penawaran')->find($pin->id)->first();
-            $keuntungan = ($dat->penawaran->harga_total * $dat->penawaran->keuntungan) / 100;
-            $tharga = $dat->penawaran->harga_total + $keuntungan;
+            $dat = Pin::with('penawaran')->where('id',$pin->id)->first();
             $pembayaran = new Pembayaran();
-            $pembayaran->kode_penawaran = $pin->id;
-            $pembayaran->total_tagihan = $tharga;
+            $pembayaran->kode_pin = $pin->id;
+            $pembayaran->total_tagihan = $dat->penawaran->harga_total;
             $pembayaran->save();
         }
 

@@ -17,6 +17,7 @@ class Penawaran extends Model
      */
     protected $fillable = [
         'kode_pin',
+        'kode_bpa',
         'keuntungan',
         'harga_total',
         'kode_status',
@@ -32,5 +33,9 @@ class Penawaran extends Model
 
     public function history_penawaran(){
         return $this->hasMany(History_Penawaran::class, 'kode_penawaran', 'id');
+    }
+
+    public function bpa(){
+        return $this->hasOne(BPA::class, 'id', 'kode_bpa');
     }
 }

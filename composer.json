@@ -35,7 +35,8 @@
         },
         "files": [
             "app/Helpers/IndonesiaDate.php",
-            "app/Helpers/IndonesiaRupiah.php"
+            "app/Helpers/IndonesiaRupiah.php",
+            "app/Helpers/KalkulasiBiayaPenawaran.php"
         ]
     },
     "autoload-dev": {

@@ -1619,25 +1619,23 @@ __webpack_require__(/*! ../../node_modules/datatables.net-bs4/js/dataTables.boot
 
 
 window.$ = window.jQuery = (jquery__WEBPACK_IMPORTED_MODULE_0___default());
-jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
-  var hidden_tk = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#hidden_tk");
-  var hidden_cl = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#hidden_cl");
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()('select').on('change', function () {
-    console.log(this.value);
-
-    if (this.value === '1') {
-      hidden_tk.hide();
-      hidden_cl.hide();
-    } else if (this.value === '2') {
-      hidden_cl.hide();
-      hidden_tk.show();
-    } else if (this.value === '3') {
-      hidden_tk.hide();
-      hidden_cl.show();
-    }
-  });
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {// var hidden_tk = $("#hidden_tk");
+  // var hidden_cl = $("#hidden_cl");
+  // $('select').on('change', function() {
+  //     console.log(this.value);
+  //     if (this.value === '1'){
+  //         hidden_tk.hide();
+  //         hidden_cl.hide();
+  //     } else if (this.value === '2'){
+  //         hidden_cl.hide();
+  //         hidden_tk.show();
+  //     } else if (this.value === '3'){
+  //         hidden_tk.hide();
+  //         hidden_cl.show();
+  //     }
+  // });
 });
-var base_url = "http://localhost:8000";
+var base_url = "https://tukon.asia-one.co.id";
 console.log(base_url);
 
 

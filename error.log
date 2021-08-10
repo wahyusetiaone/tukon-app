@@ -1,0 +1,2 @@
+[Thu Jul 29 08:54:42.640545 2021] [authz_core:error] [pid 10596] [client 127.0.0.1:50146] AH01630: client denied by server configuration: /media/abah/7b5e2ce5-524c-402c-8dcc-ead439bb992e/Radja/god_project/tukon-application/
+[Thu Jul 29 08:54:43.069078 2021] [authz_core:error] [pid 10596] [client 127.0.0.1:50146] AH01630: client denied by server configuration: /media/abah/7b5e2ce5-524c-402c-8dcc-ead439bb992e/Radja/god_project/tukon-application/favicon.ico, referer: http://tukon.asia-one.co.id/

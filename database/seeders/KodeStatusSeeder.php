@@ -98,6 +98,12 @@ class KodeStatusSeeder extends Seeder
         $kode11->keterangan='Tukang menerbitkan sebuah penawaran untuk projek ini';
         $kode11->save();
 
+        $kode11 = new KodeStatus();
+        $kode11->kode_status='T02A';
+        $kode11->nama_kode='Klien meminta revisi penawaran';
+        $kode11->keterangan='Klien telah meminta perubahan penawaran untuk projek ini';
+        $kode11->save();
+
         $kode12 = new KodeStatus();
         $kode12->kode_status='T03';
         $kode12->nama_kode='Tukang Menolak Pengajuan';

@@ -11,7 +11,7 @@
 
     </title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-
+    @stack('head_meta')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
           integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
           crossorigin="anonymous"/>
@@ -37,19 +37,40 @@
         </ul>
         <ul class="navbar-nav ml-auto w-25 nav-justified">
             <div class="input-group">
-                <select class="form-control w-25  border border-secondary text-secondary" type="search" id="filter-search">
-                    <option class="select2-results__option">Tukang</option>
-                    <option class="select2-results__option">Produk</option>
-                    <option class="select2-results__option" disabled>Lokasi</option>
+                <select class="form-control w-25  border border-secondary text-secondary" type="search" id="filter_search">
+                    <option class="select2-results__option" value="produk">Produk</option>
+                    <option class="select2-results__option" value="tukang">Tukang</option>
+                    <option class="select2-results__option" value="lokasi" disabled>Lokasi</option>
                 </select>
-                    <input class="form-control text-primary border border-primary w-75" type="search" placeholder="Tukang Lemari" id="search-input">
+                    <input class="form-control text-primary border border-primary w-75" type="search" placeholder="Tukang Lemari" id="search_input">
             </div>
         </ul>
 
         <ul class="navbar-nav ml-auto">
             @if(!Auth::guest())
+
                 <li class="nav-item">
-                    <a href="{{ route('wishlist') }}" class="nav-link active">
+                    <a href="{{ route('pembayaran.client') }}" class="nav-link active" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Pembayaran">
+                        <i class="nav-icon fas fa-credit-card"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('project.client') }}" class="nav-link active" data-toggle="tooltip" data-placement="top" title="Proyek">
+                        <i class="nav-icon fas fa-building"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('penawaran.client') }}" class="nav-link active" data-toggle="tooltip" data-placement="top" title="Penawaran">
+                        <i class="nav-icon fas fa-download"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('pengajuan.client') }}" class="nav-link active" data-toggle="tooltip" data-placement="top" title="Pengajuan">
+                        <i class="nav-icon fas fa-upload"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('wishlist') }}" class="nav-link active" data-toggle="tooltip" data-placement="top" title="Keranjang">
                         <i class="nav-icon fas fa-cart-plus"></i>
                     </a>
                 </li>
@@ -124,6 +145,8 @@
 </div>
 
 <script src="{{ asset('js/app.js') }}" defer></script>
+
+{{--<script src="{{ asset('js/search.js') }}" defer></script>--}}
 
 @yield('third_party_scripts')
 

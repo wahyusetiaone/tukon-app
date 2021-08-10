@@ -99,7 +99,7 @@ class PenawaranController extends Controller
         $user = Auth::user()->kode_user;
         try {
             $tukang = Tukang::with('user')->where('id',$user)->firstOrFail();
-            $data = Pin::with('revisi','pengajuan','pengajuan.client','pengajuan.client.user','penawaran','penawaran.komponen')->where(['kode_penawaran' => $id,'kode_tukang' => $user])->firstOrFail();
+            $data = Pin::with('revisi','pengajuan','pengajuan.client','pengajuan.client.user','penawaran','penawaran.komponen','pembayaran')->where(['kode_penawaran' => $id,'kode_tukang' => $user])->firstOrFail();
 
             return view('tukang.penawaran.show')->with(compact('data', 'tukang'));
         }catch (ModelNotFoundException $ee){
@@ -130,11 +130,35 @@ class PenawaranController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
      */
     public function update(Request $request, $id)
     {
-        //
+        $request['kode_status'] = 'T02';
+        try {
+            $data = Penawaran::findOrFail($id);
+            $data->update($request->except(['dump_add','dump_remove']));
+            $dump = $request->input('dump_add');
+            if (isset($dump)){
+                for ($i = 0; $i < sizeof($dump); $i++) {
+                    $komponen = new Komponen();
+                    $komponen->kode_penawaran = $data->id;
+                    $komponen->nama_komponen = (string)$dump[$i]['nama_komponen'];
+                    $komponen->harga = (int)$dump[$i]['harga_komponen'];
+                    $komponen->save();
+                }
+            }
+            $dump = $request->input('dump_remove');
+            if (isset($dump)){
+                for ($i = 0; $i < sizeof($dump); $i++) {
+                    $komponen = Komponen::find((int)$dump[$i]['id']);
+                    $komponen->delete();
+                }
+            }
+            return (new PenawaranResourceController(['status' => $data]))->response()->setStatusCode(200);
+        } catch (ModelNotFoundException $e) {
+            return (new PenawaranResourceController(['error' => $e->getMessage()]))->response()->setStatusCode(401);
+        }
     }
 
     /**

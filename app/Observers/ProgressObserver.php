@@ -4,21 +4,19 @@ namespace App\Observers;
 
 use App\Models\OnStepProgress;
 use App\Models\PlanProgress;
+use App\Models\Progress;
 use App\Models\Project;
 
 class ProgressObserver
 {
     /**
-     * Handle the OnStepProgress "created" event.
+     * Handle the Progress "updated" event.
      *
-     * @param  \App\Models\OnStepProgress  $progress
+     * @param  \App\Models\Progress  $progress
      * @return void
      */
-    public function created(OnStepProgress $progress){
-        $prog = $progress->kode_plan_progress / PlanProgress::count();
-        $prog = $prog * 100.00;
-
-        Project::whereId($progress->kode_project)->update(["progress" => $prog]);
-
+    public function updated(Progress $progress){
+        $presentase = ($progress->now / $progress->deadlineinday) * 100;
+        Project::where('id', $progress->kode_project)->update(["persentase_progress" => $presentase]);
     }
 }

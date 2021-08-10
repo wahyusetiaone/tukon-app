@@ -1619,25 +1619,23 @@ __webpack_require__(/*! ../../node_modules/datatables.net-bs4/js/dataTables.boot
 
 
 window.$ = window.jQuery = (jquery__WEBPACK_IMPORTED_MODULE_0___default());
-jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
-  var hidden_tk = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#hidden_tk");
-  var hidden_cl = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#hidden_cl");
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()('select').on('change', function () {
-    console.log(this.value);
-
-    if (this.value === '1') {
-      hidden_tk.hide();
-      hidden_cl.hide();
-    } else if (this.value === '2') {
-      hidden_cl.hide();
-      hidden_tk.show();
-    } else if (this.value === '3') {
-      hidden_tk.hide();
-      hidden_cl.show();
-    }
-  });
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {// var hidden_tk = $("#hidden_tk");
+  // var hidden_cl = $("#hidden_cl");
+  // $('select').on('change', function() {
+  //     console.log(this.value);
+  //     if (this.value === '1'){
+  //         hidden_tk.hide();
+  //         hidden_cl.hide();
+  //     } else if (this.value === '2'){
+  //         hidden_cl.hide();
+  //         hidden_tk.show();
+  //     } else if (this.value === '3'){
+  //         hidden_tk.hide();
+  //         hidden_cl.show();
+  //     }
+  // });
 });
-var base_url = "http://localhost:8000";
+var base_url = "https://tukon.asia-one.co.id";
 console.log(base_url);
 
 
@@ -77062,9 +77060,13 @@ var presentase = document.getElementById("inputPresentase");
 var h_total_c = document.getElementById("inputTotalHargaKomponen");
 var h_keuntungan = document.getElementById("inputKeuntungan");
 var h_total = document.getElementById("inputHargaTotal");
+var addList = [];
+var removeList = [];
+var dump_add = [];
+var dump_remove = [];
 tmp.forEach(function (entry) {
-  listofcomponent[index] = [entry.nama_komponen, entry.harga];
-  masterlistofcomponent[index] = [entry.nama_komponen, entry.harga];
+  listofcomponent[index] = [entry.nama_komponen, entry.harga, index, entry.id];
+  masterlistofcomponent[index] = [entry.nama_komponen, entry.harga, index, entry.id];
   var rows = tbl_komponen.tBodies[0].rows.length;
   var row = tbl_komponen.insertRow(rows);
   row.id = 'tbl_komponent_row_' + index;
@@ -77092,7 +77094,7 @@ $(document).on('click', '[id^=btn-tbh-componen]', function (e) {
     focusConfirm: false,
     showCancelButton: true,
     preConfirm: function preConfirm() {
-      listofcomponent[index] = [document.getElementById('swal_nama_komponen').value, document.getElementById('swal_harga_komponen').value];
+      listofcomponent[index] = [document.getElementById('swal_nama_komponen').value, document.getElementById('swal_harga_komponen').value, index, null];
     }
   }).then(function (result) {
     if (result.isConfirmed) {
@@ -77163,53 +77165,87 @@ $(document).on('click', '[id^=btnsubmitpenawaran]', function () {
     confirmButtonColor: '#2196F3'
   }).then(function (result) {
     if (result.isConfirmed) {
-      var difference = listofcomponent.filter(function (x) {
-        return !masterlistofcomponent.includes(x);
+      $.each(masterlistofcomponent, function (old_index, old_obj) {
+        var old_id = old_obj[2];
+        var found = false;
+        $.each(listofcomponent, function (new_index, new_obj) {
+          if (new_obj[2] === old_id) {
+            found = true;
+          }
+        });
+
+        if (!found) {
+          removeList.push(old_obj);
+        }
       });
-      console.log(difference); // if (listofcomponent.length !== 0) {
-      //     var dump = [];
-      //     listofcomponent.forEach(function myFunction(item) {
-      //         dump.push({
-      //             'nama_komponen': item[0],
-      //             'harga_komponen': item[1]
-      //         });
-      //     });
-      //     $.ajax({
-      //         headers: {
-      //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      //         },
-      //         url: base_url + '/penawaran/store',
-      //         type: "post",
-      //         data: {
-      //             'kode_pin': parseInt(data.val()),
-      //             'keuntungan': keuntungan,
-      //             'harga_total': parseInt(h_total.value),
-      //             'dump': dump
-      //         },
-      //         success: function (response) {
-      //             if (response) {
-      //                 console.log(response)
-      //                 Swal.fire({
-      //                     icon: 'success',
-      //                     title: 'Penawaran telah terkirim !!!',
-      //                     showConfirmButton: false,
-      //                     timer: 1500
-      //                 }).then((response) => {
-      //                     location.reload();
-      //                 });
-      //             }
-      //         },
-      //         error: function (jqXHR, textStatus, errorThrown) {
-      //             console.log(textStatus, errorThrown);
-      //         }
-      //     });
-      // } else {
-      //     Swal.fire({
-      //         icon: 'error',
-      //         title: 'Oops...',
-      //         text: 'Mohon untuk minimal memasukan 1 Komponen !'
-      //     })
-      // }
+      $.each(listofcomponent, function (old_index, old_obj) {
+        var old_id = old_obj[2];
+        var found = false;
+        $.each(masterlistofcomponent, function (new_index, new_obj) {
+          if (new_obj[2] === old_id) {
+            found = true;
+          }
+        });
+
+        if (!found) {
+          addList.push(old_obj);
+        }
+      });
+      console.log(masterlistofcomponent);
+      console.log(listofcomponent);
+      console.log(addList);
+      console.log(removeList);
+
+      if (listofcomponent.length !== 0) {
+        addList.forEach(function myFunction(item) {
+          dump_add.push({
+            'nama_komponen': item[0],
+            'harga_komponen': item[1]
+          });
+        });
+        removeList.forEach(function myFunction(item) {
+          dump_remove.push({
+            'nama_komponen': item[0],
+            'harga_komponen': item[1],
+            'id': item[3]
+          });
+        });
+        $.ajax({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          url: _app__WEBPACK_IMPORTED_MODULE_1__.base_url + '/penawaran/update/' + data.val(),
+          type: "post",
+          data: {
+            'keuntungan': keuntungan,
+            'harga_total': parseInt(h_total.value),
+            'dump_add': dump_add,
+            'dump_remove': dump_remove
+          },
+          success: function success(response) {
+            if (response) {
+              console.log(response);
+              sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+                icon: 'success',
+                title: 'Revisi Penawaran telah diajukan !!!',
+                showConfirmButton: false,
+                timer: 1500
+              }).then(function (res) {
+                window.location = _app__WEBPACK_IMPORTED_MODULE_1__.base_url + '/penawaran/show/' + data.val();
+              });
+            }
+          },
+          error: function error(jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+          }
+        });
+      } else {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Mohon untuk minimal memasukan 1 Komponen !'
+        });
+      }
     }
   });
   return false;

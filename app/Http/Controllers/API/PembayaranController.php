@@ -14,6 +14,38 @@ use Illuminate\Support\Facades\Validator;
 class PembayaranController extends Controller
 {
     /**
+     * Index the form for creating a new resource.
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
+     */
+    public function index()
+    {
+        $kode_user = User::with('client')->find(Auth::id())->kode_user;
+
+        $validasi = Pembayaran::with('pin', 'pin.penawaran', 'transaksi_pembayaran')->whereHas('pin.pengajuan', function ($query) {
+            $query->where('kode_client', Auth::id());
+        })->get();
+
+        return (new PembayaranResourceController($validasi))->response()->setStatusCode(200);
+    }
+
+    /**
+     * Index the form for creating a new resource.
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
+     */
+    public function tagihan()
+    {
+        $kode_user = User::with('client')->find(Auth::id())->kode_user;
+
+        $validasi = Pembayaran::where([['kode_status','!=', 'P03']])->with('pin', 'pin.penawaran', 'transaksi_pembayaran')->whereHas('pin.pengajuan', function ($query) {
+            $query->where('kode_client', Auth::id());
+        })->get();
+
+        return (new PembayaranResourceController($validasi))->response()->setStatusCode(200);
+    }
+
+    /**
      * Show the form for creating a new resource.
      * @param int $id
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
@@ -22,7 +54,7 @@ class PembayaranController extends Controller
     {
         $kode_user = User::with('client')->find(Auth::id())->kode_user;
 
-        $validasi = Pembayaran::with('pin', 'pin.pengajuan', 'pin.penawaran')->find($id);
+        $validasi = Pembayaran::with('pin', 'pin.pengajuan', 'pin.penawaran', 'transaksi_pembayaran')->find($id);
 
         if ($kode_user == $validasi->pin->pengajuan->kode_client) {
 
@@ -52,7 +84,7 @@ class PembayaranController extends Controller
         $validasi = Pembayaran::with('pin', 'pin.pengajuan')->find($id);
 
         if ($kode_user == $validasi->pin->pengajuan->kode_client) {
-            if ($validasi->kode_status == "P01" || $validasi->kode_status == "P01A"){
+            if ($validasi->kode_status == "P01" || $validasi->kode_status == "P01A") {
                 if ($request->hasfile('path_transaksi')) {
                     $file = $request->file('path_transaksi');
                     $path = null;
@@ -62,8 +94,8 @@ class PembayaranController extends Controller
                         $path = "storage/images" . $path;
                     }
 
-                    if (!$request->has('note_transaksi')){
-                        $request['note_transaksi'] ="---";
+                    if (!$request->has('note_transaksi')) {
+                        $request['note_transaksi'] = "---";
                     }
 
                     $data = new Transaksi_Pembayaran();

@@ -1619,25 +1619,23 @@ __webpack_require__(/*! ../../node_modules/datatables.net-bs4/js/dataTables.boot
 
 
 window.$ = window.jQuery = (jquery__WEBPACK_IMPORTED_MODULE_0___default());
-jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
-  var hidden_tk = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#hidden_tk");
-  var hidden_cl = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#hidden_cl");
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()('select').on('change', function () {
-    console.log(this.value);
-
-    if (this.value === '1') {
-      hidden_tk.hide();
-      hidden_cl.hide();
-    } else if (this.value === '2') {
-      hidden_cl.hide();
-      hidden_tk.show();
-    } else if (this.value === '3') {
-      hidden_tk.hide();
-      hidden_cl.show();
-    }
-  });
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {// var hidden_tk = $("#hidden_tk");
+  // var hidden_cl = $("#hidden_cl");
+  // $('select').on('change', function() {
+  //     console.log(this.value);
+  //     if (this.value === '1'){
+  //         hidden_tk.hide();
+  //         hidden_cl.hide();
+  //     } else if (this.value === '2'){
+  //         hidden_cl.hide();
+  //         hidden_tk.show();
+  //     } else if (this.value === '3'){
+  //         hidden_tk.hide();
+  //         hidden_cl.show();
+  //     }
+  // });
 });
-var base_url = "http://localhost:8000";
+var base_url = "https://tukon.asia-one.co.id";
 console.log(base_url);
 
 
@@ -49795,6 +49793,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/css/show_proyek.css":
+/*!***************************************!*\
+  !*** ./resources/css/show_proyek.css ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./resources/css/wishlist.css":
 /*!************************************!*\
   !*** ./resources/css/wishlist.css ***!
@@ -74009,6 +74020,7 @@ Popper.Defaults = Defaults;
 /******/ 			"/js/app": 0,
 /******/ 			"css/app": 0,
 /******/ 			"css/wishlist": 0,
+/******/ 			"css/show_proyek": 0,
 /******/ 			"css/home_client": 0
 /******/ 		};
 /******/ 		
@@ -74057,10 +74069,11 @@ Popper.Defaults = Defaults;
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/wishlist","css/home_client"], () => (__webpack_require__("./resources/js/app.js")))
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/wishlist","css/home_client"], () => (__webpack_require__("./resources/sass/app.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/wishlist","css/home_client"], () => (__webpack_require__("./resources/css/home_client.css")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app","css/wishlist","css/home_client"], () => (__webpack_require__("./resources/css/wishlist.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/wishlist","css/show_proyek","css/home_client"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/wishlist","css/show_proyek","css/home_client"], () => (__webpack_require__("./resources/sass/app.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/wishlist","css/show_proyek","css/home_client"], () => (__webpack_require__("./resources/css/home_client.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/wishlist","css/show_proyek","css/home_client"], () => (__webpack_require__("./resources/css/show_proyek.css")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app","css/wishlist","css/show_proyek","css/home_client"], () => (__webpack_require__("./resources/css/wishlist.css")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

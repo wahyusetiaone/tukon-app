@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Tukang;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PengajuanResourceController;
+use App\Models\Pengajuan;
 use App\Models\Pin;
 use App\Models\Tukang;
-use App\Models\Tukang\Pengajuan;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -62,7 +62,7 @@ class PengajuanController extends Controller
     /**
      * Display the specified resource.
      * @param int $id
-     * @param  \App\Models\Tukang\Pengajuan  $pengajuan
+     * @param  \App\Models\Pengajuan  $pengajuan
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function show(Pengajuan $pengajuan, int $id)

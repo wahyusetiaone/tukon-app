@@ -1,0 +1,1 @@
+INSERT INTO tukon_app.b_p_a_s (id, bpa, deleted_at, created_at, updated_at) VALUES (1, 2, null, '2021-08-04 02:33:50', '2021-08-04 02:33:50');

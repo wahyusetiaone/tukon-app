@@ -3194,7 +3194,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
 
 $(document).ready(function () {
-  $("button").click(function () {
+  $("#btn_remove_wishlist").click(function () {
     var data = $(this);
 
     if (!data.hasClass("disabled")) {
@@ -3224,6 +3224,10 @@ $(document).ready(function () {
         }
       });
     }
+  });
+  $("#send_pengajuan").click(function () {
+    var data = $(this);
+    window.location = "/client/pengajuan/form/" + data.val();
   });
 });
 })();

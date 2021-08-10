@@ -62,7 +62,7 @@
                                     <div class="row">
                                         <div class="col-7">
                                             <p class="text-muted text-sm"><b>Tukang: </b> {{$ptr->name}} <br>
-                                                <b>Diskripsi: </b> {{$ptr->diskripsi}} </p>
+                                                <b>Diskripsi: </b> @if(strlen($ptr->diskripsi) < 50 ){{$ptr->diskripsi}} @else {{substr($ptr->diskripsi, 0, 50) }} ... @endif </p>
                                             <ul class="ml-4 mb-0 fa-ul text-muted">
                                                 <li class="small"><span class="fa-li"><i
                                                             class="fas fa-lg fa-building"></i></span>Alamat :
@@ -88,19 +88,25 @@
                                                         <div class="carousel-inner">
                                                             @for($i = 0; $i < sizeof($myArray); $i++)
                                                                 <div class="carousel-item @if($i == 0) active @endif ">
-                                                                    <img class="d-block w-100" style="max-width:200px;width:100%"
-                                                                         src="{{asset($myArray[$i])}}" alt="First slide">
+                                                                    <img class="d-block w-100"
+                                                                         style="max-width:200px;width:100%"
+                                                                         src="{{asset($myArray[$i])}}"
+                                                                         alt="First slide">
                                                                 </div>
                                                             @endfor
                                                         </div>
-                                                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
+                                                        <a class="carousel-control-prev" href="#carouselExampleControls"
+                                                           role="button"
                                                            data-slide="prev">
-                                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                            <span class="carousel-control-prev-icon"
+                                                                  aria-hidden="true"></span>
                                                             <span class="sr-only">Previous</span>
                                                         </a>
-                                                        <a class="carousel-control-next" href="#carouselExampleControls" role="button"
+                                                        <a class="carousel-control-next" href="#carouselExampleControls"
+                                                           role="button"
                                                            data-slide="next">
-                                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                            <span class="carousel-control-next-icon"
+                                                                  aria-hidden="true"></span>
                                                             <span class="sr-only">Next</span>
                                                         </a>
                                                     </div>
@@ -123,12 +129,18 @@
                                         <a href="#" class="btn btn-sm bg-teal">
                                             <i class="fas fa-comments"></i>
                                         </a>
-                                        <button id="add_to_wish" value="{{$ptr->kode_produk}}"
-                                                class="btn btn-sm bg-danger">
+                                        <button id="add_to_wish" name="add_to_wish" value="{{$ptr->kode_produk}}"
+                                                class="btn btn-sm bg-danger wish">
                                             <i class="fas fa-cart-plus"></i>
                                         </button>
-                                        <a href="#" class="btn btn-sm btn-primary">
+                                        <button id="send_pengajuan" name="send_pengajuan" value="{{$ptr->kode_tukang}}"
+                                                class="btn btn-sm bg-primary">
                                             <i class="fas fa-paper-plane"></i> Ajukan
+                                        </button>
+                                        <a href="{{route('show.produk.guest', $ptr->kode_produk)}}">
+                                            <button class="btn btn-sm bg-secondary">
+                                                <i class="fas fa-eye"></i> Lihat
+                                            </button>
                                         </a>
                                     </div>
                                 </div>
@@ -235,7 +247,7 @@
                                     <div class="row">
                                         <div class="col-7">
                                             <p class="text-muted text-sm"><b>Tukang: </b> {{$ptr->name}} <br>
-                                                <b>Diskripsi: </b> {{$ptr->diskripsi}} </p>
+                                                <b>Diskripsi: </b> @if(strlen($ptr->diskripsi) < 50 ){{$ptr->diskripsi}} @else {{substr($ptr->diskripsi, 0, 50) }} ... @endif </p>
                                             <ul class="ml-4 mb-0 fa-ul text-muted">
                                                 <li class="small"><span class="fa-li"><i
                                                             class="fas fa-lg fa-building"></i></span>Alamat :
@@ -261,19 +273,25 @@
                                                         <div class="carousel-inner">
                                                             @for($i = 0; $i < sizeof($myArray); $i++)
                                                                 <div class="carousel-item @if($i == 0) active @endif ">
-                                                                    <img class="d-block w-100" style="max-width:200px;width:100%"
-                                                                         src="{{asset($myArray[$i])}}" alt="First slide">
+                                                                    <img class="d-block w-100"
+                                                                         style="max-width:200px;width:100%"
+                                                                         src="{{asset($myArray[$i])}}"
+                                                                         alt="First slide">
                                                                 </div>
                                                             @endfor
                                                         </div>
-                                                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
+                                                        <a class="carousel-control-prev" href="#carouselExampleControls"
+                                                           role="button"
                                                            data-slide="prev">
-                                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                            <span class="carousel-control-prev-icon"
+                                                                  aria-hidden="true"></span>
                                                             <span class="sr-only">Previous</span>
                                                         </a>
-                                                        <a class="carousel-control-next" href="#carouselExampleControls" role="button"
+                                                        <a class="carousel-control-next" href="#carouselExampleControls"
+                                                           role="button"
                                                            data-slide="next">
-                                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                            <span class="carousel-control-next-icon"
+                                                                  aria-hidden="true"></span>
                                                             <span class="sr-only">Next</span>
                                                         </a>
                                                     </div>

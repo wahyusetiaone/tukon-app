@@ -5,7 +5,22 @@
 @endsection
 
 @section('content')
-    <br>
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Daftar Keranjang</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{route('wishlist')}}">Wishlist</a></li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
     <!-- Main content -->
     <section class="content">
 
@@ -106,11 +121,11 @@
                                 @endfor
                             </td>
                             <td class="project-actions text-right">
-                                <a class="btn btn-primary btn-sm" href="#">
+                                <button class="btn btn-primary btn-sm" id="send_pengajuan" value="{{$dat['produk']['tukang']['id']}}">
                                     <i class="fas fa-paper-plane">
                                     </i>
                                     Kirim Pengajuan
-                                </a>
+                                </button>
                                 <button class="btn btn-danger btn-sm" value="{{$dat['id']}}" id="btn_remove_wishlist">
                                     <i class="fas fa-trash">
                                     </i>

@@ -41,6 +41,7 @@ Route::group(['prefix' => 'guest', 'as' => 'guest'], function () {
 
 Route::group(['middleware' => ['auth:api', 'roles']], function () {
     Route::get('details', 'App\Http\Controllers\API\UserController@details');
+    Route::post('update', 'App\Http\Controllers\API\UserController@update');
     Route::post('upload_image', 'App\Http\Controllers\API\UserController@upload_image');
 
     Route::group(['prefix' => 'tukang', 'as' => 'tukang', 'roles' => 'tukang'], function () {
@@ -49,12 +50,25 @@ Route::group(['middleware' => ['auth:api', 'roles']], function () {
             Route::get('show/{id}', 'App\Http\Controllers\API\ProdukController@show')->name('show');
             Route::post('tambah', 'App\Http\Controllers\API\ProdukController@store')->name('tambah');
             Route::post('update', 'App\Http\Controllers\API\ProdukController@update')->name('update');
+            Route::post('add/photo/{id}', 'App\Http\Controllers\API\ProdukController@add_photo')->name('add.photo');
+            Route::post('update/photo/{id}', 'App\Http\Controllers\API\ProdukController@update_photo')->name('update.photo');
+            Route::post('delete/photo/{id}', 'App\Http\Controllers\API\ProdukController@delete_photo')->name('delete.photo');
             Route::delete('hapus/{id}', 'App\Http\Controllers\API\ProdukController@destroy')->name('hapus');
+            Route::post('search', 'App\Http\Controllers\API\ProdukController@search')->name('search');
         });
         Route::group(['prefix' => 'penawaran', 'as' => 'penawaran'], function () {
+            Route::group(['prefix' => 'offline', 'as' => 'offline'], function () {
+                Route::get('get', 'App\Http\Controllers\API\PenawaranOfflineController@index')->name('get');
+                Route::post('add', 'App\Http\Controllers\API\PenawaranOfflineController@store')->name('add');
+                Route::post('update/{id}', 'App\Http\Controllers\API\PenawaranOfflineController@update')->name('update');
+                Route::get('delete/{id}', 'App\Http\Controllers\API\PenawaranOfflineController@destroy')->name('delete');
+            });
+            Route::get('get', 'App\Http\Controllers\API\PenawaranController@index')->name('get');
+            Route::get('show/{id}', 'App\Http\Controllers\API\PenawaranController@show')->name('show');
             Route::post('add', 'App\Http\Controllers\API\PenawaranController@create')->name('add');
             Route::post('update/{id}', 'App\Http\Controllers\API\PenawaranController@update')->name('update');
             Route::delete('remove/{id}', 'App\Http\Controllers\API\PenawaranController@destroy')->name('remove');
+            Route::post('updatev2/{id}', 'App\Http\Controllers\API\PenawaranController@updatev2')->name('updatev2');
             Route::delete('komponen/remove/{id}', 'App\Http\Controllers\API\PenawaranController@destroy_komponen')->name('komponen.remove');
             Route::post('komponen/update/{id}', 'App\Http\Controllers\API\PenawaranController@update_komponen')->name('komponen.update');
         });
@@ -62,15 +76,25 @@ Route::group(['middleware' => ['auth:api', 'roles']], function () {
             Route::get('accept/{id}', 'App\Http\Controllers\API\PersetujuanController@accept_tukang')->name('accpet_tukang');
         });
         Route::group(['prefix' => 'progress', 'as' => 'progress'], function () {
-            Route::post('upload/{id_project}/{id_progress}', 'App\Http\Controllers\API\ProgressController@create')->name('upload');
+            Route::post('upload/{id}', 'App\Http\Controllers\API\ProgressController@create')->name('upload');
         });
         Route::group(['prefix' => 'project', 'as' => 'project'], function () {
+            Route::get('get', 'App\Http\Controllers\API\ProjectController@tukang_get_all_project')->name('tukang_all_project');
             Route::get('lihat/{id}', 'App\Http\Controllers\API\ProjectController@tukang_show_project')->name('tukang_show_project');
             Route::get('konfirmasi/selesai/{id}', 'App\Http\Controllers\API\ProjectController@tukang_approve')->name('client_approve');
         });
         Route::group(['prefix' => 'pengajuan', 'as' => 'pengajuan'], function () {
             Route::get('/', 'App\Http\Controllers\API\PengajuanController@pengajuan_base_tukang')->name('pengajuan_base_tukang');
             Route::get('tolak/{id}', 'App\Http\Controllers\API\PengajuanController@tolak_pengajuan')->name('tolak_pengajuan');
+        });
+        Route::group(['prefix' => 'bpa', 'as' => 'bpa'], function () {
+            Route::get('active', 'App\Http\Controllers\API\BPAController@index')->name('bpa.active');
+
+        });
+        Route::group(['prefix' => 'penarikan', 'as' => 'penarikan'], function () {
+            Route::get('get', 'App\Http\Controllers\API\PenarikanDanaController@index')->name('get');
+            Route::get('avaliable/{id}', 'App\Http\Controllers\API\PenarikanDanaController@create')->name('avaliable');
+            Route::get('ajukan/{id}/{persen}', 'App\Http\Controllers\API\PenarikanDanaController@store')->name('ajukan.penarikan.dana');
         });
     });
 
@@ -95,6 +119,8 @@ Route::group(['middleware' => ['auth:api', 'roles']], function () {
             Route::post('revisi/{id}', 'App\Http\Controllers\API\PersetujuanController@revisi_client')->name('revisi_client');
         });
         Route::group(['prefix' => 'pembayaran', 'as' => 'pembayaran'], function () {
+            Route::get('get', 'App\Http\Controllers\API\PembayaranController@index')->name('get');
+            Route::get('tagihan', 'App\Http\Controllers\API\PembayaranController@tagihan')->name('tagihan');
             Route::get('lihat/tagihan/{id}', 'App\Http\Controllers\API\PembayaranController@show')->name('lihat_tagihan');
             Route::post('upload/{id}', 'App\Http\Controllers\API\PembayaranController@create')->name('upload');
             Route::post('reupload/{id}', 'App\Http\Controllers\API\PembayaranController@create')->name('reupload');

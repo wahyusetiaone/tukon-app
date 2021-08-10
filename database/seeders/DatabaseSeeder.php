@@ -25,7 +25,9 @@ class DatabaseSeeder extends Seeder
         }
         $this->call(RoleSeeder::class);
         $this->call(KodeStatusSeeder::class);
-        $this->call(PlanProgressSeeder::class);
+        $this->call(BPASeeder::class);
+        $this->call(LimitasiPenarikanSeeder::class);
+        $this->call(PersentasePenarikanSeeder::class);
 
         Model::reguard();
 

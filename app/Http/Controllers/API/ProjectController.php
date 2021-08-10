@@ -33,6 +33,25 @@ class ProjectController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
+     */
+    public function tukang_get_all_project()
+    {
+        $kode_user = User::with('tukang')->find(Auth::id())->kode_user;
+
+        $validasi = Project::with('pembayaran', 'pembayaran.pin', 'pembayaran.pin.pengajuan', 'pembayaran.pin.pengajuan.client', 'pembayaran.pin.pengajuan.client.user', 'pembayaran.pin.penawaran')->whereHas('pembayaran.pin', function ($query){
+            $query->where('kode_tukang', Auth::id());
+        })->paginate(5);
+
+        if ($kode_user == $validasi[0]->pembayaran->pin->kode_tukang) {
+            return (new ProjectResourceController($validasi))->response()->setStatusCode(200);
+        }
+        return (new ProjectResourceController(['error' => 'Tidak ada akses untuk merubah data ini !!!']))->response()->setStatusCode(401);
+    }
+
+    /**
+     * Show the form for creating a new resource.
      * @param int $id
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
      */
@@ -40,12 +59,16 @@ class ProjectController extends Controller
     {
         $kode_user = User::with('tukang')->find(Auth::id())->kode_user;
 
-        $validasi = Project::with('pembayaran', 'pembayaran.pin', 'pembayaran.pin.pengajuan', 'pembayaran.pin.penawaran')->find($id);
+        try {
+            $validasi = Project::with('progress','progress.onprogress','progress.onprogress.doc','pembayaran', 'pembayaran.pin', 'pembayaran.pin.pengajuan', 'pembayaran.pin.penawaran', 'penarikan')->findOrFail($id);
 
-        if ($kode_user == $validasi->pembayaran->pin->kode_tukang) {
-            return (new ProjectResourceController($validasi))->response()->setStatusCode(200);
+            if ($kode_user == $validasi->pembayaran->pin->kode_tukang) {
+                return (new ProjectResourceController($validasi))->response()->setStatusCode(200);
+            }
+            return (new ProjectResourceController(['error' => 'Tidak ada akses untuk merubah data ini !!!']))->response()->setStatusCode(401);
+        }catch (ModelNotFoundException $ee){
+            return (new ProjectResourceController(['error' => 'Item tidak ditemukan !!!']))->response()->setStatusCode(401);
         }
-        return (new ProjectResourceController(['error' => 'Tidak ada akses untuk merubah data ini !!!']))->response()->setStatusCode(401);
     }
 
     /**

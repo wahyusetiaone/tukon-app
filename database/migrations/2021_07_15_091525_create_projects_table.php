@@ -16,7 +16,7 @@ class CreateProjectsTable extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('kode_pembayaran');
-            $table->double('progress')->default(0);
+            $table->double('persentase_progress')->default(0);
             $table->string('kode_status',4);
             $table->timestamps();
         });

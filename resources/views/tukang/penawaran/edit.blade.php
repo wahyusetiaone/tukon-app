@@ -401,7 +401,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <a href="{{ url()->previous() }}" class="btn btn-secondary">Batal</a>
-                                <button type="button" id="btnsubmitpenawaran" value="{{$data->id}}"
+                                <button type="button" id="btnsubmitpenawaran" value="{{$data->penawaran->id}}"
                                         class="btn btn-success float-right">Kirim Penawaran
                                 </button>
                             </div>

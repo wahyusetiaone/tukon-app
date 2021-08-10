@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Pembayaran;
+use App\Models\Progress;
 use App\Models\Project;
 use App\Models\Transaksi_Pembayaran;
 

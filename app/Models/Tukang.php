@@ -35,4 +35,7 @@ class Tukang extends Model
         return $this->hasMany(Produk::class, 'kode_tukang', 'id');
     }
 
+    public function penawaranoffline(){
+        return $this->hasMany(PenawaranOffline::class, 'tukang', 'id');
+    }
 }

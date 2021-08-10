@@ -12,6 +12,10 @@ class Komponen extends Model
     protected $fillable = [
         'nama_komponen',
         'harga',
+        'merk_type',
+        'spesifikasi_teknis',
+        'satuan',
+        'total_unit',
     ];
 
     public function penawaran(){

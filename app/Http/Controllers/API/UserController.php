@@ -111,6 +111,59 @@ class UserController extends Controller
         return (new UserResourceController($data))->response()->setStatusCode(200);
     }
 
+    public function update(Request $request)
+    {
+        $user = Auth::user();
+        $data['auth'] = $user;
+
+        if ($user->kode_role == 1) {
+            return (new UserResourceController(['error' => 'fitur ini tidak tersedia untuk admin !!!']))->response()->setStatusCode(401);
+        }
+
+
+        if ($user->kode_role == 2) {
+            $validator = Validator::make($request->all(), [
+                'name' => 'string',
+                'nomor_telepon' => 'max:12',
+                'kota' => 'string',
+                'alamat' => 'string',
+                'kode_lokasi' => 'string'
+            ]);
+
+            if ($validator->fails()) {
+                return (new UserResourceController(['error' => $validator->errors()]))->response()->setStatusCode(401);
+            }
+
+            if ($user->name != $request['name']) {
+                User::find($user->id)->update(['name' => $request['name']]);
+            }
+
+            Tukang::find($user->id)->update($request->except('name'));
+            return (new UserResourceController(['status' => true]))->response()->setStatusCode(200);
+        }
+        if ($user->kode_role == 3) {
+            $validator = Validator::make($request->all(), [
+                'name' => 'string',
+                'nomor_telepon' => 'max:12',
+                'kota' => 'string',
+                'alamat' => 'string',
+                'kode_lokasi' => 'string'
+            ]);
+
+            if ($validator->fails()) {
+                return (new UserResourceController(['error' => $validator->errors()]))->response()->setStatusCode(401);
+            }
+
+            if ($user->name != $request['name']) {
+                User::find($user->id)->update(['name' => $request['name']]);
+            }
+
+            Clients::find($user->id)->update($request->except('name'));
+            return (new UserResourceController(['status' => true]))->response()->setStatusCode(200);
+        }
+        return (new UserResourceController(['error' => 'something not working correctly']))->response()->setStatusCode(403);
+    }
+
     public function upload_image(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -122,9 +175,9 @@ class UserController extends Controller
         }
         $user = User::find(Auth::id());
         $role = $user->kode_role;
-        $id =  $user->kode_user;
+        $id = $user->kode_user;
 
-        if ($role == 1){
+        if ($role == 1) {
             return (new UserResourceController(['error' => 'fitur ini tidak tersedia untuk admin !!!']))->response()->setStatusCode(401);
         }
 
