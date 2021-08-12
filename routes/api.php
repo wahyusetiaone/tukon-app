@@ -35,7 +35,9 @@ Route::group(['prefix' => 'guest', 'as' => 'guest'], function () {
         Route::get('kode_status', 'App\Http\Controllers\API\HelperGuestController@kode_status')->name('kode_status');
         Route::get('roles', 'App\Http\Controllers\API\HelperGuestController@roles')->name('roles');
         Route::get('plan_progress', 'App\Http\Controllers\API\HelperGuestController@plan_progress')->name('plan_progress');
-
+    });
+    Route::group(['prefix' => 'autocomplete', 'as' => 'autocomplete'], function () {
+        Route::get('/{query}', 'App\Http\Controllers\API\AutoCompleteController@autocompleteproductwithnameoftukang')->name('autocompleteproductwithnameoftukang');
     });
 });
 
@@ -93,6 +95,7 @@ Route::group(['middleware' => ['auth:api', 'roles']], function () {
         });
         Route::group(['prefix' => 'penarikan', 'as' => 'penarikan'], function () {
             Route::get('get', 'App\Http\Controllers\API\PenarikanDanaController@index')->name('get');
+            Route::get('get/{id}', 'App\Http\Controllers\API\PenarikanDanaController@indexTukang')->name('get');
             Route::get('avaliable/{id}', 'App\Http\Controllers\API\PenarikanDanaController@create')->name('avaliable');
             Route::get('ajukan/{id}/{persen}', 'App\Http\Controllers\API\PenarikanDanaController@store')->name('ajukan.penarikan.dana');
         });
@@ -125,12 +128,15 @@ Route::group(['middleware' => ['auth:api', 'roles']], function () {
             Route::post('upload/{id}', 'App\Http\Controllers\API\PembayaranController@create')->name('upload');
             Route::post('reupload/{id}', 'App\Http\Controllers\API\PembayaranController@create')->name('reupload');
         });
-
         Route::group(['prefix' => 'project', 'as' => 'project'], function () {
             Route::get('lihat/{id}', 'App\Http\Controllers\API\ProjectController@client_show_project')->name('client_show_project');
             Route::get('konfirmasi/selesai/{id}', 'App\Http\Controllers\API\ProjectController@client_approve')->name('client_approve');
         });
-
+        Route::group(['prefix' => 'penarikan', 'as' => 'penarikan'], function () {
+            Route::get('get/{id}', 'App\Http\Controllers\API\PenarikanDanaController@indexClient')->name('get');
+            Route::get('terima/{id}/{transaksi}', 'App\Http\Controllers\API\PenarikanDanaController@terima')->name('terima');
+            Route::get('tolak/{id}/{transaksi}', 'App\Http\Controllers\API\PenarikanDanaController@tolak')->name('tolak');
+        });
     });
 
     if (env('DEV_MODE', true)) {

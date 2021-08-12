@@ -28,8 +28,8 @@ class PenarikanDana extends Model
         return $this->hasOne(Limitasi_Penarikan::class, 'id','kode_limitasi');
     }
 
-    public function history_penarikan()
+    public function transaksi_penarikan()
     {
-        return $this->hasMany(History_Penarikan::class, 'id', 'kode_penarikan');
+        return $this->hasMany(Transaksi_Penarikan::class, 'kode_penarikan', 'id');
     }
 }

@@ -5,15 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class History_Penarikan extends Model
+class Transaksi_Penarikan extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'kode_penarikan',
+        'kode_persentase_penarikan',
+        'penarikan',
+        'kode_status'
+    ];
 
     public function penarikan(){
         return $this->belongsTo(PenarikanDana::class, 'kode_penarikan','id');
     }
 
     public function persentase(){
-        return $this->hasOne(Persentase_Penarikan::class, '','kode_persentase_penarikan');
+        return $this->hasOne(Persentase_Penarikan::class, 'id','kode_persentase_penarikan');
     }
 }

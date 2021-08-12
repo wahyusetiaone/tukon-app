@@ -35,6 +35,12 @@
             </a>
         </li>
         <li class="nav-item">
+            <a href="{{ route('penawaran.offline') }}" class="nav-link {{ (request()->segment(1) == 'penawaran-offline') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-download"></i>
+                <p>Penawaran Offline</p>
+            </a>
+        </li>
+        <li class="nav-item">
             <a href="{{ route('projek') }}" class="nav-link {{ (request()->segment(1) == 'projek') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-building"></i>
                 <p>Projek</p>

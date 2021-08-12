@@ -37,7 +37,7 @@ class BerandaController extends Controller
        produks.updated_at as produk_updated'))
             ->join('tukangs', 'produks.kode_tukang', '=', 'tukangs.id')
             ->join('users', 'tukangs.id', '=', 'users.kode_user')
-            ->orderBy('produk_created', 'asc')->take(8)->get();
+            ->orderBy('produk_created', 'asc')->take(5)->get();
 
         $data['produk'] = DB::table('produks')
             ->select(DB::raw('users.name,
@@ -59,7 +59,7 @@ class BerandaController extends Controller
        produks.created_at as produk_created,
        produks.updated_at as produk_updated'))
             ->join('tukangs', 'produks.kode_tukang', '=', 'tukangs.id')
-            ->join('users', 'tukangs.id', '=', 'users.kode_user')->inRandomOrder()->take(8)->get();
+            ->join('users', 'tukangs.id', '=', 'users.kode_user')->inRandomOrder()->take(5)->get();
 
         $data['top_tukang'] = DB::table('tukangs')
             ->select(DB::raw('users.name,
@@ -69,9 +69,10 @@ class BerandaController extends Controller
        tukangs.alamat as alamat,
        tukangs.kode_lokasi as kode_lokasi,
        tukangs.path_icon as path_icon,
+       tukangs.rate as rate,
        tukangs.created_at as tukang_created,
        tukangs.updated_at as tukang_updated'))
-            ->join('users', 'tukangs.id', '=', 'users.kode_user')->take(8)->get();
+            ->join('users', 'tukangs.id', '=', 'users.kode_user')->take(5)->get();
 
         $data['tukang'] = DB::table('tukangs')
             ->select(DB::raw('users.name,
@@ -83,7 +84,7 @@ class BerandaController extends Controller
        tukangs.path_icon as path_icon,
        tukangs.created_at as tukang_created,
        tukangs.updated_at as tukang_updated'))
-            ->join('users', 'tukangs.id', '=', 'users.kode_user')->take(8)->get();
+            ->join('users', 'tukangs.id', '=', 'users.kode_user')->take(5)->get();
 
         return (new BerandaResourceController($data))->response()->setStatusCode(200);
     }
@@ -116,7 +117,7 @@ class BerandaController extends Controller
        produks.updated_at as produk_updated'))
             ->join('tukangs', 'produks.kode_tukang', '=', 'tukangs.id')
             ->join('users', 'tukangs.id', '=', 'users.kode_user')
-            ->orderBy('produk_created', 'asc')->paginate(10);
+            ->orderBy('produk_created', 'asc')->paginate(5);
 
         return (new BerandaResourceController($data))->response()->setStatusCode(200);
     }
@@ -171,10 +172,11 @@ class BerandaController extends Controller
        tukangs.alamat as alamat,
        tukangs.kode_lokasi as kode_lokasi,
        tukangs.path_icon as path_icon,
+       tukangs.rate as rate,
        tukangs.created_at as tukang_created,
        tukangs.updated_at as tukang_updated'))
             ->join('users', 'tukangs.id', '=', 'users.kode_user')
-            ->paginate(10);
+            ->paginate(5);
         return (new BerandaResourceController($data))->response()->setStatusCode(200);
     }
 

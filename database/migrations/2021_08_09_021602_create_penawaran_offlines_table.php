@@ -19,6 +19,7 @@ class CreatePenawaranOfflinesTable extends Migration
             $table->string('nama_client', 50)->nullable();
             $table->string('email_client', 50);
             $table->string('nomor_telepon_client', 50);
+            $table->string('kota_client',50);
             $table->string('alamat_client',255);
             $table->string('nama_proyek',100);
             $table->text('diskripsi_proyek');

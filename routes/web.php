@@ -104,6 +104,18 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
             Route::post('store', [App\Http\Controllers\Tukang\PenawaranController::class, 'store'])->name('store.penawaran.json');
             Route::post('update/{id}', [App\Http\Controllers\Tukang\PenawaranController::class, 'update'])->name('update.penawaran.json');
         });
+        Route::group(['prefix' => 'penawaran-offline'], function () {
+            Route::get('/', [App\Http\Controllers\Tukang\PenawaranOfflineController::class, 'index'])->name('penawaran.offline');
+            Route::get('json', [App\Http\Controllers\Tukang\PenawaranOfflineController::class, 'json'])->name('data.penawaran.offline.json');
+            Route::get('add', [App\Http\Controllers\Tukang\PenawaranOfflineController::class, 'create'])->name('data.penawaran.offline.create');
+            Route::post('store', [App\Http\Controllers\Tukang\PenawaranOfflineController::class, 'store'])->name('data.penawaran.offline.store');
+            Route::get('show/{id}', [App\Http\Controllers\Tukang\PenawaranOfflineController::class, 'show'])->name('data.penawaran.offline.show');
+            Route::get('edit/{id}', [App\Http\Controllers\Tukang\PenawaranOfflineController::class, 'edit'])->name('data.penawaran.offline.edit');
+            Route::post('update/client/{id}', [App\Http\Controllers\Tukang\PenawaranOfflineController::class, 'update_client'])->name('data.penawaran.offline.update_client');
+            Route::post('update/proyek/{id}', [App\Http\Controllers\Tukang\PenawaranOfflineController::class, 'update_proyek'])->name('data.penawaran.offline.update_proyek');
+            Route::post('update/{id}', [App\Http\Controllers\Tukang\PenawaranOfflineController::class, 'update'])->name('data.penawaran.offline.update');
+        });
+
         Route::group(['prefix' => 'persetujuan'], function () {
             Route::get('/t/{id}', [App\Http\Controllers\Tukang\PersetujuanController::class, 'index'])->name('persetujuan');
         });

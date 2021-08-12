@@ -14,6 +14,7 @@ class PenawaranOffline extends Model
         'nama_client',
         'email_client',
         'nomor_telepon_client',
+        'kota_client',
         'alamat_client',
         'nama_proyek',
         'diskripsi_proyek',

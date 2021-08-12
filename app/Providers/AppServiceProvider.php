@@ -11,6 +11,7 @@ use App\Models\Project;
 use App\Models\Rate;
 use App\Models\Revisi;
 use App\Models\Transaksi_Pembayaran;
+use App\Models\Transaksi_Penarikan;
 use App\Models\User;
 use App\Models\VoteRate;
 use App\Observers\DocumentationProgressObserver;
@@ -23,6 +24,7 @@ use App\Observers\ProjectObserver;
 use App\Observers\RateObserver;
 use App\Observers\RevisiObserver;
 use App\Observers\TransaksiPembayaranObserver;
+use App\Observers\TransaksiPenarikanDanaObserver;
 use App\Observers\UserObserver;
 use App\Observers\VoteRateObserver;
 use Illuminate\Support\ServiceProvider;
@@ -57,5 +59,6 @@ class AppServiceProvider extends ServiceProvider
         Revisi::observe(RevisiObserver::class);
         OnProgress::observe(OnProgressObserver::class);
         DocumentationProgress::observe(DocumentationProgressObserver::class);
+        Transaksi_Penarikan::observe(TransaksiPenarikanDanaObserver::class);
     }
 }

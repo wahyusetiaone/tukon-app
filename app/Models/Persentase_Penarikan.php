@@ -10,6 +10,6 @@ class Persentase_Penarikan extends Model
     use HasFactory;
 
     public function history_penarikan(){
-        return $this->belongsTo(History_Penarikan::class, 'id','kode_persentase_penarikan');
+        return $this->belongsTo(Transaksi_Penarikan::class, 'id','kode_persentase_penarikan');
     }
 }

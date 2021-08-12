@@ -28,6 +28,9 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/add_penawaran_by_pengajuan.js', 'public/js')
     .js('resources/js/edit_penawaran.js', 'public/js')
     .js('resources/js/show_project.js', 'public/js')
+    .js('resources/js/all_penawaran_offline.js', 'public/js')
+    .js('resources/js/edit_penawaran_offline.js', 'public/js')
+    .js('resources/js/add_penawaran_offline.js', 'public/js')
 
     //client
     .js('resources/js/form_pengajuan.js', 'public/js')

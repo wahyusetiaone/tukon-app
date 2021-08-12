@@ -13,12 +13,12 @@ class CreateHistoryPenarikansTable extends Migration
      */
     public function up()
     {
-        Schema::create('history__penarikans', function (Blueprint $table) {
+        Schema::create('transaksi__penarikans', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('kode_penariakan');
+            $table->bigInteger('kode_penarikan');
             $table->bigInteger('kode_persentase_penarikan');
             $table->bigInteger('penarikan');
-            $table->bigInteger('kode_status');
+            $table->string('kode_status',4);
             $table->timestamps();
         });
     }
