@@ -76,7 +76,7 @@ class PenarikanDanaController extends Controller
     public function create(int $id)
     {
         try {
-            $penarikan = PenarikanDana::with('project', 'limitasi')->whereHas('project.pembayaran.pin', function ($query) {
+            $penarikan = PenarikanDana::with('project', 'limitasi_penarikan')->whereHas('project.pembayaran.pin', function ($query) {
                 $query->where('kode_tukang', Auth::id());
             })->where('id', $id)->first();
             if (!isset($penarikan)) {
@@ -170,7 +170,7 @@ class PenarikanDanaController extends Controller
 
                 return (new PenarikanDanaResourceController(['success' => 'Oke']))->response()->setStatusCode(200);
             }
-            return (new PenarikanDanaResourceController(['error' => 'Anda tidak dapat mencairkan sebesar ' . $persen . '% dikarenakan limit anda saat ini adalah ' . $penarikan->limitasi->value . '% !!!']))->response()->setStatusCode(200);
+            return (new PenarikanDanaResourceController(['error' => 'Anda tidak dapat mencairkan sebesar ' . $persen . '% dikarenakan limit anda saat ini adalah ' . $penarikan->limitasi_penarikan->value . '% !!!']))->response()->setStatusCode(200);
         } catch (ModelNotFoundException $ee) {
             return (new PenarikanDanaResourceController(['error' => 'Item tidak ditemukan.']))->response()->setStatusCode(401);
         }
@@ -207,7 +207,7 @@ class PenarikanDanaController extends Controller
      */
     public function terima(int $id, int $transaksi)
     {
-        $penarikan = PenarikanDana::with('project', 'limitasi')->whereHas('project.pembayaran.pin.pengajuan', function ($query) {
+        $penarikan = PenarikanDana::with('project', 'limitasi_penarikan')->whereHas('project.pembayaran.pin.pengajuan', function ($query) {
             $query->where('kode_client', Auth::id());
         })->where('id', $id)->exists();
 
@@ -242,7 +242,7 @@ class PenarikanDanaController extends Controller
      */
     public function tolak(int $id, int $transaksi)
     {
-        $penarikan = PenarikanDana::with('project', 'limitasi')->whereHas('project.pembayaran.pin.pengajuan', function ($query) {
+        $penarikan = PenarikanDana::with('project', 'limitasi_penarikan')->whereHas('project.pembayaran.pin.pengajuan', function ($query) {
             $query->where('kode_client', Auth::id());
         })->where('id', $id)->exists();
 

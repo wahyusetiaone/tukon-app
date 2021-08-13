@@ -38,4 +38,12 @@ class Tukang extends Model
     public function penawaranoffline(){
         return $this->hasMany(PenawaranOffline::class, 'tukang', 'id');
     }
+
+    public function rating(){
+        return $this->hasMany(Rate::class, 'kode_tukang', 'id')->orderBy('value_rate', 'desc');
+    }
+
+    public function voterate(){
+        return $this->hasMany(VoteRate::class, 'kode_tukang', 'id');
+    }
 }

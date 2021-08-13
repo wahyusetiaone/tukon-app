@@ -23,6 +23,7 @@ Route::post('register', 'App\Http\Controllers\API\UserController@register');
 Route::group(['prefix' => 'guest', 'as' => 'guest'], function () {
     Route::get('beranda', 'App\Http\Controllers\API\BerandaController@index')->name('beranda');
     Route::get('new_product', 'App\Http\Controllers\API\BerandaController@new_product')->name('produk.terbaru');
+    Route::get('new_productv2', 'App\Http\Controllers\API\BerandaController@new_productv2')->name('produk.terbaruv2');
     Route::get('top_tukang', 'App\Http\Controllers\API\BerandaController@top_tukang')->name('top.tukang');
     Route::get('location/{location}', 'App\Http\Controllers\API\BerandaController@filter_by_location')->name('by.location');
     Route::group(['prefix' => 'search', 'as' => 'search'], function () {
@@ -38,6 +39,15 @@ Route::group(['prefix' => 'guest', 'as' => 'guest'], function () {
     });
     Route::group(['prefix' => 'autocomplete', 'as' => 'autocomplete'], function () {
         Route::get('/{query}', 'App\Http\Controllers\API\AutoCompleteController@autocompleteproductwithnameoftukang')->name('autocompleteproductwithnameoftukang');
+    });
+    Route::group(['prefix' => 'tukang', 'as' => 'tukang'], function () {
+        Route::get('all', 'App\Http\Controllers\API\TukangController@getAllTukang')->name('get.all.tukang');
+        Route::get('details/{id}', 'App\Http\Controllers\API\TukangController@show')->name('show.tukang');
+    });
+    Route::group(['prefix' => 'produk', 'as' => 'produk'], function () {
+        Route::get('all', 'App\Http\Controllers\API\ProdukController@getAllProduk')->name('get.all.produk');
+        Route::get('all-by-tukang/{id}', 'App\Http\Controllers\API\ProdukController@getAllProdukByTukang')->name('get.all.produk.by.tukang');
+        Route::get('details-t/{id}', 'App\Http\Controllers\API\ProdukController@getDetailsProdukWTukang')->name('details.produk.w.tukang');
     });
 });
 

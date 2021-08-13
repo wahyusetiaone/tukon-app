@@ -13,4 +13,8 @@ class VoteRate extends Model
         'kode_tukang',
         'value'
     ];
+
+    public function tukang(){
+        return $this->belongsTo(Tukang::class, 'kode_tukang','id');
+    }
 }

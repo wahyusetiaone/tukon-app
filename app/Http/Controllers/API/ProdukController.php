@@ -8,6 +8,7 @@ use App\Http\Resources\UserResourceController;
 use App\Models\Produk;
 use App\Models\Tukang;
 use App\Models\User;
+use App\Models\VoteRate;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -360,5 +361,46 @@ class ProdukController extends Controller
         } catch (ModelNotFoundException $ee) {
             return (new ProdukResourceController(['error' => 'Tidak ditemukan di server !!!']))->response()->setStatusCode(401);
         }
+    }
+
+    //CLIENT
+    /**
+     * Update the specified resource in storage.
+     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
+     */
+    public function getAllProduk()
+    {
+        $data = Produk::paginate(10);
+
+        return (new ProdukResourceController(['data' => $data]))->response()->setStatusCode(200);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
+     */
+    public function getAllProdukByTukang(int $id)
+    {
+        $data = Produk::where('kode_tukang', $id)->paginate(10);
+
+        return (new ProdukResourceController(['data' => $data]))->response()->setStatusCode(200);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
+     */
+    public function getDetailsProdukWTukang(int $id)
+    {
+        $data = Produk::with(['tukang.user' => function ($query){
+            $query->select('kode_user', 'name');
+        }])->with('tukang.voterate')->with('tukang.rating')->where('id', $id)->first();
+        $data['tukang']['voterate_count'] = VoteRate::where('kode_tukang',$data->tukang->id)->count();
+        return (new ProdukResourceController(['data' => $data]))->response()->setStatusCode(200);
     }
 }

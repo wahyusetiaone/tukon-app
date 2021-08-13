@@ -57,82 +57,159 @@
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <h4>Recent Activity</h4>
-                                <div class="post">
-                                    <div class="user-block">
-                                        <img class="img-circle img-bordered-sm"
-                                             src="https://upload.wikimedia.org/wikipedia/commons/a/ae/RYB.png"
-                                             alt="user image">
-                                        <span class="username">
+                                <br>
+                                <div class="post clearfix">
+                                    <ul class="nav nav-pills">
+                                        <li class="nav-item"><a class="nav-link active" href="#activity"
+                                                                data-toggle="tab">Activity</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Penarikan
+                                                Dana</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="tab-content">
+                                    <div class="active tab-pane" id="activity">
+                                        <div class="post">
+                                            <div class="user-block">
+                                                <img class="img-circle img-bordered-sm"
+                                                     src="https://upload.wikimedia.org/wikipedia/commons/a/ae/RYB.png"
+                                                     alt="user image">
+                                                <span class="username">
                                             Pengajuan.
                                         </span>
-                                        <span
-                                            class="description">Dipublikasikan - {{indonesiaDate($data->pembayaran->pin->pengajuan->created_at)}}</span>
-                                    </div>
-                                    <!-- /.user-block -->
-                                    <p>
-                                        {{$data->pembayaran->pin->pengajuan->diskripsi_proyek}}
-                                    </p>
+                                                <span
+                                                    class="description">Dipublikasikan - {{indonesiaDate($data->pembayaran->pin->pengajuan->created_at)}}</span>
+                                            </div>
+                                            <!-- /.user-block -->
+                                            <p>
+                                                {{$data->pembayaran->pin->pengajuan->diskripsi_proyek}}
+                                            </p>
 
-                                    <p>
-                                        <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Lihat
-                                            Blueprint</a>
-                                    </p>
-                                </div>
+                                            <p>
+                                                <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i>
+                                                    Lihat
+                                                    Blueprint</a>
+                                            </p>
+                                        </div>
 
-                                <div class="post clearfix">
-                                    <div class="user-block">
-                                        <img class="img-circle img-bordered-sm"
-                                             src="https://upload.wikimedia.org/wikipedia/commons/a/ae/RYB.png"
-                                             alt="User Image">
-                                        <span class="username">
+                                        <div class="post clearfix">
+                                            <div class="user-block">
+                                                <img class="img-circle img-bordered-sm"
+                                                     src="https://upload.wikimedia.org/wikipedia/commons/a/ae/RYB.png"
+                                                     alt="User Image">
+                                                <span class="username">
                                             Penawaran
                                         </span>
-                                        <span
-                                            class="description">Disetujui - {{indonesiaDate($data->pembayaran->pin->penawaran->created_at)}}</span>
-                                    </div>
-                                    <!-- /.user-block -->
-                                    <p> Komponen yang di ajukan :
-                                        @foreach($data->pembayaran->pin->penawaran->komponen as $item)
-                                            {{$item->nama_komponen}},
-                                        @endforeach
-                                    </p>
-                                    <p>
-                                        <a href="#" class="link text-sm"><i class="fas fa-link mr-1"></i> Lihat
-                                            Penawaran</a>
-                                    </p>
-                                </div>
+                                                <span
+                                                    class="description">Disetujui - {{indonesiaDate($data->pembayaran->pin->penawaran->created_at)}}</span>
+                                            </div>
+                                            <!-- /.user-block -->
+                                            <p> Komponen yang di ajukan :
+                                                @foreach($data->pembayaran->pin->penawaran->komponen as $item)
+                                                    {{$item->nama_komponen}},
+                                                @endforeach
+                                            </p>
+                                            <p>
+                                                <a href="#" class="link text-sm"><i class="fas fa-link mr-1"></i> Lihat
+                                                    Penawaran</a>
+                                            </p>
+                                        </div>
 
-                                <div class="post">
-                                    <div class="user-block">
-                                        <img class="img-circle img-bordered-sm"
-                                             src="https://upload.wikimedia.org/wikipedia/commons/a/ae/RYB.png"
-                                             alt="user image">
-                                        <span class="username">
+                                        <div class="post">
+                                            <div class="user-block">
+                                                <img class="img-circle img-bordered-sm"
+                                                     src="https://upload.wikimedia.org/wikipedia/commons/a/ae/RYB.png"
+                                                     alt="user image">
+                                                <span class="username">
                                             Pembayaran.
                                         </span>
-                                        <span
-                                            class="description">Dibayar pada {{indonesiaDate($data->pembayaran->transaksi_pembayaran[0]->created_at)}}</span>
-                                    </div>
-                                    <!-- /.user-block -->
-                                    <p>
-                                        Pembayaran dilakukan secara manual.
-                                    </p>
+                                                <span
+                                                    class="description">Dibayar pada {{indonesiaDate($data->pembayaran->transaksi_pembayaran[0]->created_at)}}</span>
+                                            </div>
+                                            <!-- /.user-block -->
+                                            <p>
+                                                Pembayaran dilakukan secara manual.
+                                            </p>
 
-                                    <p>
-                                        <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Lihat
-                                            Bukti Struk Pembayaran</a>
-                                    </p>
+                                            <p>
+                                                <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i>
+                                                    Lihat
+                                                    Bukti Struk Pembayaran</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="timeline">
+
+                                        @if(isset($data->penarikan->transaksi_penarikan))
+                                            @foreach($data->penarikan->transaksi_penarikan as $item)
+                                                <div class="post clearfix">
+                                                    <div class="user-block">
+                                                        <img class="img-circle img-bordered-sm"
+                                                             src="https://upload.wikimedia.org/wikipedia/commons/a/ae/RYB.png"
+                                                             alt="User Image">
+                                                        <span class="username">
+                                                    Penarikan Sebesar {{indonesiaRupiah($item->penarikan)}}
+                                                </span>
+                                                        <span class="description">
+                                                        @if($item->kode_status == "PN01")
+                                                                Diajukan - {{indonesiaDate($item->created_at)}}
+                                                            @elseif($item->kode_status == "PN02")
+                                                                Ditolak - {{indonesiaDate($item->updated_at)}}
+                                                            @elseif($item->kode_status == "PN03")
+                                                                Disetujui - {{indonesiaDate($item->updated_at)}}
+                                                            @elseif($item->kode_status == "PN03")
+                                                                Diajukan ke admin - {{indonesiaDate($item->updated_at)}}
+                                                            @elseif($item->kode_status == "PN03")
+                                                                Dicairkan - {{indonesiaDate($item->updated_at)}}
+                                                            @endif
+                                                    </span>
+                                                    </div>
+                                                    <!-- /.user-block -->
+                                                    @if($item->kode_status == "PN01")
+                                                        <p>
+                                                            Menuggu konfirmasi anda !!!
+                                                        </p>
+                                                    @elseif($item->kode_status == "PN02")
+                                                        <p>
+                                                            Anda Menolak penarikan ini.
+                                                        </p>
+                                                    @elseif($item->kode_status == "PN03")
+                                                        <p>
+                                                            Anda Menyetujui penarikan ini.
+                                                        </p>
+                                                    @elseif($item->kode_status == "PN04")
+                                                        <p>
+                                                            Penarikan ini sedang di proses admin.
+                                                        </p>
+                                                    @elseif($item->kode_status == "PN05")
+                                                        Dicairkan - {{indonesiaDate($item->updated_at)}}
+                                                    @endif
+                                                    <p>
+                                                        <a href="#" class="link text-sm"><i class="fas fa-link mr-1"></i>
+                                                            Lihat
+                                                            Penawaran</a>
+                                                    </p>
+                                                </div>
+                                            @endforeach
+                                        @else
+                                            <p class="text-center">Tidak ada data.</p>
+                                        @endif
+                                    </div>
                                 </div>
                                 <div class="text-center mt-5 mb-3">
                                     @if($data->kode_status == 'ON04')
-                                        <button value="{{$data->id}}" id="btnKonfirmasiSelesaiProyek" class="btn btn-info"
+                                        <button value="{{$data->id}}" id="btnKonfirmasiSelesaiProyek"
+                                                class="btn btn-info"
                                                 class="btn btn-sm btn-primary">Konfirmasi Selesai Proyek.
                                         </button>
                                     @elseif($data->kode_status == "ON03")
-                                        <button value="{{$data->id}}" id="btnKonfirmasiSelesaiProyek" class="btn btn-sm btn-success disabled">Proyek dibatalkan</button>
+                                        <button value="{{$data->id}}" id="btnKonfirmasiSelesaiProyek"
+                                                class="btn btn-sm btn-success disabled">Proyek dibatalkan
+                                        </button>
                                     @elseif($data->kode_status == "ON05")
-                                        <button value="{{$data->id}}" id="btnKonfirmasiSelesaiProyek" class="btn btn-sm btn-success disabled">Proyek Telah Selesai</button>
+                                        <button value="{{$data->id}}" id="btnKonfirmasiSelesaiProyek"
+                                                class="btn btn-sm btn-success disabled">Proyek Telah Selesai
+                                        </button>
                                     @endif
                                 </div>
                             </div>
@@ -172,10 +249,12 @@
                                                 <div>
                                                     <i class="fa fa-camera bg-purple"></i>
                                                     <div class="timeline-item">
-                                                                                                            <span class="time"><i class="fas fa-clock"></i> 2 days ago</span>
-                                                                                                            <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new
-                                                                                                                photos
-                                                                                                            </h3>
+                                                        <span class="time"><i
+                                                                class="fas fa-clock"></i> 2 days ago</span>
+                                                        <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded
+                                                            new
+                                                            photos
+                                                        </h3>
                                                         <div class="timeline-body">
                                                             <img src="{{asset($doc->path)}}" width="200px"
                                                                  height="140px" alt="...">
@@ -200,5 +279,5 @@
     <!-- /.content -->
 @endsection
 @push('page_scripts')
-        <script src="{{ asset('js/show_project_client.js') }}" defer></script>
+    <script src="{{ asset('js/show_project_client.js') }}" defer></script>
 @endpush

@@ -119,7 +119,6 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
         Route::group(['prefix' => 'persetujuan'], function () {
             Route::get('/t/{id}', [App\Http\Controllers\Tukang\PersetujuanController::class, 'index'])->name('persetujuan');
         });
-        //TODO::on progress perubahan
         Route::group(['prefix' => 'projek'], function () {
             Route::get('/', [App\Http\Controllers\Tukang\ProjekController::class, 'index'])->name('projek');
             Route::get('json', [App\Http\Controllers\Tukang\ProjekController::class, 'json'])->name('data.projek.json');
@@ -133,6 +132,13 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
         Route::group(['prefix' => 'progress'], function () {
             Route::get('form/{id}', [App\Http\Controllers\Tukang\ProgressController::class, 'create'])->name('form.upload.progress');
             Route::post('upload/{id}', [App\Http\Controllers\Tukang\ProgressController::class, 'store'])->name('upload.progress');
+        });
+        Route::group(['prefix' => 'penarikan-dana'], function () {
+            Route::get('/', [App\Http\Controllers\Tukang\PenarikanDanaController::class, 'index'])->name('penarikan.dana');
+            Route::get('json', [App\Http\Controllers\Tukang\PenarikanDanaController::class, 'json'])->name('data.penarikan.dana.json');
+            Route::get('show/{id}', [App\Http\Controllers\Tukang\PenarikanDanaController::class, 'show'])->name('show.penarikan.dana');
+            Route::get('konfirmasi/{id}/{persen}', [App\Http\Controllers\Tukang\PenarikanDanaController::class, 'konfirmasi'])->name('konfirmasi.penarikan.dana');
+            Route::post('store/{id}/{persen}', [App\Http\Controllers\Tukang\PenarikanDanaController::class, 'store'])->name('store.penarikan.dana');
         });
         //TODO::masih sama sama penawaran
         Route::group(['prefix' => 'history'], function () {

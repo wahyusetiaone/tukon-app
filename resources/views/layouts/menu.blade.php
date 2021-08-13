@@ -47,6 +47,12 @@
             </a>
         </li>
         <li class="nav-item">
+            <a href="{{ route('penarikan.dana') }}" class="nav-link {{ (request()->segment(1) == 'penarikan-dana') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-credit-card"></i>
+                <p>Penarikan Dana</p>
+            </a>
+        </li>
+        <li class="nav-item">
             <a href="{{ route('history') }}" class="nav-link {{ (request()->segment(1) == 'history') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-history"></i>
                 <p>Riwayat Projek</p>

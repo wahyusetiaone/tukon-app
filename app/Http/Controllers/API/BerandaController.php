@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BerandaResourceController;
+use App\Models\Produk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -294,5 +295,17 @@ class BerandaController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
+     */
+    public function new_productv2()
+    {
+        $data = Produk::with('tukang.rate','tukang.user')->orderBy('created_at', 'desc')->paginate(5);
+
+        return (new BerandaResourceController($data))->response()->setStatusCode(200);
     }
 }

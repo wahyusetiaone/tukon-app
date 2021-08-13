@@ -16,6 +16,7 @@
     "/js/all_penawaran_offline.js": "/js/all_penawaran_offline.js",
     "/js/edit_penawaran_offline.js": "/js/edit_penawaran_offline.js",
     "/js/add_penawaran_offline.js": "/js/add_penawaran_offline.js",
+    "/js/all_penarikan_dana.js": "/js/all_penarikan_dana.js",
     "/js/form_pengajuan.js": "/js/form_pengajuan.js",
     "/js/show_pengajuan_client.js": "/js/show_pengajuan_client.js",
     "/js/show_produk_client.js": "/js/show_produk_client.js",
