@@ -3186,36 +3186,34 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
-/*!**********************************!*\
-  !*** ./resources/js/wishlist.js ***!
-  \**********************************/
+/*!******************************************!*\
+  !*** ./resources/js/all_produk_guest.js ***!
+  \******************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
 
 $(document).ready(function () {
-  $('button[name="btn_remove_wishlist"]').click(function () {
+  $('button[name="add_to_wish"]').click(function () {
     var data = $(this);
 
     if (!data.hasClass("disabled")) {
       sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
-        title: 'Apakah kamu yakin ?',
-        text: "Kamu akan menghapus item ini dari wishlist mu !",
-        icon: 'warning',
+        icon: 'question',
+        text: 'Apakah kamu ingin menambahkan di wishlist mu?',
         showCancelButton: true,
-        confirmButtonText: 'Hapus',
         cancelButtonText: 'Batal',
-        reverseButtons: true,
-        confirmButtonColor: '#F44336'
+        confirmButtonText: 'Ya',
+        confirmButtonColor: '#2196F3'
       }).then(function (result) {
         if (result.isConfirmed) {
           $.ajax({
-            url: "/client/wishlist/remove/" + data.val(),
+            url: "/client/wishlist/add/" + data.val(),
             type: "get",
             success: function success(response) {
-              sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Terhapus!', 'Item telah terhapus.', 'success').then(function (response) {
-                window.location.reload();
-              });
+              data.removeClass("bg-failure");
+              data.addClass("bg-secondary");
+              data.addClass("disabled");
             },
             error: function error(jqXHR, textStatus, errorThrown) {
               console.log(textStatus, errorThrown);

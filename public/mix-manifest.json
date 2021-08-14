@@ -1,6 +1,7 @@
 {
     "/js/app.js": "/js/app.js",
     "/js/search.js": "/js/search.js",
+    "/js/all_produk_guest.js": "/js/all_produk_guest.js",
     "/js/all_produk.js": "/js/all_produk.js",
     "/js/show_produk.js": "/js/show_produk.js",
     "/js/add_produk.js": "/js/add_produk.js",

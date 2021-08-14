@@ -17,7 +17,9 @@ class TukangController extends Controller
      */
     public function getAllTukang()
     {
-        $data = Tukang::paginate(10);
+        $data = Tukang::with(['user' => function($q){
+            $q->select('kode_user', 'name', 'email');
+        }])->paginate(10);
 
         return (new TukangResourceController(['data' => $data]))->response()->setStatusCode(200);
     }

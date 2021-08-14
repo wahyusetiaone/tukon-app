@@ -133,6 +133,7 @@ class BerandaController extends Controller
         $data = DB::table('produks')
             ->select(DB::raw('users.name,
        tukangs.id as kode_tukang,
+       users.name as nama_tukang,
        tukangs.nomor_telepon as nomor_telepon,
        tukangs.kota as kota,
        tukangs.alamat as alamat,

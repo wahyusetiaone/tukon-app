@@ -62,7 +62,8 @@
                                     <div class="row">
                                         <div class="col-7">
                                             <p class="text-muted text-sm"><b>Tukang: </b> {{$ptr->name}} <br>
-                                                <b>Diskripsi: </b> @if(strlen($ptr->diskripsi) < 50 ){{$ptr->diskripsi}} @else {{substr($ptr->diskripsi, 0, 50) }} ... @endif </p>
+                                                <b>Diskripsi: </b> @if(strlen($ptr->diskripsi) < 50 ){{$ptr->diskripsi}} @else {{substr($ptr->diskripsi, 0, 50) }}
+                                                ... @endif </p>
                                             <ul class="ml-4 mb-0 fa-ul text-muted">
                                                 <li class="small"><span class="fa-li"><i
                                                             class="fas fa-lg fa-building"></i></span>Alamat :
@@ -126,7 +127,8 @@
                                 </div>
                                 <div class="card-footer">
                                     <div class="text-right">
-                                        <a href="#" class="btn btn-sm bg-teal">
+                                        <a href="https://wa.me/{{substr_replace($ptr->nomor_telepon, "62", 0, 1)}}"
+                                           class="btn btn-sm bg-teal">
                                             <i class="fas fa-comments"></i>
                                         </a>
                                         <button id="add_to_wish" name="add_to_wish" value="{{$ptr->kode_produk}}"
@@ -151,7 +153,10 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer">
-                <footer class="blockquote-footer text-right">Lebih lanjut <cite title="Source Title">...</cite></footer>
+                <a href="{{route('all.new.produk.guest')}}">
+                    <div class="blockquote-footer text-right btn float-right">Lebih lanjut <cite title="Source Title">...</cite>
+                    </div>
+                </a>
             </div>
             <!-- /.card-footer -->
         </div>
@@ -210,10 +215,12 @@
                                 </div>
                                 <div class="card-footer">
                                     <div class="text-right">
-                                        <a href="#" class="btn btn-sm bg-teal">
+                                        <a href="https://wa.me/{{substr_replace($ptr->nomor_telepon, "62", 0, 1)}}"
+                                           class="btn btn-sm bg-teal">
                                             <i class="fas fa-comments"></i>
                                         </a>
-                                        <a href="#" class="btn btn-sm btn-primary">
+                                        <a href="{{route('show.tukang.guest', $ptr->kode_tukang)}}"
+                                           class="btn btn-sm btn-primary">
                                             <i class="fas fa-user"></i> View Profile
                                         </a>
                                     </div>
@@ -247,7 +254,8 @@
                                     <div class="row">
                                         <div class="col-7">
                                             <p class="text-muted text-sm"><b>Tukang: </b> {{$ptr->name}} <br>
-                                                <b>Diskripsi: </b> @if(strlen($ptr->diskripsi) < 50 ){{$ptr->diskripsi}} @else {{substr($ptr->diskripsi, 0, 50) }} ... @endif </p>
+                                                <b>Diskripsi: </b> @if(strlen($ptr->diskripsi) < 50 ){{$ptr->diskripsi}} @else {{substr($ptr->diskripsi, 0, 50) }}
+                                                ... @endif </p>
                                             <ul class="ml-4 mb-0 fa-ul text-muted">
                                                 <li class="small"><span class="fa-li"><i
                                                             class="fas fa-lg fa-building"></i></span>Alamat :
@@ -310,14 +318,22 @@
                                 </div>
                                 <div class="card-footer">
                                     <div class="text-right">
-                                        <a href="#" class="btn btn-sm bg-teal">
+                                        <a href="https://wa.me/{{substr_replace($ptr->nomor_telepon, "62", 0, 1)}}"
+                                           class="btn btn-sm bg-teal">
                                             <i class="fas fa-comments"></i>
                                         </a>
-                                        <a href="#" class="btn btn-sm bg-danger">
+                                        <button id="add_to_wish" name="add_to_wish" value="{{$ptr->kode_produk}}"
+                                                class="btn btn-sm bg-danger wish">
                                             <i class="fas fa-cart-plus"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-primary">
+                                        </button>
+                                        <button id="send_pengajuan" name="send_pengajuan" value="{{$ptr->kode_tukang}}"
+                                                class="btn btn-sm bg-primary">
                                             <i class="fas fa-paper-plane"></i> Ajukan
+                                        </button>
+                                        <a href="{{route('show.produk.guest', $ptr->kode_produk)}}">
+                                            <button class="btn btn-sm bg-secondary">
+                                                <i class="fas fa-eye"></i> Lihat
+                                            </button>
                                         </a>
                                     </div>
                                 </div>
@@ -328,7 +344,10 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer">
-                <footer class="blockquote-footer text-right">Lebih lanjut <cite title="Source Title">...</cite></footer>
+                <a href="{{route('all.produk.guest')}}">
+                    <div class="blockquote-footer text-right btn float-right">Lebih lanjut <cite title="Source Title">...</cite>
+                    </div>
+                </a>
             </div>
             <!-- /.card-footer -->
         </div>
@@ -378,10 +397,12 @@
                                 </div>
                                 <div class="card-footer">
                                     <div class="text-right">
-                                        <a href="#" class="btn btn-sm bg-teal">
+                                        <a href="https://wa.me/{{substr_replace($ptr->nomor_telepon, "62", 0, 1)}}"
+                                           class="btn btn-sm bg-teal">
                                             <i class="fas fa-comments"></i>
                                         </a>
-                                        <a href="#" class="btn btn-sm btn-primary">
+                                        <a href="{{route('show.tukang.guest', $ptr->kode_tukang)}}"
+                                           class="btn btn-sm btn-primary">
                                             <i class="fas fa-user"></i> View Profile
                                         </a>
                                     </div>

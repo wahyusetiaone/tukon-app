@@ -109,7 +109,7 @@
                                 </ul>
                             </td>
                             <td class="project_progress">
-                                {{$dat['produk']['diskripsi']}}
+                                @if(strlen($dat['produk']['diskripsi']) < 250 ){{$dat['produk']['diskripsi']}} @else {{substr($dat['produk']['diskripsi'], 0, 250) }} ... @endif
                             </td>
                             <td class="project-state">
                                 @for($i = 0; $i < 5; $i++)
@@ -121,12 +121,12 @@
                                 @endfor
                             </td>
                             <td class="project-actions text-right">
-                                <button class="btn btn-primary btn-sm" id="send_pengajuan" value="{{$dat['produk']['tukang']['id']}}">
+                                <button class="btn btn-primary btn-sm" id="send_pengajuan" name="send_pengajuan" value="{{$dat['produk']['tukang']['id']}}">
                                     <i class="fas fa-paper-plane">
                                     </i>
                                     Kirim Pengajuan
                                 </button>
-                                <button class="btn btn-danger btn-sm" value="{{$dat['id']}}" id="btn_remove_wishlist">
+                                <button class="btn btn-danger btn-sm" value="{{$dat['id']}}" id="btn_remove_wishlist" name="btn_remove_wishlist">
                                     <i class="fas fa-trash">
                                     </i>
                                     Hapus

@@ -13,6 +13,7 @@ class Transaksi_Penarikan extends Model
         'kode_penarikan',
         'kode_persentase_penarikan',
         'penarikan',
+        'sisa_penarikan',
         'kode_status'
     ];
 

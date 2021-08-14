@@ -169,6 +169,13 @@
                                                         <p>
                                                             Menuggu konfirmasi anda !!!
                                                         </p>
+
+                                                        <p>
+                                                            <button class="btn btn-success" id="btnPenarikan" name="btnTerima" value="{{$data->penarikan->id}}/{{$item->id}}"><i class="fas fa-link mr-1"></i>
+                                                                Terima</button>
+                                                            <button class="btn btn-danger" name="btnTolak" value="{{$data->penarikan->id}}/{{$item->id}}"><i class="fas fa-link mr-1"></i>
+                                                                Tolak</button>
+                                                        </p>
                                                     @elseif($item->kode_status == "PN02")
                                                         <p>
                                                             Anda Menolak penarikan ini.
@@ -184,11 +191,6 @@
                                                     @elseif($item->kode_status == "PN05")
                                                         Dicairkan - {{indonesiaDate($item->updated_at)}}
                                                     @endif
-                                                    <p>
-                                                        <a href="#" class="link text-sm"><i class="fas fa-link mr-1"></i>
-                                                            Lihat
-                                                            Penawaran</a>
-                                                    </p>
                                                 </div>
                                             @endforeach
                                         @else

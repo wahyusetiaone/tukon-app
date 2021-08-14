@@ -77051,6 +77051,34 @@ __webpack_require__.r(__webpack_exports__);
 
 
 $(document).ready(function () {
+  if (location.hash) {
+    $('a[href=\'' + location.hash + '\']').tab('show');
+  }
+
+  var activeTab = localStorage.getItem('activeTab');
+
+  if (activeTab) {
+    $('a[href="' + activeTab + '"]').tab('show');
+  }
+
+  $('body').on('click', 'a[data-toggle=\'tab\']', function (e) {
+    e.preventDefault();
+    var tab_name = this.getAttribute('href');
+
+    if (history.pushState) {
+      history.pushState(null, null, tab_name);
+    } else {
+      location.hash = tab_name;
+    }
+
+    localStorage.setItem('activeTab', tab_name);
+    $(this).tab('show');
+    return false;
+  });
+  $(window).on('popstate', function () {
+    var anchor = location.hash || $('a[data-toggle=\'tab\']').first().attr('href');
+    $('a[href=\'' + anchor + '\']').tab('show');
+  });
   $("#btnKonfirmasiSelesaiProyek").click(function () {
     var data = $(this);
 
@@ -77065,6 +77093,86 @@ $(document).ready(function () {
       }).then(function (result) {
         if (result.isConfirmed) {
           window.location = _app__WEBPACK_IMPORTED_MODULE_1__.base_url + "/client/project/approve/" + data.val();
+        }
+      });
+    }
+  });
+  $('button[name="btnTerima"]').click(function () {
+    var data = $(this);
+
+    if (!data.hasClass("disabled")) {
+      sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+        icon: 'question',
+        text: 'Apakah kamu akan menerima penarikan dana ke tukang ?',
+        showCancelButton: true,
+        cancelButtonText: 'Batal',
+        confirmButtonText: 'Terima',
+        confirmButtonColor: '#2196F3'
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          $.ajax({
+            type: "GET",
+            url: _app__WEBPACK_IMPORTED_MODULE_1__.base_url + "/client/penarikan-dana/terima/" + data.val(),
+            success: function success(data) {
+              console.log(data);
+
+              if (data.status) {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+                  icon: 'success',
+                  title: 'Berhasil menyetujui penarikan dana Tukang.',
+                  text: data.data
+                }).then(function (result) {
+                  location.reload(true);
+                });
+              } else {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: data.data.error
+                });
+              }
+            }
+          });
+        }
+      });
+    }
+  });
+  $('button[name="btnTolak"]').click(function () {
+    var data = $(this);
+
+    if (!data.hasClass("disabled")) {
+      sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+        icon: 'warning',
+        text: 'Apakah kamu akan menolak pencairan dana tukang ?',
+        showCancelButton: true,
+        cancelButtonText: 'Batal',
+        confirmButtonText: 'Tolak',
+        confirmButtonColor: '#2196F3'
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          $.ajax({
+            type: "GET",
+            url: _app__WEBPACK_IMPORTED_MODULE_1__.base_url + "/client/penarikan-dana/tolak/" + data.val(),
+            success: function success(data) {
+              console.log(data);
+
+              if (data.status) {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+                  icon: 'success',
+                  title: 'Berhasil menolak penarikan dana Tukang.',
+                  text: data.data
+                }).then(function (result) {
+                  location.reload(true);
+                });
+              } else {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: data.data.error
+                });
+              }
+            }
+          });
         }
       });
     }

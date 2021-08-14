@@ -1,35 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Guest;
+namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Produk;
+use App\Models\Project;
+use App\Models\Tukang;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
-class ProductController extends Controller
+class TukangController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $produk = Produk::with('tukang.user')->paginate(9);
-
-        return view('guest.product.all')->with(compact('produk'));
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
-     */
-    public function index_new()
-    {
-        $produk = Produk::with('tukang.user')->orderBy('created_at', 'desc')->paginate(9);
-
-        return view('guest.product.all')->with(compact('produk'));
+        //
     }
 
     /**
@@ -61,9 +50,17 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $data = Produk::with('tukang')->find($id);
-
-        return view('guest.product.show')->with(compact('data'));
+        if (!Tukang::where('id',$id)->exists()){
+            return View('errors.404');
+        }
+        $tukang = Tukang::with('user', 'rating')->withCount(['produk', 'voterate'])->where('id',$id)->first();
+        $produk = Produk::where('kode_tukang', $id)->paginate(9);
+        $proyek = Project::whereHas('pembayaran.pin', function ($q) use ($id){
+            $q->where(['kode_tukang' => $id]);
+        })->whereHas('pembayaran.project', function ($q){
+            $q->where(['kode_status' => 'ON05']);
+        })->count();
+        return view('client.guest.show')->with(compact('tukang', 'produk', 'proyek'));
     }
 
     /**

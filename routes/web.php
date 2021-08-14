@@ -35,8 +35,14 @@ Route::get('search/{fiter}/{search}', [App\Http\Controllers\Client\SearchControl
 Route::group(['prefix' => 'guest'], function () {
     Route::group(['prefix' => 'product'], function () {
         Route::get('show/{id}', [App\Http\Controllers\Guest\ProductController::class, 'show'])->name('show.produk.guest');
+        Route::get('all', [App\Http\Controllers\Guest\ProductController::class, 'index'])->name('all.produk.guest');
+        Route::get('new/all', [App\Http\Controllers\Guest\ProductController::class, 'index'])->name('all.new.produk.guest');
+    });
+    Route::group(['prefix' => 'tukang'], function () {
+        Route::get('show/{id}', [App\Http\Controllers\Guest\TukangController::class, 'show'])->name('show.tukang.guest');
     });
 });
+
 
 Auth::routes();
 Route::group(['middleware' => ['auth', 'roles']], function () {
@@ -75,7 +81,10 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
             Route::get('show/{id}', [App\Http\Controllers\Client\ProjectController::class, 'show'])->name('show.project.client');
             Route::get('approve/{id}', [App\Http\Controllers\Client\ProjectController::class, 'client_approve'])->name('client_approve.projek');
         });
-
+        Route::group(['prefix' => 'penarikan-dana'], function () {
+            Route::get('terima/{id}/{transaksi}', [App\Http\Controllers\Client\PenarikanDanaController::class, 'terima'])->name('terima.penarikan.dana');
+            Route::get('tolak/{id}/{transaksi}', [App\Http\Controllers\Client\PenarikanDanaController::class, 'tolak'])->name('tolak.penarikan.dana');
+        });
     });
 
     Route::group(['roles' => ['admin', 'tukang']], function () {

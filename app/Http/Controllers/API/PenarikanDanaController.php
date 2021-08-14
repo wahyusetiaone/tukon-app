@@ -219,8 +219,8 @@ class PenarikanDanaController extends Controller
             if ($transaksi->kode_status == "PN02"){
                 return (new PenarikanDanaResourceController(['data' => 'Anda telah menolak penarikan ini !!!']))->response()->setStatusCode(200);
             }
-            if ($transaksi->kode_status == "PN02"){
-                return (new PenarikanDanaResourceController(['data' => 'Anda telah menolak penarikan ini !!!']))->response()->setStatusCode(200);
+            if ($transaksi->kode_status == "PN05"){
+                return (new PenarikanDanaResourceController(['data' => 'Penarikan ini telah berhasil !!!']))->response()->setStatusCode(200);
             }
             if ($transaksi->kode_status == "PN03" || $transaksi->kode_status == "PN04"){
                 return (new PenarikanDanaResourceController(['data' => 'Anda telah menyetujui penarikan ini !!!']))->response()->setStatusCode(200);
@@ -254,8 +254,8 @@ class PenarikanDanaController extends Controller
             if ($transaksi->kode_status == "PN02"){
                 return (new PenarikanDanaResourceController(['data' => 'Anda telah menolak penarikan ini !!!']))->response()->setStatusCode(200);
             }
-            if ($transaksi->kode_status == "PN02"){
-                return (new PenarikanDanaResourceController(['data' => 'Anda telah menolak penarikan ini !!!']))->response()->setStatusCode(200);
+            if ($transaksi->kode_status == "PN05"){
+                return (new PenarikanDanaResourceController(['data' => 'Penarikan ini telah berhasil !!!']))->response()->setStatusCode(200);
             }
             if ($transaksi->kode_status == "PN03" || $transaksi->kode_status == "PN04"){
                 return (new PenarikanDanaResourceController(['data' => 'Anda telah menyetujui penarikan ini !!!']))->response()->setStatusCode(200);

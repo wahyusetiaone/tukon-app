@@ -177,7 +177,9 @@ class ProdukController extends Controller
             return (new ProdukResourceController(['error' => $validator->errors()]))->response()->setStatusCode(401);
         }
 
-        $data = Produk::where('nama_produk', 'LIKE', '%' . $request->query_search . '%')->paginate(10);
+        $data = Produk::with(['tukang.user' => function($q){
+            $q->select('kode_user', 'name');
+        }])->where('nama_produk', 'LIKE', '%' . $request->query_search . '%')->paginate(10);
 
         return (new ProdukResourceController($data))->response()->setStatusCode(200);
     }
@@ -371,7 +373,11 @@ class ProdukController extends Controller
      */
     public function getAllProduk()
     {
-        $data = Produk::paginate(10);
+        $data = Produk::with(['tukang' => function($q){
+            $q->select('id','kota','alamat');
+        }])->with(['tukang.user' => function($q){
+            $q->select('kode_user','name');
+        }])->paginate(10);
 
         return (new ProdukResourceController(['data' => $data]))->response()->setStatusCode(200);
     }

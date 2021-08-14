@@ -22,7 +22,7 @@ class TransaksiPenarikanDanaObserver
            $pen = ($update->total_dana * ($per->value/100));
            $update->persentase_penarikan = $update->persentase_penarikan + $per->value;
            $update->penarikan = $update->penarikan + $pen;
-           $update->sisa_penarikan = $update->limitasi - $pen;
+           $update->sisa_penarikan = $update->sisa_penarikan - $pen;
            $update->save();
        }
     }

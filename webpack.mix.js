@@ -12,8 +12,12 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
+
     //search
     .js('resources/js/search.js', 'public/js')
+
+    //guest
+    .js('resources/js/all_produk_guest.js', 'public/js')
 
     //tukang
     .js('resources/js/all_produk.js', 'public/js')

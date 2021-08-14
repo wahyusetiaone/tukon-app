@@ -30,6 +30,6 @@ class PenarikanDana extends Model
 
     public function transaksi_penarikan()
     {
-        return $this->hasMany(Transaksi_Penarikan::class, 'kode_penarikan', 'id');
+        return $this->hasMany(Transaksi_Penarikan::class, 'kode_penarikan', 'id')->orderBy('created_at', 'desc');
     }
 }
