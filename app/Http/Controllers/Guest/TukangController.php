@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Client;
+namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
 use App\Models\Produk;
@@ -14,11 +14,25 @@ class TukangController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $tukang = Tukang::with('user')->paginate(9);
+
+        return view('guest.tukang.all')->with(compact('tukang'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     */
+    public function index_top()
+    {
+        $tukang = Tukang::with('user')->orderBy('rate', 'desc')->paginate(9);
+
+        return view('guest.tukang.all')->with(compact('tukang'));
     }
 
     /**
@@ -60,7 +74,7 @@ class TukangController extends Controller
         })->whereHas('pembayaran.project', function ($q){
             $q->where(['kode_status' => 'ON05']);
         })->count();
-        return view('client.guest.show')->with(compact('tukang', 'produk', 'proyek'));
+        return view('guest.tukang.show')->with(compact('tukang', 'produk', 'proyek'));
     }
 
     /**

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BerandaResourceController;
+use App\Http\Resources\ProdukResourceController;
 use App\Models\Produk;
+use App\Models\VoteRate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -125,7 +127,7 @@ class BerandaController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     * @param \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
      */
     public function search_new_product(Request $request)
@@ -153,7 +155,7 @@ class BerandaController extends Controller
             ->join('tukangs', 'produks.kode_tukang', '=', 'tukangs.id')
             ->join('users', 'tukangs.id', '=', 'users.kode_user')
             ->orderBy('produk_created', 'asc')
-            ->where('nama_produk', 'LIKE', '%'.$request->query_search.'%')
+            ->where('nama_produk', 'LIKE', '%' . $request->query_search . '%')
             ->paginate(10);
 
         return (new BerandaResourceController($data))->response()->setStatusCode(200);
@@ -185,7 +187,7 @@ class BerandaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
      */
     public function search_top_tukang(Request $request)
@@ -201,17 +203,17 @@ class BerandaController extends Controller
        tukangs.created_at as tukang_created,
        tukangs.updated_at as tukang_updated'))
             ->join('users', 'tukangs.id', '=', 'users.kode_user')
-            ->where('name', 'LIKE', '%'.$request->query_search.'%')
+            ->where('name', 'LIKE', '%' . $request->query_search . '%')
             ->paginate(10);
         return (new BerandaResourceController($data))->response()->setStatusCode(200);
     }
 
     /**
      * Show the form for creating a new resource.
-     * @param String  $location
+     * @param String $location
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
      */
-    public function filter_by_location(String $location)
+    public function filter_by_location(string $location)
     {
         $data = DB::table('produks')
             ->select(DB::raw('users.name,
@@ -241,15 +243,16 @@ class BerandaController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     * @param String  $location
-     * @param \Illuminate\Http\Request  $request
+     * @param String $location
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
      */
-    public function search_by_location(Request $request, String $location)
+    public function search_by_location(Request $request, string $location)
     {
         $data = DB::table('produks')
             ->select(DB::raw('users.name,
        tukangs.id as kode_tukang,
+       users.name as nama_tukang,
        tukangs.nomor_telepon as nomor_telepon,
        tukangs.kota as kota,
        tukangs.alamat as alamat,
@@ -269,7 +272,7 @@ class BerandaController extends Controller
             ->join('tukangs', 'produks.kode_tukang', '=', 'tukangs.id')
             ->join('users', 'tukangs.id', '=', 'users.kode_user')
             ->orderBy('produk_created', 'asc')
-            ->where([['nama_produk', 'LIKE', '%'.$request->query_search.'%'],['kota', '=', $location]])
+            ->where([['nama_produk', 'LIKE', '%' . $request->query_search . '%'], ['kota', '=', $location]])
             ->paginate(10);
 
         return (new BerandaResourceController($data))->response()->setStatusCode(200);
@@ -278,8 +281,25 @@ class BerandaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
+     */
+    public function search_by_locationv2(Request $request, string $location)
+    {
+        $data = Produk::with(['tukang.user' => function ($query){
+            $query->select('kode_user', 'name');
+        }])->with('tukang.voterate')
+            ->with('tukang.rating')
+            ->whereHas('tukang', function($query) use ($location){
+            $query->where('kota', '=', $location);
+        })->where('nama_produk', 'LIKE', '%'.$request->query_search.'%')->paginate(10);
+        return (new ProdukResourceController($data))->response()->setStatusCode(200);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -290,7 +310,7 @@ class BerandaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -305,7 +325,7 @@ class BerandaController extends Controller
      */
     public function new_productv2()
     {
-        $data = Produk::with('tukang.rate','tukang.user')->orderBy('created_at', 'desc')->paginate(5);
+        $data = Produk::with('tukang.rate', 'tukang.user')->orderBy('created_at', 'desc')->paginate(5);
 
         return (new BerandaResourceController($data))->response()->setStatusCode(200);
     }

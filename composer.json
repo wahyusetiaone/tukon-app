@@ -9,7 +9,7 @@
         "ext-json": "*",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^7.0.1",
+        "guzzlehttp/guzzle": "^7.3",
         "infyomlabs/laravel-ui-adminlte": "^3.1",
         "laravel/framework": "^8.40",
         "laravel/passport": "^10.1",
@@ -36,7 +36,8 @@
         "files": [
             "app/Helpers/IndonesiaDate.php",
             "app/Helpers/IndonesiaRupiah.php",
-            "app/Helpers/KalkulasiBiayaPenawaran.php"
+            "app/Helpers/KalkulasiBiayaPenawaran.php",
+            "app/Helpers/CallingOutMom.php"
         ]
     },
     "autoload-dev": {

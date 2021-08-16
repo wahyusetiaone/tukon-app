@@ -15,6 +15,7 @@ mix.js('resources/js/app.js', 'public/js')
 
     //search
     .js('resources/js/search.js', 'public/js')
+    .js('resources/js/search_only_page_active.js', 'public/js')
 
     //guest
     .js('resources/js/all_produk_guest.js', 'public/js')
@@ -36,6 +37,8 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/edit_penawaran_offline.js', 'public/js')
     .js('resources/js/add_penawaran_offline.js', 'public/js')
     .js('resources/js/all_penarikan_dana.js', 'public/js')
+    .js('resources/js/show_profile_tukang.js', 'public/js')
+    .js('resources/js/show_change_photo_tukang.js', 'public/js')
 
     //client
     .js('resources/js/form_pengajuan.js', 'public/js')
@@ -44,6 +47,8 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/show_pembayaran_client.js', 'public/js')
     .js('resources/js/payoffline_pembayaran_client.js', 'public/js')
     .js('resources/js/show_project_client.js', 'public/js')
+    .js('resources/js/show_profile_client.js', 'public/js')
+    .js('resources/js/show_change_photo_client.js', 'public/js')
 
     .sass('resources/sass/app.scss', 'public/css')
 

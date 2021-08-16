@@ -25,12 +25,12 @@ Route::group(['prefix' => 'guest', 'as' => 'guest'], function () {
     Route::get('new_product', 'App\Http\Controllers\API\BerandaController@new_product')->name('produk.terbaru');
     Route::get('new_productv2', 'App\Http\Controllers\API\BerandaController@new_productv2')->name('produk.terbaruv2');
     Route::get('top_tukang', 'App\Http\Controllers\API\BerandaController@top_tukang')->name('top.tukang');
-    Route::get('location/{location}', 'App\Http\Controllers\API\BerandaController@filter_by_location')->name('by.location');
+    Route::get('location/{location}', 'App\Http\Controllers\API\BerandaController@filter_by_locationv2')->name('by.location');
     Route::group(['prefix' => 'search', 'as' => 'search'], function () {
         Route::post('produk', 'App\Http\Controllers\API\ProdukController@search')->name('produk');
         Route::post('new_product', 'App\Http\Controllers\API\BerandaController@search_new_product')->name('produk_terbaru');
         Route::post('top_tukang', 'App\Http\Controllers\API\BerandaController@search_top_tukang')->name('top.tukang');
-        Route::post('location/{location}', 'App\Http\Controllers\API\BerandaController@search_by_location')->name('by.location');
+        Route::post('location/{location}', 'App\Http\Controllers\API\BerandaController@search_by_locationv2')->name('by.location');
     });
     Route::group(['prefix' => 'helper', 'as' => 'helper'], function () {
         Route::get('kode_status', 'App\Http\Controllers\API\HelperGuestController@kode_status')->name('kode_status');

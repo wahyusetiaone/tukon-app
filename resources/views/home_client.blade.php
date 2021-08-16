@@ -232,7 +232,10 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer">
-                <footer class="blockquote-footer text-right">Lebih lanjut <cite title="Source Title">...</cite></footer>
+                <a href="{{route('all.tukang.guest')}}">
+                    <div class="blockquote-footer text-right btn float-right">Lebih lanjut <cite title="Source Title">...</cite>
+                    </div>
+                </a>
             </div>
             <!-- /.card-footer -->
         </div>
@@ -414,7 +417,10 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer">
-                <footer class="blockquote-footer text-right">Lebih lanjut <cite title="Source Title">...</cite></footer>
+                <a href="{{route('all.top.tukang.guest')}}">
+                    <div class="blockquote-footer text-right btn float-right">Lebih lanjut <cite title="Source Title">...</cite>
+                    </div>
+                </a>
             </div>
             <!-- /.card-footer -->
         </div>

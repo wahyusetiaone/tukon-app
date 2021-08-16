@@ -40,6 +40,8 @@ Route::group(['prefix' => 'guest'], function () {
     });
     Route::group(['prefix' => 'tukang'], function () {
         Route::get('show/{id}', [App\Http\Controllers\Guest\TukangController::class, 'show'])->name('show.tukang.guest');
+        Route::get('all', [App\Http\Controllers\Guest\TukangController::class, 'index'])->name('all.tukang.guest');
+        Route::get('top/all', [App\Http\Controllers\Guest\TukangController::class, 'index_top'])->name('all.top.tukang.guest');
     });
 });
 
@@ -84,6 +86,14 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
         Route::group(['prefix' => 'penarikan-dana'], function () {
             Route::get('terima/{id}/{transaksi}', [App\Http\Controllers\Client\PenarikanDanaController::class, 'terima'])->name('terima.penarikan.dana');
             Route::get('tolak/{id}/{transaksi}', [App\Http\Controllers\Client\PenarikanDanaController::class, 'tolak'])->name('tolak.penarikan.dana');
+        });
+        Route::group(['prefix' => 'user'], function () {
+            Route::get('profile', [App\Http\Controllers\Client\UserController::class, 'show'])->name('show.user.ptofile.client');
+            Route::post('update/{id}', [App\Http\Controllers\Client\UserController::class, 'update'])->name('update.user.profile.client');
+            Route::get('profile/new-password', [App\Http\Controllers\Client\UserController::class, 'showNewPassword'])->name('show.user.newpassword.client');
+            Route::post('update/new-password/{id}', [App\Http\Controllers\Client\UserController::class, 'updateNewPassword'])->name('update.user.newpassword.client');
+            Route::get('profile/change-photo', [App\Http\Controllers\Client\UserController::class, 'showChangePhoto'])->name('show.user.change.photo.client');
+            Route::post('profile/upload/new-photo/{id}', [App\Http\Controllers\Client\UserController::class, 'updatePhotoUser'])->name('upload.user.photo.client');
         });
     });
 
@@ -157,6 +167,14 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
             Route::get('edit/{id}', [App\Http\Controllers\Tukang\PenawaranController::class, 'edit'])->name('edit.history');
             Route::get('add/bypengajuan/{id}', [App\Http\Controllers\Tukang\PenawaranController::class, 'create'])->name('add.history.bypengajuan');
             Route::post('store', [App\Http\Controllers\Tukang\PenawaranController::class, 'store'])->name('store.history.json');
+        });
+        Route::group(['prefix' => 'user'], function () {
+            Route::get('profile', [App\Http\Controllers\Tukang\UserController::class, 'show'])->name('show.user.ptofile');
+            Route::post('update/{id}', [App\Http\Controllers\Tukang\UserController::class, 'update'])->name('update.user.profile');
+            Route::get('profile/new-password', [App\Http\Controllers\Tukang\UserController::class, 'showNewPassword'])->name('show.user.newpassword');
+            Route::post('update/new-password/{id}', [App\Http\Controllers\Tukang\UserController::class, 'updateNewPassword'])->name('update.user.newpassword');
+            Route::get('profile/change-photo', [App\Http\Controllers\Tukang\UserController::class, 'showChangePhoto'])->name('show.user.change.photo');
+            Route::post('profile/upload/new-photo/{id}', [App\Http\Controllers\Tukang\UserController::class, 'updatePhotoUser'])->name('upload.user.photo');
         });
     });
 });

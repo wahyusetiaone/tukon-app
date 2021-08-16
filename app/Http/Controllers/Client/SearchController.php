@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use http\Client\Request;
 use Illuminate\Support\Facades\DB;
 
 class SearchController extends Controller
@@ -11,29 +12,40 @@ class SearchController extends Controller
     /**
      * any search will handle this controller.
      *
-     * @param  String  $filter
-     * @param  String  $search
+     * @param String $filter
+     * @param String $search
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
      */
     public function index(string $filter, string $search)
     {
-        if ($filter != "produk" && $filter != "tukang" && $filter != "lokasi"){
-            return view('client.search.search_error',['obj' => $filter.' tidak dapat ditemukan di sistem.']);
+
+
+        if ($filter != "produk" && $filter != "tukang" && $filter != "lokasi") {
+            return view('client.search.search_error', ['obj' => $filter . ' tidak dapat ditemukan di sistem.']);
+        }
+        if ($filter == 'produk') {
+            $db = $this->query_produk()->where('nama_produk', 'LIKE', '%' . $search . '%');
+        }
+        if ($filter == 'tukang') {
+            $db = $this->query_tukang()->where('users.name', 'LIKE', '%' . $search . '%');
         }
 
-        if ($filter == 'produk'){
-            $db = $this->query_produk()->where('nama_produk', 'LIKE','%'.$search.'%');
+        if (request()->has('prov') && request()->has('prov')) {
+            $arrJOta = explode(' ', request()->kota);
+            unset($arrJOta[0]);
+            $kota = implode (" ", $arrJOta);
+            $db->where('kota', '=', $kota);
         }
-        if ($filter == 'tukang'){
-            $db = $this->query_tukang()->where('users.name', 'LIKE','%'.$search.'%');
-        }
+
+        $prov = callMomWithGet('https://ibnux.github.io/data-indonesia/propinsi.json');
 
         $data = $db->paginate(9)->toArray();
 
-        return view('client.search.search',['obj' => $data, 'filter' => $filter]);
+        return view('client.search.search', ['obj' => $data, 'filter' => $filter, 'prov' => $prov]);
     }
 
-    function query_produk(){
+    function query_produk()
+    {
         return DB::table('produks')
             ->select(DB::raw('users.name,
        tukangs.id as kode_tukang,
@@ -58,7 +70,8 @@ class SearchController extends Controller
             ->join('users', 'tukangs.id', '=', 'users.kode_user');
     }
 
-    function query_tukang(){
+    function query_tukang()
+    {
         return DB::table('tukangs')
             ->select(DB::raw('users.name,
        tukangs.id as kode_tukang,
