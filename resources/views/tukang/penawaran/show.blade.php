@@ -142,14 +142,28 @@
                                     <thead>
                                     <tr>
                                         <th>Nama Komponen</th>
-                                        <th>Harga</th>
+                                        <th>Merk / Type</th>
+                                        <th>Spesifikasi Teknis</th>
+                                        <th>Satuan</th>
+                                        <th>Total Item</th>
+                                        <th>Harga Total</th>
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    @php
+                                        $thargakomponen = 0;
+                                    @endphp
                                     @foreach($data->penawaran->komponen as $item)
                                         <tr>
                                             <td>{{$item->nama_komponen}}</td>
+                                            <td>{{$item->merk_type}}</td>
+                                            <td>{{$item->spesifikasi_teknis}}</td>
+                                            <td>{{$item->satuan}}</td>
+                                            <td>{{$item->total_unit}}</td>
                                             <td>{{indonesiaRupiah($item->harga)}}</td>
+                                            @php
+                                                $thargakomponen += $item->harga;
+                                            @endphp
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -162,9 +176,9 @@
                             <div class="col-6">
                                 <p class="lead">Foto:</p>
                                 <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
-                                @if($data->multipath)
+                                @if($data->pengajuan->multipath)
                                     @php
-                                        $string_array = explode(",",$data->path);
+                                        $string_array = explode(",",$data->pengajuan->path);
                                     @endphp
                                     <div id="carouselExampleControls" style="max-width:200px;width:100%"
                                          class="carousel slide" data-ride="carousel">
@@ -200,17 +214,17 @@
                                     <table class="table">
                                         <tr>
                                             <th style="width:50%">Total Harga Komponen:</th>
-                                            <td>{{indonesiaRupiah($data->penawaran->harga_total - $data->penawaran->keuntungan)}}</td>
+                                            <td>{{indonesiaRupiah($thargakomponen)}}</td>
                                         </tr>
                                         <tr>
                                             <th style="width:50%">Keuntungan (%):</th>
-                                            <td>{{($data->penawaran->keuntungan / ($data->penawaran->harga_total - $data->penawaran->keuntungan)) * 100}}
+                                            <td>{{$data->penawaran->keuntungan}}
                                                 %
                                             </td>
                                         </tr>
                                         <tr>
                                             <th style="width:50%">Keuntungan (Rp.):</th>
-                                            <td>{{indonesiaRupiah($data->penawaran->keuntungan)}}</td>
+                                            <td>{{indonesiaRupiah(($thargakomponen*$data->penawaran->keuntungan)/100)}}</td>
                                         </tr>
                                         <tr>
                                             <th style="width:50%">Total Harga (Rp.):</th>

@@ -22,7 +22,7 @@ class ProjectController extends Controller
     {
         $data = Project::with('pembayaran', 'pembayaran.pin','pembayaran.pin.pengajuan', 'pembayaran.pin.penawaran','pembayaran.pin.tukang','pembayaran.pin.tukang.user')->whereHas('pembayaran.pin.pengajuan', function ($query){
           $query->where('kode_client',Auth::id());
-        })->paginate(5)->toArray();
+        })->paginate(10)->toArray();
         return view('client.project.all')->with(compact('data'));
     }
 

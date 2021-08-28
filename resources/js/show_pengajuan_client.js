@@ -17,8 +17,7 @@ $(document).on('click', '[id^=tolak-btn]', function () {
                     'Catatan tidak boleh kosong'
                 )
             }
-        },
-        allowOutsideClick: () => !Swal.isLoading()
+        }
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({

@@ -3,11 +3,14 @@
 namespace App\Observers;
 
 use App\Models\Limitasi_Penarikan;
+use App\Models\Penalty;
 use App\Models\PenarikanDana;
+use App\Models\PengembalianDana;
 use App\Models\Progress;
 use App\Models\Project;
 use Database\Seeders\LimitasiPenarikanSeeder;
 use DateTime;
+use Illuminate\Support\Facades\Log;
 
 class ProjectObserver
 {
@@ -68,5 +71,30 @@ class ProjectObserver
             return false;
         }
         return true;
+    }
+
+    /**
+     * Handle the Progress "updated" event.
+     *
+     * @param  \App\Models\Project  $project
+     * @return false
+     */
+    public function updated(Project $project){
+        if ($project->kode_status == "ON03"){
+            $penarikan_dana = PenarikanDana::where('kode_project', $project->id)->first();
+            $penalty = Penalty::take(1)->first();
+            $cutoff = $penarikan_dana->persentase_penarikan + $penalty->value;
+            $roff = 100-$cutoff;
+            $return = ($penarikan_dana->total_dana*$roff)/100;
+
+            $pengembalian = new PengembalianDana();
+            $pengembalian->kode_project = $project->id;
+            $pengembalian->jmlh_pengembalian_persentasi = $roff;
+            $pengembalian->jmlh_pengembalian = $return;
+            $pengembalian->kode_status = 'PM01';
+            $pengembalian->kode_penalty = $penalty->id;
+            $pengembalian->save();
+            return false;
+        }
     }
 }

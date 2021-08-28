@@ -149,6 +149,11 @@
                                         </tr>
                                     </table>
                                 </div>
+                                <a class="btn btn-primary btn-sm float-right" href="{{route('edit.pengajuan.client',$data->id)}}">
+                                    <i class="fas fa-pencil-alt">
+                                    </i>
+                                    Edit Pengajuan
+                                </a>
                             </div>
                             <!-- /.col -->
                         </div>

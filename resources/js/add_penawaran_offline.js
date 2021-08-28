@@ -69,7 +69,6 @@ $(document).on('click', '[id^=btn-tbh-componen]', function (e) {
                 document.getElementById('swal_spesifikasi_komponen').value,
                 document.getElementById('swal_satuan_komponen').value,
                 document.getElementById('swal_total_unit_komponen').value,
-                document.getElementById('swal_harga_komponen').value,
                 index,
                 null
             ];

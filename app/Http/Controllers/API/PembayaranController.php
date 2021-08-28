@@ -5,10 +5,12 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PembayaranResourceController;
 use App\Models\Pembayaran;
+use App\Models\Pin;
 use App\Models\Transaksi_Pembayaran;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class PembayaranController extends Controller
@@ -22,9 +24,9 @@ class PembayaranController extends Controller
     {
         $kode_user = User::with('client')->find(Auth::id())->kode_user;
 
-        $validasi = Pembayaran::with('pin', 'pin.penawaran', 'transaksi_pembayaran')->whereHas('pin.pengajuan', function ($query) {
+        $validasi = Pembayaran::with('pin.tukang.user', 'pin.penawaran.komponen', 'transaksi_pembayaran', 'pin.pengajuan')->whereHas('pin.pengajuan', function ($query) {
             $query->where('kode_client', Auth::id());
-        })->get();
+        })->orderByDesc('created_at')->get();
 
         return (new PembayaranResourceController($validasi))->response()->setStatusCode(200);
     }
@@ -38,7 +40,7 @@ class PembayaranController extends Controller
     {
         $kode_user = User::with('client')->find(Auth::id())->kode_user;
 
-        $validasi = Pembayaran::where([['kode_status','!=', 'P03']])->with('pin', 'pin.penawaran', 'transaksi_pembayaran')->whereHas('pin.pengajuan', function ($query) {
+        $validasi = Pembayaran::where([['kode_status', '!=', 'P03']])->with('pin', 'pin.penawaran', 'transaksi_pembayaran')->whereHas('pin.pengajuan', function ($query) {
             $query->where('kode_client', Auth::id());
         })->get();
 
@@ -112,5 +114,25 @@ class PembayaranController extends Controller
         }
         return (new PembayaranResourceController(['error' => 'Tidak ada akses untuk merubah data ini !!!']))->response()->setStatusCode(401);
 
+    }
+
+    /**
+     * Batal the form for creating a new resource.
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
+     */
+    public function cancel(int $id)
+    {
+        if (!Pembayaran::whereId($id)->exists()){
+            return (new PembayaranResourceController(['error' => 'Pembayaran tidak ditemukan !!!']))->response()->setStatusCode(404);
+        }
+
+        DB::transaction(function () use ($id){
+           $pembayaran = Pembayaran::with('pin')->whereId($id)->first();
+           Pin::whereId($pembayaran->pin->id)->update(['status' => 'N01']);
+           $pembayaran->delete();
+        });
+
+        return (new PembayaranResourceController(['status'=>true, 'message'=>'berhasil melakukan pembatalan pembayaran, proses dikembalikan ke proses negosiasi.']))->response()->setStatusCode(200);
     }
 }

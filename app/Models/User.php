@@ -84,4 +84,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(Clients::class, 'id', 'kode_user');
     }
+
+    public function ban(){
+        return $this->hasOne(Ban::class, 'user_id', 'id');
+    }
 }

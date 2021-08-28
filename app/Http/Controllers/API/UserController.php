@@ -127,7 +127,10 @@ class UserController extends Controller
                 'nomor_telepon' => 'max:12',
                 'kota' => 'string',
                 'alamat' => 'string',
-                'kode_lokasi' => 'string'
+                'kode_lokasi' => 'string',
+                'no_rekening' => 'string',
+                'atas_nama_rekening' => 'string',
+                'bank' => 'string'
             ]);
 
             if ($validator->fails()) {

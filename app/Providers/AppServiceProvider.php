@@ -12,6 +12,7 @@ use App\Models\Rate;
 use App\Models\Revisi;
 use App\Models\Transaksi_Pembayaran;
 use App\Models\Transaksi_Penarikan;
+use App\Models\Transaksi_Pengembalian;
 use App\Models\User;
 use App\Models\VoteRate;
 use App\Observers\DocumentationProgressObserver;
@@ -25,10 +26,15 @@ use App\Observers\RateObserver;
 use App\Observers\RevisiObserver;
 use App\Observers\TransaksiPembayaranObserver;
 use App\Observers\TransaksiPenarikanDanaObserver;
+use App\Observers\TransaksiPengembalianDanaObserver;
 use App\Observers\UserObserver;
 use App\Observers\VoteRateObserver;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
+use Laravel\Passport\Console\ClientCommand;
+use Laravel\Passport\Console\InstallCommand;
+use Laravel\Passport\Console\KeysCommand;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -49,6 +55,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        //passport
+        $this->commands([
+            InstallCommand::class,
+            ClientCommand::class,
+            KeysCommand::class,
+        ]);
+
         User::observe(UserObserver::class);
         VoteRate::observe(VoteRateObserver::class);
 //        Penawaran::observe(PenawaranObserver::class);
@@ -60,5 +73,6 @@ class AppServiceProvider extends ServiceProvider
         OnProgress::observe(OnProgressObserver::class);
         DocumentationProgress::observe(DocumentationProgressObserver::class);
         Transaksi_Penarikan::observe(TransaksiPenarikanDanaObserver::class);
+        Transaksi_Pengembalian::observe(TransaksiPengembalianDanaObserver::class);
     }
 }

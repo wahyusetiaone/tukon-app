@@ -20,7 +20,10 @@ class Tukang extends Model
         'path_icon',
         'kota',
         'alamat',
-        'kode_lokasi'
+        'kode_lokasi',
+        'no_rekening',
+        'atas_nama_rekening',
+        'bank',
     ];
 
     public function user(){

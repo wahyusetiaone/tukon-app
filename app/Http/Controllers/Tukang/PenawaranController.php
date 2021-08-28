@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Tukang;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PenawaranResourceController;
+use App\Models\BPA;
 use App\Models\Komponen;
 use App\Models\Penawaran;
 use App\Models\Pin;
@@ -24,7 +25,11 @@ class PenawaranController extends Controller
         $data = Pin::with('pengajuan','pengajuan.client','pengajuan.client.user','penawaran','tukang','tukang.user')->where([['kode_tukang','=', $user],['kode_penawaran','!=', null]])->get();
         return Datatables::of($data)->addIndexColumn()
             ->addColumn('action', function($data){
-                $button = '<a href="'.url('penawaran/show').'/'.$data->kode_penawaran.'"><button type="button" name="show" id="'.$data->id.'" class="edit btn btn-primary btn-sm">Show</button></a>';
+                if ($data->pengajuan->deleted_at == null) {
+                    $button = '<a href="' . url('penawaran/show') . '/' . $data->kode_penawaran . '"><button type="button" name="show" id="' . $data->id . '" class="edit btn btn-primary btn-sm">Show</button></a>';
+                }else{
+                    $button = '<a href="' . url('penawaran/show') . '/' . $data->kode_penawaran . '"><button type="button" name="show" id="' . $data->id . '" class="edit btn btn-danger btn-sm" disabled>Deleted</button></a>';
+                }
                 return $button;
             })
             ->rawColumns(['action'])
@@ -70,6 +75,7 @@ class PenawaranController extends Controller
         $request['kode_status'] = 'T02';
         try {
             Pin::where(['id' => $request->input('kode_pin')])->firstOrFail();
+            $request['kode_bpa'] = BPA::select('id')->orderBy('created_at','desc')->first()->id;
             $data = Penawaran::create($request->except(['komponen']));
             $dump = $request->input('dump');
             Log::info($dump[0]);
@@ -78,6 +84,10 @@ class PenawaranController extends Controller
                 $komponen->kode_penawaran = $data->id;
                 $komponen->nama_komponen = (string)$dump[$i]['nama_komponen'];
                 $komponen->harga = (int)$dump[$i]['harga_komponen'];
+                $komponen->merk_type = (string)$dump[$i]['merk_type'];
+                $komponen->spesifikasi_teknis = (string)$dump[$i]['spesifikasi_teknis'];
+                $komponen->satuan = (string)$dump[$i]['satuan'];
+                $komponen->total_unit = (int)$dump[$i]['total_unit'];
                 $komponen->save();
             }
             Pin::where(['id' => $request->input('kode_pin')])->update(['kode_penawaran' => $data->id]);
@@ -145,6 +155,10 @@ class PenawaranController extends Controller
                     $komponen->kode_penawaran = $data->id;
                     $komponen->nama_komponen = (string)$dump[$i]['nama_komponen'];
                     $komponen->harga = (int)$dump[$i]['harga_komponen'];
+                    $komponen->merk_type = (string)$dump[$i]['merk_type'];
+                    $komponen->spesifikasi_teknis = (string)$dump[$i]['spesifikasi_teknis'];
+                    $komponen->satuan = (string)$dump[$i]['satuan'];
+                    $komponen->total_unit = (int)$dump[$i]['total_unit'];
                     $komponen->save();
                 }
             }

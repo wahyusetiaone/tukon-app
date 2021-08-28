@@ -211,33 +211,39 @@ $(document).on('click', '[id^=btnsubmitpenawaran]', function () {
         confirmButtonColor: '#2196F3',
     }).then((result) => {
         if (result.isConfirmed) {
-            $.each(masterlistofcomponent, function(old_index, old_obj) {
-                var old_id = old_obj[2];
+            console.log(masterlistofcomponent);
+            console.log(listofcomponent);
+            $.each(masterlistofcomponent, function (old_index, old_obj) {
+                var old_id = old_obj[7];
                 var found = false;
-                $.each(listofcomponent, function(new_index, new_obj) {
-                    if (new_obj[2] === old_id) {
-                        found = true;
+                $.each(listofcomponent, function (new_index, new_obj) {
+                    var type = typeof new_obj;
+                    if (type !== 'undefined') {
+                        if (new_obj[7] === old_id) {
+                            found = true;
+                        }
                     }
                 });
                 if (!found) {
                     removeList.push(old_obj);
                 }
             });
-            $.each(listofcomponent, function(old_index, old_obj) {
-                var old_id = old_obj[2];
-                var found = false;
-                $.each(masterlistofcomponent, function(new_index, new_obj) {
-                    if (new_obj[2] === old_id) {
-                        found = true;
+            $.each(listofcomponent, function (old_index, old_obj) {
+                var type = typeof old_obj;
+                if (type !== 'undefined') {
+                    var old_id = old_obj[7];
+                    var found = false;
+                    $.each(masterlistofcomponent, function (new_index, new_obj) {
+                        if (new_obj[7] === old_id) {
+                            found = true;
+                        }
+                    });
+                    if (!found) {
+                        addList.push(old_obj);
                     }
-                });
-                if (!found) {
-                    addList.push(old_obj);
                 }
             });
 
-            console.log(masterlistofcomponent);
-            console.log(listofcomponent);
             console.log(addList);
             console.log(removeList);
             if (listofcomponent.length !== 0) {
@@ -259,7 +265,7 @@ $(document).on('click', '[id^=btnsubmitpenawaran]', function () {
                         'spesifikasi_teknis_komponen': item[3],
                         'satuan_komponen': item[4],
                         'total_unit_komponen': item[5],
-                        'id' : item[6]
+                        'id' : item[7]
                     });
                 });
                 $.ajax({
@@ -269,7 +275,7 @@ $(document).on('click', '[id^=btnsubmitpenawaran]', function () {
                     url: base_url + '/penawaran-offline/update/'+data.val(),
                     type: "post",
                     data: {
-                        'keuntungan': parseInt(h_keuntungan.value),
+                        'keuntungan': parseInt(presentase.value),
                         'harga_total': parseInt(h_total.value),
                         'dump_add': dump_add,
                         'dump_remove': dump_remove

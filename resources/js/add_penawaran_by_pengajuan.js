@@ -20,7 +20,36 @@ $(document).on('click', '[id^=btn-tbh-componen]', function (e) {
             '<span class="input-group-text"><i class="fas fa-tools"></i></span>' +
             '</div>' +
             '<input type="text" id="swal_nama_komponen" class="form-control" placeholder="Nama Komponen">' +
+            '</div>'
+            +
+            '<div class="input-group mb-3">' +
+            '<div class="input-group-prepend">' +
+            '<span class="input-group-text"><i class="fas fa-dice-one"></i></span>' +
             '</div>' +
+            '<input type="text" id="swal_merek_type_komponen" class="form-control" maxlength="20" placeholder="Merk/Type Komponen">' +
+            '</div>'
+            +
+            '<div class="input-group mb-3">' +
+            '<div class="input-group-prepend">' +
+            '<span class="input-group-text"><i class="fas fa-dice-one"></i></span>' +
+            '</div>' +
+            '<input type="text" id="swal_spesifikasi_komponen" class="form-control" maxlength="50" placeholder="Spesifikasi Singkat Komponen">' +
+            '</div>'
+            +
+            '<div class="input-group mb-3">' +
+            '<div class="input-group-prepend">' +
+            '<span class="input-group-text"><i class="fas fa-dice-one"></i></span>' +
+            '</div>' +
+            '<input type="text" id="swal_satuan_komponen" class="form-control" maxlength="10" placeholder="Satuan Komponen">' +
+            '</div>'
+            +
+            '<div class="input-group mb-3">' +
+            '<div class="input-group-prepend">' +
+            '<span class="input-group-text"><i class="fas fa-dice-one"></i></span>' +
+            '</div>' +
+            '<input type="number" id="swal_total_unit_komponen" class="form-control" placeholder="Total Unit Komponen">' +
+            '</div>'
+            +
             '<div class="input-group mb-3">' +
             '<div class="input-group-prepend">' +
             '<span class="input-group-text"><i class="fas fa-dice-one"></i></span>' +
@@ -33,7 +62,11 @@ $(document).on('click', '[id^=btn-tbh-componen]', function (e) {
         preConfirm: () => {
             listofcomponent[index] = [
                 document.getElementById('swal_nama_komponen').value,
-                document.getElementById('swal_harga_komponen').value
+                document.getElementById('swal_harga_komponen').value,
+                document.getElementById('swal_merek_type_komponen').value,
+                document.getElementById('swal_spesifikasi_komponen').value,
+                document.getElementById('swal_satuan_komponen').value,
+                document.getElementById('swal_total_unit_komponen').value,
             ];
         }
     }).then((result) => {
@@ -44,9 +77,17 @@ $(document).on('click', '[id^=btn-tbh-componen]', function (e) {
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
             var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
+            var cell5 = row.insertCell(4);
+            var cell6 = row.insertCell(5);
+            var cell7 = row.insertCell(6);
             cell1.innerHTML = listofcomponent[index][0];
-            cell2.innerHTML = listofcomponent[index][1];
-            cell3.innerHTML = '<div class="btn-group btn-group-sm">\n' +
+            cell2.innerHTML = listofcomponent[index][5];
+            cell3.innerHTML = listofcomponent[index][2];
+            cell4.innerHTML = listofcomponent[index][3];
+            cell5.innerHTML = listofcomponent[index][4];
+            cell6.innerHTML = listofcomponent[index][1];
+            cell7.innerHTML = '<div class="btn-group btn-group-sm">\n' +
                 '                                        <button id="btn_del_com" value="' + index + '" class="btn btn-danger"><i class="fas fa-trash"></i></button>\n' +
                 '                                    </div>';
             index++;
@@ -116,7 +157,11 @@ $(document).on('click', '[id^=btnsubmitpenawaran]', function () {
                 listofcomponent.forEach(function myFunction(item) {
                     dump.push({
                         'nama_komponen' : item[0],
-                        'harga_komponen' : item[1]
+                        'harga_komponen' : item[1],
+                        'merk_type' : item[2],
+                        'spesifikasi_teknis' : item[3],
+                        'satuan' : item[4],
+                        'total_unit' : item[5],
                     });
                 });
                 $.ajax({
@@ -127,7 +172,7 @@ $(document).on('click', '[id^=btnsubmitpenawaran]', function () {
                     type: "post",
                     data: {
                         'kode_pin' : parseInt(data.val()),
-                        'keuntungan' : keuntungan,
+                        'keuntungan' : parseInt(presentase.value),
                         'harga_total' : parseInt(h_total.value),
                         'dump' : dump
                     },
@@ -140,7 +185,7 @@ $(document).on('click', '[id^=btnsubmitpenawaran]', function () {
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then((response)=>{
-                                location.reload();
+                                window.location.href = base_url+'/pengajuan';
                             });
                         }
                     },

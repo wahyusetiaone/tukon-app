@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\PembayaranResourceController;
 use App\Models\Clients;
 use App\Models\Pembayaran;
+use App\Models\Pin;
 use App\Models\Transaksi_Pembayaran;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use RealRashid\SweetAlert\Facades\Alert;
 use function PHPUnit\Framework\never;
@@ -165,5 +167,25 @@ class PembayaranController extends Controller
 
         Alert::error('Error Status Pembayaran', 'Tidak ada akses untuk merubah data ini !!!');
         return redirect()->route('show.pembayaran.client', $id);
+    }
+
+    /**
+     * Batal the form for creating a new resource.
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
+     */
+    public function cancel(int $id)
+    {
+        if (!Pembayaran::whereId($id)->exists()){
+            return (new PembayaranResourceController(['status'=>false, 'message' => 'Pembayaran tidak ditemukan !!!']))->response()->setStatusCode(200);
+        }
+
+        DB::transaction(function () use ($id){
+            $pembayaran = Pembayaran::with('pin')->whereId($id)->first();
+            Pin::whereId($pembayaran->pin->id)->update(['status' => 'N01']);
+            $pembayaran->delete();
+        });
+
+        return (new PembayaranResourceController(['status'=>true, 'message'=>'berhasil melakukan pembatalan pembayaran, proses dikembalikan ke proses negosiasi.']))->response()->setStatusCode(200);
     }
 }

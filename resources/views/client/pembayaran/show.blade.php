@@ -136,8 +136,11 @@
                             <!-- this row will not appear when printing -->
                             <div class="row no-print">
                                 <div class="col-12">
-                                    <a href="invoice-print.html" target="_blank" class="btn btn-default"><i
+
+                                    <a href="{{route('pdf.invoice', $data->id)}}" target="_blank"
+                                       class="btn btn-default"><i
                                             class="fas fa-print"></i> Print</a>
+
                                     @if($data->pin->pembayaran->kode_status == "P01")
                                         <a href="{{route('payoffline.pembayaran.client',$data->pin->pembayaran->id)}}">
                                             <button type="button" id="btn_bayar" value="{{$data->pin->pembayaran->id}}"
@@ -145,7 +148,7 @@
                                                     class="far fa-credit-card"></i> Bayar
                                             </button>
                                         </a>
-                                        <button type="button" id="btn_btll" class=" btn btn-danger float-right"
+                                        <button type="button" id="btn_btll" value="{{$data->pin->pembayaran->id}}" class=" btn btn-danger float-right"
                                                 style="margin-right: 5px;">
                                             <i class="fas fa-unlock"></i> Batalkan
                                         </button>

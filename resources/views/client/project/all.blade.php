@@ -1,7 +1,7 @@
 @extends('layouts.app_client')
 
 @section('third_party_stylesheets')
-{{--    <link href="{{ asset('css/wishlist.css') }}" rel="stylesheet">--}}
+    {{--    <link href="{{ asset('css/wishlist.css') }}" rel="stylesheet">--}}
 @endsection
 
 @section('content')
@@ -72,10 +72,25 @@
                                 {{$dat['pembayaran']['pin']['tukang']['user']['name']}}
                             </td>
                             <td class="project_progress">
-                                <div class="progress progress-xs progress-striped active">
-                                    <div class="progress-bar bg-success" style="width: {{(int)$dat['persentase_progress']}}%"></div>
-                                </div>
-                            <span class="badge bg-success">{{(int)$dat['persentase_progress']}}%</span>
+                                @if($dat['kode_status'] == 'ON03')
+                                    <div class="progress progress-xs progress-striped active">
+                                        <div class="progress-bar bg-danger" style="width: {{(int)$dat['persentase_progress']}}%"></div>
+                                    </div>
+                                    <span class="badge bg-danger">{{(int)$dat['persentase_progress']}}%</span>
+                                    <span class="badge bg-danger">Batal</span>
+                                @elseif($dat['kode_status'] == 'ON05')
+                                    <div class="progress progress-xs progress-striped active">
+                                        <div class="progress-bar bg-info" style="width: {{(int)$dat['persentase_progress']}}%"></div>
+                                    </div>
+                                    <span class="badge bg-info">{{(int)$dat['persentase_progress']}}%</span>
+                                    <span class="badge bg-info">Selesai</span>
+                                @else
+                                    <div class="progress progress-xs progress-striped active">
+                                        <div class="progress-bar bg-success"
+                                             style="width: {{(int)$dat['persentase_progress']}}%"></div>
+                                    </div>
+                                    <span class="badge bg-success">{{(int)$dat['persentase_progress']}}%</span>
+                                @endif
                             </td>
                             <td class="project-actions text-right">
                                 <a class="btn btn-primary btn-sm" href="{{route('show.project.client',$dat['id'])}}">
@@ -102,12 +117,12 @@
                 </nav>
             </div>
             <!-- /.card-body -->
-        <!-- /.card -->
+            <!-- /.card -->
 
     </section>
     <!-- /.content -->
 @endsection
 
 @section('third_party_scripts')
-{{--    <script src="{{ asset('js/wishlist.js') }}" defer></script>--}}
+    {{--    <script src="{{ asset('js/wishlist.js') }}" defer></script>--}}
 @endsection

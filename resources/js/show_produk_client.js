@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 $(document).ready(function () {
     $("#add_to_wish").click(function () {
         var data = $(this);
-        if (!data.hasClass("disabled")){
+        if (!data.hasClass("disabled")) {
             Swal.fire({
                 icon: 'question',
                 text: 'Apakah kamu ingin menambahkan di wishlist mu?',
@@ -14,14 +14,14 @@ $(document).ready(function () {
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "/client/wishlist/add/"+data.val(),
+                        url: "/client/wishlist/add/" + data.val(),
                         type: "get",
                         success: function (response) {
                             data.removeClass("bg-failure");
                             data.addClass("bg-secondary");
                             data.addClass("disabled");
                         },
-                        error: function(jqXHR, textStatus, errorThrown) {
+                        error: function (jqXHR, textStatus, errorThrown) {
                             console.log(textStatus, errorThrown);
                         }
                     });
@@ -31,6 +31,10 @@ $(document).ready(function () {
     });
     $("#send_pengajuan").click(function () {
         var data = $(this);
-        window.location = "/client/pengajuan/form/"+data.val();
+        window.location = "/client/pengajuan/form/" + data.val();
+    });
+    $('img[name="thumnailImg"]').click(function () {
+        var src = $(this).attr('src');
+        $("#targetImg").attr("src", src);
     });
 });

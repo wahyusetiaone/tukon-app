@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PrivateChannelTest;
+use App\Models\NotificationHandler;
 use App\Models\Produk;
 use App\Models\User;
+use http\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class HomeClientController extends Controller

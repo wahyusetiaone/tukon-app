@@ -37,12 +37,12 @@
                                     $str_arr = explode (",", $data->path);
                                 @endphp
                                 <div class="col-12">
-                                    <img src="{{asset($str_arr[0])}}" class="product-image" alt="Product Image">
+                                    <img src="{{asset($str_arr[0])}}" id="targetImg"  class="product-image" alt="Product Image">
                                 </div>
                                 <div class="col-12 product-image-thumbs">
                                     @foreach($str_arr as $item)
                                         <div class="product-image-thumb active">
-                                            <img src="{{asset($item)}}"
+                                            <img src="{{asset($item)}}" name="thumnailImg"
                                                  alt="Product Image">
                                         </div>
                                     @endforeach

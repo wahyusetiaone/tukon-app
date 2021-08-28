@@ -15,3 +15,35 @@ $(document).on('click', '[id^=btn-sub]', function (e) {
     });
     return false;
 });
+
+$(document).ready(function(){
+    $('img[name="thumnailImg"]').click(function(){
+        var src = $(this).attr('src');
+        $("#targetImg").attr("src",src);
+    });
+});
+
+$(document).ready(function(){
+    $('a[name="removeImg"]').click(function(){
+        var src = $('#targetImg').attr('src');
+        $('input[name="urlImg"]').val(src);
+        Swal.fire({
+            icon: 'question',
+            text: 'Do you want to remove this?',
+            showCancelButton: true,
+            confirmButtonText: 'Delete',
+            confirmButtonColor: '#F44336',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $('#form-rm-img').submit();
+            }
+        });
+    });
+});
+
+$(document).ready(function(){
+    $('#path_show').on('change', function(){
+        $('#form-add-img').submit();
+
+    });
+});

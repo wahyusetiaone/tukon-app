@@ -28,12 +28,14 @@
                         </div>
                     </div>
                     <!-- form start -->
-                    <form id="formupdateinfoclient" role="form" method="post" action="{{route('data.penawaran.offline.update_client', $data->id)}}">
+                    <form id="formupdateinfoclient" role="form" method="post"
+                          action="{{route('data.penawaran.offline.update_client', $data->id)}}">
                         @csrf
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="nama_client">Nama Klien</label>
-                                <input type="text" value="{{$data->nama_client}}" class="form-control @error('nama_client') is-invalid @enderror"
+                                <input type="text" value="{{$data->nama_client}}"
+                                       class="form-control @error('nama_client') is-invalid @enderror"
                                        id="nama_client" name="nama_client" placeholder="Nama Klient">
                                 @error('nama_client')
                                 <span class="invalid-feedback" role="alert">
@@ -43,7 +45,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="email_client">Email</label>
-                                <input type="text" value="{{$data->email_client}}" class="form-control @error('email_client') is-invalid @enderror"
+                                <input type="text" value="{{$data->email_client}}"
+                                       class="form-control @error('email_client') is-invalid @enderror"
                                        id="email_client" name="email_client" placeholder="Email">
                                 @error('email_client')
                                 <span class="invalid-feedback" role="alert">
@@ -54,7 +57,8 @@
                             <div class="form-group">
                                 <label for="nomor_telepon_client">Nomor Telepon</label>
                                 <input type="text" pattern="[0-9]{1,13}" value="{{$data->nomor_telepon_client}}"
-                                       class="form-control @error('nomor_telepon_client') is-invalid @enderror" id="nomor_telepon_client" name="nomor_telepon_client"
+                                       class="form-control @error('nomor_telepon_client') is-invalid @enderror"
+                                       id="nomor_telepon_client" name="nomor_telepon_client"
                                        placeholder="Nomor Telepon">
                                 @error('nomor_telepon_client')
                                 <span class="invalid-feedback" role="alert">
@@ -64,7 +68,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="kota_client">Kota</label>
-                                <input type="text" value="{{$data->kota_client}}" class="form-control @error('kota_client') is-invalid @enderror"
+                                <input type="text" value="{{$data->kota_client}}"
+                                       class="form-control @error('kota_client') is-invalid @enderror"
                                        id="kota_client" name="kota_client" placeholder="Kota">
                                 @error('kota_client')
                                 <span class="invalid-feedback" role="alert">
@@ -74,7 +79,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="alamat_client">Alamat</label>
-                                <input type="text" value="{{$data->alamat_client}}" class="form-control @error('alamat_client') is-invalid @enderror"
+                                <input type="text" value="{{$data->alamat_client}}"
+                                       class="form-control @error('alamat_client') is-invalid @enderror"
                                        id="alamat_client" name="alamat_client" placeholder="Alamat">
                                 @error('alamat_client')
                                 <span class="invalid-feedback" role="alert">
@@ -104,12 +110,14 @@
                         </div>
                     </div>
                     <!-- form start -->
-                    <form id="formupdateinfoproyek" role="form" method="post" action="{{route('data.penawaran.offline.update_proyek', $data->id)}}">
+                    <form id="formupdateinfoproyek" role="form" method="post"
+                          action="{{route('data.penawaran.offline.update_proyek', $data->id)}}">
                         @csrf
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="nama_proyek">Nama Proyek</label>
-                                <input type="text" value="{{$data->nama_proyek}}" class="form-control @error('nama_proyek') is-invalid @enderror"
+                                <input type="text" value="{{$data->nama_proyek}}"
+                                       class="form-control @error('nama_proyek') is-invalid @enderror"
                                        id="nama_proyek" name="nama_proyek" placeholder="Nama Proyek">
                                 @error('nama_proyek')
                                 <span class="invalid-feedback" role="alert">
@@ -119,7 +127,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="alamat_proyek">Alamat</label>
-                                <input type="text" value="{{$data->alamat_proyek}}" class="form-control @error('alamat_proyek') is-invalid @enderror"
+                                <input type="text" value="{{$data->alamat_proyek}}"
+                                       class="form-control @error('alamat_proyek') is-invalid @enderror"
                                        id="alamat_proyek" name="alamat_proyek" placeholder="Alamat Proyek">
                                 @error('alamat_proyek')
                                 <span class="invalid-feedback" role="alert">
@@ -129,7 +138,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="range_min">Budged Min</label>
-                                <input type="number" value="{{$data->range_min}}" class="form-control @error('range_min') is-invalid @enderror"
+                                <input type="number" value="{{$data->range_min}}"
+                                       class="form-control @error('range_min') is-invalid @enderror"
                                        id="range_min" name="range_min" min="10000">
                                 @error('range_min')
                                 <span class="invalid-feedback" role="alert">
@@ -139,7 +149,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="range_max">Budged Max</label>
-                                <input type="number" value="{{$data->range_max}}" class="form-control @error('range_max') is-invalid @enderror"
+                                <input type="number" value="{{$data->range_max}}"
+                                       class="form-control @error('range_max') is-invalid @enderror"
                                        id="range_max" name="range_max" min="10000">
                                 @error('range_max')
                                 <span class="invalid-feedback" role="alert">
@@ -160,7 +171,9 @@
                             </div>
                             <div class="form-group">
                                 <label for="diskripsi_proyek">Diskripsi Proyek</label>
-                                <textarea rows="3" type="text" class="form-control @error('diskripsi_proyek') is-invalid @enderror" id="diskripsi_proyek"
+                                <textarea rows="3" type="text"
+                                          class="form-control @error('diskripsi_proyek') is-invalid @enderror"
+                                          id="diskripsi_proyek"
                                           name="diskripsi_proyek"
                                           placeholder="Diskripsi">{{$data->diskripsi_proyek}}</textarea>
                                 @error('diskripsi_proyek')

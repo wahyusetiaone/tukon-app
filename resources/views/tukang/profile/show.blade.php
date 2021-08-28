@@ -88,7 +88,7 @@
                                     <input type="text" value="{{$client->user->name}}"
                                            class="form-control @error('kota') is-invalid @enderror" id="name"
                                            name="name" placeholder="Masukan Nama Anda">
-                                    @error('kota')
+                                    @error('name')
                                     <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -123,6 +123,42 @@
                                            id="nomor_telepon"
                                            name="nomor_telepon" placeholder="Masukan Nomor Telepon Anda">
                                     @error('nomor_telepon')
+                                    <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="no_rekening">Nomor Rekening</label>
+                                    <input type="number" value="{{$client->no_rekening}}"
+                                           class="form-control @error('no_rekening') is-invalid @enderror"
+                                           id="no_rekening"
+                                           name="no_rekening" placeholder="Masukan Nomor Rekening Anda">
+                                    @error('no_rekening')
+                                    <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="atas_nama_rekening">Atas Nama Rekening</label>
+                                    <input type="text" value="{{$client->atas_nama_rekening}}"
+                                           class="form-control @error('atas_nama_rekening') is-invalid @enderror"
+                                           id="atas_nama_rekening" oninput="let p=this.selectionStart;this.value=this.value.toUpperCase();this.setSelectionRange(p, p);"
+                                           name="atas_nama_rekening" placeholder="Atas Nama Rekening Anda">
+                                    @error('atas_nama_rekening')
+                                    <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="bank">BANK</label>
+                                    <input type="text" value="{{$client->bank}}"
+                                           class="form-control @error('bank') is-invalid @enderror"
+                                           id="bank" oninput="let p=this.selectionStart;this.value=this.value.toUpperCase();this.setSelectionRange(p, p);"
+                                           name="bank" placeholder="Bank Anda">
+                                    @error('bank')
                                     <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

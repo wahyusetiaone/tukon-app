@@ -42,7 +42,7 @@ class PersetujuanController extends Controller
             } else {
                 return (new PersetujuanResourceController(['error' => 'Mohon maaf, anda tidak mendapat akses untuk mengubah record ini !!!']))->response()->setStatusCode(401);
             }
-        }catch (\Exception $ee){
+        } catch (\Exception $ee) {
             return (new PersetujuanResourceController(['error' => 'ID penawaran tidak terdaftar pada sistem !!!']))->response()->setStatusCode(401);
         }
     }
@@ -56,24 +56,28 @@ class PersetujuanController extends Controller
     public function accept_tukang(Request $request, int $id)
     {
         $kode_user = User::with('tukang')->find(Auth::id())->kode_user;
+        if (!Penawaran::where('id', $id)->exists()) {
+            return (new PersetujuanResourceController(['error' => 'Mohon maaf, record tidak ditemukan !!!']))->response()->setStatusCode(401);
+        }
         $penawaran = Penawaran::with('pin', 'pin.pengajuan')->where('id', $id)->first();
 
         if ($kode_user == $penawaran->pin->kode_tukang) {
 
             if ($penawaran->pin->status == "D01A") {
-                $pembayaran = Pembayaran::find($penawaran->pin->id)->first();
-                if($penawaran->pin->status == "D02"){
-                    return (new PersetujuanResourceController(['status' => true, 'message' => "Sepertinya anda telah melakukan persetujuan.", 'pembayaran' => $pembayaran]))->response()->setStatusCode(200);
-                }else{
-                    $data = Pin::find($penawaran->pin->id);
-                    $data->update(['status' => 'D02']);
-                    return (new PersetujuanResourceController(['update_status' => $data, 'pembayaran' => $pembayaran]))->response()->setStatusCode(200);
+                $data = Pin::find($penawaran->pin->id);
+                $data->update(['status' => 'D02']);
+                return (new PersetujuanResourceController(['update_status' => $data]))->response()->setStatusCode(200);
+            } elseif ($penawaran->pin->status == "D02") {
+                try {
+                    $pembayaran = Pembayaran::whereId($penawaran->pin->id)->firstOrFail();
+                    return (new PersetujuanResourceController(['status' => true, 'message' => "Sepertinya anda telah melakukan persetujuan.", 'kode_pembayaran' => $pembayaran->id]))->response()->setStatusCode(200);
+                }catch (ModelNotFoundException $ee){
+                    return (new PersetujuanResourceController(['error' => "Opss Error."]))->response()->setStatusCode(200);
                 }
             } else {
                 return (new PersetujuanResourceController(['error' => "Tidak bisa melakukan persetujuan projek karena klien belum melakukan persetujuan tehadap penawaran anda!!"]))->response()->setStatusCode(401);
             }
         } else {
-
             return (new PersetujuanResourceController(['error' => 'Mohon maaf, anda tidak mendapat akses untuk mengubah record ini !!!']))->response()->setStatusCode(401);
         }
     }

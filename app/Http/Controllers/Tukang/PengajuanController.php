@@ -21,7 +21,11 @@ class PengajuanController extends Controller
         $data = Pin::with('pengajuan','pengajuan.client','pengajuan.client.user')->where('kode_tukang', $user)->get();
         return Datatables::of($data)->addIndexColumn()
             ->addColumn('action', function($data){
-                $button = '<a href="'.url('pengajuan/show').'/'.$data->id.'"><button type="button" name="show" id="'.$data->id.'" class="edit btn btn-primary btn-sm">Show</button></a>';
+                if ($data->pengajuan->deleted_at == null){
+                    $button = '<a href="'.url('pengajuan/show').'/'.$data->id.'"><button type="button" name="show" id="'.$data->id.'" class="edit btn btn-primary btn-sm">Show</button></a>';
+                }else{
+                    $button = '<a href="'.url('pengajuan/show').'/'.$data->id.'"><button type="button" name="show" id="'.$data->id.'" class="edit btn btn-danger btn-sm" disabled>Deleted</button></a>';
+                }
                 return $button;
             })
             ->rawColumns(['action'])
@@ -125,7 +129,7 @@ class PengajuanController extends Controller
         $kode_user = User::with('tukang')->find(Auth::id())->kode_user;
         try {
             $old = Pin::where(['id' => $id, 'kode_tukang' => $kode_user])->firstOrFail();
-            $old->update(['status' => 'T03']);
+            $old->update(['status' => 'B02']);
 
             return (new PengajuanResourceController(['update_status' => $old]))->response()->setStatusCode(200);
         } catch (ModelNotFoundException $e) {

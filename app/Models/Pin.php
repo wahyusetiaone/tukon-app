@@ -23,7 +23,7 @@ class Pin extends Model
 
     public function pengajuan()
     {
-        return $this->belongsTo(Pengajuan::class, 'kode_pengajuan', 'id');
+        return $this->belongsTo(Pengajuan::class, 'kode_pengajuan', 'id')->withTrashed();
     }
 
     public function tukang()
@@ -33,7 +33,7 @@ class Pin extends Model
 
     public function penawaran()
     {
-        return $this->hasOne(Penawaran::class, 'id', 'kode_penawaran');
+        return $this->hasOne(Penawaran::class, 'id', 'kode_penawaran')->withTrashed();
     }
 
     public function pembayaran()
@@ -43,6 +43,6 @@ class Pin extends Model
 
     public function revisi()
     {
-        return $this->hasMany(Revisi::class, 'kode_penawaran', 'kode_penawaran');
+        return $this->hasMany(Revisi::class, 'kode_penawaran', 'kode_penawaran')->orderByDesc('updated_at');
     }
 }

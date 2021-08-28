@@ -16,14 +16,15 @@ use Yajra\DataTables\DataTables;
 
 class ProdukController extends Controller
 {
-    public function json(){
+    public function json()
+    {
         $user = Auth::user()->kode_user;
         $tukang = Tukang::find($user);
         $data = $tukang->produk;
         return Datatables::of($data)->addIndexColumn()
-            ->addColumn('action', function($data){
-                $button = '<a href="'.url('produk/show?id=').$data->id.'"><button type="button" name="show" id="'.$data->id.'" class="edit btn btn-primary btn-sm">Show</button></a>';
-                $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="delete" id="'.$data->id.'" class="delete btn btn-danger btn-sm">Delete</button>';
+            ->addColumn('action', function ($data) {
+                $button = '<a href="' . url('produk/show?id=') . $data->id . '"><button type="button" name="show" id="' . $data->id . '" class="edit btn btn-primary btn-sm">Show</button></a>';
+                $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm">Delete</button>';
                 return $button;
             })
             ->rawColumns(['action'])
@@ -52,12 +53,12 @@ class ProdukController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'nama_produk' => 'required'
         ]);
 
@@ -75,11 +76,11 @@ class ProdukController extends Controller
                 if ($file->isValid()) {
                     $path = $file->store('images/produk', 'public');
                     $path = substr($path, 6);
-                    $path = "storage/images".$path;
-                    if ($full_path == ""){
+                    $path = "storage/images" . $path;
+                    if ($full_path == "") {
                         $full_path = $path;
-                    }else{
-                        $full_path = $full_path.",".$path;
+                    } else {
+                        $full_path = $full_path . "," . $path;
                     }
                     $files[] = [
                         'path' => $path,
@@ -91,7 +92,7 @@ class ProdukController extends Controller
             Produk::create($request->all());
             Alert::success('Succesfully Saved', 'Data has been saved !!!');
             return redirect()->back();
-        }else{
+        } else {
             Produk::create($request->all());
             Alert::success('Succesfully Saved', 'Data has been saved !!!');
             return redirect()->back();
@@ -103,7 +104,7 @@ class ProdukController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function show(Request $request)
@@ -116,7 +117,7 @@ class ProdukController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -127,13 +128,13 @@ class ProdukController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-//     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * //     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'nama_produk' => 'required'
         ]);
 
@@ -149,11 +150,11 @@ class ProdukController extends Controller
                 if ($file->isValid()) {
                     $path = $file->store('images/produk', 'public');
                     $path = substr($path, 6);
-                    $path = "storage/images".$path;
-                    if ($full_path == ""){
+                    $path = "storage/images" . $path;
+                    if ($full_path == "") {
                         $full_path = $path;
-                    }else{
-                        $full_path = $full_path.",".$path;
+                    } else {
+                        $full_path = $full_path . "," . $path;
                     }
                     $files[] = [
                         'path' => $path,
@@ -165,7 +166,7 @@ class ProdukController extends Controller
             Produk::whereId($id)->update($request->except('path_show'));
             Alert::success('Succesfully Update', 'Update data has been saved !!!');
             return redirect()->back();
-        }else{
+        } else {
             Produk::whereId($id)->update($request->except('path_show'));
             Alert::success('Succesfully Updated', 'Update data has been saved !!!');
             return redirect()->back();
@@ -177,13 +178,88 @@ class ProdukController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return bool
      */
     public function destroy($id)
     {
-        Produk::where('id',$id)->delete();
+        Produk::where('id', $id)->delete();
 
         return true;
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function removeImg(Request $request, $id)
+    {
+        $this->validate($request, [
+            'urlImg' => 'required'
+        ]);
+
+        $spl = explode('/', $request->input('urlImg'));
+        $namefile = $spl[(count($spl) - 1)];
+        $path = $spl[(count($spl) - 4)].'/'.$spl[(count($spl) - 3)].'/'.$spl[(count($spl) - 2)].'/'.$spl[(count($spl) - 1)];
+        $produk = Produk::select('multipath', 'path')->whereId($id)->first();
+        $data = array();
+        if ($produk->multipath) {
+            $spl2 = explode(',', $produk->path);
+            if (($key = array_search($path, $spl2)) !== false) {
+                unset($spl2[$key]);
+            }
+            $data['multipath'] = count($spl2) > 1;
+            $data['path'] = implode(",", $spl2);
+            Produk::whereId($id)->update($data);
+        } else {
+            Produk::whereId($id)->update(['multipath' => false, 'path' => null]);
+        }
+        Storage::disk('public')->delete('images/produk' . $namefile);
+        Alert::success('Succesfully Delete Photos', 'Update data has been saved !!!');
+        return redirect()->back();
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * //     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function addImg(Request $request, $id)
+    {
+        $request->validate([
+            'path.*' => 'mimes:jpg,jpeg,png|max:1000'
+        ]);
+
+        $request->request->remove('_token');
+        if ($request->hasfile('path_show')) {
+            $files = false;
+            $produk = Produk::select('path')->whereId($id)->first();
+            $full_path = $produk->path;
+            foreach ($request->file('path_show') as $file) {
+                if ($file->isValid()) {
+                    $path = $file->store('images/produk', 'public');
+                    $path = substr($path, 6);
+                    $path = "storage/images" . $path;
+                    if ($full_path == "") {
+                        $full_path = $path;
+                    } else {
+                        $full_path = $full_path . "," . $path;
+                        $files = true;
+                    }
+                }
+            }
+            $request['multipath'] = $files;
+            $request['path'] = $full_path;
+            Produk::whereId($id)->update($request->except('path_show'));
+            Alert::success('Succesfully Upload Image', 'Update data has been saved !!!');
+            return redirect()->back();
+        }
+        Alert::error('Error Upload Image', 'Update data didn`t saved !!!');
+        return redirect()->back();
     }
 }

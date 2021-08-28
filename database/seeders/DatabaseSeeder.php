@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Penalty;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -28,6 +29,7 @@ class DatabaseSeeder extends Seeder
         $this->call(BPASeeder::class);
         $this->call(LimitasiPenarikanSeeder::class);
         $this->call(PersentasePenarikanSeeder::class);
+        $this->call(Penalty::class);
 
         Model::reguard();
 

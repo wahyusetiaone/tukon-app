@@ -61,7 +61,9 @@
                     @foreach($data['data'] as $dat)
                         <tr>
                             <td>
-                                #
+                                <label>
+                                    <input type="checkbox" name="wish-{{$dat['produk']['tukang']['id']}}" value="{{$dat['produk']['tukang']['id']}}"/>
+                                </label>
                             </td>
                             <td>
                                 <a>
@@ -149,9 +151,9 @@
             <!-- /.card-body -->
 
             <a href="#" class="second-float">
-                <h3 class="fa my-second-float">10</h3>
+                <h3 class="fa my-second-float" id="count">0</h3>
             </a>
-            <a href="#" class="float" data-toggle="tooltip" data-placement="left" title="Kirim pengajuan ke banyak tukang">
+            <a name="send-multi" href="#" class="float" data-toggle="tooltip" data-placement="left" title="Kirim pengajuan ke banyak tukang">
                 <i class="fa fa-paper-plane my-float"></i>
             </a>
         </div>

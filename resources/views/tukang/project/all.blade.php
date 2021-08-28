@@ -16,6 +16,7 @@
                     <th>Nama Projek</th>
                     <th>Diskripsi Projeck</th>
                     <th>Alamat</th>
+                    <th>Status</th>
                     <th>Tindakan</th>
                 </tr>
                 </thead>

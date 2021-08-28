@@ -137,14 +137,28 @@
                                     <thead>
                                     <tr>
                                         <th>Nama Komponen</th>
-                                        <th>Harga</th>
+                                        <th>Merk / Type</th>
+                                        <th>Spesifikasi Teknis</th>
+                                        <th>Satuan</th>
+                                        <th>Total Item</th>
+                                        <th>Harga Total</th>
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    @php
+                                        $thargakomponen = 0;
+                                    @endphp
                                     @foreach($data->komponen as $item)
                                         <tr>
                                             <td>{{$item->nama_komponen}}</td>
+                                            <td>{{$item->merk_type}}</td>
+                                            <td>{{$item->spesifikasi_teknis}}</td>
+                                            <td>{{$item->satuan}}</td>
+                                            <td>{{$item->total_unit}}</td>
                                             <td>{{indonesiaRupiah($item->harga)}}</td>
+                                            @php
+                                                $thargakomponen += $item->harga;
+                                            @endphp
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -196,11 +210,11 @@
                                     <table class="table">
                                         <tr>
                                             <th style="width:50%">Total Harga Komponen:</th>
-                                            <td>{{indonesiaRupiah($data->harga_total - $data->keuntungan)}}</td>
+                                            <td>{{indonesiaRupiah($thargakomponen)}}</td>
                                         </tr>
                                         <tr>
                                             <th style="width:50%">Harga Jasa (Rp.):</th>
-                                            <td>{{indonesiaRupiah($data->keuntungan)}}</td>
+                                            <td>{{indonesiaRupiah(($thargakomponen*$data->keuntungan)/100)}}</td>
                                         </tr>
                                         <tr>
                                             <th style="width:50%">Total Harga (Rp.):</th>
@@ -216,7 +230,7 @@
                         <!-- this row will not appear when printing -->
                         <div class="row no-print">
                             <div class="col-12">
-                                <a href="invoice-print.html" target="_blank" class="btn btn-default"><i
+                                <a href="{{route('pdf.penawaran', $data->id)}}" target="_blank" class="btn btn-default"><i
                                         class="fas fa-print"></i> Print</a>
                                 @if($data->kode_status == "T02" || $data->kode_status == "S02")
                                     @if($data->pin->status == "N01")

@@ -3227,6 +3227,10 @@ $(document).ready(function () {
     var data = $(this);
     window.location = "/client/pengajuan/form/" + data.val();
   });
+  $('img[name="thumnailImg"]').click(function () {
+    var src = $(this).attr('src');
+    $("#targetImg").attr("src", src);
+  });
 });
 })();
 

@@ -43,12 +43,26 @@ mix.js('resources/js/app.js', 'public/js')
     //client
     .js('resources/js/form_pengajuan.js', 'public/js')
     .js('resources/js/show_pengajuan_client.js', 'public/js')
+    .js('resources/js/edit_pengajuan_client.js', 'public/js')
     .js('resources/js/show_produk_client.js', 'public/js')
     .js('resources/js/show_pembayaran_client.js', 'public/js')
     .js('resources/js/payoffline_pembayaran_client.js', 'public/js')
     .js('resources/js/show_project_client.js', 'public/js')
     .js('resources/js/show_profile_client.js', 'public/js')
     .js('resources/js/show_change_photo_client.js', 'public/js')
+
+    //admin
+    .js('resources/js/all_penarikan_admin.js', 'public/js')
+    .js('resources/js/all_pembayaran_admin.js', 'public/js')
+    .js('resources/js/konfirmasi_pembayaran_admin.js', 'public/js')
+    .js('resources/js/all_penawaran_admin.js', 'public/js')
+    .js('resources/js/all_pengajuan_admin.js', 'public/js')
+    .js('resources/js/all_user_admin.js', 'public/js')
+    .js('resources/js/show_profile_user_admin.js', 'public/js')
+    .js('resources/js/konfirmasi_penarikan_admin.js', 'public/js')
+    .js('resources/js/all_pengembalian_admin.js', 'public/js')
+    .js('resources/js/konfirmasi_pengembalian_admin.js', 'public/js')
+
 
     .sass('resources/sass/app.scss', 'public/css')
 

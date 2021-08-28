@@ -107,7 +107,7 @@ Route::group(['middleware' => ['auth:api', 'roles']], function () {
             Route::get('get', 'App\Http\Controllers\API\PenarikanDanaController@index')->name('get');
             Route::get('get/{id}', 'App\Http\Controllers\API\PenarikanDanaController@indexTukang')->name('get');
             Route::get('avaliable/{id}', 'App\Http\Controllers\API\PenarikanDanaController@create')->name('avaliable');
-            Route::get('ajukan/{id}/{persen}', 'App\Http\Controllers\API\PenarikanDanaController@store')->name('ajukan.penarikan.dana');
+            Route::post('ajukan/{id}/{persen}', 'App\Http\Controllers\API\PenarikanDanaController@store')->name('ajukan.penarikan.dana');
         });
     });
 
@@ -122,10 +122,15 @@ Route::group(['middleware' => ['auth:api', 'roles']], function () {
         Route::group(['prefix' => 'pengajuan', 'as' => 'pengajuan'], function () {
             Route::get('get', 'App\Http\Controllers\API\PengajuanController@index')->name('get');
             Route::post('add', 'App\Http\Controllers\API\PengajuanController@create')->name('add');
+            Route::post('wishlist/add', 'App\Http\Controllers\API\PengajuanController@createformwishlist')->name('add.wishlist');
             Route::delete('remove/{id}', 'App\Http\Controllers\API\PengajuanController@destroy')->name('remove');
             Route::post('update/{id}', 'App\Http\Controllers\API\PengajuanController@update')->name('update');
             Route::post('remove/photo/{id}', 'App\Http\Controllers\API\PengajuanController@destroy_photo')->name('remove.photo');
             Route::post('remove/tukang/{id}', 'App\Http\Controllers\API\PengajuanController@destroy_tukang')->name('remove.tukang');
+            Route::get('tukang/by/{kode_pengajuan}', 'App\Http\Controllers\API\PengajuanController@get_tukang_by_pengajuan')->name('tukang.by.pengajuan');
+        });
+        Route::group(['prefix' => 'penawaran', 'as' => 'penawaran'], function () {
+            Route::get('show/{id}', 'App\Http\Controllers\API\PenawaranController@showclient')->name('penawaran.show.client');
         });
         Route::group(['prefix' => 'persetujuan', 'as' => 'persetujuan'], function () {
             Route::get('accept/{id}', 'App\Http\Controllers\API\PersetujuanController@accept_client')->name('accpet_client');
@@ -137,15 +142,25 @@ Route::group(['middleware' => ['auth:api', 'roles']], function () {
             Route::get('lihat/tagihan/{id}', 'App\Http\Controllers\API\PembayaranController@show')->name('lihat_tagihan');
             Route::post('upload/{id}', 'App\Http\Controllers\API\PembayaranController@create')->name('upload');
             Route::post('reupload/{id}', 'App\Http\Controllers\API\PembayaranController@create')->name('reupload');
+            Route::get('batal/{id}', 'App\Http\Controllers\API\PembayaranController@cancel')->name('cancel');
         });
         Route::group(['prefix' => 'project', 'as' => 'project'], function () {
+            Route::get('get', 'App\Http\Controllers\API\ProjectController@client_show_all_project')->name('client_show_all_project');
             Route::get('lihat/{id}', 'App\Http\Controllers\API\ProjectController@client_show_project')->name('client_show_project');
             Route::get('konfirmasi/selesai/{id}', 'App\Http\Controllers\API\ProjectController@client_approve')->name('client_approve');
+            Route::get('batal/{id}', 'App\Http\Controllers\API\ProjectController@client_cancel')->name('client_cancel');
         });
         Route::group(['prefix' => 'penarikan', 'as' => 'penarikan'], function () {
             Route::get('get/{id}', 'App\Http\Controllers\API\PenarikanDanaController@indexClient')->name('get');
             Route::get('terima/{id}/{transaksi}', 'App\Http\Controllers\API\PenarikanDanaController@terima')->name('terima');
             Route::get('tolak/{id}/{transaksi}', 'App\Http\Controllers\API\PenarikanDanaController@tolak')->name('tolak');
+        });
+        Route::group(['prefix' => 'avaliable-bank', 'as' => 'avaliable-bank'], function () {
+            Route::get('get', 'App\Http\Controllers\API\AvaliableBankAccountController@index')->name('get');
+        });
+        Route::group(['prefix' => 'pengembalian-dana', 'as' => 'pengembalian-dana'], function () {
+            Route::get('get', 'App\Http\Controllers\API\PengembalianDanaController@index')->name('get');
+            Route::post('ajukan/{id}', 'App\Http\Controllers\API\PengembalianDanaController@ajukan')->name('ajukan');
         });
     });
 

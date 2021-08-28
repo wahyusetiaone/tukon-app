@@ -206,11 +206,11 @@
                                         </button>
                                     @elseif($data->kode_status == "ON03")
                                         <button value="{{$data->id}}" id="btnKonfirmasiSelesaiProyek"
-                                                class="btn btn-sm btn-success disabled">Proyek dibatalkan
+                                                class="btn btn-sm btn-danger disabled">Proyek dibatalkan
                                         </button>
                                     @elseif($data->kode_status == "ON05")
                                         <button value="{{$data->id}}" id="btnKonfirmasiSelesaiProyek"
-                                                class="btn btn-sm btn-success disabled">Proyek Telah Selesai
+                                                class="btn btn-sm btn-info disabled">Proyek Telah Selesai
                                         </button>
                                     @endif
                                 </div>
@@ -229,6 +229,9 @@
                             </p>
                             <p class="text-sm">Nama Tukang
                                 <b class="d-block">{{$data->pembayaran->pin->tukang->user->name}}</b>
+                            </p>
+                            <p class="text-sm">File
+                                <a href="{{route('pdf.bast',$data->id)}}"><b class="d-block">BAST</b></a>
                             </p>
                         </div>
                         <!-- Timelime example  -->

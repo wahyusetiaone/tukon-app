@@ -100,6 +100,9 @@
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    @php
+                                    $thargakomponen = 0;
+                                    @endphp
                                     @foreach($data->komponen as $item)
                                         <tr>
                                             <td>{{$item->nama_komponen}}</td>
@@ -108,6 +111,9 @@
                                             <td>{{$item->satuan}}</td>
                                             <td>{{$item->total_unit}}</td>
                                             <td>{{indonesiaRupiah($item->harga)}}</td>
+                                            @php
+                                                $thargakomponen += $item->harga;
+                                            @endphp
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -153,17 +159,17 @@
                                     <table class="table">
                                         <tr>
                                             <th style="width:50%">Total Harga Komponen:</th>
-                                            <td>{{indonesiaRupiah($data->harga_total - $data->keuntungan)}}</td>
+                                            <td>{{indonesiaRupiah($thargakomponen)}}</td>
                                         </tr>
                                         <tr>
                                             <th style="width:50%">Keuntungan (%):</th>
-                                            <td>{{($data->keuntungan / ($data->harga_total - $data->keuntungan)) * 100}}
+                                            <td>{{$data->keuntungan}}
                                                 %
                                             </td>
                                         </tr>
                                         <tr>
                                             <th style="width:50%">Keuntungan (Rp.):</th>
-                                            <td>{{indonesiaRupiah($data->keuntungan)}}</td>
+                                            <td>{{indonesiaRupiah(($thargakomponen*$data->keuntungan)/100)}}</td>
                                         </tr>
                                         <tr>
                                             <th style="width:50%">Total Harga (Rp.):</th>

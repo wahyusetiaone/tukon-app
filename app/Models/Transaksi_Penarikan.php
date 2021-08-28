@@ -17,7 +17,7 @@ class Transaksi_Penarikan extends Model
         'kode_status'
     ];
 
-    public function penarikan(){
+    public function penarikan_dana(){
         return $this->belongsTo(PenarikanDana::class, 'kode_penarikan','id');
     }
 

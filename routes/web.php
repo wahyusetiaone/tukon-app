@@ -1,5 +1,7 @@
 <?php
 
+use App\Events\PrivateChannelTest;
+use App\Models\NotificationHandler;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -14,23 +16,98 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::get('/', function () {
-//    return view('home_client');
-//});
-//
-//Route::get('/client/home', function () {
-//    return view('home_client');
-//})->name('client.home');
-//
+Route::group(['prefix' => 'command'], function () {
 
-//Route::group(['roles'=>'Admin'],function(){
-//    Route::resource('user', 'UserController');
-//});
+    Route::get('run-migrations-force', function () {
+        return Artisan::call('migrate', ["--force" => true]);
+        return '<h1>Migrate Database</h1>';
+    });
+    //Clear Config cache:
+    Route::get('run-migrations', function () {
+        return Artisan::call('migrate');
+        return '<h1>Migrate Database</h1>';
+    });
+//Clear Cache facade value:
+    Route::get('clear-cache', function () {
+        $exitCode = Artisan::call('cache:clear');
+        return '<h1>Cache facade value cleared</h1>';
+    });
+//Reoptimized class loader:
+    Route::get('optimize', function () {
+        $exitCode = Artisan::call('optimize');
+        return '<h1>Reoptimized class loader</h1>';
+    });
+//Route cache:
+    Route::get('route-cache', function () {
+        $exitCode = Artisan::call('route:cache');
+        return '<h1>Routes cached</h1>';
+    });
+//Clear Route cache:
+    Route::get('route-clear', function () {
+        $exitCode = Artisan::call('route:clear');
+        return '<h1>Route cache cleared</h1>';
+    });
+//Clear View cache:
+    Route::get('view-clear', function () {
+        $exitCode = Artisan::call('view:clear');
+        return '<h1>View cache cleared</h1>';
+    });
+//Clear Config cache:
+    Route::get('config-cache', function () {
+        $exitCode = Artisan::call('config:cache');
+        return '<h1>Clear Config cleared</h1>';
+    });
+    //Clear Config cache:
+    Route::get('passport-install', function () {
+        $exitCode = Artisan::call('passport:install');
+        return '<h1>Passport Successfuly Installed</h1>';
+    });
+    //Clear key-generate:
+    Route::get('key-generate', function () {
+        $exitCode = Artisan::call('key:generate');
+        return '<h1>Generated Key Successfuly Installed</h1>';
+    });
+    //Clear db:seed:
+    Route::get('db-seed', function () {
+        $exitCode = Artisan::call('db:seed');
+        return '<h1>Seeder Successfuly Run</h1>';
+    });
+});
+
+Route::group(['prefix' => 'trigger'], function () {
+    Route::get('dummy', function () {
+        broadcast(new \App\Events\DummyEvent('hello world'));
+        return '<h1>Dummy Event Trigger :</h1>';
+    });
+    Route::get('bisayokbisa', function (){
+
+        // want to broadcast PrivateChannelTest event
+        $msg = new NotificationHandler();
+        $msg->user_id = 3;
+        $msg->title = "Proyek";
+        $msg->message = "Proyek Telah Selesai";
+        $msg->name = "Buat Rumah";
+        $msg->deep_id = 12;
+        $msg->role = "client"; //client/tukang/admin
+        $msg->action = "update"; //add/delete/update
+        $msg->read = false;
+        $msg->save();
+        $unReadNotif = NotificationHandler::select()->where('user_id', 3)->count();
+//        broadcast(new PrivateChannelTest($msg,$unReadNotif));
+        bringInNotification($msg, $unReadNotif, \App\Events\ProyekEventController::eventCreated());
+        return '<h1>Yokk Event Trigger :</h1>';
+    });
+});
 
 Route::get('/helper', [\App\Http\Controllers\HelperView::class, 'index'])->name('helperview');
-
 Route::get('/', [App\Http\Controllers\HomeClientController::class, 'index'])->name('/');
 Route::get('search/{fiter}/{search}', [App\Http\Controllers\Client\SearchController::class, 'index'])->name('search');
+
+Route::group(['prefix' => 'pdf'], function () {
+    Route::get('invoice/{id}', [App\Http\Controllers\Pdf\PdfDomController::class, 'invoice'])->name('pdf.invoice');
+    Route::get('bast/{id}', [App\Http\Controllers\Pdf\PdfDomController::class, 'bast'])->name('pdf.bast');
+    Route::get('penawaran/{id}', [App\Http\Controllers\Pdf\PdfDomController::class, 'penawaran'])->name('pdf.penawaran');
+});
 
 Route::group(['prefix' => 'guest'], function () {
     Route::group(['prefix' => 'product'], function () {
@@ -64,7 +141,12 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
             Route::get('form/{tukang}', [App\Http\Controllers\Client\PengajuanController::class, 'create'])->name('add.pengajuan.client');
             Route::post('store/{id}/{multi}/{kode_tukang}', [App\Http\Controllers\Client\PengajuanController::class, 'store'])->name('store.pengajuan.client');
             Route::get('show/{id}', [App\Http\Controllers\Client\PengajuanController::class, 'show'])->name('show.pengajuan.client');
-
+            Route::get('edit/{id}', [App\Http\Controllers\Client\PengajuanController::class, 'edit'])->name('edit.pengajuan.client');
+            Route::post('update/{id}', [App\Http\Controllers\Client\PengajuanController::class, 'update'])->name('update.pengajuan.client');
+            Route::post('delete/image/{id}', [App\Http\Controllers\Client\PengajuanController::class, 'removeImg'])->name('remove.pengajuan.client.photo');
+            Route::post('add/image/{id}', [App\Http\Controllers\Client\PengajuanController::class, 'addImg'])->name('add.pengajuan.client.photo');
+            Route::get('check-safe-args/{id}', [App\Http\Controllers\Client\PengajuanController::class, 'checkSafetyDelete'])->name('checksafeargs.pengajuan.client');
+            Route::get('delete/{id}', [App\Http\Controllers\Client\PengajuanController::class, 'destroy'])->name('delete.pengajuan.client');
         });
         Route::group(['prefix' => 'penawaran'], function () {
             Route::get('show/{id}', [App\Http\Controllers\Client\PenawaranController::class, 'show'])->name('show.penawaran.client');
@@ -78,6 +160,7 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
             Route::get('pay/offline/{id}', [App\Http\Controllers\Client\PembayaranController::class, 'createOffline'])->name('payoffline.pembayaran.client');
             Route::post('pay/offline/store/{id}', [App\Http\Controllers\Client\PembayaranController::class, 'storeOffline'])->name('store.payoffline.pembayaran.client');
 //            Route::post('pay/{id}', [App\Http\Controllers\Client\PembayaranController::class, 'create'])->name('pay.pembayaran.client');
+            Route::get('batal/{id}', [App\Http\Controllers\Client\PembayaranController::class, 'cancel'])->name('batal.pembayaran.client');
         });
         Route::group(['prefix' => 'project'], function () {
             Route::get('show/{id}', [App\Http\Controllers\Client\ProjectController::class, 'show'])->name('show.project.client');
@@ -106,6 +189,8 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
         Route::post('produk/update/{id}', [App\Http\Controllers\Tukang\ProdukController::class, 'update'])->name('update.produk');
         Route::get('produk/delete/{id}', [App\Http\Controllers\Tukang\ProdukController::class, 'destroy'])->name('destroy.produk');
         Route::get('produk/json', [App\Http\Controllers\Tukang\ProdukController::class, 'json'])->name('data.produk.json');
+        Route::post('produk/delete/image/{id}', [App\Http\Controllers\Tukang\ProdukController::class, 'removeImg'])->name('remove.produk.photo');
+        Route::post('produk/add/image/{id}', [App\Http\Controllers\Tukang\ProdukController::class, 'addImg'])->name('add.produk.photo');
 
         Route::group(['prefix' => 'pengajuan'], function () {
             Route::get('/', [App\Http\Controllers\Tukang\PengajuanController::class, 'index'])->name('pengajuan');
@@ -177,6 +262,57 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
             Route::post('profile/upload/new-photo/{id}', [App\Http\Controllers\Tukang\UserController::class, 'updatePhotoUser'])->name('upload.user.photo');
         });
     });
+    Route::group(['prefix' => 'admin', 'roles' => 'admin'], function () {
+        Route::group(['prefix' => 'pembayaran'], function () {
+            Route::get('/', [App\Http\Controllers\Admin\PembayaranController::class, 'index'])->name('pembayaran.admin');
+            Route::get('json', [App\Http\Controllers\Admin\PembayaranController::class, 'json'])->name('data.pembayaran.json.admin');
+            Route::get('show/{id}', [App\Http\Controllers\Admin\PembayaranController::class, 'show'])->name('show.pembayaran.admin');
+            Route::post('terima/{id}', [App\Http\Controllers\Admin\PembayaranController::class, 'accept'])->name('accept.pembayaran.admin');
+            Route::post('tolak/{id}', [App\Http\Controllers\Admin\PembayaranController::class, 'reject'])->name('reject.pembayaran.admin');
+        });
+        Route::group(['prefix' => 'penawaran'], function () {
+            Route::get('/', [App\Http\Controllers\Admin\PenawaranController::class, 'index'])->name('penawaran.admin');
+            Route::get('json', [App\Http\Controllers\Admin\PenawaranController::class, 'json'])->name('data.penawaran.json.admin');
+            Route::get('show/{id}', [App\Http\Controllers\Admin\PenawaranController::class, 'show'])->name('show.penawaran.admin');
+        });
+        Route::group(['prefix' => 'pengajuan'], function () {
+            Route::get('/', [App\Http\Controllers\Admin\PengajuanController::class, 'index'])->name('pengajuan.admin');
+            Route::get('json', [App\Http\Controllers\Admin\PengajuanController::class, 'json'])->name('data.pengajuan.json.admin');
+            Route::get('show/{id}', [App\Http\Controllers\Admin\PengajuanController::class, 'show'])->name('show.pengajuan.admin');
+        });
+        Route::group(['prefix' => 'user'], function () {
+            Route::group(['prefix' => 'klien'], function () {
+                Route::get('/', [App\Http\Controllers\Admin\UserController::class, 'indexclient'])->name('pengguna.client.admin');
+                Route::get('json', [App\Http\Controllers\Admin\UserController::class, 'jsonclient'])->name('data.pengguna.client.json.admin');
+                Route::get('show/{id}', [App\Http\Controllers\Admin\UserController::class, 'showclient'])->name('show.pengguna.client.admin');
+            });
+            Route::group(['prefix' => 'tukang'], function () {
+                Route::get('/', [App\Http\Controllers\Admin\UserController::class, 'indextukang'])->name('pengguna.tukang.admin');
+                Route::get('json', [App\Http\Controllers\Admin\UserController::class, 'jsontukang'])->name('data.pengguna.tukang.json.admin');
+                Route::get('show/{id}', [App\Http\Controllers\Admin\UserController::class, 'showtukang'])->name('show.pengguna.tukang.admin');
+            });
+            Route::post('banned/{id}', [App\Http\Controllers\Admin\BanController::class, 'banned'])->name('pengguna.banned.admin');
+            Route::get('unbanned/{id}', [App\Http\Controllers\Admin\BanController::class, 'unbanned'])->name('pengguna.unbanned.admin');
+        });
+        Route::group(['prefix' => 'penarikan-dana'], function () {
+            Route::get('/', [App\Http\Controllers\Admin\PenarikanDanaController::class, 'index'])->name('penarikan.admin');
+            Route::get('json', [App\Http\Controllers\Admin\PenarikanDanaController::class, 'json'])->name('data.penarikan.json.admin');
+            Route::get('show/{id}', [App\Http\Controllers\Admin\PenarikanDanaController::class, 'show'])->name('show.penarikan.admin');
+            Route::get('konfirmasi-terima/{id}', [App\Http\Controllers\Admin\PenarikanDanaController::class, 'acceptShow'])->name('accept.show.penarikan.admin');
+            Route::get('konfirmasi-tolak/{id}', [App\Http\Controllers\Admin\PenarikanDanaController::class, 'rejectShow'])->name('reject.show.penarikan.admin');
+            Route::post('terima', [App\Http\Controllers\Admin\PenarikanDanaController::class, 'accept'])->name('accept.penarikan.admin');
+            Route::post('tolak', [App\Http\Controllers\Admin\PenarikanDanaController::class, 'reject'])->name('reject.penarikan.admin');
+        });
+        Route::group(['prefix' => 'pengembalian-dana'], function () {
+            Route::get('/', [App\Http\Controllers\Admin\PengembalianDanaController::class, 'index'])->name('pengembalian-dana.admin');
+            Route::get('json', [App\Http\Controllers\Admin\PengembalianDanaController::class, 'json'])->name('data.pengembalian-dana.json.admin');
+            Route::get('show/{id}', [App\Http\Controllers\Admin\PengembalianDanaController::class, 'show'])->name('show.pengembalian-dana.admin');
+            Route::get('konfirmasi-terima/{id}', [App\Http\Controllers\Admin\PengembalianDanaController::class, 'acceptShow'])->name('accept.show.pengembalian-dana.admin');
+            Route::get('konfirmasi-tolak/{id}', [App\Http\Controllers\Admin\PengembalianDanaController::class, 'rejectShow'])->name('reject.show.pengembalian-dana.admin');
+            Route::post('terima', [App\Http\Controllers\Admin\PengembalianDanaController::class, 'accept'])->name('accept.pengembalian-dana.admin');
+            Route::post('tolak', [App\Http\Controllers\Admin\PengembalianDanaController::class, 'reject'])->name('reject.pengembalian-dana.admin');
+        });
+    });
 });
 
 Route::group(['prefix' => 'payment-gateway-testing'], function () {
@@ -188,3 +324,4 @@ Route::group(['prefix' => 'payment-gateway-testing'], function () {
     Route::get('/getPayout/{id}', [App\Http\Controllers\PaymentGateway\PembayaranController::class, 'getPayout']);
     Route::get('/voidPayout/{id}', [App\Http\Controllers\PaymentGateway\PembayaranController::class, 'voidPayout']);
 });
+

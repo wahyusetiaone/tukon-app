@@ -105,9 +105,9 @@
                                 <div class="col-6">
                                     <p class="lead">Foto :</p>
                                     <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
-                                    @if($data->multipath)
+                                    @if($data->pengajuan->multipath)
                                         @php
-                                            $string_array = explode(",",$data->path);
+                                            $string_array = explode(",",$data->pengajuan->path);
                                         @endphp
                                         <div id="carouselExampleControls" style="max-width:200px;width:100%"
                                              class="carousel slide" data-ride="carousel">
@@ -181,13 +181,17 @@
                             <thead>
                             <tr>
                                 <th>Nama Komponen</th>
+                                <th>Merk/   Type</th>
+                                <th>Spesifikasi</th>
+                                <th>Satuan</th>
+                                <th>Total Unit</th>
                                 <th>Harga (Rp.)</th>
                                 <th></th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td colspan="3" style="text-align: center;">
+                                <td colspan="7" style="text-align: center;">
                                     <button class="btn btn-success" id="btn-tbh-componen">
                                         <i class="fa fa-plus-square"></i> Tambah Komponen
                                     </button>

@@ -27,7 +27,20 @@ class ProjekController extends Controller
                 $button = '<a href="' . url('projek/show') . '/' . $data->id . '"><button type="button" name="show" id="' . $data->id . '" class="edit btn btn-primary btn-sm">Show</button></a>';
                 return $button;
             })
-            ->rawColumns(['action'])
+            ->addColumn('status', function ($data) {
+                $status = '<span class="badge bg-success">aktive</span>';
+                if($data->kode_status == "ON02"){
+                    $status = '<span class="badge bg-warning">menuggu konfirmasi</span>';
+                }elseif($data->kode_status == "ON03"){
+                    $status = '<span class="badge bg-danger">batal</span>';
+                }elseif($data->kode_status == "ON04"){
+                    $status = '<span class="badge bg-warning">menuggu konfirmasi</span>';
+                }elseif($data->kode_status == "ON05"){
+                    $status = '<span class="badge bg-info">selesai</span>';
+                }
+                return $status;
+            })
+            ->rawColumns(['action','status'])
             ->make(true);
     }
 

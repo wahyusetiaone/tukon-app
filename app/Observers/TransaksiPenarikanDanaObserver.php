@@ -16,7 +16,7 @@ class TransaksiPenarikanDanaObserver
      */
     public function updated(Transaksi_Penarikan $transaksi)
     {
-       if ($transaksi->kode_status == "PN03"){
+       if ($transaksi->kode_status == "PN05"){
            $update = PenarikanDana::find($transaksi->kode_penarikan);
            $per = Persentase_Penarikan::find($transaksi->kode_persentase_penarikan);
            $pen = ($update->total_dana * ($per->value/100));

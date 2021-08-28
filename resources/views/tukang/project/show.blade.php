@@ -151,18 +151,28 @@
                                 <div class="text-center mt-5 mb-3">
                                     @if($data->persentase_progress >= 90)
                                         @if($data->kode_status == "ON01")
-                                            <button value="{{$data->id}}" id="btnKonfirmasiSelesaiProyek" class="btn btn-sm btn-success">Konfirmasi Proyek Selesai</button>
+                                            <button value="{{$data->id}}" id="btnKonfirmasiSelesaiProyek"
+                                                    class="btn btn-sm btn-success">Konfirmasi Proyek Selesai
+                                            </button>
                                         @elseif($data->kode_status == "ON04")
-                                            <button value="{{$data->id}}" id="btnKonfirmasiSelesaiProyek" class="btn btn-sm btn-success disabled">Menuggu konfirmasi klien</button>
-                                        @elseif($data->kode_status == "ON03")
-                                            <button value="{{$data->id}}" id="btnKonfirmasiSelesaiProyek" class="btn btn-sm btn-success disabled">Proyek dibatalkan</button>
+                                            <button value="{{$data->id}}" id="btnKonfirmasiSelesaiProyek"
+                                                    class="btn btn-sm btn-success disabled">Menuggu konfirmasi klien
+                                            </button>
                                         @elseif($data->kode_status == "ON05")
-                                            <button value="{{$data->id}}" id="btnKonfirmasiSelesaiProyek" class="btn btn-sm btn-success disabled">Proyek Telah Selesai</button>
+                                            <button value="{{$data->id}}" id="btnKonfirmasiSelesaiProyek"
+                                                    class="btn btn-sm btn-success disabled">Proyek Telah Selesai
+                                            </button>
                                         @endif
                                     @endif
-                                    <a href="{{route('form.upload.progress',$data->id)}}"
-                                       class="btn btn-sm btn-primary">Upload
-                                        Progress</a>
+                                    @if($data->kode_status == "ON03")
+                                        <button value="{{$data->id}}" id="btnKonfirmasiSelesaiProyek"
+                                                class="btn btn-sm btn-danger disabled">Proyek dibatalkan
+                                        </button>
+                                    @else
+                                        <a href="{{route('form.upload.progress',$data->id)}}"
+                                           class="btn btn-sm btn-primary">Upload
+                                            Progress</a>
+                                    @endif
                                 </div>
                                 <!-- The time line -->
                                 <div class="timeline">
@@ -205,5 +215,5 @@
     <!-- /.content -->
 @endsection
 @push('page_scripts')
-        <script src="{{ asset('js/show_project.js') }}" defer></script>
+    <script src="{{ asset('js/show_project.js') }}" defer></script>
 @endpush

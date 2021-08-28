@@ -25,4 +25,8 @@ class Project extends Model
     public function penarikan(){
         return $this->hasOne(PenarikanDana::class, 'kode_project','id');
     }
+
+    public function pengembalian(){
+        $this->hasOne(PengembalianDana::class, 'kode_project', 'id');
+    }
 }

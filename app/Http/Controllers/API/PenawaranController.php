@@ -140,6 +140,25 @@ class PenawaranController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
+     */
+    public function showclient($id)
+    {
+        try {
+            $data = Penawaran::with('pin', 'komponen', 'pin.tukang.user', 'pin.pengajuan', 'pin.pengajuan.client', 'pin.pengajuan.client.user', 'pin.revisi')->where('id', $id)->firstOrFail();
+            if (Auth::id() != $data->pin->pengajuan->kode_client) {
+                return (new PenawaranResourceController(['error' => 'Anda tidak mempunyai akses atas item penawaran ini !']))->response()->setStatusCode(401);
+            }
+            return (new PenawaranResourceController($data))->response()->setStatusCode(200);
+        } catch (ModelNotFoundException $e) {
+            return (new PenawaranResourceController(['error' => 'Item penawaran tidak ditemukan.']))->response()->setStatusCode(401);
+        }
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param int $id

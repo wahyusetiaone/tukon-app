@@ -7,6 +7,7 @@
     "require": {
         "php": "^7.3|^8.0",
         "ext-json": "*",
+        "barryvdh/laravel-dompdf": "^0.9.0",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.3",
@@ -14,6 +15,7 @@
         "laravel/framework": "^8.40",
         "laravel/passport": "^10.1",
         "laravel/tinker": "^2.5",
+        "pusher/pusher-php-server": "^7.0",
         "realrashid/sweet-alert": "^4.0",
         "xendit/xendit-php": "^2.10",
         "xendit/xendit-php-clients": "^2.10",
@@ -37,7 +39,9 @@
             "app/Helpers/IndonesiaDate.php",
             "app/Helpers/IndonesiaRupiah.php",
             "app/Helpers/KalkulasiBiayaPenawaran.php",
-            "app/Helpers/CallingOutMom.php"
+            "app/Helpers/CallingOutMom.php",
+            "app/Helpers/BringInNotification.php",
+            "app/Helpers/VerificationBeforePenarikan.php"
         ]
     },
     "autoload-dev": {

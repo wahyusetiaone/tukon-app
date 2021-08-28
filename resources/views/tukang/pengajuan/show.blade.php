@@ -89,9 +89,9 @@
                             <div class="col-6">
                                 <p class="lead">Foto:</p>
                                 <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
-                                @if($data->multipath)
+                                @if($data->pengajuan->multipath)
                                     @php
-                                        $string_array = explode(",",$data->path);
+                                        $string_array = explode(",",$data->pengajuan->path);
                                     @endphp
                                     <div id="carouselExampleControls" style="max-width:200px;width:100%"
                                          class="carousel slide" data-ride="carousel">
@@ -162,7 +162,7 @@
                                             <i class="far fa-download"></i> Lihat Penawaran
                                         </button>
                                     </a>
-                                @elseif($data->kode_penawaran != null &&$data->status == 'T03' || $data->kode_penawaran == null &&$data->status == 'T03')
+                                @elseif($data->kode_penawaran != null &&$data->status == 'B02' || $data->kode_penawaran == null &&$data->status == 'B02')
                                     <button type="button" class="btn btn-secondary float-right" disabled>
                                         <i class="far fa-trash-alt"></i> Penawaran ditolak
                                     </button>

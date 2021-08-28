@@ -52,6 +52,7 @@ class WishlistController extends Controller
             $wish->kode_produk = $item;
             $wish->save();
         }
+        $request['countWishlist'] = Wishlist::where('kode_client',$kode_client)->count();
 
         return (new WishlistResourceController($request))->response()->setStatusCode(200);
     }

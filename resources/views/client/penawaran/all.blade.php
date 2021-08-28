@@ -45,7 +45,7 @@
                             </thead>
                             <tbody>
                             @foreach($data['data'] as $dat)
-                                <tr data-widget="expandable-table" class="bg-gray-light" aria-expanded="false">
+                                <tr  class="bg-gray-light" aria-expanded="false">
                                     <td>{{$dat['pin'][0]['id']}}</td>
                                     <td>{{$dat['nama_proyek']}}</td>
                                     <td>{{indonesiaDate($dat['created_at'])}}</td>
@@ -56,11 +56,11 @@
                                            href="{{route('show.pengajuan.client',$dat ['id'])}}">
                                             <i class="fas fa-eye">
                                             </i>
-                                            Lihat Penawaran
+                                            Lihat Pengajuan
                                         </a>
                                     </td>
                                 </tr>
-                                <tr class="expandable-body">
+                                <tr >
                                     <td colspan="5">
                                         <table class="table table-head-fixed text-nowrap">
                                             <thead>

@@ -1,5 +1,5 @@
-// import Swal from 'sweetalert2';
-// import {base_url} from "./app";
+import Swal from 'sweetalert2';
+import {base_url} from "./app";
 //
 // $(document).on('click', '[id^=btn_bayar]', async function (e) {
 //     e.preventDefault();
@@ -55,19 +55,45 @@
 //     return false;
 // });
 //
-// $(document).on('click', '[id^=btn_btll]', function (e) {
-//     e.preventDefault();
-//     var data = $(this).serialize();
-//     Swal.fire({
-//         icon: 'warning',
-//         text: 'Apakah kamu ingin membatalkan pembayaran ini ?',
-//         showCancelButton: true,
-//         confirmButtonText: 'Batal',
-//         confirmButtonColor: '#F44336',
-//     }).then((result) => {
-//         // if (result.isConfirmed) {
-//         //     $('#form-edit-produk').submit();
-//         // }
-//     });
-//     return false;
-// });
+$(document).on('click', '[id^=btn_btll]', function (e) {
+    e.preventDefault();
+    var data = $(this).val();
+    Swal.fire({
+        icon: 'warning',
+        text: 'Apakah kamu ingin membatalkan pembayaran ini ?',
+        showCancelButton: true,
+        confirmButtonText: 'Ya',
+        confirmButtonColor: '#F44336',
+    }).then((result) => {
+        $.ajax({
+            url: base_url+"/client/pembayaran/batal/"+data,
+            type: "GET",
+            dataType: "json",
+            success: function(data){
+                console.log(data);
+                if (data.data.status){
+                    Swal.fire(
+                        'Pembatalan Pembayaran Berhasil !',
+                        data.data.message,
+                        'success'
+                    ).then((result) => {
+                       window.location.href = base_url+'/client/pembayaran'
+                    });
+                }else{
+                    Swal.fire(
+                        'Pembatalan Pembayaran Gagal     !',
+                        data.data.message,
+                        'success'
+                    ).then((result) => {
+                        window.location.href = base_url+'/client/pembayaran'
+                    });
+                }
+            },
+            error: function(error){
+                console.log("Error:");
+                console.log(error);
+            }
+        });
+    });
+    return false;
+});

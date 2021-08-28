@@ -92,6 +92,9 @@ class UserController extends Controller
             'kota' => 'required|string|max:80',
             'alamat' => 'required|string',
             'nomor_telepon' => 'required|min:12',
+            'no_rekening' => 'required|string',
+            'atas_nama_rekening' => 'required|string',
+            'bank' => 'required|string',
             'email' => 'required|email',
         ]);
         Tukang::find($id)->update($request->except('name', 'email'));
