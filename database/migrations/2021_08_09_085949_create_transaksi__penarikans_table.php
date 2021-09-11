@@ -18,7 +18,8 @@ class CreateTransaksiPenarikansTable extends Migration
             $table->bigInteger('kode_penarikan');
             $table->bigInteger('kode_persentase_penarikan');
             $table->bigInteger('penarikan');
-            $table->string('kode_status',4);
+            $table->text('catatan_penolakan');
+            $table->text('bukti_tf_admin');
             $table->timestamps();
         });
     }

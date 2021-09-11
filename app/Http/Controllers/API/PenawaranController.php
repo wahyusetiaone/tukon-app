@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\Console\Input\Input;
 
 class PenawaranController extends Controller
 {
@@ -23,15 +24,26 @@ class PenawaranController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
      */
-    public function index()
+    public function index(Request $request)
     {
         $id = Auth::id();
         try {
-            $data = Penawaran::with('bpa', 'komponen', 'pin','pin.revisi','pin.pembayaran', 'pin.pengajuan', 'pin.pengajuan.client', 'pin.pengajuan.client.user')->whereHas('pin', function ($query) use ($id) {
-                $query->where('kode_tukang', $id);
-            })->get();
-            if (Auth::id() != $data[0]->pin->kode_tukang) {
-                return (new PenawaranResourceController(['error' => 'Anda tidak mempunyai akses atas item penawaran ini !']))->response()->setStatusCode(401);
+            if($request->input('only') == 'batal'){
+                $data = Penawaran::with('bpa', 'komponen', 'pin','pin.revisi','pin.pembayaran', 'pin.pengajuan', 'pin.pengajuan.client', 'pin.pengajuan.client.user')->whereHas('pin', function ($query) use ($id) {
+                    $query->where([['kode_tukang', $id],['status', 'B01']])
+                        ->orWhere([['kode_tukang', $id],['status', 'B02']])
+                        ->orWhere([['kode_tukang', $id],['status', 'B04']]);
+                })->paginate(10);
+            }elseif($request->input('only') == 'menunggu-pembayaran'){
+                $data = Penawaran::with('bpa', 'komponen', 'pin','pin.revisi','pin.pembayaran', 'pin.pengajuan', 'pin.pengajuan.client', 'pin.pengajuan.client.user')->whereHas('pin', function ($query) use ($id) {
+                    $query->where([['kode_tukang', $id],['status', 'D02']]);
+                })->paginate(10);
+            }else{
+                $data = Penawaran::with('bpa', 'komponen', 'pin','pin.revisi','pin.pembayaran', 'pin.pengajuan', 'pin.pengajuan.client', 'pin.pengajuan.client.user')->whereHas('pin', function ($query) use ($id) {
+                    $query->where([['kode_tukang', $id],['status', 'N01']]);
+                    $query->orWhere([['kode_tukang', $id],['status', 'D01A']]);
+                    $query->orWhere([['kode_tukang', $id],['status', 'D01B']]);
+                })->paginate(10);
             }
             return (new PenawaranResourceController($data))->response()->setStatusCode(200);
         } catch (ModelNotFoundException $e) {
@@ -82,7 +94,7 @@ class PenawaranController extends Controller
             $satuan_komponen = $request->input('satuan_komponen');
             $total_unit_komponen = $request->input('total_unit_komponen');
             $bpa = BPA::orderBy('created_at', 'DESC')->firstOrFail();
-            $tt_harga = kalkulasiBiayaPenawaranBaru($request->input('keuntungan'), $bpa->bpa, $harga);
+            $tt_harga = kalkulasiBiayaPenawaranBaru($request->input('keuntungan'), $bpa->bpa, $harga, $total_unit_komponen);
             $request['harga_total'] = $tt_harga;
             $data = Penawaran::create($request->except(['nama_komponen', 'harga_komponen', 'merk_type_komponen', 'spesifikasi_komponen', 'satuan_komponen', 'total_unit_komponen']));
 

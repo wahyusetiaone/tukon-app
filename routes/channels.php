@@ -20,4 +20,4 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 //PrivateChannelTest
 Broadcast::channel('user.{toUserId}', function ($user, $toUserId) {
     return $user->id == $toUserId;
-});
+}, ['guards' => ['web', 'api']]);

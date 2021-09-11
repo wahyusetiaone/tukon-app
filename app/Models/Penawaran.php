@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Penawaran extends Model
 {
@@ -24,7 +25,7 @@ class Penawaran extends Model
     ];
 
     public function pin(){
-        return $this->belongsTo(Pin::class, 'id', 'kode_penawaran');
+        return $this->belongsTo(Pin::class, 'kode_pin', 'id');
     }
 
     public function komponen(){
@@ -37,5 +38,9 @@ class Penawaran extends Model
 
     public function bpa(){
         return $this->hasOne(BPA::class, 'id', 'kode_bpa');
+    }
+
+    public function getTotalHargaKomponen() {
+        return $this->komponen()->sum(DB::raw('harga'));
     }
 }

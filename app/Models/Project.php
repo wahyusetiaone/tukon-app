@@ -27,6 +27,10 @@ class Project extends Model
     }
 
     public function pengembalian(){
-        $this->hasOne(PengembalianDana::class, 'kode_project', 'id');
+        return $this->hasOne(PengembalianDana::class, 'kode_project', 'id');
+    }
+
+    public function voterate(){
+        return $this->hasOne(VoteRate::class, 'kode_project', 'id');
     }
 }

@@ -18,4 +18,8 @@ class Transaksi_Pengembalian extends Model
         'catatan_penolakan',
         'path_bukti',
     ];
+
+    public function pengembalian_dana(){
+        return $this->belongsTo(PengembalianDana::class, 'kode_pengembalian_dana', 'id')->orderByDesc('created_at');
+    }
 }

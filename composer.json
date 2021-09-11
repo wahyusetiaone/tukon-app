@@ -18,7 +18,6 @@
         "pusher/pusher-php-server": "^7.0",
         "realrashid/sweet-alert": "^4.0",
         "xendit/xendit-php": "^2.10",
-        "xendit/xendit-php-clients": "^2.10",
         "yajra/laravel-datatables-oracle": "~9.0"
     },
     "require-dev": {
@@ -41,7 +40,12 @@
             "app/Helpers/KalkulasiBiayaPenawaran.php",
             "app/Helpers/CallingOutMom.php",
             "app/Helpers/BringInNotification.php",
-            "app/Helpers/VerificationBeforePenarikan.php"
+            "app/Helpers/VerificationBeforePenarikan.php",
+            "app/Helpers/CreateNotification.php",
+            "app/Helpers/InvoiceCreatedID.php",
+            "app/Helpers/JsonTypeHelper.php",
+            "app/Helpers/DeleteFileHelper.php",
+            "app/Helpers/BringMeAStar.php"
         ]
     },
     "autoload-dev": {

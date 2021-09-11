@@ -115,13 +115,28 @@
                                         <span class="username">
                                             Pembayaran.
                                         </span>
-                                        <span
-                                            class="description">Dibayar pada {{indonesiaDate($data->pembayaran->transaksi_pembayaran[0]->created_at)}}</span>
+                                        @if(isset($data->pembayaran->transaksi_pembayaran) && sizeof($data->pembayaran->transaksi_pembayaran) !=0 )
+                                            <span
+                                                class="description">Dibayar pada {{indonesiaDate($data->pembayaran->transaksi_pembayaran[0]->created_at)}}</span>
+                                        @endif
+                                        @if(isset($data->pembayaran->invoice))
+                                            <span
+                                                class="description">Dibayar pada {{indonesiaDate($data->pembayaran->invoice->updated_at)}}</span>
+                                        @endif
                                     </div>
                                     <!-- /.user-block -->
-                                    <p>
-                                        Pembayaran dilakukan secara manual.
-                                    </p>
+                                    @if(isset($data->pembayaran->transaksi_pembayaran) && sizeof($data->pembayaran->transaksi_pembayaran) !=0 )
+
+                                        <p>
+                                            Pembayaran dilakukan secara manual.
+                                        </p>
+                                    @endif
+                                    @if(isset($data->pembayaran->invoice))
+
+                                        <p>
+                                            Pembayaran dilakukan secara digital.
+                                        </p>
+                                    @endif
 
                                     <p>
                                         <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Lihat

@@ -6,3 +6,78 @@
 @import '~jquery-ui/themes/base/all.css';
 @import '~datatables.net-bs4/css/dataTables.bootstrap4.css';
 
+//font awesome
+// Font-Awesome
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+
+$fragment_width: 18%;
+
+.show-neighbors {
+    overflow: hidden;
+
+    .item__third:first-child,
+    .item__third:last-child {
+        display: none;
+    }
+
+    @media (min-width: 500px) {
+        .carousel-indicators {
+            margin-right: $fragment_width;
+            margin-left: $fragment_width;
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 50px;
+            z-index: 11; /* .carousel-caption has z-index 10 */
+        }
+
+        .carousel-inner {
+            width: (100% - 2 * $fragment_width) * 3;
+            left: 3 * $fragment_width - 100%;
+        }
+
+        .carousel-item-next:not(.carousel-item-left),
+        .carousel-item-right.active {
+            -webkit-transform: translate3d(33%, 0, 0);
+            transform: translate3d(33%, 0, 0);
+        }
+
+        .carousel-item-prev:not(.carousel-item-right),
+        .carousel-item-left.active {
+            -webkit-transform: translate3d(-33%, 0, 0);
+            transform: translate3d(-33%, 0, 0);
+        }
+
+        .item__third {
+            display: block !important;
+            float: left;
+            position: relative; /* captions can now be added */
+            width: 33.33333333%;
+        }
+    }
+
+    .mvp {
+        position: absolute;
+        padding-left: 20px;
+        top: 0;
+        bottom: 0;
+        z-index: 1;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        width: 23%;
+        color: #fff;
+        text-align: center;
+        opacity: 0.9;
+    }
+}

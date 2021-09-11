@@ -55,6 +55,26 @@ import {base_url} from "./app";
 //     return false;
 // });
 //
+var mode = $('input[type="radio"]').val();
+
+$(document).ready(function () {
+    if (mode === 'offline') {
+        $('#channel').prop('disabled', true)
+    } else {
+        $('#channel').prop('disabled', false)
+    }
+
+    $('input[type="radio"]').change(function () {
+        if ($(this).val() === 'offline') {
+            mode = 'offline';
+            $('#channel').prop('disabled', true)
+        } else {
+            mode = 'online';
+            $('#channel').prop('disabled', false)
+        }
+    });
+});
+
 $(document).on('click', '[id^=btn_btll]', function (e) {
     e.preventDefault();
     var data = $(this).val();
@@ -66,34 +86,58 @@ $(document).on('click', '[id^=btn_btll]', function (e) {
         confirmButtonColor: '#F44336',
     }).then((result) => {
         $.ajax({
-            url: base_url+"/client/pembayaran/batal/"+data,
+            url: base_url + "/client/pembayaran/batal/" + data,
             type: "GET",
             dataType: "json",
-            success: function(data){
+            success: function (data) {
                 console.log(data);
-                if (data.data.status){
+                if (data.data.status) {
                     Swal.fire(
                         'Pembatalan Pembayaran Berhasil !',
                         data.data.message,
                         'success'
                     ).then((result) => {
-                       window.location.href = base_url+'/client/pembayaran'
+                        window.location.href = base_url + '/client/pembayaran'
                     });
-                }else{
+                } else {
                     Swal.fire(
                         'Pembatalan Pembayaran Gagal     !',
                         data.data.message,
                         'success'
                     ).then((result) => {
-                        window.location.href = base_url+'/client/pembayaran'
+                        window.location.href = base_url + '/client/pembayaran'
                     });
                 }
             },
-            error: function(error){
+            error: function (error) {
                 console.log("Error:");
                 console.log(error);
             }
         });
+    });
+    return false;
+});
+$(document).on('click', '[id^=btn_checkout]', function (e) {
+    e.preventDefault();
+    var data = $(this).val();
+    var text = ' Anda akan melakukan pembayaran dengan metode '
+    if (mode === 'offline'){
+        text += 'OFFLINE(Manual).'
+    }else {
+        var channel = $('#channel').val();
+        text += channel.toUpperCase();
+    }
+    console.log(mode);
+    Swal.fire({
+        icon: 'warning',
+        text: 'Apakah kamu checkout pembayaran pesanan ini ?'+text,
+        showCancelButton: true,
+        confirmButtonText: 'Ya',
+        confirmButtonColor: '#F44336',
+    }).then((result) => {
+        if (result.isConfirmed){
+            $('form[name="fcm-up"]').submit();
+        }
     });
     return false;
 });

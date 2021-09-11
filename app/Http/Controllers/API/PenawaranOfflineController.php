@@ -24,10 +24,7 @@ class PenawaranOfflineController extends Controller
     public function index()
     {
         try {
-            $data = PenawaranOffline::with('komponen', 'path')->where('kode_tukang', Auth::id())->firstOrFail();
-            if (Auth::id() != $data->kode_tukang) {
-                return (new PenawaranOfflineResourceController(['error' => 'Anda tidak mempunyai akses atas item penawaran ini !']))->response()->setStatusCode(401);
-            }
+            $data = PenawaranOffline::with('komponen', 'path')->where('kode_tukang', Auth::id())->paginate(10);
             return (new PenawaranOfflineResourceController($data))->response()->setStatusCode(200);
         } catch (ModelNotFoundException $e) {
             return (new PenawaranOfflineResourceController(['message' => 'Belum mempunyai item penawaran offline.']))->response()->setStatusCode(401);
@@ -159,11 +156,24 @@ class PenawaranOfflineController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
      */
     public function show($id)
     {
-        //
+        try {
+
+            if (!PenawaranOffline::where('id',$id)->exists()){
+                return (new PenawaranOfflineResourceController(['error' => 'Item penawaran tidak ditemukan.']))->response()->setStatusCode(401);
+            }
+
+            $data = PenawaranOffline::with('tukang','komponen','path')->where('id', $id)->first();
+            if (Auth::id() != $data->kode_tukang) {
+                return (new PenawaranOfflineResourceController(['error' => 'Anda tidak mempunyai akses atas item penawaran ini !']))->response()->setStatusCode(401);
+            }
+            return (new PenawaranOfflineResourceController($data))->response()->setStatusCode(200);
+        } catch (ModelNotFoundException $e) {
+            return (new PenawaranOfflineResourceController(['error' => 'Item penawaran tidak ditemukan.']))->response()->setStatusCode(401);
+        }
     }
 
     /**
@@ -251,6 +261,22 @@ class PenawaranOfflineController extends Controller
             }
         }
 
+        if ($request->has('update_image')) {
+            foreach ($request->input('update_image') as $item) {
+                if (!PathPhotoPenawaranOffline::where(['id' => $item['id'], 'kode_penawaran_offline' => $id])->exists()) {
+                    return (new PenawaranOfflineResourceController(['error' => 'Gambar dengan id = ' . $item['id'] . ' tidak terdapat dalam sistem.']))->response()->setStatusCode(401);
+                }
+            }
+        }
+
+        if ($request->has('remove_image')) {
+            foreach ($request->input('remove_image') as $item) {
+                if (!PathPhotoPenawaranOffline::where(['id' => $item, 'kode_penawaran_offline' => $id])->exists()) {
+                    return (new PenawaranOfflineResourceController(['error' => 'Gambar dengan id = ' . $item . ' tidak terdapat dalam sistem.']))->response()->setStatusCode(401);
+                }
+            }
+        }
+
         try {
             $penawaran = PenawaranOffline::with('tukang')->whereHas('tukang', function ($query) {
                 $query->where('id', Auth::id());
@@ -294,9 +320,8 @@ class PenawaranOfflineController extends Controller
 
                 if ($request->has('remove_image')) {
                     foreach ($request->input('remove_image') as $item) {
-                        $path = PathPhotoPenawaranOffline::select('path')->find($item);
-                        Storage::delete($path->path);
-                        $path->delete();
+                        $path = PathPhotoPenawaranOffline::find($item);
+                        deleteFileHelper($path->path);
                     }
                 }
 
@@ -316,7 +341,17 @@ class PenawaranOfflineController extends Controller
                 }
 
             });
-
+            PenawaranOffline::where('id', $id)->update($request->except(
+                [
+                    'keuntungan',
+                    'harga_total',
+                    'add_image',
+                    'remove_image',
+                    'update_image',
+                    'update_komponen',
+                    'delete_komponen',
+                    'new_komponen'
+                ]));
             return (new PenawaranOfflineResourceController(['status' => true]))->response()->setStatusCode(200);
         } catch (ModelNotFoundException $ee) {
             return (new PenawaranOfflineResourceController(['error' => 'Anda tidak mempunyai akses terhadap penawaran ini !!!']))->response()->setStatusCode(401);

@@ -14,12 +14,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Offline Payment</h1>
+                        <h1>Upload Progress</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{'pembayaran.client'}}">Pembayaran</a></li>
-                            <li class="breadcrumb-item active">Pembayaran Offline</li>
+                            <li class="breadcrumb-item"><a href="{{'pembayaran.client'}}">Progress</a></li>
+                            <li class="breadcrumb-item active">Upload Progress</li>
                         </ol>
                     </div>
                 </div>
@@ -39,6 +39,17 @@
                         <form id="form_upload_progress" role="form" method="post" enctype="multipart/form-data" action="{{route('upload.progress', $id)}}">
                             @csrf
                             <div class="card-body">
+                                <div class="form-group">
+                                    <label for="note_progress">Catatan Upload</label>
+                                    <textarea type="text"
+                                           class="form-control @error('note_progress') is-invalid @enderror" id="note_progress"
+                                              name="note_progress" placeholder="Catatan . . . "></textarea>
+                                    @error('note_progress')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
                                 <div class="form-group">
                                     <label for="path_progress">File input</label>
                                     <div class="input-group">

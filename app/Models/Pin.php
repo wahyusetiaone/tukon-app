@@ -33,7 +33,7 @@ class Pin extends Model
 
     public function penawaran()
     {
-        return $this->hasOne(Penawaran::class, 'id', 'kode_penawaran')->withTrashed();
+        return $this->hasOne(Penawaran::class, 'kode_pin', 'id')->withTrashed();
     }
 
     public function pembayaran()

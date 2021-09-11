@@ -24,12 +24,21 @@ class PengajuanController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
      */
-    public function index()
+    public function index(Request $request)
     {
         $id = User::with('client')->find(Auth::id())->kode_user;
         try {
-            $data = Pengajuan::with('pin.tukang.user')->where('kode_client', $id)->paginate(10);
-
+            if($request->input('only') == 'batal') {
+                $data = Pengajuan::with('pin.tukang.user')
+                    ->where([['kode_client', $id], ['kode_status', 'T03']])
+                    ->orWhere([['kode_client', $id], ['kode_status', 'T04']])
+                    ->paginate(10);
+            }else{
+                $data = Pengajuan::with('pin.tukang.user')
+                    ->where([['kode_client', $id], ['kode_status', 'T01']])
+                    ->orWhere([['kode_client', $id], ['kode_status', 'S02']])
+                    ->paginate(10);
+            }
         } catch (ModelNotFoundException $e) {
             $data['status'] = 'error';
             $data['message'] = $e->getMessage();
@@ -434,11 +443,23 @@ class PengajuanController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
      */
-    public function pengajuan_base_tukang()
+    public function pengajuan_base_tukang(Request $request)
     {
         $id = User::with('tukang')->find(Auth::id())->kode_user;
         try {
-            $data = Pin::with('pengajuan', 'pengajuan.client', 'pengajuan.client.user')->where('kode_tukang', $id)->paginate(10);
+            if($request->input('only') == 'batal'){
+                $data = Pin::with('pengajuan', 'pengajuan.client', 'pengajuan.client.user')
+                    ->where([['kode_tukang', $id],['status', 'B01']])
+                    ->orWhere([['kode_tukang', $id],['status', 'B02']])
+                    ->orWhere([['kode_tukang', $id],['status', 'B04']])
+                    ->paginate(10);
+            }else{
+                $data = Pin::with('pengajuan', 'pengajuan.client', 'pengajuan.client.user')
+                    ->where([['kode_tukang', $id],['status', 'N01']])
+                    ->orWhere([['kode_tukang', $id],['status', 'D01A']])
+                    ->orWhere([['kode_tukang', $id],['status', 'D01A']])
+                    ->paginate(10);
+            }
 
         } catch (ModelNotFoundException $e) {
             $data['status'] = 'error';
@@ -462,6 +483,27 @@ class PengajuanController extends Controller
         try {
             $old = Pin::where(['id' => $id, 'kode_tukang' => $kode_user])->firstOrFail();
             $old->update(['status' => 'B02']);
+
+            return (new PengajuanResourceController(['update_status' => $old]))->response()->setStatusCode(200);
+        } catch (ModelNotFoundException $e) {
+            return (new PengajuanResourceController(['error' => $e->getMessage()]))->response()->setStatusCode(401);
+        }
+    }
+
+    /**
+     * Tolak pengajuan base on PIN the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
+     */
+
+    public function batal_pengajuan(int $id)
+    {
+        $kode_user = Auth::id();
+        try {
+            $old = Pengajuan::where(['id' => $id, 'kode_client' => $kode_user])->firstOrFail();
+            $old->update(['kode_status' => 'T04']);
 
             return (new PengajuanResourceController(['update_status' => $old]))->response()->setStatusCode(200);
         } catch (ModelNotFoundException $e) {

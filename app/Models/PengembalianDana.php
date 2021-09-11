@@ -21,7 +21,7 @@ class PengembalianDana extends Model
     }
 
     public function transaksi(){
-        return $this->hasMany(Transaksi_Pengembalian::class, 'kode_pengembalian_dana', 'id');
+        return $this->hasMany(Transaksi_Pengembalian::class, 'kode_pengembalian_dana', 'id')->orderByDesc('created_at');
     }
 
     public function penalty(){

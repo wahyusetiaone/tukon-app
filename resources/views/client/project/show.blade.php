@@ -123,13 +123,28 @@
                                                 <span class="username">
                                             Pembayaran.
                                         </span>
-                                                <span
-                                                    class="description">Dibayar pada {{indonesiaDate($data->pembayaran->transaksi_pembayaran[0]->created_at)}}</span>
+                                                @if(isset($data->pembayaran->transaksi_pembayaran) && sizeof($data->pembayaran->transaksi_pembayaran) !=0 )
+                                                    <span
+                                                        class="description">Dibayar pada {{indonesiaDate($data->pembayaran->transaksi_pembayaran[0]->created_at)}}</span>
+                                                @endif
+                                                @if(isset($data->pembayaran->invoice))
+                                                    <span
+                                                        class="description">Dibayar pada {{indonesiaDate($data->pembayaran->invoice->updated_at)}}</span>
+                                                @endif
                                             </div>
                                             <!-- /.user-block -->
-                                            <p>
-                                                Pembayaran dilakukan secara manual.
-                                            </p>
+                                            @if(isset($data->pembayaran->transaksi_pembayaran) && sizeof($data->pembayaran->transaksi_pembayaran) !=0 )
+
+                                                <p>
+                                                    Pembayaran dilakukan secara manual.
+                                                </p>
+                                            @endif
+                                            @if(isset($data->pembayaran->invoice))
+
+                                                <p>
+                                                    Pembayaran dilakukan secara digital.
+                                                </p>
+                                            @endif
 
                                             <p>
                                                 <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i>
@@ -171,10 +186,17 @@
                                                         </p>
 
                                                         <p>
-                                                            <button class="btn btn-success" id="btnPenarikan" name="btnTerima" value="{{$data->penarikan->id}}/{{$item->id}}"><i class="fas fa-link mr-1"></i>
-                                                                Terima</button>
-                                                            <button class="btn btn-danger" name="btnTolak" value="{{$data->penarikan->id}}/{{$item->id}}"><i class="fas fa-link mr-1"></i>
-                                                                Tolak</button>
+                                                            <button class="btn btn-success" id="btnPenarikan"
+                                                                    name="btnTerima"
+                                                                    value="{{$data->penarikan->id}}/{{$item->id}}"><i
+                                                                    class="fas fa-link mr-1"></i>
+                                                                Terima
+                                                            </button>
+                                                            <button class="btn btn-danger" name="btnTolak"
+                                                                    value="{{$data->penarikan->id}}/{{$item->id}}"><i
+                                                                    class="fas fa-link mr-1"></i>
+                                                                Tolak
+                                                            </button>
                                                         </p>
                                                     @elseif($item->kode_status == "PN02")
                                                         <p>
@@ -208,6 +230,13 @@
                                         <button value="{{$data->id}}" id="btnKonfirmasiSelesaiProyek"
                                                 class="btn btn-sm btn-danger disabled">Proyek dibatalkan
                                         </button>
+                                        <br>
+                                        <br>
+                                        <a href="{{route('show.pengembalian-dana.client', $data->pengembalian->id)}}">
+                                            <button id="btnAjukanPengembalianDana"
+                                                    class="btn btn-info ">Ajukan Pengembalian Dana
+                                            </button>
+                                        </a>
                                     @elseif($data->kode_status == "ON05")
                                         <button value="{{$data->id}}" id="btnKonfirmasiSelesaiProyek"
                                                 class="btn btn-sm btn-info disabled">Proyek Telah Selesai

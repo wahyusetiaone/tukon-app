@@ -29,7 +29,8 @@ class DatabaseSeeder extends Seeder
         $this->call(BPASeeder::class);
         $this->call(LimitasiPenarikanSeeder::class);
         $this->call(PersentasePenarikanSeeder::class);
-        $this->call(Penalty::class);
+        $this->call(Pinalty::class);
+        $this->call(PaymentChannelSeeder::class);
 
         Model::reguard();
 

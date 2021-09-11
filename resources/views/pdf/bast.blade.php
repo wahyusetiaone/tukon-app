@@ -8,6 +8,37 @@
         .borderless td, .borderless th {
             border: none;
         }
+        body{
+            margin: 0;
+            padding: 0;
+        }
+
+        #watermark {
+            position: fixed;
+
+            /** Change image dimensions**/
+            width: 18.8cm;
+            height: 27.2cm;
+
+            /** Your watermark should be behind every content**/
+            z-index: -1000;
+            /* opacity: 0.9; */
+        }
+
+        /* Create two equal columns that floats next to each other */
+        .column {
+            float: left;
+            width: 50%;
+            padding: 10px;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
         .table {
             font-size: 18px;
         }
@@ -23,10 +54,28 @@
     </style>
 </head>
 <body>
+<div id="watermark" class="">
+    <img src="{{asset('images/bg_img.png')}}" height="100%" width="100%"/>
+</div>
+<div class="row">
+    <div class="column" style="width: 15%;">
+        <img height="55px" width="101px" style="padding-top: 18px;" src="{{asset('/images/tukon_icon.png')}}">
+    </div>
+    <div class="column" style="width: 85%;">
+        <p style="background-color: #000; color: #fff; margin-right: 40px; padding: 2px; margin-bottom: 2px">
+            <small>
+                Office : Komplek Pertokoan Universitas Muhammadiyah Surakarta Blok H No 1 <br>
+                ( Komp Fakultas Farmasi UMS )
+            </small>
+        </p>
+        <p style="background-color: #0c84ff; margin-right: 40px; padding: 2px;">
+            <small>
+                Website : https ://tukon.com/
+            </small>
+        </p>
+    </div>
+</div>
 <center>
-    <br>
-    <img src="{{asset('/images/image001.jpg')}}">
-    <br>
     <br>
     <br>
     <h5 style="color: #0c525d;"><strong><u>BERITA ACARA SERAH TERIMA PEKERJAAN</u></strong></h5>

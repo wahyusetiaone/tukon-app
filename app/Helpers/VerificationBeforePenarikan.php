@@ -15,6 +15,10 @@ if(!function_exists("verificationBeforePenarikan")) {
             ->whereNotNull('bank')
             ->exists();
 
+        $hasFinishProject = PenarikanDana::whereHas('project', function ($q){
+            $q->where('kode_status', 'ON05');
+        })->whereId($kode_penarikan)->exists();
+
         $hasUploadProgressToday = PenarikanDana::whereHas('project.progress.onprogress', function ($q){
             $q->whereDate('created_at', DB::raw('CURDATE()'));
         })->whereId($kode_penarikan)->exists();
@@ -24,11 +28,12 @@ if(!function_exists("verificationBeforePenarikan")) {
             $verifikasi['message']['bank'] = 'Mohon untuk mengisi Nomor Rekening, Atas Nama, dan Bank yang akan digunakan transaksi pada menu "Profile".';
         }
 
-        if (!$hasUploadProgressToday){
-            $verifikasi['status'] = true;
-            $verifikasi['message']['progress'] = 'Mohon maaf hari ini anda belum melakukan upload progress, mohon untuk melakukan upload progress terlebih dahulu !';
+        if (!$hasFinishProject){
+            if (!$hasUploadProgressToday){
+                $verifikasi['status'] = true;
+                $verifikasi['message']['progress'] = 'Mohon maaf hari ini anda belum melakukan upload progress, mohon untuk melakukan upload progress terlebih dahulu !';
+            }
         }
-
 
         return $verifikasi;
     }

@@ -16,7 +16,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Invoice</h1>
+                        <h1>Pembayaran</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -108,12 +108,27 @@
                             <div class="row">
                                 <!-- accepted payments column -->
                                 <div class="col-6">
-                                    <p class="lead">Payment Methods:</p>
-                                    <p class="lead">Offline</p>
-                                    {{--                                    <img src="../../dist/img/credit/visa.png" alt="Visa">--}}
-                                    {{--                                    <img src="../../dist/img/credit/mastercard.png" alt="Mastercard">--}}
-                                    {{--                                    <img src="../../dist/img/credit/american-express.png" alt="American Express">--}}
-                                    {{--                                    <img src="../../dist/img/credit/paypal2.png" alt="Paypal">--}}
+                                    @if(!isset($data->invoice))
+                                        <form action="{{route('checkout.pembayaran.client', $data->id)}}" method="post"
+                                              name="fcm-up">
+                                            @csrf
+                                            <p class="lead">Payment Methods:</p>
+                                            <input type="radio" id="offline" name="mode" value="offline"
+                                                   checked="checked">
+                                            <label for="html">Offline</label><br>
+                                            <input type="radio" id="online" name="mode" value="online">
+                                            <label for="css">Online</label><br>
+                                            <select style="width: 180px;" class="form-control" name="channel"
+                                                    id="channel">
+                                                @foreach($channel as $item)
+                                                    <option
+                                                        value="{{$item['channel_code']}}">{{$item['channel_code']}}</option>
+                                                @endforeach
+                                            </select>
+                                        </form>
+                                    @endif
+                                    <br>
+                                    {{--                                    <img class="p-2" src="https://dashboard.xendit.co/images/{{strtolower($item['channel_code'])}}-logo.svg" alt="Visa">--}}
 
                                 </div>
                                 <!-- /.col -->
@@ -136,19 +151,13 @@
                             <!-- this row will not appear when printing -->
                             <div class="row no-print">
                                 <div class="col-12">
-
-                                    <a href="{{route('pdf.invoice', $data->id)}}" target="_blank"
-                                       class="btn btn-default"><i
-                                            class="fas fa-print"></i> Print</a>
-
-                                    @if($data->pin->pembayaran->kode_status == "P01")
-                                        <a href="{{route('payoffline.pembayaran.client',$data->pin->pembayaran->id)}}">
-                                            <button type="button" id="btn_bayar" value="{{$data->pin->pembayaran->id}}"
-                                                    class="btn btn-success float-right"><i
-                                                    class="far fa-credit-card"></i> Bayar
-                                            </button>
-                                        </a>
-                                        <button type="button" id="btn_btll" value="{{$data->pin->pembayaran->id}}" class=" btn btn-danger float-right"
+                                    @if($data->pin->pembayaran->kode_status == "P01" && !isset($data->invoice))
+                                        <button type="button" id="btn_checkout" value="{{$data->pin->pembayaran->id}}"
+                                                class="btn btn-success float-right"><i
+                                                class="far fa-credit-card"></i> CheckOut
+                                        </button>
+                                        <button type="button" id="btn_btll" value="{{$data->pin->pembayaran->id}}"
+                                                class=" btn btn-danger float-right"
                                                 style="margin-right: 5px;">
                                             <i class="fas fa-unlock"></i> Batalkan
                                         </button>
@@ -163,9 +172,23 @@
                                             <i class="fas fa-toolbox"></i> Pembayaran Gagal
                                         </button>
                                     @elseif($data->pin->pembayaran->kode_status == "P03")
+                                        <a href="{{route('pdf.invoice', $data->id)}}" target="_blank"
+                                           class="btn btn-default"><i
+                                                class="fas fa-print"></i> Print</a>
                                         <a href="{{route('show.project.client', $data->project->id)}}">
                                             <button type="button" class="btn btn-success float-right"><i
                                                     class="far fa-building"></i> Lihat Proyek
+                                            </button>
+                                        </a>
+                                    @elseif($data->pin->pembayaran->kode_status == "P01" && isset($data->invoice))
+                                        {{--                                        <a href="{{route('invoice.pembayaran.client', $data->id)}}">--}}
+                                        {{--                                            <button type="button" class="btn btn-warning float-right"><i--}}
+                                        {{--                                                    class="far fa-clipboard"></i> Lihat Invoice--}}
+                                        {{--                                            </button>--}}
+                                        {{--                                        </a>--}}
+                                        <a href="{{$data->invoice->invoice_url}}" target="_blank">
+                                            <button type="button" class="btn btn-warning float-right"><i
+                                                    class="far fa-clipboard"></i> Lihat Invoice
                                             </button>
                                         </a>
                                     @endif

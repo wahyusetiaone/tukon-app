@@ -8,6 +8,9 @@ $(document).ready(function () {
             }
         }
     });
+    $('#btn-search').click(function (){
+        window.location = base_url+"/search/"+$('#filter_search').val()+"/"+$('#search_input').val();
+    });
 
     $("#send_pengajuan").click(function () {
         var data = $(this);

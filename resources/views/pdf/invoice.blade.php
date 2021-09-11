@@ -9,17 +9,35 @@
             border: none;
         }
 
-        .bg {
-            /* The image used */
-            background-image: url("{{asset('images/bg_img.png')}}");
+        {{--.bg {--}}
+        {{--    /* The image used */--}}
+        {{--    background-image: url("{{asset('images/bg_img.png')}}");--}}
 
-            height: 100%;
+        {{--    height: 100%;--}}
 
-            /* Center and scale the image nicely */
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: 100%;
+        {{--    /* Center and scale the image nicely */--}}
+        {{--    background-position: center;--}}
+        {{--    background-repeat: no-repeat;--}}
+        {{--    background-size: 100%;--}}
+        {{--}--}}
+
+        body{
+            margin: 0;
+            padding: 0;
         }
+
+        #watermark {
+            position: fixed;
+
+            /** Change image dimensions**/
+            width: 18.8cm;
+            height: 27.2cm;
+
+            /** Your watermark should be behind every content**/
+            z-index: -1000;
+            /* opacity: 0.9; */
+        }
+
         /* Create two equal columns that floats next to each other */
         .column {
             float: left;
@@ -36,16 +54,19 @@
     </style>
 </head>
 <body>
-<div class="bg">
+<div id="watermark" class="">
+    <img src="{{asset('images/bg_img.png')}}" height="100%" width="100%"/>
+</div>
+<div>
     <div class="row">
         <div class="column" style="width: 15%;">
-            <img height="55px" width="101px" src="{{asset('/images/def_icon_print.png')}}">
+            <img height="55px" width="101px" style="padding-top: 18px;" src="{{asset('/images/tukon_icon.png')}}">
         </div>
         <div class="column" style="width: 85%;">
             <p style="background-color: #000; color: #fff; margin-right: 40px; padding: 2px; margin-bottom: 2px">
                 <small>
-                   Office : Komplek Pertokoan Universitas Muhammadiyah Surakarta Blok H No 1 <br>
-                        ( Komp Fakultas Farmasi UMS )
+                    Office : Komplek Pertokoan Universitas Muhammadiyah Surakarta Blok H No 1 <br>
+                    ( Komp Fakultas Farmasi UMS )
                 </small>
             </p>
             <p style="background-color: #0c84ff; margin-right: 40px; padding: 2px;">

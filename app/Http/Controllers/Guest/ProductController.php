@@ -15,9 +15,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $produk = Produk::with('tukang.user')->paginate(9);
+        $produk = Produk::with('tukang.user')->paginate(12);
 
-        return view('guest.product.all')->with(compact('produk'));
+        return view('guest.product.v2.all')->with(compact('produk'));
     }
 
     /**
@@ -29,7 +29,7 @@ class ProductController extends Controller
     {
         $produk = Produk::with('tukang.user')->orderBy('created_at', 'desc')->paginate(9);
 
-        return view('guest.product.all')->with(compact('produk'));
+        return view('guest.product.v2.all')->with(compact('produk'));
     }
 
     /**
@@ -63,7 +63,7 @@ class ProductController extends Controller
     {
         $data = Produk::with('tukang')->find($id);
 
-        return view('guest.product.show')->with(compact('data'));
+        return view('guest.product.v2.show')->with(compact('data'));
     }
 
     /**

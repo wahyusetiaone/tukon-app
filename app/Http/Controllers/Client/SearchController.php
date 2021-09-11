@@ -41,7 +41,7 @@ class SearchController extends Controller
 
         $data = $db->paginate(9)->toArray();
 
-        return view('client.search.search', ['obj' => $data, 'filter' => $filter, 'prov' => $prov]);
+        return view('client.search.v2.search', ['obj' => $data, 'filter' => $filter, 'prov' => $prov]);
     }
 
     function query_produk()

@@ -1,10 +1,14 @@
 <?php
 
 if (!function_exists("indonesiaRupiah")) {
-    function indonesiaRupiah($angka)
+    function indonesiaRupiah($angka, $hasSymbol = true)
     {
         $hasil = number_format($angka, 0, ',', '.');
-        return "Rp. ".$hasil.", -";
+        if ($hasSymbol){
+            return "Rp. ".$hasil.", -";
+        }else{
+            return "Rp. ".$hasil;
+        }
     }
 }
 

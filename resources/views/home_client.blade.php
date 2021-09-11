@@ -1,6 +1,7 @@
 @extends('layouts.app_client')
 
 @section('third_party_stylesheets')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="{{ asset('css/home_client.css') }}" rel="stylesheet">
 @endsection
 
@@ -18,17 +19,17 @@
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <img class="d-block w-100"
-                         src="https://www.etcspl.com/wp-content/uploads/2017/11/e-commerce-banner.jpg"
+                         src="{{asset('images/e-commerce-banner.jpg')}}"
                          alt="First slide">
                 </div>
                 <div class="carousel-item">
                     <img class="d-block w-100"
-                         src="https://www.etcspl.com/wp-content/uploads/2017/11/e-commerce-banner.jpg"
+                         src="{{asset('images/e-commerce-banner.jpg')}}"
                          alt="Second slide">
                 </div>
                 <div class="carousel-item">
                     <img class="d-block w-100"
-                         src="https://www.etcspl.com/wp-content/uploads/2017/11/e-commerce-banner.jpg"
+                         src="{{asset('images/e-commerce-banner.jpg')}}"
                          alt="Third slide">
                 </div>
             </div>
@@ -432,11 +433,12 @@
 
 @section('third_party_scripts')
     <script src="{{ asset('js/home_client.js') }}" defer></script>
+    <script src="{{ asset('js/echo.js') }}"></script>
     <script type="text/javascript">
         @if(\Illuminate\Support\Facades\Auth::check())
-        window.Echo.channel('private-user.{{ \Illuminate\Support\Facades\Auth::id() }}')
+            window.Echo.channel('private-user.{{ \Illuminate\Support\Facades\Auth::id() }}')
             .listen('PrivateChannelTest', (e) => {
-                alert(e.message.message);
+                console.log(e);
             });
         @endif
     </script>

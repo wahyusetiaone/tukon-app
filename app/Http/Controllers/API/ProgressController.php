@@ -28,6 +28,7 @@ class ProgressController extends Controller
 
         $validator = Validator::make($request->all(), [
             'path_progress' => 'required|mimes:jpg,jpeg,png|max:1000',
+            'note_progress' => 'required|string'
         ]);
 
         if ($validator->fails()) {
@@ -73,6 +74,7 @@ class ProgressController extends Controller
                             }
                             $data = new DocumentationProgress();
                             $data->kode_on_progress = $newonprogress->id;
+                            $data->note_progress = $request->input('note_progress');
                             $data->path = $path;
                             $data->date = $now;
                             $data->save();
@@ -99,6 +101,7 @@ class ProgressController extends Controller
                         }
                         $data = new DocumentationProgress();
                         $data->kode_on_progress = $idOnProgress->kode_on_progress;
+                        $data->note_progress = $request->input('note_progress');
                         $data->path = $path;
                         $data->date = $now;
                         $data->save();
@@ -118,6 +121,7 @@ class ProgressController extends Controller
                     }
                     $data = new DocumentationProgress();
                     $data->kode_on_progress = $onprogress->id;
+                    $data->note_progress = $request->input('note_progress');
                     $data->path = $path;
                     $data->date = $now;
                     $data->save();
@@ -142,6 +146,7 @@ class ProgressController extends Controller
                     }
                     $data = new DocumentationProgress();
                     $data->kode_on_progress = $onprogress->id;
+                    $data->note_progress = $request->input('note_progress');
                     $data->path = $path;
                     $data->date = $now;
                     $data->save();

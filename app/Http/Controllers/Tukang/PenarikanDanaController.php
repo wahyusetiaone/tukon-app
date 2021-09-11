@@ -82,6 +82,9 @@ class PenarikanDanaController extends Controller
         if ($penarikan->kode_limitasi == 1) {
             unset($avaliable[5]);
         }
+        if ($penarikan->persentase_penarikan == 100) {
+            unset($avaliable[5]);
+        }
         if ($penarikan->persentase_penarikan > 25) {
             unset($avaliable[4]);
         }
@@ -146,6 +149,8 @@ class PenarikanDanaController extends Controller
             return View('errors.404');
         }
 
+        $verifikasiBeforePenarikan = verificationBeforePenarikan(Auth::id(), $id);
+
         $penarikan = PenarikanDana::with('project', 'limitasi_penarikan')->whereHas('project.pembayaran.pin', function ($query) {
             $query->where('kode_tukang', Auth::id());
         })->where('id', $id)->first();
@@ -154,7 +159,9 @@ class PenarikanDanaController extends Controller
         $avaliable = Persentase_Penarikan::all()->except(6)->keyBy('value');
 
         if ($penarikan->kode_limitasi == 2) {
-            $avaliable = Persentase_Penarikan::all()->keyBy('value');
+            if ($penarikan->persentase_penarikan != 100){
+                $avaliable = Persentase_Penarikan::all()->keyBy('value');
+            }
         }
 
         if ($penarikan->persentase_penarikan > 25) {
@@ -173,7 +180,7 @@ class PenarikanDanaController extends Controller
             $avaliable->forget(5);
         }
 
-        return view('tukang.penarikan_dana.show')->with(compact('data','avaliable'));
+        return view('tukang.penarikan_dana.show')->with(compact('data','avaliable', 'verifikasiBeforePenarikan'));
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Events\ProyekEventController;
 use App\Models\Limitasi_Penarikan;
 use App\Models\Penalty;
 use App\Models\PenarikanDana;
@@ -57,27 +58,27 @@ class ProjectObserver
      * @param  \App\Models\Project  $project
      * @return boolean
      */
-    public function updating(Project $project){
-
-        $dat = Project::find($project->id)->first();
-
-        if ($dat->kode_status == "ON02" && $project->kode_status == "ON04"){
-            Project::whereId($project->id)->update(['kode_status' => "ON05"]);
-            return false;
-        }
-
-        if ($dat->kode_status == "ON04" && $project->kode_status == "ON02"){
-            Project::whereId($project->id)->update(['kode_status' => "ON05"]);
-            return false;
-        }
-        return true;
-    }
+//    public function updating(Project $project){
+//
+//        $dat = Project::find($project->id)->first();
+//
+//        if ($dat->kode_status == "ON02" && $project->kode_status == "ON04"){
+//            Project::whereId($project->id)->update(['kode_status' => "ON05"]);
+//            return false;
+//        }
+//
+//        if ($dat->kode_status == "ON04" && $project->kode_status == "ON02"){
+//            Project::whereId($project->id)->update(['kode_status' => "ON05"]);
+//            return false;
+//        }
+//        return true;
+//    }
 
     /**
      * Handle the Progress "updated" event.
      *
      * @param  \App\Models\Project  $project
-     * @return false
+     * @return void
      */
     public function updated(Project $project){
         if ($project->kode_status == "ON03"){
@@ -94,7 +95,95 @@ class ProjectObserver
             $pengembalian->kode_status = 'PM01';
             $pengembalian->kode_penalty = $penalty->id;
             $pengembalian->save();
-            return false;
+        }
+        if ($project->kode_status == "ON05"){
+            $penarikan_dana = PenarikanDana::where('kode_project', $project->id)->first();
+            //kode 2 adalah 100%
+            $limitasi = Limitasi_Penarikan::where('id', 2)->first();
+            $sisa_dari_total_dana = $penarikan_dana->total_dana*($limitasi->value/100);
+            $penarikan_dana->kode_limitasi = $limitasi->id;
+            $penarikan_dana->limitasi = $penarikan_dana->limitasi + $sisa_dari_total_dana;
+            $penarikan_dana->sisa_penarikan = $penarikan_dana->sisa_penarikan + $sisa_dari_total_dana;
+            $penarikan_dana->save();
+        }
+        $this->notificationHandling($project, 'updated');
+    }
+
+    private function notificationHandling(Project  $project, String $action)
+    {
+        $data = Project::with('pembayaran.pin.pengajuan.client.user', 'pembayaran.pin.tukang.user')->whereId($project->id)->first();
+        switch ($action){
+            case 'updated':
+                //deep_id == project
+                if ($data->kode_status == "ON01") {
+                    createNotification(
+                        $data->pembayaran->pin->pengajuan->kode_client,
+                        'Proyek',
+                        'Tukang '.$data->pembayaran->pin->tukang->user->name.' upload progress terbaru.',
+                        $data->pembayaran->pin->pengajuan->nama_proyek,
+                        $data->id,
+                        'client',
+                        'update',
+                        ProyekEventController::eventCreated());
+                }
+                //deep_id == project
+                if ($data->kode_status == "ON02") {
+                    createNotification(
+                        $data->pembayaran->pin->kode_tukang,
+                        'Proyek',
+                        'Klien menyetujui penyelesaian Proyek.',
+                        $data->pembayaran->pin->pengajuan->nama_proyek,
+                        $data->id,
+                        'tukang',
+                        'update',
+                        ProyekEventController::eventCreated());
+                }
+                //deep_id == project
+                if ($data->kode_status == "ON03") {
+                    createNotification(
+                        $data->pembayaran->pin->kode_tukang,
+                        'Proyek',
+                        'Klien membatalkan Proyek.',
+                        $data->pembayaran->pin->pengajuan->nama_proyek,
+                        $data->id,
+                        'tukang',
+                        'cancel',
+                        ProyekEventController::eventCreated());
+                }
+                //deep_id == project
+                if ($data->kode_status == "ON04") {
+                    createNotification(
+                        $data->pembayaran->pin->pengajuan->kode_client,
+                        'Proyek',
+                        'Tukang menyetujui penyelesaian Proyek.',
+                        $data->pembayaran->pin->pengajuan->nama_proyek,
+                        $data->id,
+                        'client',
+                        'update',
+                        ProyekEventController::eventCreated());
+                }
+                //deep_id == project
+                if ($data->kode_status == "ON05") {
+                    createNotification(
+                        $data->pembayaran->pin->pengajuan->kode_client,
+                        'Proyek',
+                        'Proyek Selesai.',
+                        $data->pembayaran->pin->pengajuan->nama_proyek,
+                        $data->id,
+                        'client',
+                        'update',
+                        ProyekEventController::eventCreated());
+                    createNotification(
+                        $data->pembayaran->pin->kode_tukang,
+                        'Proyek',
+                        'Proyek Selesai.',
+                        $data->pembayaran->pin->pengajuan->nama_proyek,
+                        $data->id,
+                        'tukang',
+                        'update',
+                        ProyekEventController::eventCreated());
+                }
+                break;
         }
     }
 }

@@ -26,7 +26,6 @@
     <br>
     <!-- Main content -->
     <section class="content">
-
         <!-- Default box -->
         <div class="card">
             <div class="card-header">
@@ -136,7 +135,8 @@
                                                   <a href="#">Penarikan Sebesar {{indonesiaRupiah($item->penarikan)}}</a>
                                                   <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
                                                 </span>
-                                                        <span class="description">{{indonesiaDate($item->created_at)}}</span>
+                                                        <span
+                                                            class="description">{{indonesiaDate($item->created_at)}}</span>
                                                     </div>
                                                     <!-- /.user-block -->
                                                     <p>
@@ -161,11 +161,13 @@
                                                   <a href="#">Penarikan Sebesar {{indonesiaRupiah($item->penarikan)}}</a>
                                                   <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
                                                 </span>
-                                                        <span class="description">{{indonesiaDate($item->created_at)}}</span>
+                                                        <span
+                                                            class="description">{{indonesiaDate($item->created_at)}}</span>
                                                     </div>
                                                     <!-- /.user-block -->
                                                     <p>
-                                                        {{$item->persentase->name}} dari <b>Limitasi</b> berhasil pada {{indonesiaDate($item->updated_at)}}.
+                                                        {{$item->persentase->name}} dari <b>Limitasi</b> berhasil
+                                                        pada {{indonesiaDate($item->updated_at)}}.
                                                     </p>
                                                 </div>
                                             @endif
@@ -187,11 +189,13 @@
                                                   <a href="#">Penarikan Sebesar {{indonesiaRupiah($item->penarikan)}}</a>
                                                   <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
                                                 </span>
-                                                        <span class="description">{{indonesiaDate($item->created_at)}}</span>
+                                                        <span
+                                                            class="description">{{indonesiaDate($item->created_at)}}</span>
                                                     </div>
                                                     <!-- /.user-block -->
                                                     <p>
-                                                        {{$item->persentase->name}} dari <b>Limitasi</b> Gagal pada {{indonesiaDate($item->updated_at)}}.
+                                                        {{$item->persentase->name}} dari <b>Limitasi</b> Gagal
+                                                        pada {{indonesiaDate($item->updated_at)}}.
                                                     </p>
                                                 </div>
                                             @endif
@@ -211,35 +215,33 @@
                                 <h3 class="card-title">Buat Penarikan</h3>
                             </div>
                             <!-- /.card-header -->
-                            <!-- form start -->
-                            <form role="form">
+                            @if($verifikasiBeforePenarikan['status'])
                                 <div class="card-body">
                                     <div class="container text-xs-center">
                                         <div class="row">
                                             <div class="col-lg-12">
-
-                                                <a href="{{route('konfirmasi.penarikan.dana',[$data->id,5])}}"
-                                                   class="btn btn-squared-default @if(isset($avaliable['5'])) btn-primary @else btn-outline-secondary disabled @endif">
+                                                <a href="#"
+                                                   class="btn btn-squared-default btn-outline-secondary disabled">
                                                     5%
                                                 </a>
-                                                <a href="{{route('konfirmasi.penarikan.dana',[$data->id, 10])}}"
-                                                   class="btn btn-squared-default @if(isset($avaliable['10'])) btn-primary @else btn-outline-secondary disabled @endif">
+                                                <a href="#"
+                                                   class="btn btn-squared-default btn-outline-secondary disabled">
                                                     10%
                                                 </a>
-                                                <a href="{{route('konfirmasi.penarikan.dana',[$data->id, 15])}}"
-                                                   class="btn btn-squared-default @if(isset($avaliable['15'])) btn-primary @else btn-outline-secondary disabled @endif">
+                                                <a href="#"
+                                                   class="btn btn-squared-default btn-outline-secondary disabled">
                                                     15%
                                                 </a>
-                                                <a href="{{route('konfirmasi.penarikan.dana',[$data->id, 20])}}"
-                                                   class="btn btn-squared-default @if(isset($avaliable['20'])) btn-primary @else btn-outline-secondary disabled @endif">
+                                                <a href="#"
+                                                   class="btn btn-squared-default btn-outline-secondary disabled">
                                                     20%
                                                 </a>
-                                                <a href="{{route('konfirmasi.penarikan.dana',[$data->id, 25])}}"
-                                                   class="btn btn-squared-default @if(isset($avaliable['25'])) btn-primary @else btn-outline-secondary disabled @endif">
+                                                <a href="#"
+                                                   class="btn btn-squared-default btn-outline-secondary disabled">
                                                     25%
                                                 </a>
-                                                <a href="{{route('konfirmasi.penarikan.dana',[$data->id, 100])}}"
-                                                   class="btn btn-squared-default @if(isset($avaliable['100'])) btn-primary @else btn-outline-secondary disabled @endif">
+                                                <a href="#"
+                                                   class="btn btn-squared-default btn-outline-secondary disabled">
                                                     100%
                                                 </a>
                                             </div>
@@ -249,10 +251,57 @@
                                 <!-- /.card-body -->
 
                                 <div class="card-footer">
-                                    <p>Penarikan diatas berdasarkan limitasi yang berlaku saat ini yaitu
-                                        <b>{{$data->limitasi_penarikan->name}}</b> dari <b>Total Dana</b>.</p>
+                                    @if(isset($verifikasiBeforePenarikan['message']['progress']))
+                                        <p class="text-danger"><strong>{{$verifikasiBeforePenarikan['message']['progress']}}.</strong></p>
+                                    @endif
+                                    @if(isset($verifikasiBeforePenarikan['message']['bank']))
+                                            <p class="text-danger"><strong>{{$verifikasiBeforePenarikan['message']['bank']}}.</strong></p>
+                                    @endif
                                 </div>
-                            </form>
+                            @else
+                            <!-- form start -->
+                                <form role="form">
+                                    <div class="card-body">
+                                        <div class="container text-xs-center">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+
+                                                    <a href="{{route('konfirmasi.penarikan.dana',[$data->id,5])}}"
+                                                       class="btn btn-squared-default @if(isset($avaliable['5'])) btn-primary @else btn-outline-secondary disabled @endif">
+                                                        5%
+                                                    </a>
+                                                    <a href="{{route('konfirmasi.penarikan.dana',[$data->id, 10])}}"
+                                                       class="btn btn-squared-default @if(isset($avaliable['10'])) btn-primary @else btn-outline-secondary disabled @endif">
+                                                        10%
+                                                    </a>
+                                                    <a href="{{route('konfirmasi.penarikan.dana',[$data->id, 15])}}"
+                                                       class="btn btn-squared-default @if(isset($avaliable['15'])) btn-primary @else btn-outline-secondary disabled @endif">
+                                                        15%
+                                                    </a>
+                                                    <a href="{{route('konfirmasi.penarikan.dana',[$data->id, 20])}}"
+                                                       class="btn btn-squared-default @if(isset($avaliable['20'])) btn-primary @else btn-outline-secondary disabled @endif">
+                                                        20%
+                                                    </a>
+                                                    <a href="{{route('konfirmasi.penarikan.dana',[$data->id, 25])}}"
+                                                       class="btn btn-squared-default @if(isset($avaliable['25'])) btn-primary @else btn-outline-secondary disabled @endif">
+                                                        25%
+                                                    </a>
+                                                    <a href="{{route('konfirmasi.penarikan.dana',[$data->id, 100])}}"
+                                                       class="btn btn-squared-default @if(isset($avaliable['100'])) btn-primary @else btn-outline-secondary disabled @endif">
+                                                        100%
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.card-body -->
+
+                                    <div class="card-footer">
+                                        <p>Penarikan diatas berdasarkan limitasi yang berlaku saat ini yaitu
+                                            <b>{{$data->limitasi_penarikan->name}}</b> dari <b>Total Dana</b>.</p>
+                                    </div>
+                                </form>
+                            @endif
                         </div>
                         <!-- /.card -->
                     </div>

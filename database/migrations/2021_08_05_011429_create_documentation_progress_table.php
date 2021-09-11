@@ -16,6 +16,7 @@ class CreateDocumentationProgressTable extends Migration
         Schema::create('documentation_progress', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('kode_on_progress')->default(0);
+            $table->text('note_progress');
             $table->text('path');
             $table->date('date');
             $table->timestamps();

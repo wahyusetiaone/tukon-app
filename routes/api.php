@@ -56,6 +56,11 @@ Route::group(['middleware' => ['auth:api', 'roles']], function () {
     Route::post('update', 'App\Http\Controllers\API\UserController@update');
     Route::post('upload_image', 'App\Http\Controllers\API\UserController@upload_image');
 
+    Route::group(['prefix' => 'pdf'], function () {
+        Route::get('invoice/{id}', [App\Http\Controllers\Pdf\ApiPdfDomController::class, 'invoice'])->name('pdf.invoice');
+        Route::get('bast/{id}', [App\Http\Controllers\Pdf\ApiPdfDomController::class, 'bast'])->name('pdf.bast');
+        Route::get('penawaran/{id}', [App\Http\Controllers\Pdf\ApiPdfDomController::class, 'penawaran'])->name('pdf.penawaran');
+    });
     Route::group(['prefix' => 'tukang', 'as' => 'tukang', 'roles' => 'tukang'], function () {
         Route::group(['prefix' => 'produk', 'as' => 'produk'], function () {
             Route::get('get', 'App\Http\Controllers\API\ProdukController@index')->name('get');
@@ -74,6 +79,7 @@ Route::group(['middleware' => ['auth:api', 'roles']], function () {
                 Route::post('add', 'App\Http\Controllers\API\PenawaranOfflineController@store')->name('add');
                 Route::post('update/{id}', 'App\Http\Controllers\API\PenawaranOfflineController@update')->name('update');
                 Route::get('delete/{id}', 'App\Http\Controllers\API\PenawaranOfflineController@destroy')->name('delete');
+                Route::get('show/{id}', 'App\Http\Controllers\API\PenawaranOfflineController@show')->name('show');
             });
             Route::get('get', 'App\Http\Controllers\API\PenawaranController@index')->name('get');
             Route::get('show/{id}', 'App\Http\Controllers\API\PenawaranController@show')->name('show');
@@ -109,11 +115,22 @@ Route::group(['middleware' => ['auth:api', 'roles']], function () {
             Route::get('avaliable/{id}', 'App\Http\Controllers\API\PenarikanDanaController@create')->name('avaliable');
             Route::post('ajukan/{id}/{persen}', 'App\Http\Controllers\API\PenarikanDanaController@store')->name('ajukan.penarikan.dana');
         });
+        Route::group(['prefix' => 'notification'], function () {
+            Route::get('show', [App\Http\Controllers\API\NotificationController::class, 'index'])->name('notif.show');
+            Route::get('mark/{id}', [App\Http\Controllers\API\NotificationController::class, 'markReaded'])->name('notif.mark.readed');
+        });
     });
 
     Route::group(['prefix' => 'client', 'as' => 'client', 'roles' => 'klien'], function () {
-        Route::post('rate-it', 'App\Http\Controllers\API\RatingController@send')->name('send_it');
+        Route::get('get-rate/{kode_project}', 'App\Http\Controllers\API\RatingController@get')->name('get_it');
+        Route::post('rate-it/{kode_project}', 'App\Http\Controllers\API\RatingController@send')->name('send_it');
         Route::post('change-rate/{id}', 'App\Http\Controllers\API\RatingController@change')->name('change-it');
+
+        Route::group(['prefix' => 'pdf'], function () {
+            Route::get('invoice/{id}', [App\Http\Controllers\Pdf\ApiPdfDomController::class, 'invoice'])->name('pdf.invoice');
+            Route::get('bast/{id}', [App\Http\Controllers\Pdf\ApiPdfDomController::class, 'bast'])->name('pdf.bast');
+            Route::get('penawaran/{id}', [App\Http\Controllers\Pdf\ApiPdfDomController::class, 'penawaran'])->name('pdf.penawaran');
+        });
         Route::group(['prefix' => 'wishlist', 'as' => 'wishlist'], function () {
             Route::get('get', 'App\Http\Controllers\API\WishlistController@index')->name('get');
             Route::post('remove', 'App\Http\Controllers\API\WishlistController@remove')->name('remove');
@@ -128,6 +145,7 @@ Route::group(['middleware' => ['auth:api', 'roles']], function () {
             Route::post('remove/photo/{id}', 'App\Http\Controllers\API\PengajuanController@destroy_photo')->name('remove.photo');
             Route::post('remove/tukang/{id}', 'App\Http\Controllers\API\PengajuanController@destroy_tukang')->name('remove.tukang');
             Route::get('tukang/by/{kode_pengajuan}', 'App\Http\Controllers\API\PengajuanController@get_tukang_by_pengajuan')->name('tukang.by.pengajuan');
+            Route::get('batal/{id}', 'App\Http\Controllers\API\PengajuanController@batal_pengajuan')->name('batal.pengajuan');
         });
         Route::group(['prefix' => 'penawaran', 'as' => 'penawaran'], function () {
             Route::get('show/{id}', 'App\Http\Controllers\API\PenawaranController@showclient')->name('penawaran.show.client');
@@ -140,9 +158,13 @@ Route::group(['middleware' => ['auth:api', 'roles']], function () {
             Route::get('get', 'App\Http\Controllers\API\PembayaranController@index')->name('get');
             Route::get('tagihan', 'App\Http\Controllers\API\PembayaranController@tagihan')->name('tagihan');
             Route::get('lihat/tagihan/{id}', 'App\Http\Controllers\API\PembayaranController@show')->name('lihat_tagihan');
+            Route::get('lihat/pembayaran/{id}', 'App\Http\Controllers\API\PembayaranController@show')->name('lihat_pembayaran');
             Route::post('upload/{id}', 'App\Http\Controllers\API\PembayaranController@create')->name('upload');
             Route::post('reupload/{id}', 'App\Http\Controllers\API\PembayaranController@create')->name('reupload');
             Route::get('batal/{id}', 'App\Http\Controllers\API\PembayaranController@cancel')->name('cancel');
+            Route::get('available/payment-channel', 'App\Http\Controllers\API\PembayaranController@availablePayChannel')->name('available.payment.channel');
+            Route::post('checkout/{id}', 'App\Http\Controllers\API\PembayaranController@checkOut')->name('checkout');
+            Route::get('invoice/status/{id}', 'App\Http\Controllers\API\PembayaranController@viewInvoice')->name('show.invoice');
         });
         Route::group(['prefix' => 'project', 'as' => 'project'], function () {
             Route::get('get', 'App\Http\Controllers\API\ProjectController@client_show_all_project')->name('client_show_all_project');
@@ -161,6 +183,10 @@ Route::group(['middleware' => ['auth:api', 'roles']], function () {
         Route::group(['prefix' => 'pengembalian-dana', 'as' => 'pengembalian-dana'], function () {
             Route::get('get', 'App\Http\Controllers\API\PengembalianDanaController@index')->name('get');
             Route::post('ajukan/{id}', 'App\Http\Controllers\API\PengembalianDanaController@ajukan')->name('ajukan');
+        });
+        Route::group(['prefix' => 'notification'], function () {
+            Route::get('show', [App\Http\Controllers\API\NotificationController::class, 'index'])->name('notif.show');
+            Route::get('mark/{id}', [App\Http\Controllers\API\NotificationController::class, 'markReaded'])->name('notif.mark.readed');
         });
     });
 

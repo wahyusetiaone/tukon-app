@@ -8,10 +8,21 @@ const mix = require('laravel-mix');
  | Mix provides a clean, fluent API for defining some Webpack build steps
  | for your Laravel application. By default, we are compiling the Sass
  | file for the application as well as bundling up all the JS files.
- |
+ |mix.setResourceRoot('/public/');
+
  */
 
+mix.copyDirectory('resources/fonts', 'public/fonts');
+
+
 mix.js('resources/js/app.js', 'public/js')
+
+    //pdf-mobile
+    .js('resources/js/pdf_mobile.js', 'public/js')
+
+
+    //echo
+    .js('resources/js/echo.js', 'public/js')
 
     //search
     .js('resources/js/search.js', 'public/js')
@@ -50,6 +61,7 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/show_project_client.js', 'public/js')
     .js('resources/js/show_profile_client.js', 'public/js')
     .js('resources/js/show_change_photo_client.js', 'public/js')
+    .js('resources/js/konfirmasi_pengembalian_client.js', 'public/js')
 
     //admin
     .js('resources/js/all_penarikan_admin.js', 'public/js')
@@ -63,9 +75,14 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/all_pengembalian_admin.js', 'public/js')
     .js('resources/js/konfirmasi_pengembalian_admin.js', 'public/js')
 
-
     .sass('resources/sass/app.scss', 'public/css')
 
     .postCss('resources/css/home_client.css', 'public/css')
     .postCss('resources/css/show_proyek.css', 'public/css')
-    .postCss('resources/css/wishlist.css', 'public/css');
+    .postCss('resources/css/wishlist.css', 'public/css')
+
+    //font awesome
+    .copy(
+        'node_modules/@fortawesome/fontawesome-free/webfonts',
+        'public/webfonts',
+    )

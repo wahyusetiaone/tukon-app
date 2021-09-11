@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class DocumentationProgress extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'note_progress'
+    ];
 
     public function onprogress(){
         return $this->belongsTo(OnProgress::class, 'kode_on_progress', 'id');

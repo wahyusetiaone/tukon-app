@@ -5,6 +5,8 @@ require( '../../node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js' );
 import $ from 'jquery';
 import daterangepicker from 'admin-lte/plugins/daterangepicker'
 window.$ = window.jQuery = $;
+var base_url = process.env.MIX_BASE_URL;
+console.log(base_url);
 $(document ).ready(function() {
     var hidden_tk = $("#hidden_tk");
     var hidden_cl = $("#hidden_cl");
@@ -22,9 +24,11 @@ $(document ).ready(function() {
         }
     });
 
+    //for android acction
+        if (screen.width <= 1176) {
+            window.location = base_url + '/forbiden-mobile-view';
+        }
 });
-var base_url = process.env.MIX_BASE_URL;
-console.log(base_url);
 
 export { base_url };
 

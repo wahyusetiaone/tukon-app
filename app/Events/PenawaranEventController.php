@@ -34,6 +34,9 @@ class PenawaranEventController implements ShouldBroadcast
      */
     public function broadcastOn()
     {
+        if ($this->message->role == 'admin'){
+            return new PrivateChannel('admin');
+        }
         return new PrivateChannel('user.'.$this->message->user_id);
     }
 

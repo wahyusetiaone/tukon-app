@@ -88,7 +88,9 @@ class PenarikanDanaController extends Controller
             $avaliable = Persentase_Penarikan::all()->except(6)->keyBy('value');
 
             if ($penarikan->kode_limitasi == 2) {
-                $avaliable = Persentase_Penarikan::all()->keyBy('value');
+                if ($penarikan->persentase_penarikan != 100){
+                    $avaliable = Persentase_Penarikan::all()->keyBy('value');
+                }
             }
 
             if ($penarikan->persentase_penarikan > 25) {
@@ -134,6 +136,10 @@ class PenarikanDanaController extends Controller
             return (new PenarikanDanaResourceController(['error'=>$validator->errors()]))->response()->setStatusCode(401);
         }
 
+        if (!PenarikanDana::where('id', $id)->exists()) {
+            return (new PenarikanDanaResourceController(['error'=>'Kode Penarikan Tidak ditemukan !!!']))->response()->setStatusCode(401);
+        }
+
         $verifikasiBeforePenarikan = verificationBeforePenarikan(Auth::id(), $id);
         if ($verifikasiBeforePenarikan['status']){
             return (new PenarikanDanaResourceController(['error'=>$verifikasiBeforePenarikan]))->response()->setStatusCode(401);
@@ -156,6 +162,9 @@ class PenarikanDanaController extends Controller
                 //6 adalah kode pembayaran 100%
                 $avaliable = Persentase_Penarikan::all()->pluck('value')->toArray();
                 if ($penarikan->kode_limitasi == 1) {
+                    unset($avaliable[5]);
+                }
+                if ($penarikan->persentase_penarikan == 100) {
                     unset($avaliable[5]);
                 }
                 if ($penarikan->persentase_penarikan > 25) {

@@ -15,6 +15,7 @@ class CreateVoteRatesTable extends Migration
     {
         Schema::create('vote_rates', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('kode_project')->default(0);
             $table->bigInteger('kode_client')->default(0);
             $table->bigInteger('kode_tukang')->default(0);
             $table->integer('value')->default(0);

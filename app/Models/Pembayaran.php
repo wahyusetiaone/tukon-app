@@ -20,4 +20,8 @@ class Pembayaran extends Model
     public function project(){
         return $this->hasOne(Project::class, 'kode_pembayaran', 'id');
     }
+
+    public function invoice(){
+        return $this->hasOne(Invoice::class, 'kode_pembayaran', 'id');
+    }
 }

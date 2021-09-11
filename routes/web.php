@@ -1,9 +1,14 @@
 <?php
 
+use App\Events\PengajuanEventController;
 use App\Events\PrivateChannelTest;
 use App\Models\NotificationHandler;
+use App\Models\Penawaran;
+use App\Models\Pin;
+use Dompdf\Dompdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Xendit\Xendit;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,27 +81,150 @@ Route::group(['prefix' => 'command'], function () {
 
 Route::group(['prefix' => 'trigger'], function () {
     Route::get('dummy', function () {
-        broadcast(new \App\Events\DummyEvent('hello world'));
-        return '<h1>Dummy Event Trigger :</h1>';
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml('<p>Hello world</p>');
+        $dompdf->render();
+        $canvas = $dompdf->getCanvas();
+        $canvas->page_script('
+  $pdf->set_opacity(.5);
+  $pdf->image("https://cdn.sstatic.net/Img/teams/teams-illo-free-sidebar-promo.svg?v=47faa659a05e", {x}, {y}, {w}, {h});
+');
+        return $dompdf->stream('docu.pdf');
     });
-    Route::get('bisayokbisa', function (){
+    Route::get('bisayokbisa', function () {
 
         // want to broadcast PrivateChannelTest event
-        $msg = new NotificationHandler();
-        $msg->user_id = 3;
-        $msg->title = "Proyek";
-        $msg->message = "Proyek Telah Selesai";
-        $msg->name = "Buat Rumah";
-        $msg->deep_id = 12;
-        $msg->role = "client"; //client/tukang/admin
-        $msg->action = "update"; //add/delete/update
-        $msg->read = false;
-        $msg->save();
-        $unReadNotif = NotificationHandler::select()->where('user_id', 3)->count();
+//        $msg = new NotificationHandler();
+//        $msg->user_id = 8;
+//        $msg->title = "Proyek";
+//        $msg->message = "Proyek Telah Selesai";
+//        $msg->name = "Buat Rumah";
+//        $msg->deep_id = 12;
+//        $msg->role = "client"; //client/tukang/admin
+//        $msg->action = "update"; //add/cancel/update
+//        $msg->read = false;
+//        $msg->save();
+//        $unReadNotif = NotificationHandler::select('id')->where('user_id', 8)->count();
 //        broadcast(new PrivateChannelTest($msg,$unReadNotif));
-        bringInNotification($msg, $unReadNotif, \App\Events\ProyekEventController::eventCreated());
+//        bringInNotification($msg, $unReadNotif, \App\Events\ProyekEventController::eventCreated());
+////
+
+//       \App\Models\Pin::find(2)->update(['status' => 'B01']);
+//
+//$data = Penawaran::with('pin.pengajuan')->get()->toArray();
+//var_dump($data);
+//        Xendit::setApiKey('xnd_development_Ktc4xiPAIzWUqGG9ipjzB70DXOq5xme2lnm7IprztogsNF1TrXQPLON2J1bp0');
+//
+//        $ovoParams = [
+//            'external_id' => 'demo_147580196270',
+//            'amount' => 32000,
+//            'phone' => '081298498259',
+//            'ewallet_type' => 'OVO'
+//        ];
+//
+//        $danaParams = [
+//            'external_id' => 'demo_' . time(),
+//            'amount' => 32000,
+//            'phone' => '081298498259',
+//            'expiration_date' => '2100-02-20T00:00:00.000Z',
+//            'callback_url' => 'https://my-shop.com/callbacks',
+//            'redirect_url' => 'https://my-shop.com/home',
+//            'ewallet_type' => 'DANA'
+//        ];
+//
+//        $linkajaParams = [
+//            'external_id' => 'demo_' . time(),
+//            'amount' => 32000,
+//            'phone' => '081298498259',
+//            'items' => [
+//                [
+//                    'id' => '123123',
+//                    'name' => 'Phone Case',
+//                    'price' => 100000,
+//                    'quantity' => 1
+//                ],
+//                [
+//                    'id' => '345678',
+//                    'name' => 'Powerbank',
+//                    'price' => 200000,
+//                    'quantity' => 1
+//                ]
+//            ],
+//            'callback_url' => 'https =>//yourwebsite.com/callback',
+//            'redirect_url' => 'https =>//yourwebsite.com/order/123',
+//            'ewallet_type' => 'LINKAJA'
+//        ];
+//
+//        $ewalletChargeParams = [
+//            'reference_id' => 'invoice-41628124856',
+//            'currency' => 'IDR',
+//            'amount' => 80006,
+//            'checkout_method' => 'ONE_TIME_PAYMENT',
+//            'channel_code' => 'ID_OVO',
+//            'channel_properties' => [
+//                'mobile_number' => '+628789098900',
+//            ],
+//            'metadata' => [
+//                'meta' => 'data'
+//            ]
+//        ];
+
+//        try {
+//            $createOvo = \Xendit\EWallets::create($ovoParams);
+//            var_dump($createOvo);
+//        } catch (\Xendit\Exceptions\ApiException $exception) {
+//            var_dump($exception);
+//        }
+//
+//        $createDana = \Xendit\EWallets::create($danaParams);
+//        var_dump($createDana);
+//
+//        $createLinkaja = \Xendit\EWallets::create($linkajaParams);
+//        var_dump($createLinkaja);
+//
+//        $getOvo = \Xendit\EWallets::getPaymentStatus($ovoParams['external_id'], 'OVO');
+//        var_dump($getOvo);
+//
+//        $getDana = \Xendit\EWallets::getPaymentStatus($danaParams['external_id'], 'DANA');
+//        var_dump($getDana);
+//
+//        $getLinkaja = \Xendit\EWallets::getPaymentStatus(
+//            $linkajaParams['external_id'],
+//            'LINKAJA'
+//        );
+//        var_dump($getLinkaja);
+//
+//        echo "Creating E-Wallet Charge...\n";
+//        $createEWalletCharge = \Xendit\EWallets::createEWalletCharge($ewalletChargeParams);
+//        var_dump($createEWalletCharge);
+//
+//        echo "Retrieving E-Wallet Charge Status with ID: {$createEWalletCharge['id']}...\n";
+//        $getEWalletChargeStatus = \Xendit\EWallets::getEWalletChargeStatus(
+//            $createEWalletCharge['id']
+//        );
+//        var_dump($getEWalletChargeStatus);
+
+        $data = \App\Models\Invoice::where('kode_pembayaran', 1)->first();
+        $data->status = 'PAID';
+        $data->save();
+
         return '<h1>Yokk Event Trigger :</h1>';
     });
+});
+
+Route::group(['prefix' => '/callback/xendit/log'], function () {
+    Route::post('fva/{event}', [\App\Http\Controllers\PaymentGateway\LogController::class, 'fva'])
+        ->name('log.fva')
+        ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+    Route::post('retail', [\App\Http\Controllers\PaymentGateway\LogController::class, 'retail'])
+        ->name('log.retail')
+        ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+    Route::post('invoice', [\App\Http\Controllers\PaymentGateway\LogController::class, 'invoice'])
+        ->name('log.invoice')
+        ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+    Route::post('ewallet', [\App\Http\Controllers\PaymentGateway\LogController::class, 'ewallet'])
+        ->name('log.ewallet')
+        ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
 });
 
 Route::get('/helper', [\App\Http\Controllers\HelperView::class, 'index'])->name('helperview');
@@ -107,6 +235,31 @@ Route::group(['prefix' => 'pdf'], function () {
     Route::get('invoice/{id}', [App\Http\Controllers\Pdf\PdfDomController::class, 'invoice'])->name('pdf.invoice');
     Route::get('bast/{id}', [App\Http\Controllers\Pdf\PdfDomController::class, 'bast'])->name('pdf.bast');
     Route::get('penawaran/{id}', [App\Http\Controllers\Pdf\PdfDomController::class, 'penawaran'])->name('pdf.penawaran');
+});
+
+//Route::group(['prefix' => 'panel'], function () {
+//    Route::get('login', function (){
+//        return view('auth.panel.login_panel');
+//    });
+//});
+//Route::group(['prefix' => 'panel'], function () {
+//    Route::get('/client/login', function (){
+//        return view('auth.panel.login');
+//    });
+//});
+//Route::group(['prefix' => 'panel'], function () {
+//    Route::get('register', function (){
+//        return view('auth.panel.register_panel');
+//    });
+//});
+//Route::group(['prefix' => 'panel'], function () {
+//    Route::get('/client/register', function (){
+//        return view('auth.panel.register');
+//    });
+//});
+
+Route::get('forbiden-mobile-view', function () {
+    return view('mobile.app_mobile');
 });
 
 Route::group(['prefix' => 'guest'], function () {
@@ -121,7 +274,6 @@ Route::group(['prefix' => 'guest'], function () {
         Route::get('top/all', [App\Http\Controllers\Guest\TukangController::class, 'index_top'])->name('all.top.tukang.guest');
     });
 });
-
 
 Auth::routes();
 Route::group(['middleware' => ['auth', 'roles']], function () {
@@ -157,9 +309,11 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
         });
         Route::group(['prefix' => 'pembayaran'], function () {
             Route::get('show/{id}', [App\Http\Controllers\Client\PembayaranController::class, 'show'])->name('show.pembayaran.client');
+            Route::post('checkout/{id}', [App\Http\Controllers\Client\PembayaranController::class, 'checkOut'])->name('checkout.pembayaran.client');
+            Route::get('show/invoice/{id}', [App\Http\Controllers\Client\PembayaranController::class, 'viewInvoice'])->name('invoice.pembayaran.client');
             Route::get('pay/offline/{id}', [App\Http\Controllers\Client\PembayaranController::class, 'createOffline'])->name('payoffline.pembayaran.client');
             Route::post('pay/offline/store/{id}', [App\Http\Controllers\Client\PembayaranController::class, 'storeOffline'])->name('store.payoffline.pembayaran.client');
-//            Route::post('pay/{id}', [App\Http\Controllers\Client\PembayaranController::class, 'create'])->name('pay.pembayaran.client');
+            Route::get('pay/online/{id}', [App\Http\Controllers\Client\PembayaranController::class, 'createOnline'])->name('payonline.pembayaran.client');
             Route::get('batal/{id}', [App\Http\Controllers\Client\PembayaranController::class, 'cancel'])->name('batal.pembayaran.client');
         });
         Route::group(['prefix' => 'project'], function () {
@@ -178,8 +332,13 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
             Route::get('profile/change-photo', [App\Http\Controllers\Client\UserController::class, 'showChangePhoto'])->name('show.user.change.photo.client');
             Route::post('profile/upload/new-photo/{id}', [App\Http\Controllers\Client\UserController::class, 'updatePhotoUser'])->name('upload.user.photo.client');
         });
+        Route::group(['prefix' => 'pengembalian-dana'], function () {
+            Route::get('show/{id}', [App\Http\Controllers\Client\PengembalianDanaController::class, 'show'])->name('show.pengembalian-dana.client');
+            Route::post('ajukan', [App\Http\Controllers\Client\PengembalianDanaController::class, 'store'])->name('ajukan.pengembalian-dana.client');
+        });
     });
 
+    //tukang
     Route::group(['roles' => ['admin', 'tukang']], function () {
         Route::get('home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
         Route::get('produk', [App\Http\Controllers\Tukang\ProdukController::class, 'index'])->name('produk');
@@ -262,6 +421,7 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
             Route::post('profile/upload/new-photo/{id}', [App\Http\Controllers\Tukang\UserController::class, 'updatePhotoUser'])->name('upload.user.photo');
         });
     });
+    //admin
     Route::group(['prefix' => 'admin', 'roles' => 'admin'], function () {
         Route::group(['prefix' => 'pembayaran'], function () {
             Route::get('/', [App\Http\Controllers\Admin\PembayaranController::class, 'index'])->name('pembayaran.admin');

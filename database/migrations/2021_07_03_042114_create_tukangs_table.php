@@ -20,7 +20,7 @@ class CreateTukangsTable extends Migration
             $table->string('alamat',255);
             $table->text('kode_lokasi')->nullable();
             $table->string('no_rekening',255)->nullable();
-            $table->string('atas_nama',255)->nullable();
+            $table->string('atas_nama_rekening',255)->nullable();
             $table->string('bank',255)->nullable();
             $table->string('path_icon', 255)->nullable();
             $table->double('rate')->default(0);
