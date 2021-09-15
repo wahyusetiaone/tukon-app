@@ -336,10 +336,10 @@
     <script src="{{ asset('js/lightslider.min.js') }}" defer></script>
     <script type="text/javascript">
         @if(\Illuminate\Support\Facades\Auth::check())
-        window.Echo.channel('private-user.{{ \Illuminate\Support\Facades\Auth::id() }}')
-            .listen('\\App\\Events\\ProyekEventController', (e) => {
-                alert(e.message.message);
-            });
+        {{--window.Echo.channel('private-user.{{ \Illuminate\Support\Facades\Auth::id() }}')--}}
+        {{--    .listen('\\App\\Events\\ProyekEventController', (e) => {--}}
+        {{--        alert(e.message.message);--}}
+        {{--    });--}}
         @endif
 
         $('.carousel-item', '.show-neighbors').each(function () {

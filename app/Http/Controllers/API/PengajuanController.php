@@ -28,12 +28,12 @@ class PengajuanController extends Controller
     {
         $id = User::with('client')->find(Auth::id())->kode_user;
         try {
-            if($request->input('only') == 'batal') {
+            if ($request->input('only') == 'batal') {
                 $data = Pengajuan::with('pin.tukang.user')
                     ->where([['kode_client', $id], ['kode_status', 'T03']])
                     ->orWhere([['kode_client', $id], ['kode_status', 'T04']])
                     ->paginate(10);
-            }else{
+            } else {
                 $data = Pengajuan::with('pin.tukang.user')
                     ->where([['kode_client', $id], ['kode_status', 'T01']])
                     ->orWhere([['kode_client', $id], ['kode_status', 'S02']])
@@ -275,7 +275,7 @@ class PengajuanController extends Controller
                 }
                 $request['path'] = $old->path . ',' . $full_path;
                 $request['multipath'] = true;
-                $request['kode_status'] = 'T02';
+                $request['kode_status'] = 'S02';
                 $data = Pengajuan::findOrFail($id)->update($request->except(['path_photo', 'kode_tukang']));
                 if ($request->has('kode_tukang')) {
                     foreach ($request->input('kode_tukang') as $tukang) {
@@ -447,17 +447,17 @@ class PengajuanController extends Controller
     {
         $id = User::with('tukang')->find(Auth::id())->kode_user;
         try {
-            if($request->input('only') == 'batal'){
+            if ($request->input('only') == 'batal') {
                 $data = Pin::with('pengajuan', 'pengajuan.client', 'pengajuan.client.user')
-                    ->where([['kode_tukang', $id],['status', 'B01']])
-                    ->orWhere([['kode_tukang', $id],['status', 'B02']])
-                    ->orWhere([['kode_tukang', $id],['status', 'B04']])
+                    ->where([['kode_tukang', $id], ['status', 'B01']])
+                    ->orWhere([['kode_tukang', $id], ['status', 'B02']])
+                    ->orWhere([['kode_tukang', $id], ['status', 'B04']])
                     ->paginate(10);
-            }else{
+            } else {
                 $data = Pin::with('pengajuan', 'pengajuan.client', 'pengajuan.client.user')
-                    ->where([['kode_tukang', $id],['status', 'N01']])
-                    ->orWhere([['kode_tukang', $id],['status', 'D01A']])
-                    ->orWhere([['kode_tukang', $id],['status', 'D01A']])
+                    ->where([['kode_tukang', $id], ['status', 'N01']])
+                    ->orWhere([['kode_tukang', $id], ['status', 'D01A']])
+                    ->orWhere([['kode_tukang', $id], ['status', 'D01A']])
                     ->paginate(10);
             }
 
@@ -466,6 +466,26 @@ class PengajuanController extends Controller
             $data['message'] = $e->getMessage();
             return (new PengajuanResourceController($data))->response()->setStatusCode(401);
         }
+        return (new PengajuanResourceController($data))->response()->setStatusCode(200);
+    }
+
+    /**
+     * Display a listing of the resource.
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
+     */
+    public function show_pengajuan_base_tukang(Request $request, int $id)
+    {
+
+        if (!Pengajuan::whereId($id)->exists()){
+            return (new PengajuanResourceController(['error' => 'not found !!!']))->response()->setStatusCode(404);
+        }
+
+        $data = Pin::with('pengajuan', 'pengajuan.client', 'pengajuan.client.user')
+        ->whereHas('pengajuan', function ($q) use ($id){
+            $q->where('id', $id);
+        })->first();
+
         return (new PengajuanResourceController($data))->response()->setStatusCode(200);
     }
 

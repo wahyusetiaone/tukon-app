@@ -13,7 +13,6 @@
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     @stack('head_meta')
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
     <style>
         html, body, .bg_main {
             min-height: 100% !important;
@@ -39,6 +38,46 @@
             background-color:#D8D8D8;
             height: 1px;
         }
+    </style>
+    <style type="text/css">
+        /* Gaya tombol dropdown */
+        .dropbtn {
+            cursor: pointer;
+        }
+
+        /* The container <div> - posisi untuk konten dropdown */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Konten Dropdown (default = Disembunyikan) */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 100px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            margin-top: 2px;
+        }
+
+        /* Link di dalam dropdown */
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        /*  Merubah Warna link dropdown di hover */
+        .dropdown-content a:hover {background-color: #f1f1f1}
+
+        /* menampilkan menu dropdown di hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
     </style>
     @yield('third_party_stylesheets')
 

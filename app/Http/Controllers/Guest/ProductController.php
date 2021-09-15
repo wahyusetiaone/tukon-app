@@ -61,7 +61,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $data = Produk::with('tukang')->find($id);
+        $data = Produk::with('tukang.user')->find($id);
 
         return view('guest.product.v2.show')->with(compact('data'));
     }

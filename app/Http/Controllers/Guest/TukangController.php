@@ -20,7 +20,7 @@ class TukangController extends Controller
     {
         $tukang = Tukang::with('user')->paginate(9);
 
-        return view('guest.tukang.all')->with(compact('tukang'));
+        return view('guest.tukang.v2.all')->with(compact('tukang'));
     }
 
     /**
@@ -32,7 +32,7 @@ class TukangController extends Controller
     {
         $tukang = Tukang::with('user')->orderBy('rate', 'desc')->paginate(9);
 
-        return view('guest.tukang.all')->with(compact('tukang'));
+        return view('guest.tukang.v2.all')->with(compact('tukang'));
     }
 
     /**
@@ -74,7 +74,7 @@ class TukangController extends Controller
         })->whereHas('pembayaran.project', function ($q){
             $q->where(['kode_status' => 'ON05']);
         })->count();
-        return view('guest.tukang.show')->with(compact('tukang', 'produk', 'proyek'));
+        return view('guest.tukang.v2.show')->with(compact('tukang', 'produk', 'proyek'));
     }
 
     /**

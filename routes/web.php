@@ -237,26 +237,25 @@ Route::group(['prefix' => 'pdf'], function () {
     Route::get('penawaran/{id}', [App\Http\Controllers\Pdf\PdfDomController::class, 'penawaran'])->name('pdf.penawaran');
 });
 
-//Route::group(['prefix' => 'panel'], function () {
-//    Route::get('login', function (){
-//        return view('auth.panel.login_panel');
-//    });
-//});
-//Route::group(['prefix' => 'panel'], function () {
-//    Route::get('/client/login', function (){
-//        return view('auth.panel.login');
-//    });
-//});
-//Route::group(['prefix' => 'panel'], function () {
-//    Route::get('register', function (){
-//        return view('auth.panel.register_panel');
-//    });
-//});
-//Route::group(['prefix' => 'panel'], function () {
-//    Route::get('/client/register', function (){
-//        return view('auth.panel.register');
-//    });
-//});
+Route::group(['prefix' => 'panel'], function () {
+    Route::get('login', function (){
+        return view('auth.panel.login_panel');
+    })->name('panel.login');
+
+    Route::get('/{as}/login', function (){
+        return view('auth.panel.login');
+    })->name('panel.login.as');
+
+    Route::get('register', function (){
+        return view('auth.panel.register_panel');
+    })->name('panel.register');
+
+    Route::get('/{as}/register', function (){
+        return view('auth.panel.register');
+    })->name('panel.register.as');
+
+    Route::post('register/check', [App\Http\Controllers\Auth\RegisterController::class, 'checkEmail'])->name('register.check');
+});
 
 Route::get('forbiden-mobile-view', function () {
     return view('mobile.app_mobile');

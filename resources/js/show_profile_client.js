@@ -2,7 +2,7 @@ import Swal from "sweetalert2";
 import {base_url} from "./app";
 
 $(document).ready(function () {
-    $("#changephoto").click(function () {
+    $(".profile-img-container img").click(function () {
         var title = $(this).attr('title');
         var path = '';
         if (url === ''){
@@ -22,7 +22,7 @@ $(document).ready(function () {
             showCancelButton: true
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location = base_url+'/user/profile/change-photo';
+                $('#changephoto').click();
             }
         });
         return false;

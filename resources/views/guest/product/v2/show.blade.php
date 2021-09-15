@@ -5,8 +5,8 @@
         /*---------- star rating ----------*/
         .star-rating {
             display: flex;
-            align-items: center;
-            justify-content: center;
+            align-items: start;
+            justify-content: left;
             margin-top: 10px;
             font-size: 14pt;
         }
@@ -64,11 +64,67 @@
                     <div class="row">
                         <div class="col-7">
                             <h3>{{$data->nama_produk}}</h3>
-                            {!! bringMeAStar(($data->tukang->rate*100)/5) !!}
+                            <div class="row d-flex  align-middle">
+                                <div class="col-3">
+                                    {!! bringMeAStar(($data->tukang->rate*100)/5) !!}
+                                </div>
+                                <div class="col-6 pt-2">
+                                    <span style="color: #FFBC0B;" id="star_value"></span>  <span class="text-muted">| 5 Terpesan</span>
+                                </div>
+                            </div>
+                            <div class="row  mt-5">
+                                <div class="col-12">
+                                    <div class="card bg-gray-light rounded-0 shadow-none border-0">
+                                        <h2 class="text-bold p-3" style="color:#008CC6; text-align: center">{{indonesiaRupiah($data->range_min, false)}} - {{indonesiaRupiah($data->range_max, false)}}</h2>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-5">
-
+                            <div class="card p-3">
+                                <button class="btn border-1 pt-3 pb-3 text-bold rounded-0" style="border-color: #008CC6;color: #008CC6;">Masukan Keranjang</button>
+                                <button class="btn border-1 pt-3 pb-3 mt-3 text-bold rounded-0" style="border-color: #008CC6; background-color: #008CC6; color: white;">Buat Pengajuan</button>
+                                <ul class="fa-ul mt-3 text-muted">
+                                    <li style="font-size: 14pt"><span  style="font-size: 14pt" class="fa-li" ><i class="far fa-heart"></i></span>Wishlist</li>
+                                </ul>
+                            </div>
                         </div>
+                    </div>
+                    <div class="row text-muted">
+                        <div class="col-12">
+                            Detail
+                            <div class="card p-2 pt-4 pb-5">
+                                {{$data->diskripsi}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pl-4 pr-4 pb-5">
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-2">
+                            <img class="img-circle" width="95px" height="95px" src="{{asset($data->tukang->path_icon)}}"/>
+                        </div>
+                        <div class="col-6 pt-2">
+                            <p class="p-0 m-0">{{$data->tukang->user->name}}</p>
+                            <p class="p-0 m-0">{{$data->tukang->kota}}</p>
+                            <div class="row d-flex  align-middle">
+                                <div class="col-5">
+                                    {!! bringMeAStar(($data->tukang->rate*100)/5) !!}
+                                </div>
+                                <div class="col-6 pt-2">
+                                    <span style="color: #FFBC0B;" id="star_value_2"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 pr-2 pt-4">
+                    <div class="float-right">
+                        <p class="p-0 m-0 text-bold" style="text-align: right">Kontak</p>
+                        <p class="p-0 m-0 text-muted" style="text-align: right">{{$data->tukang->nomor_telepon}}</p>
+                        <p class="p-0 m-0 text-muted" style="text-align: right">{{$data->tukang->user->email}}</p>
                     </div>
                 </div>
             </div>
@@ -85,5 +141,9 @@
 
         var rating = document.getElementsByClassName("star-rating")[0];
         rating.title = +(4.63.toFixed(2)) + " out of " + 5;
+        var starValue = document.getElementById('star_value');
+        starValue.textContent = (4.63.toFixed(2));
+        var starValue2 = document.getElementById('star_value_2');
+        starValue2.textContent = (4.63.toFixed(2));
     </script>
 @endsection

@@ -9,6 +9,7 @@ use App\Models\Tukang;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -32,8 +33,14 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
-
+//    protected $redirectTo = RouteServiceProvider::HOME;
+    protected function redirectTo()
+    {
+        if (auth()->user()->role->id == 2) {
+            return '/home';
+        }
+        return '/client/home';
+    }
     /**
      * Create a new controller instance.
      *
@@ -41,13 +48,13 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest',['data' => 'example']);
+        $this->middleware('guest', ['data' => 'example']);
     }
 
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -66,7 +73,7 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \App\Models\User
      */
     protected function create(array $data)
@@ -83,33 +90,59 @@ class RegisterController extends Controller
         ]);
 
 
-        if ($user->kode_role == 2){
+        if ($user->kode_role == 2) {
             Tukang::create([
-                'id'=>$new_id,
-                'nomor_telepon'=>$data['nomor_telepon_tk'],
-                'kota'=>$data['kota_tk'],
-                'alamat'=>$data['alamat_tk']
+                'id' => $new_id,
+                'nomor_telepon' => $data['nomor_telepon_tk'],
+                'kota' => $data['kota_tk'],
+                'alamat' => $data['alamat_tk']
             ]);
         }
 
-        if ($user->kode_role == 3){
+        if ($user->kode_role == 3) {
             Clients::create([
-                'id'=>$new_id,
-                'nomor_telepon'=>$data['nomor_telepon_cl'],
-                'alamat'=>$data['alamat_cl'],
-                'kota'=>$data['kota_cl'],
+                'id' => $new_id,
+                'nomor_telepon' => $data['nomor_telepon_cl'],
+                'alamat' => $data['alamat_cl'],
+                'kota' => $data['kota_cl'],
             ]);
         }
 
         return $user;
     }
 
-    public function showRegistrationForm()
+    public function showRegistrationForm(Request  $request)
     {
         $roles = Roles::all();
         $data = [
-            'data' => $roles
+            'data' => $roles,
+            'registerAs' => $request->session()->get('registerAs'),
+            'name' => $request->session()->get('name'),
+            'email' => $request->session()->get('email'),
         ];
-        return view("auth.register", with($data));
+        return view("auth.panel.reguster_component.form", with($data));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     * @param \Illuminate\Http\Request $request
+     * @return string
+     */
+    public function checkEmail(Request $request)
+    {
+        $this->validate($request, [
+            'typeof' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users']
+        ]);
+
+        $registerAs = $request->input('typeof');
+        $name = $request->input('name');
+        $email = $request->input('email');
+
+        return redirect()->route('register')
+            ->with('registerAs',$registerAs)
+            ->with('name', $name)
+            ->with('email', $email);
     }
 }

@@ -20,7 +20,7 @@ class PenawaranController extends Controller
     public function index()
     {
         $data = Pengajuan::with('pin', 'pin.penawaran', 'pin.tukang','pin.tukang.user')->where('kode_client',Auth::id())->paginate(5)->toArray();
-        return view('client.penawaran.all')->with(compact('data'));
+        return view('client.penawaran.v2.all')->with(compact('data'));
     }
 
     /**

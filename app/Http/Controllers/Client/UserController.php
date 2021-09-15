@@ -60,7 +60,7 @@ class UserController extends Controller
             return View('errors.404');
         }
         $client = Clients::with('user')->where('id', Auth::id())->first();
-        return view('client.profile.show')->with(compact('client'));
+        return view('client.profile.v2.show')->with(compact('client'));
     }
 
     /**

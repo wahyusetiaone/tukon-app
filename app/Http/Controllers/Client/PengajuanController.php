@@ -41,11 +41,11 @@ class PengajuanController extends Controller
         if (strpos($tukang, '_') !== false) {
             $multi = 1;
             $data = $tukang;
-            return view('client.pengajuan.form')->with(compact('id', 'multi', 'data'));
+            return view('client.pengajuan.v2.form')->with(compact('id', 'multi', 'data'));
         } else {
             $multi = 0;
             $data = $tukang;
-            return view('client.pengajuan.form')->with(compact('id', 'multi', 'data'));
+            return view('client.pengajuan.v2.form')->with(compact('id', 'multi', 'data'));
         }
     }
 

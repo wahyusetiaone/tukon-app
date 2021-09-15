@@ -18,7 +18,7 @@ class NotificationController extends Controller
      */
     public function index(Request $request)
     {
-        $data = NotificationHandler::where('user_id', Auth::id())->orderBy('read', 'asc')->paginate(8);
+        $data = NotificationHandler::where('user_id', Auth::id())->orderBy('created_at', 'desc')->paginate(8);
 
         $query = $request->input('only');
 
@@ -28,7 +28,7 @@ class NotificationController extends Controller
                     ['user_id', Auth::id()],
                     ['read', false]
                 ]
-            )->paginate(8);
+            )->orderBy('created_at', 'desc')->paginate(8);
         }
         if ($query =='readed'){
             $data = NotificationHandler::where(
@@ -36,7 +36,7 @@ class NotificationController extends Controller
                     ['user_id', Auth::id()],
                     ['read', true]
                 ]
-            )->paginate(8);
+            )->orderBy('created_at', 'desc')->paginate(8);
         }
 
         return (new NotificationResourceController($data))->response()->setStatusCode(200);

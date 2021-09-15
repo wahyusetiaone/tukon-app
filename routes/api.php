@@ -103,6 +103,7 @@ Route::group(['middleware' => ['auth:api', 'roles']], function () {
         });
         Route::group(['prefix' => 'pengajuan', 'as' => 'pengajuan'], function () {
             Route::get('/', 'App\Http\Controllers\API\PengajuanController@pengajuan_base_tukang')->name('pengajuan_base_tukang');
+            Route::get('/show/{id}', 'App\Http\Controllers\API\PengajuanController@show_pengajuan_base_tukang')->name('show_pengajuan_base_tukang');
             Route::get('tolak/{id}', 'App\Http\Controllers\API\PengajuanController@tolak_pengajuan')->name('tolak_pengajuan');
         });
         Route::group(['prefix' => 'bpa', 'as' => 'bpa'], function () {

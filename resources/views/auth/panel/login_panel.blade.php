@@ -22,33 +22,39 @@
             </div>
             <div class="card-body">
                 <center>
-                    <div class="card" style="width: 20rem;">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-center">
-                                <p class="pt-2">
-                                <h4 style="color: #4E4E4E !important;"><strong>KLIEN</strong></h4>
-                                </p>
+                    <a href="{{route('panel.login.as', 'client')}}">
+                        <div class="card" style="width: 20rem;">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-center">
+                                    <p class="pt-2">
+                                    <h4 style="color: #4E4E4E !important;"><strong>KLIEN</strong></h4>
+                                    </p>
+                                </div>
+                                <!-- /.d-flex -->
                             </div>
-                            <!-- /.d-flex -->
                         </div>
-                    </div>
-                    <div class="card" style="width: 20rem;">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-center">
-                                <p class="pt-2">
-                                <h4 style="color: #4E4E4E !important;"><strong>TUKANG</strong></h4>
-                                </p>
+                    </a>
+                    <a href="{{route('panel.login.as', 'tukang')}}">
+                        <div class="card" style="width: 20rem;">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-center">
+                                    <p class="pt-2">
+                                    <h4 style="color: #4E4E4E !important;"><strong>TUKANG</strong></h4>
+                                    </p>
+                                </div>
+                                <!-- /.d-flex -->
                             </div>
-                            <!-- /.d-flex -->
                         </div>
-                    </div>
+                    </a>
                 </center>
                 <div class="d-flex pt-4">
                     <p class="d-flex flex-column">
                         <span style="color: #008CC6 !important;">Lupa Password</span>
                     </p>
                     <p class="ml-auto d-flex flex-column text-right">
-                        <span style="color: #008CC6 !important;">Daftar Baru</span>
+                        <a href="{{route('panel.register')}}">
+                            <span style="color: #008CC6 !important;">Daftar Baru</span>
+                        </a>
                     </p>
                 </div>
                 <!-- /.d-flex -->

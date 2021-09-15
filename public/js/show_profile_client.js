@@ -77076,7 +77076,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 $(document).ready(function () {
-  $("#changephoto").click(function () {
+  $(".profile-img-container img").click(function () {
     var title = $(this).attr('title');
     var path = '';
 
@@ -77094,7 +77094,7 @@ $(document).ready(function () {
       showCancelButton: true
     }).then(function (result) {
       if (result.isConfirmed) {
-        window.location = _app__WEBPACK_IMPORTED_MODULE_1__.base_url + '/user/profile/change-photo';
+        $('#changephoto').click();
       }
     });
     return false;

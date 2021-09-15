@@ -140,8 +140,13 @@ class PenawaranController extends Controller
      */
     public function show($id)
     {
+
+        if (!Penawaran::whereId($id)->exists()){
+            return (new PenawaranResourceController(['error' => 'Item penawaran tidak ditemukan.']))->response()->setStatusCode(401);
+        }
+
         try {
-            $data = Penawaran::with('pin', 'komponen', 'pin.pengajuan', 'pin.pengajuan.client', 'pin.pengajuan.client.user', 'pin.revisi')->where('id', $id)->get();
+            $data = Penawaran::with('bpa', 'komponen', 'pin','pin.revisi','pin.pembayaran', 'pin.pengajuan', 'pin.pengajuan.client', 'pin.pengajuan.client.user')->where('id', $id)->get();
             if (Auth::id() != $data[0]->pin->kode_tukang) {
                 return (new PenawaranResourceController(['error' => 'Anda tidak mempunyai akses atas item penawaran ini !']))->response()->setStatusCode(401);
             }
