@@ -8,7 +8,6 @@
             width: 268px;
             height: 288px;
         }
-
     </style>
 @endsection
 

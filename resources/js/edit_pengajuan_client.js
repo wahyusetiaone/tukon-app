@@ -22,7 +22,7 @@ $(document).on('click', '[id^=btn_hps_pengajuan]', function (e) {
     var id = $(this).val();
     Swal.fire({
         icon: 'warning',
-        text: 'Apa kamu yakin akan menghapus pengajuan ini ?',
+        text: 'Apa kamu yakin akan menghapus pengajuan ini, menghapus pengajuan akan membatalkan semua penawaran yang telah dikirim tukang (jika ada) ?',
         showCancelButton: true,
         confirmButtonText: 'Hapus',
         confirmButtonColor: '#F44336',

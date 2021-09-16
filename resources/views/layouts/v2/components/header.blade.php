@@ -1,7 +1,9 @@
 <div class="col-12">
     <div class="row align-items-center">
         <div class="col-2 pl-4">
-            <img width="134px" height="74px" src="{{asset('images/tukon_icon.png')}}">
+            <a href="/">
+                <img width="134px" height="74px" src="{{asset('images/tukon_icon.png')}}">
+            </a>
         </div>
         <div class="col-8 pl-0 pt-4 m-0">
             <div class="row bg-white align-items-center p-0 m-0">
@@ -33,10 +35,19 @@
             <div class="float-right pr-5">
                 <div class="row align-items-center">
                     <div class="col-4">
-                        <img width="31px" height="27px" src="{{asset('images/icons/wishlist.svg')}}">
+                        <a href="{{route('wishlist')}}">
+                            <img width="31px" height="27px" src="{{asset('images/icons/wishlist.svg')}}">
+                        </a>
                     </div>
                     <div class="col-4">
-                        <img width="32px" height="30px" src="{{asset('images/icons/cart.svg')}}">
+                        <div class="item-kw">
+                            <a href="{{route('notification.client')}}">
+                                <span class="item-kw-notify-badge">0</span>
+                                <img src="{{asset('images/icons/icon_notif.svg')}}"  alt="" />
+                            </a>
+                        </div>
+{{--                        <span class="badge badge-light">9</span>--}}
+{{--                        <img width="32px" height="30px" src="{{asset('images/icons/icon_notif.svg')}}">--}}
                     </div>
                     <div class="col-4">
                         <div class="dropdown">
@@ -50,12 +61,13 @@
                                          src="{{asset($user->client->path_foto)}}">
                                     <div class="dropdown-content">
                                         <a href="{{route('show.user.ptofile.client')}}">Profile</a>
-                                        <a href="{{route('panel.register')}}">Pesanan</a>
+                                        <a href="{{route('penawaran.client')}}">Pesanan</a>
                                         <a href="#"
                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                             Sign out
                                         </a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                              class="d-none">
                                             @csrf
                                         </form>
                                     </div>

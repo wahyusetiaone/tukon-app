@@ -2,9 +2,9 @@
 
 @section('third_party_stylesheets')
     <style type="text/css">
-        .active{
-            background-color: transparent!important;
-            color: #008CC6!important;
+        .active {
+            background-color: transparent !important;
+            color: #008CC6 !important;
         }
     </style>
     {{--    <link href="{{ asset('css/wishlist.css') }}" rel="stylesheet">--}}
@@ -16,94 +16,69 @@
 
 @section('sub_contains')
     <div class="row">
-        <div class="col-12">
-            <table class="table table-bordered table-hover">
-                <thead>
-                <tr>
-                    <th>PIN ID</th>
-                    <th>Nama Proyek</th>
-                    <th>Tanggal Pengajuan</th>
-                    <th>Status</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($data['data'] as $dat)
-                    <tr class="bg-gray-light" aria-expanded="false">
-                        <td>{{$dat['pin'][0]['id']}}</td>
-                        <td>{{$dat['nama_proyek']}}</td>
-                        <td>{{indonesiaDate($dat['created_at'])}}</td>
-                        <td>{{$dat['pin'][0]['status']}}</td>
-                        <td>
-                            <a class="btn btn-info btn-sm"
-                               href="{{route('show.pengajuan.client',$dat ['id'])}}">
-                                <i class="fas fa-eye">
-                                </i>
-                                Lihat Pengajuan
+        @foreach($data['data'] as $dat)
+            <div class="col-12 pb-3">
+                <div class="card shadow-sm bg-gradient-light p-3 mb-0 d-flex rounded-0">
+                    <div class="row">
+                        <div class="col-9">
+                            <h4>{{$dat['nama_proyek']}}</h4>
+                            <p class="p-0 m-0">{{$dat['pin'][0]['status']}}</p>
+                        </div>
+                        <div class="col-3">
+                            <a href="{{route('show.pengajuan.client',$dat['id'])}}">
+                                <button class="btn btn-info float-right">Lihat Pengajuan</button>
                             </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="5">
-                            <table class="table table-head-fixed text-nowrap">
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Tukang</th>
-                                    <th>Date</th>
-                                    <th>Status</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($dat['pin'] as $pen)
-                                    <tr>
-                                        <td>{{$pen['id']}}</td>
-                                        <td>{{$pen['tukang']['user']['name']}}</td>
-                                        <td>
-                                            @if(isset($pen['penawaran']['created_at']))
-                                                {{indonesiaDate($pen['penawaran']['created_at'])}}
-                                            @else
-                                                Belum mengajukan penawaran
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if(isset($pen['penawaran']['kode_status']))
-                                                <span
-                                                    class="tag tag-success">{{$pen['penawaran']['kode_status']}}
+                        </div>
+                    </div>
+                </div>
+                @foreach($dat['pin'] as $pen)
+                    <div class="card shadow-none bg-gray-light pl-3 pr-3 pt-1 pb-2 d-flex mb-0 rounded-0">
+                        <div class="row">
+                            <div class="col-3">
+                                <p class="text-muted mb-0 pb-0">Tukang</p>
+                                <h5 class="mt-0 pt0">{{$pen['tukang']['user']['name']}}</h5>
+                            </div>
+                            <div class="col-4 border-left">
+                                <p class="text-muted mb-0 pb-0">Tanggal Pengajuan</p>
+                                @if(isset($pen['penawaran']['created_at']))
+                                    <h5 class="mt-0 pt0">{{indonesiaDate($pen['penawaran']['created_at'])}}</h5>
+                                @else
+                                    Blm mengajukan penawaran
+                                @endif
+                            </div>
+                            <div class="col-3 border-left">
+                                <p class="text-muted mb-0 pb-0">Status</p>
+                                @if(isset($pen['penawaran']['kode_status']))
+                                    <span
+                                        class="tag tag-success">{{$pen['penawaran']['kode_status']}}
                                                             </span>
-                                            @else
-                                                <span
-                                                    class="tag tag-success">Belum mengajukan penawaran
+                                @else
+                                    <span
+                                        class="tag tag-success">Blm mengajukan penawaran
                                                             </span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if(isset($pen['penawaran']['kode_status']))
-                                                <a class="btn btn-info btn-sm"
-                                                   href="{{route('show.penawaran.client',$pen['penawaran']['id'])}}">
-                                                    <i class="fas fa-eye">
-                                                    </i>
-                                                    Lihat Penawaran
-                                                </a>
-                                            @else
-                                                <a class="btn btn-info btn-sm disabled" href="#">
-                                                    <i class="fas fa-eye">
-                                                    </i>
-                                                    Lihat Penawaran
-                                                </a>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
+                                @endif
+                            </div>
+                            <div class="col-2">
+                                @if(isset($pen['penawaran']['kode_status']))
+                                    <a class="btn btn-outline-info float-right mt-3 btn-sm"
+                                       href="{{route('show.penawaran.client',$pen['penawaran']['id'])}}">
+                                        <i class="fas fa-eye">
+                                        </i>
+                                        Lihat
+                                    </a>
+                                @else
+                                    <a class="btn btn-outline-secondary float-right mt-3 disabled" href="#">
+                                        <i class="fas fa-eye">
+                                        </i>
+                                        Lihat
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
                 @endforeach
-                </tbody>
-            </table>
-        </div>
+            </div>
+        @endforeach
         <div class="col-12">
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">

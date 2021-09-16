@@ -112,7 +112,7 @@ class PengajuanController extends Controller
                 $pin->status = "N01";
                 $pin->save();
             }
-            return redirect()->route('pengajuan.client');
+            return redirect()->route('penawaran.client');
         }
         return view('errors.403');
     }
@@ -128,7 +128,7 @@ class PengajuanController extends Controller
         try {
             $data = Pengajuan::with('client', 'client.user', 'pin', 'pin.tukang', 'pin.tukang.user')->where(['id' => $id])->firstOrFail();
 
-            return view('client.pengajuan.show')->with(compact('data'));
+            return view('client.pengajuan.v2.show')->with(compact('data'));
         } catch (ModelNotFoundException $ee) {
             return View('errors.404');
         }
@@ -145,7 +145,7 @@ class PengajuanController extends Controller
         try {
             $data = Pengajuan::with('client', 'client.user', 'pin', 'pin.tukang', 'pin.tukang.user')->where(['id' => $id])->firstOrFail();
 
-            return view('client.pengajuan.edit')->with(compact('data'));
+            return view('client.pengajuan.v2.edit')->with(compact('data'));
         } catch (ModelNotFoundException $ee) {
             return View('errors.404');
         }

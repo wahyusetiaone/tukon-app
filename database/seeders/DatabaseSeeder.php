@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 class DatabaseSeeder extends Seeder
 {
 
-    protected $toTruncate = ['roles', 'kode_statuses','plan_progress'];
+    protected $toTruncate = ['roles', 'kode_statuses'];
 
     /**
      * Seed the application's database.

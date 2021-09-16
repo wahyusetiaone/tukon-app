@@ -77158,28 +77158,30 @@ $(document).on('click', '[id^=btn_btll]', function (e) {
     confirmButtonText: 'Ya',
     confirmButtonColor: '#F44336'
   }).then(function (result) {
-    $.ajax({
-      url: _app__WEBPACK_IMPORTED_MODULE_1__.base_url + "/client/pembayaran/batal/" + data,
-      type: "GET",
-      dataType: "json",
-      success: function success(data) {
-        console.log(data);
+    if (result.isConfirmed) {
+      $.ajax({
+        url: _app__WEBPACK_IMPORTED_MODULE_1__.base_url + "/client/pembayaran/batal/" + data,
+        type: "GET",
+        dataType: "json",
+        success: function success(data) {
+          console.log(data);
 
-        if (data.data.status) {
-          sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Pembatalan Pembayaran Berhasil !', data.data.message, 'success').then(function (result) {
-            window.location.href = _app__WEBPACK_IMPORTED_MODULE_1__.base_url + '/client/pembayaran';
-          });
-        } else {
-          sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Pembatalan Pembayaran Gagal     !', data.data.message, 'success').then(function (result) {
-            window.location.href = _app__WEBPACK_IMPORTED_MODULE_1__.base_url + '/client/pembayaran';
-          });
+          if (data.data.status) {
+            sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Pembatalan Pembayaran Berhasil !', data.data.message, 'success').then(function (result) {
+              window.location.href = _app__WEBPACK_IMPORTED_MODULE_1__.base_url + '/client/pembayaran';
+            });
+          } else {
+            sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Pembatalan Pembayaran Gagal     !', data.data.message, 'success').then(function (result) {
+              window.location.href = _app__WEBPACK_IMPORTED_MODULE_1__.base_url + '/client/pembayaran';
+            });
+          }
+        },
+        error: function error(_error) {
+          console.log("Error:");
+          console.log(_error);
         }
-      },
-      error: function error(_error) {
-        console.log("Error:");
-        console.log(_error);
-      }
-    });
+      });
+    }
   });
   return false;
 });

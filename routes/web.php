@@ -284,6 +284,10 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
         Route::get('project', [App\Http\Controllers\Client\ProjectController::class, 'index'])->name('project.client');
         Route::get('pembayaran', [App\Http\Controllers\Client\PembayaranController::class, 'index'])->name('pembayaran.client');
 //        Route::get('search/{filter}/{search}', [App\Http\Controllers\Client\SearchController::class, 'index'])->name('search');
+        Route::group(['prefix' => 'notification'], function () {
+            Route::get('all', [App\Http\Controllers\Client\NotificationController::class, 'index'])->name('notification.client');
+            Route::get('read/{id}/{deep_id}/{what}', [App\Http\Controllers\Client\NotificationController::class, 'read'])->name('notification.client.read');
+        });
         Route::group(['prefix' => 'wishlist'], function () {
             Route::get('add/{id}', [App\Http\Controllers\Client\WishlistController::class, 'create'])->name('add.wishlist');
             Route::get('remove/{id}', [App\Http\Controllers\Client\WishlistController::class, 'destroy'])->name('remove.wishlist');
@@ -308,6 +312,7 @@ Route::group(['middleware' => ['auth', 'roles']], function () {
         });
         Route::group(['prefix' => 'pembayaran'], function () {
             Route::get('show/{id}', [App\Http\Controllers\Client\PembayaranController::class, 'show'])->name('show.pembayaran.client');
+            Route::get('bayar/{id}', [App\Http\Controllers\Client\PembayaranController::class, 'bayar'])->name('bayar.pembayaran.client');
             Route::post('checkout/{id}', [App\Http\Controllers\Client\PembayaranController::class, 'checkOut'])->name('checkout.pembayaran.client');
             Route::get('show/invoice/{id}', [App\Http\Controllers\Client\PembayaranController::class, 'viewInvoice'])->name('invoice.pembayaran.client');
             Route::get('pay/offline/{id}', [App\Http\Controllers\Client\PembayaranController::class, 'createOffline'])->name('payoffline.pembayaran.client');

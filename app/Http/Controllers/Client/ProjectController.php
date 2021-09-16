@@ -23,7 +23,7 @@ class ProjectController extends Controller
         $data = Project::with('pembayaran', 'pembayaran.pin','pembayaran.pin.pengajuan', 'pembayaran.pin.penawaran','pembayaran.pin.tukang','pembayaran.pin.tukang.user')->whereHas('pembayaran.pin.pengajuan', function ($query){
           $query->where('kode_client',Auth::id());
         })->paginate(10)->toArray();
-        return view('client.project.all')->with(compact('data'));
+        return view('client.project.v2.all')->with(compact('data'));
     }
 
     /**
@@ -61,7 +61,7 @@ class ProjectController extends Controller
             if ($data->kode_status == 'ON03'){
                 $data = Project::with('penarikan.transaksi_penarikan.persentase','progress','progress.onprogress','progress.onprogress.doc','pembayaran','pembayaran.transaksi_pembayaran','pembayaran.pin','pembayaran.pin.pengajuan','pembayaran.pin.pengajuan.client','pembayaran.pin.pengajuan.client.user','pembayaran.pin.penawaran','pembayaran.pin.penawaran.komponen','pembayaran.pin.tukang','pembayaran.pin.tukang.user','pengembalian')->where('id', $id)->first();
             }
-            return view('client.project.show')->with(compact('data'));
+            return view('client.project.v2.show')->with(compact('data'));
         }catch (ModelNotFoundException $ee){
             return View('errors.404');
         }

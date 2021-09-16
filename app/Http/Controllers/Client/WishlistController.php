@@ -18,7 +18,7 @@ class WishlistController extends Controller
     public function index()
     {
         $data = Wishlist::with('produk','produk.tukang', 'produk.tukang.user')->paginate(15)->toArray();
-        return view('client.wishlist.all')->with(compact('data'));
+        return view('client.wishlist.v2.all')->with(compact('data'));
     }
 
     /**

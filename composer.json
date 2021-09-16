@@ -45,7 +45,8 @@
             "app/Helpers/InvoiceCreatedID.php",
             "app/Helpers/JsonTypeHelper.php",
             "app/Helpers/DeleteFileHelper.php",
-            "app/Helpers/BringMeAStar.php"
+            "app/Helpers/BringMeAStar.php",
+            "app/Helpers/MasaLalu.php"
         ]
     },
     "autoload-dev": {

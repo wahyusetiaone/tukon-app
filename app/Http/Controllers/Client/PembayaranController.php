@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use RealRashid\SweetAlert\Facades\Alert;
 use function PHPUnit\Framework\never;
@@ -32,10 +33,10 @@ class PembayaranController extends Controller
      */
     public function index()
     {
-        $data = Pembayaran::with('pin', 'pin.pengajuan', 'pin.tukang', 'pin.tukang.user', 'transaksi_pembayaran', 'project')->whereHas('pin.pengajuan', function ($query) {
+        $data = Pembayaran::with('invoice','pin', 'pin.pengajuan', 'pin.tukang', 'pin.tukang.user', 'transaksi_pembayaran', 'project')->whereHas('pin.pengajuan', function ($query) {
             $query->where('kode_client', Auth::id());
         })->paginate(5)->toArray();
-        return view('client.pembayaran.all')->with(compact('data'));
+        return view('client.pembayaran.v2.all')->with(compact('data'));
     }
 
     /**
@@ -77,7 +78,33 @@ class PembayaranController extends Controller
             $data_user = Clients::with('user')->find(Auth::id());
 
             $channel = PaymentChannel::where('is_enabled', true)->get();
-            return view('client.pembayaran.show')->with(compact('data', 'data_user', 'channel'));
+            return view('client.pembayaran.v2.show')->with(compact('data', 'data_user', 'channel'));
+        } catch (ModelNotFoundException $ee) {
+            return View('errors.404');
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     */
+    public function bayar($id)
+    {
+        try {
+            $data = Pembayaran::with('invoice', 'pin', 'pin.pengajuan', 'pin.tukang', 'pin.tukang.user', 'transaksi_pembayaran', 'project')->whereHas('pin.pengajuan', function ($query) {
+                $query->where('kode_client', Auth::id());
+            })->where(['id' => $id])->firstOrFail();
+
+            if (isset($data->invoice->id)){
+                return redirect()->route('show.pembayaran.client', $data->id);
+            }
+
+            $data_user = Clients::with('user')->find(Auth::id());
+
+            $channel = PaymentChannel::where('is_enabled', true)->get();
+            return view('client.pembayaran.v2.bayar')->with(compact('data', 'data_user', 'channel'));
         } catch (ModelNotFoundException $ee) {
             return View('errors.404');
         }
@@ -255,7 +282,7 @@ class PembayaranController extends Controller
             return redirect()->route('invoice.pembayaran.client', $data->id);
         }
 
-        DB::transaction(function () use ($data, $request, &$res) {
+        DB::transaction(function () use ($data, $request, &$res, &$invoice) {
             $res = false;
             $invoice = new Invoice();
             $invoice->external_id = invoiceCreatedID($data->id, $data->created_at);
@@ -304,7 +331,7 @@ class PembayaranController extends Controller
         });
         if ($res) {
             Alert::success('Pembayaran', 'Pembarayan berhasil di checkout !!!');
-            return redirect()->route('invoice.pembayaran.client', $data->id);
+            return redirect()->route('show.pembayaran.client', $data->id);
         } else {
             Alert::error('Pembayaran', 'Pembarayan gagal di checkout !!!');
             return redirect()->back();

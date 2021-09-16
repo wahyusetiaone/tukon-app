@@ -77096,7 +77096,7 @@ $(document).on('click', '[id^=btn_hps_pengajuan]', function (e) {
   var id = $(this).val();
   sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
     icon: 'warning',
-    text: 'Apa kamu yakin akan menghapus pengajuan ini ?',
+    text: 'Apa kamu yakin akan menghapus pengajuan ini, menghapus pengajuan akan membatalkan semua penawaran yang telah dikirim tukang (jika ada) ?',
     showCancelButton: true,
     confirmButtonText: 'Hapus',
     confirmButtonColor: '#F44336'

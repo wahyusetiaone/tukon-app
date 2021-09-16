@@ -59,7 +59,7 @@ class PenawaranController extends Controller
 
             $kode = Auth::id();
 
-            return view('client.penawaran.show')->with(compact('data', 'kode'));
+            return view('client.penawaran.v2.show')->with(compact('data', 'kode'));
         }catch (ModelNotFoundException $ee){
             return View('errors.404');
         }

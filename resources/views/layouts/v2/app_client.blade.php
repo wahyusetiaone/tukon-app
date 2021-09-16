@@ -79,6 +79,24 @@
         }
 
     </style>
+    <style type="text/css">
+        .item-kw {
+            position:relative;
+            display:inline-block;
+        }
+        .item-kw-notify-badge{
+            position: absolute;
+            right:-10px;
+            top:-15px;
+            width:20px;
+            height:20px;
+            font-size: 10pt;
+            background:red;
+            text-align: center;
+            border-radius: 50%;
+            color:white;
+        }
+    </style>
     @yield('third_party_stylesheets')
 
     @stack('page_css')
