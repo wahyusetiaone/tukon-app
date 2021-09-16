@@ -20,7 +20,12 @@ class UserController extends Controller
         if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
             $user = Auth::user();
             $success['token'] = $user->createToken('nApp')->accessToken;
-            return (new UserResourceController($success))->response()->setStatusCode(200);
+            if($user->email_verified_at !== NULL){
+                return (new UserResourceController($success))->response()->setStatusCode(200);
+            }else{
+                $success['message'] = 'Please confirm yourself by clicking on verify user button sent to you on your email';
+                return (new UserResourceController($success))->response()->setStatusCode(401);
+            }
         } else {
 
             return (new UserResourceController(['error' => 'Unauthorised']))->response()->setStatusCode(401);
@@ -88,7 +93,8 @@ class UserController extends Controller
         $input['password'] = bcrypt($input['password']);
         $input['kode_user'] = $new_id;
         $user = User::create($input);
-
+        $user->sendApiEmailVerificationNotification();
+        $success['message'] = 'Please confirm yourself by clicking on verify user button sent to you on your email';
         $success['token'] = $user->createToken('nApp')->accessToken;
         $success['name'] = $user->name;
 

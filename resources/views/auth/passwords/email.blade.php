@@ -1,74 +1,75 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ config('app.name') }}</title>
+@extends('auth.passwords.app')
 
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+@section('third_party_stylesheets')
+@endsection
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
-          integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
-          crossorigin="anonymous"/>
+@section('header_title')
+    Verifikasi Email
+@endsection
 
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+@section('padding_bottom')
+    padding-bottom: 235px;
+@endsection
 
-</head>
-<body class="hold-transition login-page">
-<div class="login-box">
-    <div class="login-logo">
-        <a href="{{ url('/home') }}"><b>{{ config('app.name') }}</b></a>
-    </div>
-
-    <!-- /.login-logo -->
-    <div class="card">
-        <div class="card-body login-card-body">
-            <p class="login-box-msg">You forgot your password? Here you can easily retrieve a new password.</p>
-
-            @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
+@section('content')
+    <div class="col-12 d-flex justify-content-center">
+        <div class="card shadow-none" style="width: 24rem;">
+            <div class="card-header border-0">
+                <div class="pt-5">
+                    <h3 class="box-title text-center" style="padding: 2%; color: black;">Password Reset</h3>
                 </div>
-            @endif
+            </div>
+            <div class="card-body pt-0">
 
-            <form action="{{ route('password.email') }}" method="post">
-                @csrf
+                <div class="row justify-content-center">
+                    <div class="box">
+                        <div class="box-body p-4    ">
+                            <p class="login-box-msg">You forgot your password? Here you can easily retrieve a new password.</p>
 
-                <div class="input-group mb-3">
-                    <input type="email"
-                           name="email"
-                           class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
-                           placeholder="Email">
-                    <div class="input-group-append">
-                        <div class="input-group-text"><span class="fas fa-envelope"></span></div>
+                            @if (session('status'))
+                                <div class="alert alert-success">
+                                    {{ session('status') }}
+                                </div>
+                            @endif
+
+                            <form action="{{ route('password.email') }}" method="post">
+                                @csrf
+
+                                <div class="input-group mb-3">
+                                    <input type="email"
+                                           name="email"
+                                           class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
+                                           placeholder="Email">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text"><span class="fas fa-envelope"></span></div>
+                                    </div>
+                                    @if ($errors->has('email'))
+                                        <span class="error invalid-feedback">{{ $errors->first('email') }}</span>
+                                    @endif
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary btn-block">Send Password Reset Link</button>
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                            </form>
+
+                            <p class="mt-3 mb-1">
+                                <a href="{{ route("login") }}">Login</a>
+                            </p>
+                            <p class="mb-0">
+                                <a href="{{ route("register") }}" class="text-center">Register a new membership</a>
+                            </p>
+                        </div>
                     </div>
-                    @if ($errors->has('email'))
-                        <span class="error invalid-feedback">{{ $errors->first('email') }}</span>
-                    @endif
                 </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-primary btn-block">Send Password Reset Link</button>
-                    </div>
-                    <!-- /.col -->
-                </div>
-            </form>
-
-            <p class="mt-3 mb-1">
-                <a href="{{ route("login") }}">Login</a>
-            </p>
-            <p class="mb-0">
-                <a href="{{ route("register") }}" class="text-center">Register a new membership</a>
-            </p>
+                <!-- /.d-flex -->
+            </div>
         </div>
-        <!-- /.login-card-body -->
     </div>
-</div>
-<!-- /.login-box -->
+@endsection
 
-<script src="{{ asset('js/app.js') }}" defer></script>
-
-</body>
-</html>
+@section('third_party_scripts')
+@endsection

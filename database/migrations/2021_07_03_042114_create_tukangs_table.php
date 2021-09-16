@@ -22,7 +22,7 @@ class CreateTukangsTable extends Migration
             $table->string('no_rekening',255)->nullable();
             $table->string('atas_nama_rekening',255)->nullable();
             $table->string('bank',255)->nullable();
-            $table->string('path_icon', 255)->nullable();
+            $table->string('path_icon', 255)->default('storage/images/photos/def_profile.svg');;
             $table->double('rate')->default(0);
             $table->timestamps();
         });

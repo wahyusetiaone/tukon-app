@@ -8,6 +8,7 @@ use App\Models\Roles;
 use App\Models\Tukang;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -33,14 +34,14 @@ class RegisterController extends Controller
      *
      * @var string
      */
-//    protected $redirectTo = RouteServiceProvider::HOME;
-    protected function redirectTo()
-    {
-        if (auth()->user()->role->id == 2) {
-            return '/home';
-        }
-        return '/client/home';
-    }
+    protected $redirectTo = RouteServiceProvider::HOME;
+//    protected function redirectTo()
+//    {
+//        if (auth()->user()->role->id == 2) {
+//            return '/home';
+//        }
+//        return '/client/home';
+//    }
     /**
      * Create a new controller instance.
      *
@@ -144,5 +145,23 @@ class RegisterController extends Controller
             ->with('registerAs',$registerAs)
             ->with('name', $name)
             ->with('email', $email);
+    }
+
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
+     */
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        // $this->guard()->login($user);
+
+        return $this->registered($request, $user)
+            ?: redirect($this->redirectPath());
     }
 }

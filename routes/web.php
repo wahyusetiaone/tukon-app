@@ -6,6 +6,7 @@ use App\Models\NotificationHandler;
 use App\Models\Penawaran;
 use App\Models\Pin;
 use Dompdf\Dompdf;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Xendit\Xendit;
@@ -80,6 +81,7 @@ Route::group(['prefix' => 'command'], function () {
 });
 
 Route::group(['prefix' => 'trigger'], function () {
+    Route::get('/kirim-email', [\App\Http\Controllers\Email\EmailController::class, 'index']);
     Route::get('dummy', function () {
         $dompdf = new Dompdf();
         $dompdf->loadHtml('<p>Hello world</p>');
@@ -274,8 +276,20 @@ Route::group(['prefix' => 'guest'], function () {
     });
 });
 
-Auth::routes();
-Route::group(['middleware' => ['auth', 'roles']], function () {
+//route verifikasi email
+Auth::routes(['verify' => true]);
+//replace verify email to custom view
+Route::get('/email/verify', function () {
+    return view('auth.panel.verify');
+})->middleware('auth')->name('verification.notice');
+//verify successfully custom view
+Route::get('/verification-successfully', function () {
+    return view('auth.verify.success');
+})->middleware('auth')->name('verification.successfully');
+Route::get('/reset-password-successfully', function () {
+    return view('auth.passwords.successfully_reset_password');
+})->middleware('auth')->name('password.reset.successfully');
+Route::group(['middleware' => ['auth', 'roles', 'verified']], function () {
     Route::group(['prefix' => 'client', 'roles' => 'klien'], function () {
         Route::get('home', [App\Http\Controllers\HomeClientController::class, 'index'])->name('homeclient');
         Route::get('wishlist', [App\Http\Controllers\Client\WishlistController::class, 'index'])->name('wishlist');

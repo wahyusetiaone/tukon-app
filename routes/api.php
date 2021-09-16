@@ -14,12 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 Route::post('login', 'App\Http\Controllers\API\UserController@login');
 Route::post('register', 'App\Http\Controllers\API\UserController@register');
+
 Route::group(['prefix' => 'guest', 'as' => 'guest'], function () {
     Route::get('beranda', 'App\Http\Controllers\API\BerandaController@index')->name('beranda');
     Route::get('new_product', 'App\Http\Controllers\API\BerandaController@new_product')->name('produk.terbaru');
@@ -51,7 +53,10 @@ Route::group(['prefix' => 'guest', 'as' => 'guest'], function () {
     });
 });
 
-Route::group(['middleware' => ['auth:api', 'roles']], function () {
+Route::group(['middleware' => ['auth:api', 'roles', 'verified']], function () {
+    Route::get('email/verify/{id}/{hash}', 'App\Http\Controllers\API\VerificationApiController@verify')->name('verificationapi.verify');
+    Route::get('email/resend', 'App\Http\Controllers\API\VerificationApiController@resend')->name('verificationapi.resend');
+
     Route::get('details', 'App\Http\Controllers\API\UserController@details');
     Route::post('update', 'App\Http\Controllers\API\UserController@update');
     Route::post('upload_image', 'App\Http\Controllers\API\UserController@upload_image');

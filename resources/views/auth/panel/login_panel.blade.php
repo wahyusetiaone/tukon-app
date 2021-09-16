@@ -49,7 +49,9 @@
                 </center>
                 <div class="d-flex pt-4">
                     <p class="d-flex flex-column">
-                        <span style="color: #008CC6 !important;">Lupa Password</span>
+                        <a href="{{ route('password.request') }}">
+                            <span style="color: #008CC6 !important;">Lupa Password</span>
+                        </a>
                     </p>
                     <p class="ml-auto d-flex flex-column text-right">
                         <a href="{{route('panel.register')}}">
