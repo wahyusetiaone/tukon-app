@@ -29,7 +29,7 @@
                 <div class="col-md-3">
 
                     <!-- Profile Image -->
-                    <div class="card card-primary card-outline">
+                    <div class="card card-outline">
                         <div class="card-body box-profile">
                             <div class="text-center">
                                 <a href="#" title="{{$client->id}}" id="changephoto">
@@ -51,13 +51,13 @@
 
                             <div class="form-group">
                                 <a href="{{route('show.user.newpassword')}}">
-                                    <button class="btn btn-info form-control">Ubah Sandi</button>
+                                    <button class="btn btn-primary-cs form-control">Ubah Sandi</button>
                                 </a>
                             </div>
                             <div class="form-group">
                                 <a href="#" class="btn btn-danger form-control"
                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    Sign out
+                                    Keluar
                                 </a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
@@ -73,9 +73,10 @@
                 <!-- /.col -->
                 <div class="col-md-9">
                     <!-- About Me Box -->
-                    <div class="card card-primary">
+                    <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Data Diri</h3>
+                            <h3 class="card-title">Detail Profil</h3><br>
+                            <small class="text-info">Memuat informasi pribadi anda berupa nama, password email, nomor telepon, dsb.</small>
                         </div>
                         <!-- /.card-header -->
                         <form id="form-pengajuan" method="post"
@@ -178,7 +179,7 @@
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-success float-right">Simpan Perubahan</button>
+                                <button type="submit" class="btn btn-primary-cs float-right">Simpan Perubahan</button>
                             </div>
                         </form>
                     </div>

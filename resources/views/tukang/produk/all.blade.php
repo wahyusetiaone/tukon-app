@@ -9,7 +9,7 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-            <a href="{{route('add.produk')}}"> <button type="button" id="btn-sub" class="btn btn-success">Tambah Produk</button>
+            <a href="{{route('add.produk')}}"> <button type="button" id="btn-sub" class="btn btn-primary-cs">Tambah Produk</button>
             </a>
             <table id="produk-table" class="table table-bordered table-striped">
                 <thead>

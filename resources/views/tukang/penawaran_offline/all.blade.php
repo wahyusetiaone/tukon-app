@@ -9,7 +9,7 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-            <a href="{{route('data.penawaran.offline.create')}}"> <button type="button" id="btn-sub" class="btn btn-success">Buat Penawaran Offline</button>
+            <a href="{{route('data.penawaran.offline.create')}}"> <button type="button" id="btn-sub" class="btn btn-primary-cs">Buat Penawaran Offline</button>
             </a>
             <table id="produk-table" class="table table-bordered table-striped">
                 <thead>

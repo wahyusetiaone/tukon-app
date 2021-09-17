@@ -83,7 +83,7 @@
                     </div>
                 </div>
 
-                <button type="button" id="btn-sub" class="btn btn-primary">Simpan Data</button>
+                <button type="button" id="btn-sub" class="btn btn-primary-cs">Simpan Data</button>
             </form>
         </div>
         <!-- /.card-body -->

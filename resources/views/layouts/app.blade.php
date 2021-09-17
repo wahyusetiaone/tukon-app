@@ -7,9 +7,14 @@
     @stack('head_meta')
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/costume_app.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto">
 
     @yield('third_party_stylesheets')
-
+    
     @stack('page_css')
 </head>
 
@@ -20,7 +25,7 @@
         <!-- Left navbar links -->
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                <a class="nav-link icon" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
             </li>
         </ul>
 
@@ -29,10 +34,10 @@
                 @if(Auth::guard('web')->user()->kode_role == 2)
                     <a href="{{route('show.user.ptofile', \Illuminate\Support\Facades\Auth::id())}}" class="nav-link">
                         <img src="{{asset('images/profile.png')}}"
-                             class="user-image img-circle elevation-2" alt="User Image">
+                             class="user-image img-circle" alt="User Image">
                         <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
                     </a>
-            @else
+                @else
                     <a href="#" class="btn btn-default btn-flat float-right"--}}
                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         Sign out
@@ -40,7 +45,7 @@
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
-            @endif
+                @endif
             {{--                <a href="{{route('show.user.ptofile', \Illuminate\Support\Facades\Auth::id())}}" class="nav-link dropdown-toggle" data-toggle="dropdown">--}}
             {{--                    <img src="{{asset('images/profile.png')}}"--}}
             {{--                         class="user-image img-circle elevation-2" alt="User Image">--}}

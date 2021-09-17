@@ -23,7 +23,7 @@ class ProdukController extends Controller
         $data = $tukang->produk;
         return Datatables::of($data)->addIndexColumn()
             ->addColumn('action', function ($data) {
-                $button = '<a href="' . url('produk/show?id=') . $data->id . '"><button type="button" name="show" id="' . $data->id . '" class="edit btn btn-primary btn-sm">Show</button></a>';
+                $button = '<a href="' . url('produk/show?id=') . $data->id . '"><button type="button" name="show" id="' . $data->id . '" class="edit btn btn-primary-cs btn-sm">Show</button></a>';
                 $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm">Delete</button>';
                 return $button;
             })

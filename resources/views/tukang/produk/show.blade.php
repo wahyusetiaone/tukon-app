@@ -157,7 +157,7 @@
                 </div>
             </div>
 
-            <button type="button" id="btn-sub" class="btn btn-primary">Update Data</button>
+            <button type="button" id="btn-sub" class="btn btn-primary-cs">Update Data</button>
 
         </div>
         <!-- /.card-body -->
