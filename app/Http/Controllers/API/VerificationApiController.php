@@ -38,10 +38,10 @@ class VerificationApiController extends Controller
             $verified = false;
         }
 
-        if (! hash_equals((string) $request['hash'],
-            sha1($user->getEmailForVerification()))) {
-            $verified = false;
-        }
+//        if (! hash_equals((string) $request['hash'],
+//            sha1($user->getEmailForVerification()))) {
+//            $verified = false;
+//        }
 
         if (! $user->hasVerifiedEmail()) {
             if ($verified){
