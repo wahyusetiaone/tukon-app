@@ -10,12 +10,12 @@
         <div class="row">
             <div class="col-12">
                 <div class="callout callout-info">
-                    <h5><i class="fas fa-info"></i> Note:</h5>
+                    <h5><i class="fas fa-info"></i> Catatan:</h5>
                     Semua perubahan akan tersimpan jika tombol <b>Upload Penawaran</b> ditekan, pastikan untuk tidak menutup halaman ini sebelum melakukan upload penawaran agar semua data tidak hilang !
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="card card-primary">
+                <div class="card card-dark">
                     <div class="card-header">
                         <h3 class="card-title">Rincihan Projek</h3>
 
@@ -166,14 +166,14 @@
             </div>
             <div class="col-md-6">
 
-                <div class="card card-info">
+                <div class="card card-orange">
                     <div class="card-header">
-                        <h3 class="card-title">Komponen</h3>
+                        <h3 class="card-title text-white">Komponen</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
                                     title="Collapse">
-                                <i class="fas fa-minus"></i></button>
+                                <i class="fas fa-minus text-white"></i></button>
                         </div>
                     </div>
                     <div class="card-body p-0">
@@ -192,7 +192,7 @@
                             <tbody>
                             <tr>
                                 <td colspan="7" style="text-align: center;">
-                                    <button class="btn btn-success" id="btn-tbh-componen">
+                                    <button class="btn btn-primary-cs" id="btn-tbh-componen">
                                         <i class="fa fa-plus-square"></i> Tambah Komponen
                                     </button>
                                 </td>
@@ -203,14 +203,14 @@
                     <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
-                <div class="card card-secondary">
-                    <div class="card-header">
+                <div class="card card-warning">
+                    <div class="card-header text-white">
                         <h3 class="card-title">Presentase laba</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
                                     title="Collapse">
-                                <i class="fas fa-minus"></i></button>
+                                <i class="fas fa-minus text-white"></i></button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -253,8 +253,8 @@
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-12">
-                                <a href="{{ url()->previous() }}" class="btn btn-secondary">Batal</a>
-                                <button type="button" id="btnsubmitpenawaran" value="{{$data->id}}" class="btn btn-success float-right">Kirim Penawaran</button>
+                                <a href="{{ url()->previous() }}" class="btn btn-danger">Batal</a>
+                                <button type="button" id="btnsubmitpenawaran" value="{{$data->id}}" class="btn btn-primary-cs float-right">Kirim Penawaran</button>
                             </div>
                         </div>
                     </div>

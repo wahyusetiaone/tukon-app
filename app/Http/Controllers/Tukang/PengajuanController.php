@@ -22,7 +22,7 @@ class PengajuanController extends Controller
         return Datatables::of($data)->addIndexColumn()
             ->addColumn('action', function($data){
                 if ($data->pengajuan->deleted_at == null){
-                    $button = '<a href="'.url('pengajuan/show').'/'.$data->id.'"><button type="button" name="show" id="'.$data->id.'" class="edit btn btn-primary btn-sm">Show</button></a>';
+                    $button = '<a href="'.url('pengajuan/show').'/'.$data->id.'"><button type="button" name="show" id="'.$data->id.'" class="edit btn btn-primary-cs btn-sm">Show</button></a>';
                 }else{
                     $button = '<a href="'.url('pengajuan/show').'/'.$data->id.'"><button type="button" name="show" id="'.$data->id.'" class="edit btn btn-danger btn-sm" disabled>Deleted</button></a>';
                 }

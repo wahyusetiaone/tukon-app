@@ -77292,7 +77292,7 @@ $(document).on('click', '[id^=btnsubmitpenawaran]', function () {
           headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
           },
-          url: _app__WEBPACK_IMPORTED_MODULE_1__.base_url + '/penawaran/store',
+          url:'/penawaran/store',
           type: "post",
           data: {
             'kode_pin': parseInt(data.val()),

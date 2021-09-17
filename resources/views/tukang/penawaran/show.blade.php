@@ -16,24 +16,24 @@
                                 test.
                             </div>
                         @elseif($data->status == "D01A")
-                            <div class="callout callout-success">
+                            <div class="callout callout-primary-cs">
                                 <h5><i class="fas fa-check"></i> Selamat, penawaran anda disetujui.</h5>
                                 Penawaran anda telah disetujui klien, segera konfirmasi persetujuan kesangupan anda
                                 untuk melakukan pekerjaan projek ini !
                             </div>
                         @elseif($data->status == "D02")
                             @if($data->pembayaran->kode_status == "P01" )
-                                <div class="callout callout-secondary">
+                                <div class="callout callout-primary-cs">
                                     <h5><i class="fas fa-clock"></i> Menunggu pembayaran dilakuan oleh Klien.</h5>
                                     Projek menunggu pembayaran dari klien.
                                 </div>
                             @elseif($data->pembayaran->kode_status == "P01B")
-                                <div class="callout callout-secondary">
+                                <div class="callout callout-primary-cs">
                                     <h5><i class="fas fa-clock"></i> Klien telah berhasil melakukan pembayaran.</h5>
                                     Klien telah melakukan pembayaran, pembayaran menuggu validasi dari admin.
                                 </div>
                             @elseif($data->pembayaran->kode_status == "P03")
-                                <div class="callout callout-success">
+                                <div class="callout callout-primary-cs">
                                     <h5><i class="fas fa-clock"></i> Penawaran telah diterima.</h5>
                                     Proses ini berlanjut ke tahap pengerjaan projek.
                                 </div>
@@ -240,7 +240,7 @@
                         <!-- this row will not appear when printing -->
                         <div class="row no-print">
                             <div class="col-12">
-                                <a href="invoice-print.html" target="_blank" class="btn btn-default"><i
+                                <a href="invoice-print.html" target="_blank" class="btn btn-primary-cs"><i
                                         class="fas fa-print"></i> Print</a>
                                 @if($data->penawaran->kode_status == "T02" || $data->penawaran->kode_status == "S02")
                                     @if($data->status == "N01")

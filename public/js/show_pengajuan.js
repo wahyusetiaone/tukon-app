@@ -77224,7 +77224,7 @@ $(document).on('click', '[id^=konfirmasi-btn]', function () {
   }).then(function (result) {
     if (result.isConfirmed) {
       $.ajax({
-        url: _app__WEBPACK_IMPORTED_MODULE_1__.base_url + '/persetujuan/t/' + data.val(),
+        url:'/persetujuan/t/' + data.val(),
         type: "get",
         success: function success(response) {
           if (response) {

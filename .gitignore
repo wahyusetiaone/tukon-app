@@ -60,3 +60,4 @@ public/fonts/vendor/@fortawesome/fontawesome-free/webfa-regular-400.svg
 public/fonts/vendor/@fortawesome/fontawesome-free/webfa-solid-900.svg
 .env.example
 .gitignore
+public/js/all_pengajuan.js

@@ -189,7 +189,7 @@
                                         class="fas fa-print"></i> Print</a>
 
                                 <a href="{{route('data.penawaran.offline.edit',$data->id)}}">
-                                    <button type="button" class="btn btn-info float-right">
+                                    <button type="button" class="btn btn-primary-cs float-right">
                                         <i class="fas fa-pencil-alt"></i> Edit Data Penawaran
                                     </button>
                                 </a>

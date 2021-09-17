@@ -77187,7 +77187,7 @@ $(function () {
     "autoWidth": true,
     processing: true,
     serverSide: true,
-    ajax: _app_js__WEBPACK_IMPORTED_MODULE_1__.base_url + '/penawaran/json',
+    ajax:'/penawaran/json',
     columns: [{
       data: 'id',
       name: 'id'

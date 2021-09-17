@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="callout callout-info">
-                        <h5><i class="fas fa-info"></i> Note:</h5>
+                        <h5><i class="fas fa-info"></i> Catatan:</h5>
                         This page has been enhanced for printing. Click the print button at the bottom of the invoice to
                         test.
                     </div>
@@ -143,15 +143,15 @@
                         <!-- this row will not appear when printing -->
                         <div class="row no-print">
                             <div class="col-12">
-                                <a href="invoice-print.html" target="_blank" class="btn btn-default"><i
-                                        class="fas fa-print"></i> Print</a>
+                                <a href="invoice-print.html" target="_blank" class="btn btn-primary-cs"><i
+                                        class="fas fa-print"></i> Cetak</a>
                                 @if($data->kode_penawaran == null && $data->status == 'N01')
                                     <button type="button" id="tolak-btn" value="{{$data->id}}"
                                             class="btn btn-danger float-right" style="margin-right: 5px;">
                                         Tolak Pengajuan
                                     </button>
                                     <a href="{{route('add.penawaran.bypengajuan', $data->id)}}">
-                                        <button type="button" class="btn btn-primary float-right"
+                                        <button type="button" class="btn btn-primary-cs float-right"
                                                 style="margin-right: 5px;">
                                             <i class="fas fa-download"></i> Terima & Kirim Penawaran
                                         </button>
