@@ -1,7 +1,7 @@
 import Swal from "sweetalert2";
 
 $(document).ready(function () {
-    $('button[name="add_to_wish"]').click(function () {
+    $('a[name="add_to_wish"]').click(function () {
         var data = $(this);
         if (!data.hasClass("disabled")){
             Swal.fire({

@@ -63,6 +63,7 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/show_change_photo_client.js', 'public/js')
     .js('resources/js/konfirmasi_pengembalian_client.js', 'public/js')
     .js('resources/js/all_client_project.js', 'public/js')
+    .js('resources/js/app_client.js', 'public/js')
 
     //admin
     .js('resources/js/all_penarikan_admin.js', 'public/js')

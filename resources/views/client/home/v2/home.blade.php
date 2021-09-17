@@ -118,7 +118,7 @@
                         <p style="text-align:left; color: #5F5F5F;">Pilih pekerja yang tepat untuk membangun desain
                             interior anda
                         </p>
-                        <a href="#" class="btn btn-block bg-info rounded-0">Pesan Sekarang</a>
+                        <a href="{{route('all.produk.guest')}}" class="btn btn-block bg-info rounded-0">Pesan Sekarang</a>
                     </div>
                 </div>
             </div>
@@ -145,18 +145,23 @@
                             <div class="overlay">
                                 <div class="row align-middle">
                                     <div class="col-12">
-                                        <button class="btn btn-block bg-white rounded-0 p-3"
+                                        <button id="send_pengajuan" name="send_pengajuan" value="{{$ptr->kode_tukang}}"
+                                                class="btn btn-block bg-white rounded-0 p-3"
                                                 style="opacity: 1.0!important;">
-                                            <span style="color: #0c84ff"><strong>Masukan Keranjang</strong></span>
+                                            <span style="color: #0c84ff"><strong>Pesan Sekarang</strong></span>
                                         </button>
                                     </div>
-                                    <div class="col-5 pt-3">
-                                        <a href="#" class="text-white" style="font-size: 10pt;">
-                                            <i class="far fa-heart" style="font-size: 15pt"></i> Wishlist
-                                        </a>
+                                    <div class="col-6 pt-3">
+                                        <button id="add_to_wish" name="add_to_wish" value="{{$ptr->kode_produk}}"
+                                                class="btn btn-primary-outline text-white pt-0 mt-0"
+                                                style="font-size: 9pt; display: inline-block;">
+                                            <i class="far fa-heart" style="font-size: 15pt; display: inline-block"></i>
+                                            <span style="display: inline-block; vertical-align: middle;" class="pb-1">Wishlist</span>
+                                        </button>
                                     </div>
-                                    <div class="col-7 pt-3">
-                                        <a href="#" class="text-white" style="font-size: 10pt;">
+                                    <div class="col-6 pt-3">
+                                        <a href="{{route('show.produk.guest', $ptr->kode_produk)}}" class="text-white"
+                                           style="font-size: 9pt;">
                                             <i class="far fa-star" style="font-size: 15pt"></i> Selengkapnya
                                         </a>
                                     </div>
@@ -194,7 +199,9 @@
         <div class="card-footer bg-white">
             <div class="row">
                 <div class="col-12 d-flex justify-content-center">
-                    <button class="btn btn-outline-info rounded-0 pt-2 pb-2 pr-4 pl-4">Lihat Selengkapnya</button>
+                    <a href="{{route('all.produk.guest')}}">
+                        <button class="btn btn-outline-info rounded-0 pt-2 pb-2 pr-4 pl-4">Lihat Selengkapnya</button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -212,9 +219,11 @@
                             <p class="pt-1">Tukang yang paling banyak dan memiliki rating tertinggi.</p>
                         </div>
                         <div class="col-12">
-                            <button class="btn pl-4 pr-4 bg-white rounded-0" style="color: #008CC6!important;">Lihat
-                                Selengkapnya
-                            </button>
+                            <a href="{{route('all.top.tukang.guest')}}">
+                                <button class="btn pl-4 pr-4 bg-white rounded-0" style="color: #008CC6!important;">Lihat
+                                    Selengkapnya
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -237,7 +246,10 @@
                                     </div>
                                 </div>
                                 <div class="col-4" style="padding-top: 78px;">
-                                    <button class="btn btn-info rounded-0"><i class="fa fa-arrow-right"></i></button>
+                                    <a href="{{route('show.tukang.guest', $ptr->kode_tukang)}}">
+                                        <button class="btn btn-info rounded-0"><i class="fa fa-arrow-right"></i>
+                                        </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -259,9 +271,20 @@
                                 <div class="card border-0 rounded-0 shadow-none">
                                     <img src="{{asset('images/def_produk.png')}}" class="d-block w-100" alt="">
                                     <div class="card-body border-0 rounded-0">
-                                        <h5 class="card-title"><strong>{{$ptr->nama_produk}}</strong></h5>
-                                        <p class="card-text">{{$ptr->name}}.</p>
-                                        <p class="card-text">{{indonesiaRupiah($ptr->range_min, false)}} - {{indonesiaRupiah($ptr->range_max, false)}}</p>
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <h5 class="card-title"><strong>{{$ptr->nama_produk}}</strong></h5>
+                                                <p class="card-text">{{$ptr->name}}.</p>
+                                                <p class="card-text">{{indonesiaRupiah($ptr->range_min, false)}}
+                                                    - {{indonesiaRupiah($ptr->range_max, false)}}</p>
+                                            </div>
+                                            <div class="col-4">
+                                                <a href="{{route('show.produk.guest', $ptr->kode_produk)}}" class="text-white">
+                                                <button class="btn btn-info rounded-0 float-right"><i class="fa fa-arrow-right"></i>
+                                                </button>
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -273,7 +296,9 @@
         <div class="card-footer bg-white pb-4">
             <div class="row">
                 <div class="col-12 d-flex justify-content-center">
-                    <button class="btn btn-outline-info rounded-0 pt-2 pb-2 pr-4 pl-4">Lihat Selengkapnya</button>
+                    <a href="{{route('all.produk.guest')}}">
+                        <button class="btn btn-outline-info rounded-0 pt-2 pb-2 pr-4 pl-4">Lihat Selengkapnya</button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -288,18 +313,22 @@
                     <div class="col-6">
                         <div class="row">
                             <div class="col-4">
-                                <img src="{{asset('images/homepageassets/a.png')}}" class="d-block w-100 p-0 m-0" alt="">
+                                <img src="{{asset('images/homepageassets/a.png')}}" class="d-block w-100 p-0 m-0"
+                                     alt="">
                             </div>
                             <div class="col-8" style="padding-top: 79px;">
-                                <img src="{{asset('images/homepageassets/b.png')}}" class="d-block w-100 p-0 m-0" alt="">
+                                <img src="{{asset('images/homepageassets/b.png')}}" class="d-block w-100 p-0 m-0"
+                                     alt="">
                             </div>
                         </div>
                         <div class="row pt-3">
                             <div class="col-6">
-                                <img src="{{asset('images/homepageassets/f.png')}}" class="d-block w-100 p-0 m-0" alt="">
+                                <img src="{{asset('images/homepageassets/f.png')}}" class="d-block w-100 p-0 m-0"
+                                     alt="">
                             </div>
                             <div class="col-6">
-                                <img src="{{asset('images/homepageassets/g.png')}}" class="d-block w-100 p-0 m-0" alt="">
+                                <img src="{{asset('images/homepageassets/g.png')}}" class="d-block w-100 p-0 m-0"
+                                     alt="">
 
                             </div>
                         </div>
@@ -310,18 +339,22 @@
                     <div class="col-4">
                         <div class="row">
                             <div class="col-8" style="padding-top: 109px;">
-                                <img src="{{asset('images/homepageassets/d.png')}}" class="d-block w-100 p-0 m-0" alt="">
+                                <img src="{{asset('images/homepageassets/d.png')}}" class="d-block w-100 p-0 m-0"
+                                     alt="">
                             </div>
                             <div class="col-4">
-                                <img src="{{asset('images/homepageassets/e.png')}}" class="d-block w-100 p-0 m-0" alt="">
+                                <img src="{{asset('images/homepageassets/e.png')}}" class="d-block w-100 p-0 m-0"
+                                     alt="">
                             </div>
                         </div>
                         <div class="row pt-3">
                             <div class="col-5">
-                                <img src="{{asset('images/homepageassets/h.png')}}" class="d-block w-100 p-0 m-0" alt="">
+                                <img src="{{asset('images/homepageassets/h.png')}}" class="d-block w-100 p-0 m-0"
+                                     alt="">
                             </div>
                             <div class="col-7">
-                                <img src="{{asset('images/homepageassets/i.png')}}" class="d-block w-100 p-0 m-0" alt="">
+                                <img src="{{asset('images/homepageassets/i.png')}}" class="d-block w-100 p-0 m-0"
+                                     alt="">
                             </div>
                         </div>
                     </div>
@@ -335,12 +368,6 @@
     <script src="{{ asset('js/home_client.js') }}" defer></script>
     <script src="{{ asset('js/lightslider.min.js') }}" defer></script>
     <script type="text/javascript">
-        @if(\Illuminate\Support\Facades\Auth::check())
-        {{--window.Echo.channel('private-user.{{ \Illuminate\Support\Facades\Auth::id() }}')--}}
-        {{--    .listen('\\App\\Events\\ProyekEventController', (e) => {--}}
-        {{--        alert(e.message.message);--}}
-        {{--    });--}}
-        @endif
 
         $('.carousel-item', '.show-neighbors').each(function () {
             var next = $(this).next();

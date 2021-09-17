@@ -128,19 +128,26 @@
                                 <div class="overlay">
                                     <div class="row align-middle">
                                         <div class="col-12">
-                                            <button class="btn btn-block bg-white rounded-0 p-3"
+                                            <button id="send_pengajuan" name="send_pengajuan"
+                                                    value="{{$ptr->kode_tukang}}"
+                                                    class="btn btn-block bg-white rounded-0 p-3"
                                                     style="opacity: 1.0!important;">
-                                                    <span
-                                                        style="color: #0c84ff"><strong>Masukan Keranjang</strong></span>
+                                                <span style="color: #0c84ff"><strong>Pesan Sekarang</strong></span>
                                             </button>
                                         </div>
-                                        <div class="col-5 pt-3">
-                                            <a href="#" class="text-white" style="font-size: 10pt;">
-                                                <i class="far fa-heart" style="font-size: 15pt"></i> Wishlist
-                                            </a>
+                                        <div class="col-6 pt-3">
+                                            <button id="add_to_wish" name="add_to_wish" value="{{$ptr->id}}"
+                                                    class="btn btn-primary-outline text-white pt-0 mt-0"
+                                                    style="font-size: 9pt; display: inline-block;">
+                                                <i class="far fa-heart"
+                                                   style="font-size: 15pt; display: inline-block"></i>
+                                                <span style="display: inline-block; vertical-align: middle;"
+                                                      class="pb-1">Wishlist</span>
+                                            </button>
                                         </div>
-                                        <div class="col-7 pt-3">
-                                            <a href="#" class="text-white" style="font-size: 10pt;">
+                                        <div class="col-6 pt-3">
+                                            <a href="{{route('show.produk.guest', $ptr->id)}}" class="text-white"
+                                               style="font-size: 9pt;">
                                                 <i class="far fa-star" style="font-size: 15pt"></i> Selengkapnya
                                             </a>
                                         </div>
@@ -187,6 +194,7 @@
 @endsection
 
 @section('third_party_scripts')
+    <script src="{{ asset('js/all_produk_guest.js') }}" defer></script>
     <script type="text/javascript">
         var frontStars = document.getElementsByClassName("front-stars")[0];
         var percentage = 100 / 5 * 4.63;

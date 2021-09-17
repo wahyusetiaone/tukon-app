@@ -34,6 +34,7 @@
     "/js/show_change_photo_client.js": "/js/show_change_photo_client.js",
     "/js/konfirmasi_pengembalian_client.js": "/js/konfirmasi_pengembalian_client.js",
     "/js/all_client_project.js": "/js/all_client_project.js",
+    "/js/app_client.js": "/js/app_client.js",
     "/js/all_penarikan_admin.js": "/js/all_penarikan_admin.js",
     "/js/all_pembayaran_admin.js": "/js/all_pembayaran_admin.js",
     "/js/konfirmasi_pembayaran_admin.js": "/js/konfirmasi_pembayaran_admin.js",

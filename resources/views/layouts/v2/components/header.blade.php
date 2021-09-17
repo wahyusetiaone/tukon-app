@@ -41,8 +41,8 @@
                     </div>
                     <div class="col-4">
                         <div class="item-kw">
-                            <a href="{{route('notification.client')}}">
-                                <span class="item-kw-notify-badge">0</span>
+                            <a href="{{route('notification.client')}}" >
+                                <span id="notif_klunting" class="item-kw-notify-badge" style="display: none">0</span>
                                 <img src="{{asset('images/icons/icon_notif.svg')}}"  alt="" />
                             </a>
                         </div>

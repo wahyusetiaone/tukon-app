@@ -126,8 +126,10 @@
                                                 </div>
                                             </div>
                                             <div class="col-4" style="padding-top: 78px;">
-                                                <button class="btn btn-info rounded-0"><i class="fa fa-arrow-right"></i>
+                                                <a href="{{route('show.tukang.guest', $ptr->id)}}">
+                                                    <button class="btn btn-info rounded-0"><i class="fa fa-arrow-right"></i>
                                                 </button>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>

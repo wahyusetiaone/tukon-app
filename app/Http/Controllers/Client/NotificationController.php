@@ -58,4 +58,15 @@ class NotificationController extends Controller
                 break;
         }
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function countNotification(int $id)
+    {
+        $data = NotificationHandler::where('user_id', $id)->where('read', false)->count();
+        return response()->json([$data]);
+    }
 }

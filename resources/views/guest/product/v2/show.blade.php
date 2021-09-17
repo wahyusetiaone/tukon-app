@@ -82,8 +82,8 @@
                         </div>
                         <div class="col-5">
                             <div class="card p-3">
-                                <button class="btn border-1 pt-3 pb-3 text-bold rounded-0" style="border-color: #008CC6;color: #008CC6;">Masukan Keranjang</button>
-                                <button class="btn border-1 pt-3 pb-3 mt-3 text-bold rounded-0" style="border-color: #008CC6; background-color: #008CC6; color: white;">Buat Pengajuan</button>
+                                <button id="add_to_wish" value="{{$data->id}}" class="btn border-1 pt-3 pb-3 text-bold rounded-0" style="border-color: #008CC6;color: #008CC6;">Wishlist</button>
+                                <button id="send_pengajuan" value="{{$data->tukang->id}}" class="btn border-1 pt-3 pb-3 mt-3 text-bold rounded-0" style="border-color: #008CC6; background-color: #008CC6; color: white;">Buat Pengajuan</button>
                                 <ul class="fa-ul mt-3 text-muted">
                                     <li style="font-size: 14pt"><span  style="font-size: 14pt" class="fa-li" ><i class="far fa-heart"></i></span>Wishlist</li>
                                 </ul>
@@ -134,6 +134,7 @@
 @endsection
 
 @section('third_party_scripts')
+    <script src="{{ asset('js/show_produk_client.js') }}" defer></script>
     <script type="text/javascript">
         var frontStars = document.getElementsByClassName("front-stars")[0];
         var percentage = 100 / 5 * 4.63;

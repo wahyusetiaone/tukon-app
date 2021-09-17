@@ -303,6 +303,7 @@ Route::group(['middleware' => ['auth', 'roles', 'verified']], function () {
         Route::group(['prefix' => 'notification'], function () {
             Route::get('all', [App\Http\Controllers\Client\NotificationController::class, 'index'])->name('notification.client');
             Route::get('read/{id}/{deep_id}/{what}', [App\Http\Controllers\Client\NotificationController::class, 'read'])->name('notification.client.read');
+            Route::get('count/{id}', [App\Http\Controllers\Client\NotificationController::class, 'countNotification'])->name('notification.client.count');
         });
         Route::group(['prefix' => 'wishlist'], function () {
             Route::get('add/{id}', [App\Http\Controllers\Client\WishlistController::class, 'create'])->name('add.wishlist');

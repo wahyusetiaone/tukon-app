@@ -118,6 +118,13 @@
 </div>
 
 <script src="{{ asset('js/app.js') }}"></script>
+<script>
+    var unix_id = {!! \Illuminate\Support\Facades\Auth::id() !!};
+</script>
+
+@if(\Illuminate\Support\Facades\Auth::check())
+    <script src="{{ asset('js/app_client.js') }}" defer></script>
+@endif
 
 <script src="{{ asset('js/search.js') }}" defer></script>
 
