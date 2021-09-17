@@ -23,6 +23,7 @@ class UserController extends Controller
             if($user->email_verified_at !== NULL){
                 return (new UserResourceController($success))->response()->setStatusCode(200);
             }else{
+                $success['verified'] = false;
                 $success['message'] = 'Please confirm yourself by clicking on verify user button sent to you on your email';
                 return (new UserResourceController($success))->response()->setStatusCode(401);
             }
@@ -94,6 +95,7 @@ class UserController extends Controller
         $input['kode_user'] = $new_id;
         $user = User::create($input);
         $user->sendApiEmailVerificationNotification();
+        $success['verified'] = false;
         $success['message'] = 'Please confirm yourself by clicking on verify user button sent to you on your email';
         $success['token'] = $user->createToken('nApp')->accessToken;
         $success['name'] = $user->name;
