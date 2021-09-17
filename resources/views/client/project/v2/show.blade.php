@@ -176,7 +176,7 @@
                                         @foreach($data->penarikan->transaksi_penarikan as $item)
                                             <div class="post clearfix">
                                                 <div class="user-block">
-                                                    <img class="img-circle"
+                                                    <img class="img"
                                                          src="{{asset('images/icons/penarikan_dana.svg')}}"
                                                          alt="User Image">
                                                     <span class="username">

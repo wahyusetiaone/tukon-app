@@ -62,15 +62,23 @@
                             <div class="row">
                                 <div class="col-12 float-right pb-1">
                                     <a href="{{route('show.project.client', $dat['id'])}}">
-                                        <button class="btn btn-outline-info rounded-0 w-100" @if($dat['persentase_progress'] != 0) style="margin-top: 21px;" @endif>Lihat Detail</button>
+                                        <button class="btn btn-outline-info rounded-0 w-100"
+                                                @if($dat['persentase_progress'] != 0) style="margin-top: 21px;" @endif>
+                                            Lihat Detail
+                                        </button>
                                     </a>
                                 </div>
-                                @if($dat['persentase_progress'] == 0)
-                                <div class="col-12 float-right pb-1">
-                                    <a href="{{route('show.project.client', $dat['id'])}}">
-                                        <button class="btn btn-outline-danger rounded-0 w-100">Batal</button>
-                                    </a>
-                                </div>
+                                @if($dat['penarikan']['persentase_penarikan'] <= 50)
+                                    @if($dat['kode_status'] == 'ON01' || $dat['kode_status'] == 'ON02' || $dat['kode_status'] == 'ON04')
+                                        <div class="col-12 float-right pb-1">
+                                            <button id="btn_cancle_proyek" value="{{$dat['id']}}" class="btn btn-outline-danger rounded-0 w-100">Batal</button>
+                                            <form id="batal-form-{{$dat['id']}}" action="{{ route('client_cancle.projek', $dat['id']) }}"
+                                                  method="GET"
+                                                  class="d-none">
+                                                @csrf
+                                            </form>
+                                        </div>
+                                    @endif
                                 @endif
                             </div>
                         </div>
@@ -81,11 +89,15 @@
         <div class="col-12">
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
-                    @foreach($data['links'] as $dat)
-                        <li class="page-item {{$dat['active'] ? "active" : ""}} {{$dat['url'] ?? 'disabled'}}">
-                            <a class="page-link" href="{{$dat['url']}}">@php echo $dat['label']; @endphp</a>
-                        </li>
-                    @endforeach
+                    @if($data['total'] == 0)
+                        Belum Ada Data
+                    @else
+                        @foreach($data['links'] as $dat)
+                            <li class="page-item {{$dat['active'] ? "active" : ""}} {{$dat['url'] ?? 'disabled'}}">
+                                <a class="page-link" href="{{$dat['url']}}">@php echo $dat['label']; @endphp</a>
+                            </li>
+                        @endforeach
+                    @endif
                 </ul>
             </nav>
         </div>
@@ -94,5 +106,5 @@
 @endsection
 
 @section('third_party_scripts')
-    {{--    <script src="{{ asset('js/wishlist.js') }}" defer></script>--}}
+    <script src="{{ asset('js/all_client_project.js') }}" defer></script>
 @endsection

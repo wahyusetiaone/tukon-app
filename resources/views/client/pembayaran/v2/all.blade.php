@@ -77,11 +77,15 @@
         <div class="col-12">
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
-                    @foreach($data['links'] as $dat)
-                        <li class="page-item {{$dat['active'] ? "active" : ""}} {{$dat['url'] ?? 'disabled'}}">
-                            <a class="page-link" href="{{$dat['url']}}">@php echo $dat['label']; @endphp</a>
-                        </li>
-                    @endforeach
+                    @if($data['total'] == 0)
+                        Belum Ada Data
+                    @else
+                        @foreach($data['links'] as $dat)
+                            <li class="page-item {{$dat['active'] ? "active" : ""}} {{$dat['url'] ?? 'disabled'}}">
+                                <a class="page-link" href="{{$dat['url']}}">@php echo $dat['label']; @endphp</a>
+                            </li>
+                        @endforeach
+                    @endif
                 </ul>
             </nav>
         </div>

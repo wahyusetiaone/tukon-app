@@ -15,21 +15,21 @@
                     </a>
                 </div>
                 <div class="col-2 pt-3 pb-3"
-                    {!! (request()->segment(2) == 'project') ? 'style="border-bottom: 4px solid;border-color: #008CC6;"' : ''  !!}>
+                    {!! (request()->segment(2) == 'project') && !request()->has('only') ? 'style="border-bottom: 4px solid;border-color: #008CC6;"' : ''  !!}>
                     <a href="{{ route('project.client') }}" style="color: #008CC6;">
                         Dalam Proses
                     </a>
                 </div>
                 <div class="col-2 pt-3 pb-3"
-                    {!! (request()->segment(2) == 'project') ? 'style="border-bottom: 4px solid;border-color: #008CC6;"' : ''  !!}>
-                    <a href="{{ route('project.client') }}" style="color: #008CC6;">
+                    {!! (request()->segment(2) == 'project') && request()->has('only') && (request()->input('only') == 'selesai') ? 'style="border-bottom: 4px solid;border-color: #008CC6;"' : ''  !!}>
+                    <a href="{{ route('project.client',['only'=>'selesai']) }}" style="color: #008CC6;">
                         Selesai
                     </a>
                 </div>
                 <div class="col-3 pt-3 pb-3"
-                    {!! (request()->segment(2) == 'pengembalian-dana') ? 'style="border-bottom: 4px solid;border-color: #008CC6;"' : ''  !!}>
-                    <a href="" style="color: #008CC6;">
-                        Pengembalian Dana
+                    {!! (request()->segment(2) == 'project') && request()->has('only') && (request()->input('only') == 'batal') ? 'style="border-bottom: 4px solid;border-color: #008CC6;"' : ''  !!}>
+                    <a href="{{ route('project.client',['only'=>'batal']) }}" style="color: #008CC6;">
+                        Batal
                     </a>
                 </div>
             </div>

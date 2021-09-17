@@ -22,6 +22,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('login', 'App\Http\Controllers\API\UserController@login');
 Route::post('register', 'App\Http\Controllers\API\UserController@register');
 
+Route::post('password/forgot-password', 'App\Http\Controllers\API\ForgotPasswordController@sendResetLinkResponse')->name('passwords.sent');
+Route::post('password/reset', 'App\Http\Controllers\API\ResetPasswordController@sendResetResponse')->name('passwords.reset');
+
 Route::group(['prefix' => 'guest', 'as' => 'guest'], function () {
     Route::get('beranda', 'App\Http\Controllers\API\BerandaController@index')->name('beranda');
     Route::get('new_product', 'App\Http\Controllers\API\BerandaController@new_product')->name('produk.terbaru');

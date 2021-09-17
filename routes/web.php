@@ -297,6 +297,8 @@ Route::group(['middleware' => ['auth', 'roles', 'verified']], function () {
         Route::get('penawaran', [App\Http\Controllers\Client\PenawaranController::class, 'index'])->name('penawaran.client');
         Route::get('project', [App\Http\Controllers\Client\ProjectController::class, 'index'])->name('project.client');
         Route::get('pembayaran', [App\Http\Controllers\Client\PembayaranController::class, 'index'])->name('pembayaran.client');
+        Route::get('pengembalian-dana', [App\Http\Controllers\Client\PengembalianDanaController::class, 'index'])->name('pengembalian-dana.client');
+
 //        Route::get('search/{filter}/{search}', [App\Http\Controllers\Client\SearchController::class, 'index'])->name('search');
         Route::group(['prefix' => 'notification'], function () {
             Route::get('all', [App\Http\Controllers\Client\NotificationController::class, 'index'])->name('notification.client');
@@ -337,6 +339,7 @@ Route::group(['middleware' => ['auth', 'roles', 'verified']], function () {
         Route::group(['prefix' => 'project'], function () {
             Route::get('show/{id}', [App\Http\Controllers\Client\ProjectController::class, 'show'])->name('show.project.client');
             Route::get('approve/{id}', [App\Http\Controllers\Client\ProjectController::class, 'client_approve'])->name('client_approve.projek');
+            Route::get('batal/{id}', [App\Http\Controllers\Client\ProjectController::class, 'client_cancel'])->name('client_cancle.projek');
         });
         Route::group(['prefix' => 'penarikan-dana'], function () {
             Route::get('terima/{id}/{transaksi}', [App\Http\Controllers\Client\PenarikanDanaController::class, 'terima'])->name('terima.penarikan.dana');

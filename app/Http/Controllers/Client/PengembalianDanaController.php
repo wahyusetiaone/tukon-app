@@ -17,11 +17,15 @@ class PengembalianDanaController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $data = PengembalianDana::with('project.pembayaran.pin.pengajuan')->whereHas('project.pembayaran.pin.pengajuan', function ($query) {
+            $query->where('kode_client', Auth::id());
+        })->paginate(10)->toArray();
+
+        return view('client.pengembalian_dana.v2.all')->with(compact('data'));
     }
 
     /**
@@ -37,7 +41,7 @@ class PengembalianDanaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
@@ -51,7 +55,7 @@ class PengembalianDanaController extends Controller
 
         $id = $request->input('id_pengembalian');
 
-        if (!PengembalianDana::find($id)->exists()){
+        if (!PengembalianDana::find($id)->exists()) {
 
             Alert::error('Error', 'ID tidak ditemukan pada server !!!');
             return redirect()->back();
@@ -61,12 +65,12 @@ class PengembalianDanaController extends Controller
 
         if (Auth::id() == $validasi->project->pembayaran->pin->pengajuan->kode_client) {
 
-            if ($validasi->kode_status == 'PM02'){
+            if ($validasi->kode_status == 'PM02') {
 
                 Alert::error('Error', 'Transaksi pengajuan Pengembalian Dana sebelumnya belum di respon oleh admin, anda tidak dapat melakukan pengajuan kembali. Mohon untuk menunggu respon dari admin, terimakasih.');
                 return redirect()->back();
             }
-            if ($validasi->kode_status == 'PM03'){
+            if ($validasi->kode_status == 'PM03') {
                 Alert::error('Error', 'Transaksi Pengembalian Dana telah berhasil. Anda tidak dapat mengajukan kembali.');
                 return redirect()->back();
             }
@@ -88,19 +92,19 @@ class PengembalianDanaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function show($id)
     {
         try {
-            $data = PengembalianDana::with('project.pembayaran.pin.pengajuan.client.user','project.penarikan', 'transaksi','penalty')
+            $data = PengembalianDana::with('project.pembayaran.pin.pengajuan.client.user', 'project.penarikan', 'transaksi', 'penalty')
                 ->find($id);
 
-            $data['hasTransaksi'] = PengembalianDana::find($id)->has('transaksi')->exists();
+            $data['hasTransaksi'] = (count($data->transaksi) != 0) ? true : false;
 
-            return view('client.pengembalian_dana.show')->with(compact('data'));
-        }catch (ModelNotFoundException $ee){
+            return view('client.pengembalian_dana.v2.show')->with(compact('data'));
+        } catch (ModelNotFoundException $ee) {
             return View('errors.404');
         }
     }
@@ -108,7 +112,7 @@ class PengembalianDanaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -119,8 +123,8 @@ class PengembalianDanaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -131,7 +135,7 @@ class PengembalianDanaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

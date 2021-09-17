@@ -51,6 +51,11 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->notify(new VerifyApiEmail);
     }
 
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new \App\Notifications\MailResetPasswordNotification($token));
+    }
+
     public function role()
     {
         return $this->belongsTo(Roles::class,'kode_role', 'id');

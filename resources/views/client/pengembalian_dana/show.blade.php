@@ -49,7 +49,7 @@
                                     <b>Riwayat Transaksi Terakhir :</b>
                                     <br>
                                     @if($data->transaksi[0]->kode_status == 'TP02')
-                                    Pengajuan pada {{indonesiaDate($data->transaksi[0]->created_at)}} <br>
+                                        Pengajuan pada {{indonesiaDate($data->transaksi[0]->created_at)}} <br>
                                         <strong>Ditolak</strong><br>
                                         Pesan : {{$data->transaksi[0]->catatan_penolakan}}
                                     @endif
@@ -118,18 +118,18 @@
                                     </thead>
                                     <tbody>
                                     @foreach($data->transaksi as $item)
-                                    <tr>
-                                        <td>{{indonesiaDate($item->created_at)}}</td>
-                                        <td>
-                                            @if($item->kode_status == "TP01")
-                                                Dalam Prosess
-                                            @elseif($item->kode_status == "TP02")
-                                                Ditolak
-                                            @else
-                                                Selesai
-                                            @endif
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td>{{indonesiaDate($item->created_at)}}</td>
+                                            <td>
+                                                @if($item->kode_status == "TP01")
+                                                    Dalam Prosess
+                                                @elseif($item->kode_status == "TP02")
+                                                    Ditolak
+                                                @else
+                                                    Selesai
+                                                @endif
+                                            </td>
+                                        </tr>
                                     @endforeach
                                     </tbody>
                                 </table>
@@ -137,10 +137,10 @@
                             </div>
                         </div>
                         <!-- /.card -->
-                    <div class="row justify-content-center">
-                        <a href="{{ url()->previous() }}" class="btn btn-info"> Kembali </a>
+                        <div class="row justify-content-center">
+                            <a href="{{ url()->previous() }}" class="btn btn-info"> Kembali </a>
 
-                    </div>
+                        </div>
 
                     @else
                         <div class="card card-primary">
@@ -149,25 +149,29 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <p>Dana yang akan dikembalikan adalah sisa dari potongan Penarikan Dana oleh Tukang serta
-                                Biaya Penalty (20%) dan juga Biaya Pengunaan Aplikasi (2%). Lebih jelasnya mohon untuk membaca keterangan disamping.</p>
-                                <form id="form-ajukan" method="post" action="{{route('ajukan.pengembalian-dana.client')}}">
+                                <p>Dana yang akan dikembalikan adalah sisa dari potongan Penarikan Dana oleh Tukang
+                                    serta
+                                    Biaya Penalty (20%) dan juga Biaya Pengunaan Aplikasi (2%). Lebih jelasnya mohon
+                                    untuk membaca keterangan disamping.</p>
+                                <form id="form-ajukan" method="post"
+                                      action="{{route('ajukan.pengembalian-dana.client')}}">
                                     @csrf
                                     <input type="text" value="{{$data->id}}" name="id_pengembalian" hidden>
 
                                     <div class="form-group">
                                         <label for="dana">Dana yang dikembalikan</label>
-                                        <input type="text" value="{{indonesiaRupiah($data->jmlh_pengembalian)}}" disabled
+                                        <input type="text" value="{{indonesiaRupiah($data->jmlh_pengembalian)}}"
+                                               disabled
                                                class="form-control">
                                     </div>
 
                                     <div class="form-group">
                                         <label for="nomor_rekening">Nomor Rekening</label>
                                         <input type="number"
-                                                  class="form-control @error('nomor_rekening') is-invalid @enderror"
-                                                  id="no_rekening"
-                                                  name="nomor_rekening"
-                                                  placeholder="Nomor Rekening Anda.">
+                                               class="form-control @error('nomor_rekening') is-invalid @enderror"
+                                               id="no_rekening"
+                                               name="nomor_rekening"
+                                               placeholder="Nomor Rekening Anda.">
                                         @error('nomor_rekening')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -176,7 +180,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="atas_nama_rekening">Atas Nama Rekening</label>
-                                        <input type="text" oninput="let p=this.selectionStart;this.value=this.value.toUpperCase();this.setSelectionRange(p, p);"
+                                        <input type="text"
+                                               oninput="let p=this.selectionStart;this.value=this.value.toUpperCase();this.setSelectionRange(p, p);"
                                                class="form-control @error('atas_nama_rekening') is-invalid @enderror"
                                                id="atas_nama_rekening"
                                                name="atas_nama_rekening"
@@ -189,7 +194,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="bank">BANK</label>
-                                        <input type="text" oninput="let p=this.selectionStart;this.value=this.value.toUpperCase();this.setSelectionRange(p, p);"
+                                        <input type="text"
+                                               oninput="let p=this.selectionStart;this.value=this.value.toUpperCase();this.setSelectionRange(p, p);"
                                                class="form-control @error('bank') is-invalid @enderror"
                                                id="bank"
                                                name="bank"
@@ -206,7 +212,8 @@
                                 <button type="button" id="btn-send" class="btn btn-info">
                                     Kirim
                                 </button>
-                                <a href="{{ URL::previous() }}"> <button type="button" class="btn btn-danger">
+                                <a href="{{ URL::previous() }}">
+                                    <button type="button" class="btn btn-danger">
                                         Kembali
                                     </button>
                                 </a>
@@ -214,11 +221,11 @@
                         </div>
                     @endif
                 </div>
-                </div><!-- /.row -->
+            </div><!-- /.row -->
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
 @endsection
 @push('page_scripts')
-        <script src="{{ asset('js/konfirmasi_pengembalian_client.js') }}" defer></script>
+    <script src="{{ asset('js/konfirmasi_pengembalian_client.js') }}" defer></script>
 @endpush

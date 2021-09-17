@@ -57,10 +57,10 @@
                             </form>
 
                             <p class="mt-3 mb-1">
-                                <a href="{{ route("login") }}">Login</a>
+                                <a href="{{ route('panel.login') }}">Login</a>
                             </p>
                             <p class="mb-0">
-                                <a href="{{ route("register") }}" class="text-center">Register a new membership</a>
+                                <a href="{{ route('panel.register') }}" class="text-center">Register a new membership</a>
                             </p>
                         </div>
                     </div>
