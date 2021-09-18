@@ -24,8 +24,16 @@
                 <div class="row justify-content-center">
                     <div class="box">
                         <div class="box-body p-4    ">
-                            <p class="text-muted">Password berhasil direset. Mohon untuk kembali ke aplikasi mobile atau masuk aplikasi web,</p>
-                            <a href="{{ route('panel.login') }}">WEB APP TUKON</a>.
+                            <p class="text-muted">Password berhasil direset. Mohon untuk kembali ke aplikasi mobile atau masuk aplikasi web, </p>
+                            @if (\Illuminate\Support\Facades\Auth::check())
+                                @if(auth()->user()->kode_role == 3)
+                                    <a href="{{ route('homeclient') }}">di sini</a>.
+                                @else
+                                    <a href="{{ route('home') }}">di sini</a>.
+                                @endif
+                            @else
+                                <a href="{{ route('panel.login') }}">di sini</a>.
+                            @endif
                         </div>
                     </div>
                 </div>

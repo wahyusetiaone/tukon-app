@@ -289,6 +289,7 @@ Route::get('/verification-successfully', function () {
 Route::get('/reset-password-successfully', function () {
     return view('auth.passwords.successfully_reset_password');
 })->middleware('auth')->name('password.reset.successfully');
+
 Route::group(['middleware' => ['auth', 'roles', 'verified']], function () {
     Route::group(['prefix' => 'client', 'roles' => 'klien'], function () {
         Route::get('home', [App\Http\Controllers\HomeClientController::class, 'index'])->name('homeclient');

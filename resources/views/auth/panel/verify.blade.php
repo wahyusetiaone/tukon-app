@@ -28,15 +28,31 @@
                                 your email address
                             </div>
                         @endif
-                        <p>Before proceeding, please check your email for a verification link.If you did not receive
-                            the email,</p>
-                        <a class=btn-link onclick="event.preventDefault(); document.getElementById('email-form').submit();">{{ __('click here to request another') }}
+                        <p>Sebelum melanjutkan, harap periksa email Anda untuk tautan verifikasi. Jika Anda tidak
+                            menerima
+                            email,</p>
+                        <a class=btn-link
+                           onclick="event.preventDefault(); document.getElementById('email-form').submit();">{{ __('klik di sini untuk meminta yang lain') }}
                         </a>.
 
                         <form id="email-form" action="{{ route('verification.resend') }}" method="POST"
                               style="display: none;">
                             @csrf
                         </form>
+                        @if (\Illuminate\Support\Facades\Auth::check())
+                            <p>
+                                atau jika sudah melakukan verifikasi
+                                @if(auth()->user()->kode_role == 3)
+                                <a href="{{route('homeclient')}}" class=btn-link>{{ __('klik disini untuk masuk beranda') }}</a>.
+                                @else
+                                    <a href="{{route('home')}}" class=btn-link>{{ __('klik disini untuk masuk dashboard') }}</a>.
+                                @endif
+                            </p>
+                        @else
+                            atau jika sudah melakukan verifikasi
+                            <a href="{{route('panel.login')}}" class=btn-link>{{ __('klik disini untuk login') }}
+                            </a>.
+                        @endif
                     </div>
                 </div>
                 <!-- /.d-flex -->

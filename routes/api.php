@@ -56,11 +56,14 @@ Route::group(['prefix' => 'guest', 'as' => 'guest'], function () {
     });
 });
 
-Route::group(['middleware' => ['auth:api', 'roles', 'verified']], function () {
+Route::group(['middleware' => ['auth:api']], function () {
     Route::get('email/verify/{id}', 'App\Http\Controllers\API\VerificationApiController@verify')->name('verificationapi.verify');
 //    Route::get('email/verify/{id}/{hash}', 'App\Http\Controllers\API\VerificationApiController@verify')->name('verificationapi.verify');
     Route::get('email/resend', 'App\Http\Controllers\API\VerificationApiController@resend')->name('verificationapi.resend');
 
+});
+
+Route::group(['middleware' => ['auth:api', 'roles', 'verified:api']], function () {
     Route::get('details', 'App\Http\Controllers\API\UserController@details');
     Route::post('update', 'App\Http\Controllers\API\UserController@update');
     Route::post('upload_image', 'App\Http\Controllers\API\UserController@upload_image');

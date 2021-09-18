@@ -34,13 +34,13 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = RouteServiceProvider::HOME_REGISTER;
 //    protected function redirectTo()
 //    {
-//        if (auth()->user()->role->id == 2) {
-//            return '/home';
+//        if (auth()->user()->role->id == 3) {
+//            return '/client/home';
 //        }
-//        return '/client/home';
+//        return '/home';
 //    }
     /**
      * Create a new controller instance.
@@ -159,7 +159,7 @@ class RegisterController extends Controller
 
         event(new Registered($user = $this->create($request->all())));
 
-        // $this->guard()->login($user);
+         $this->guard()->login($user);
 
         return $this->registered($request, $user)
             ?: redirect($this->redirectPath());

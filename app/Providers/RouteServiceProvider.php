@@ -20,6 +20,7 @@ class RouteServiceProvider extends ServiceProvider
     public const HOME = '/home';
     public const HOME_VERIFICATION = '/verification-successfully';
     public const HOME_RESET_PASSWORD = '/reset-password-successfully';
+    public const HOME_REGISTER = '/email/verify';
 
     /**
      * The controller namespace for the application.
