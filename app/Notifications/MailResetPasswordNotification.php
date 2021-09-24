@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+
 //custom
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Auth\Notifications\ResetPassword;
@@ -16,6 +17,7 @@ class MailResetPasswordNotification extends ResetPassword
 
     protected $pageUrl;
     public $token;
+    private $pageUrlMobile;
 
     /**
      * Create a new notification instance.
@@ -26,6 +28,7 @@ class MailResetPasswordNotification extends ResetPassword
     {
         parent::__construct($token);
         $this->pageUrl = env('APP_URL');
+        $this->pageUrlMobile = env('APP_URL_MOBILE');
 // we can set whatever we want here, or use .env to set environmental variables
     }
 
@@ -40,11 +43,15 @@ class MailResetPasswordNotification extends ResetPassword
             return call_user_func(static::$toMailCallback, $notifiable, $this->token);
         }
         return (new MailMessage)
-            ->subject(Lang::get('Reset Password Notification'))
-            ->line(Lang::get('You are receiving this email because we received a password reset request for your account.'))
-            ->action(Lang::get('Reset Password'), $this->pageUrl . "?token=" . $this->token)
-            ->line(Lang::get('This password reset link will expire in :count minutes.', ['count' => config('auth.passwords.users.expire')]))
-            ->line(Lang::get('If you did not request a password reset, no further action is required.'));
+        ->subject(Lang::get('Pemberitahuan Setel Ulang Kata Sandi'))
+            ->line(Lang::get('Anda menerima email ini karena kami menerima permintaan penyetelan ulang sandi untuk akun Anda.'))
+            ->line(Lang::get('Klik tombol di bawah'))
+//            ->action(Lang::get('Setel Ulang Kata Sandi'), $this->pageUrl . "?token=" . $this->token)
+            ->action(Lang::get('Setel Ulang Kata Sandi'), url('password/reset', $this->token))
+//            ->line(Lang::get('Or using Tukon Application mobile, '))
+//            ->line(Lang::get($this->pageUrlMobile . $this->token))
+            ->line(Lang::get('Tautan pengaturan ulang kata sandi ini akan kedaluwarsa dalam :count menit.', ['count' => config('auth.passwords.users.expire')]))
+            ->line(Lang::get('Jika Anda tidak meminta pengaturan ulang kata sandi, tidak ada tindakan lebih lanjut yang diperlukan.'));
     }
 
 }

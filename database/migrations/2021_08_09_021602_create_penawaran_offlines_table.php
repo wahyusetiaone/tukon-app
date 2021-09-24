@@ -24,8 +24,6 @@ class CreatePenawaranOfflinesTable extends Migration
             $table->string('nama_proyek',100);
             $table->text('diskripsi_proyek');
             $table->string('alamat_proyek',255);
-            $table->bigInteger('range_min');
-            $table->bigInteger('range_max');
             $table->integer('keuntungan');
             $table->bigInteger('harga_total');
             $table->date('deadline');

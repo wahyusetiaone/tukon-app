@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PengajuanResourceController;
+use App\Models\Berkas;
 use App\Models\Clients;
 use App\Models\Pengajuan;
 use App\Models\Pin;
@@ -68,12 +69,14 @@ class PengajuanController extends Controller
             'path_add' => 'required',
             'range_min' => 'required',
             'range_max' => 'required',
-            'path_add.*' => 'mimes:jpg,jpeg,png|max:1000'
+            'path_add.*' => 'mimes:jpg,jpeg,png|max:1000',
+            'path_berkas.*' => 'mimes:pdf,docx,doc|max:1000'
         ]);
 
         if ($id == Auth::id()) {
             $request['kode_client'] = Auth::id();
             $files = [];
+            $files_berkas = [];
             $full_path = "";
             foreach ($request->file('path_add') as $file) {
                 if ($file->isValid()) {
@@ -112,6 +115,27 @@ class PengajuanController extends Controller
                 $pin->status = "N01";
                 $pin->save();
             }
+
+            if ($request->has('path_berkas')){
+                foreach ($request->file('path_berkas') as $file) {
+                    if ($file->isValid()) {
+                        $path = $file->store('berkas/pengajuan', 'public');
+                        $path = substr($path, 6);
+                        $path = "storage/berkas" . $path;
+
+                        $berkas = new Berkas();
+                        $berkas->kode_pengajuan = $data->id;
+                        $berkas->path = $path;
+                        $berkas->original_name = $file->getClientOriginalName();
+                        $berkas->save();
+
+                        $files_berkas[] = [
+                            'path' => $path,
+                        ];
+                    }
+                }
+            }
+
             return redirect()->route('penawaran.client');
         }
         return view('errors.403');
@@ -126,7 +150,7 @@ class PengajuanController extends Controller
     public function show(int $id)
     {
         try {
-            $data = Pengajuan::with('client', 'client.user', 'pin', 'pin.tukang', 'pin.tukang.user')->where(['id' => $id])->firstOrFail();
+            $data = Pengajuan::with('berkas','client', 'client.user', 'pin', 'pin.tukang', 'pin.tukang.user')->where(['id' => $id])->firstOrFail();
 
             return view('client.pengajuan.v2.show')->with(compact('data'));
         } catch (ModelNotFoundException $ee) {
@@ -143,7 +167,7 @@ class PengajuanController extends Controller
     public function edit($id)
     {
         try {
-            $data = Pengajuan::with('client', 'client.user', 'pin', 'pin.tukang', 'pin.tukang.user')->where(['id' => $id])->firstOrFail();
+            $data = Pengajuan::with('berkas','client', 'client.user', 'pin', 'pin.tukang', 'pin.tukang.user')->where(['id' => $id])->firstOrFail();
 
             return view('client.pengajuan.v2.edit')->with(compact('data'));
         } catch (ModelNotFoundException $ee) {
@@ -188,20 +212,18 @@ class PengajuanController extends Controller
         })->whereId($id)->exists();
 
         if ($has){
-            Pengajuan::where('id', $id)->delete();
+            $pengajuan = Pengajuan::whereId($id)->first();
+            $pengajuan->update(['kode_status' => 'T04']);
+            $pengajuan->save();
         }else{
             $pengajuan = Pengajuan::select('multipath','path')->find($id)->first();
             if ($pengajuan->multipath){
                 $spl = explode(',', $pengajuan->path);
                 foreach ($spl as $item){
-                    $spl2 = explode('/', $item);
-                    $namefile =  $spl[(count($spl2) - 1)];
-                    Storage::disk('public')->delete('images/pengajuan/project' . $namefile);
+                    momPleaseDeleteIt($item);
                 }
             }else{
-                $spl = explode('/', $pengajuan->path);
-                $namefile =  $spl[(count($spl) - 1)];
-                Storage::disk('public')->delete('images/pengajuan/project' . $namefile);
+                momPleaseDeleteIt($pengajuan->path);
             }
             Pengajuan::where('id', $id)->forceDelete();
             Pin::where('kode_pengajuan', $id)->delete();
@@ -298,5 +320,77 @@ class PengajuanController extends Controller
         })->whereId($id)->exists();
 
         return (new PengajuanResourceController(['data' => $has]))->response()->setStatusCode(200);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function removeBerkas(Request $request,int $id)
+    {
+        $this->validate($request, [
+            'id' => 'required',
+            'path' => 'required'
+        ]);
+
+        if(!Pengajuan::whereId($id)->exists()){
+            Alert::error('Error','Pengajuan Tidak Ditemukan !');
+            return redirect()->back();
+        }
+        if(!Berkas::whereId($request->input('id'))->exists()){
+            Alert::error('Error','Berkas Tidak Ditemukan !');
+            return redirect()->back();
+        }
+        $path = $request->input('path');
+
+        momPleaseDeleteIt($path);
+
+        $berkas = Berkas::find($request->input('id'));
+        $berkas->delete();
+
+        Alert::success('Success','Berkas Berhasil dihapus !');
+        return redirect()->back();
+    }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function addBerkas(Request $request,int $id)
+    {
+        $this->validate($request, [
+            'berkas' => 'required',
+        ]);
+
+        if(!Pengajuan::whereId($id)->exists()){
+            Alert::error('Error','Pengajuan Tidak Ditemukan !');
+            return redirect()->back();
+        }
+
+        foreach ($request->file('berkas') as $file) {
+            if ($file->isValid()) {
+                $path = $file->store('berkas/pengajuan', 'public');
+                $path = substr($path, 6);
+                $path = "storage/berkas" . $path;
+
+                $berkas = new Berkas();
+                $berkas->kode_pengajuan = $id;
+                $berkas->path = $path;
+                $berkas->original_name = $file->getClientOriginalName();
+                $berkas->save();
+
+                $files_berkas[] = [
+                    'path' => $path,
+                ];
+            }
+        }
+
+        Alert::success('Success','Berkas berhasil ditambahkan !');
+        return redirect()->back();
     }
 }

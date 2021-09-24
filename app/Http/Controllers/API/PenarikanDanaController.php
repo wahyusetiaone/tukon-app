@@ -78,35 +78,47 @@ class PenarikanDanaController extends Controller
     public function create(int $id)
     {
         try {
-            $penarikan = PenarikanDana::with('project', 'limitasi_penarikan')->whereHas('project.pembayaran.pin', function ($query) {
+            $penarikan = PenarikanDana::with('project.pembayaran.pin.penawaran', 'limitasi_penarikan')->whereHas('project.pembayaran.pin', function ($query) {
                 $query->where('kode_tukang', Auth::id());
             })->where('id', $id)->first();
             if (!isset($penarikan)) {
                 return (new PenarikanDanaResourceController(['error' => 'Anda tidak memiliki akses terhadap item ini.']))->response()->setStatusCode(401);
             }
-            //6 adalah kode pembayaran 100%
-            $avaliable = Persentase_Penarikan::all()->except(6)->keyBy('value');
+            if ($penarikan->project->pembayaran->pin->penawaran->kode_spd == 1){
+                //6 adalah kode pembayaran 100%
+                $avaliable = Persentase_Penarikan::all()->except(6)->keyBy('value');
 
-            if ($penarikan->kode_limitasi == 2) {
-                if ($penarikan->persentase_penarikan != 100){
-                    $avaliable = Persentase_Penarikan::all()->keyBy('value');
+                if ($penarikan->kode_limitasi == 2) {
+                    if ($penarikan->persentase_penarikan != 100){
+                        $avaliable = Persentase_Penarikan::all()->keyBy('value');
+                    }
                 }
-            }
 
-            if ($penarikan->persentase_penarikan > 25) {
-                $avaliable->forget(25);
-            }
-            if ($penarikan->persentase_penarikan > 30) {
-                $avaliable->forget(20);
-            }
-            if ($penarikan->persentase_penarikan > 35) {
-                $avaliable->forget(15);
-            }
-            if ($penarikan->persentase_penarikan > 40) {
-                $avaliable->forget(10);
-            }
-            if ($penarikan->persentase_penarikan > 45) {
-                $avaliable->forget(5);
+                if ($penarikan->persentase_penarikan > 25) {
+                    $avaliable->forget(25);
+                }
+                if ($penarikan->persentase_penarikan > 30) {
+                    $avaliable->forget(20);
+                }
+                if ($penarikan->persentase_penarikan > 35) {
+                    $avaliable->forget(15);
+                }
+                if ($penarikan->persentase_penarikan > 40) {
+                    $avaliable->forget(10);
+                }
+                if ($penarikan->persentase_penarikan > 45) {
+                    $avaliable->forget(5);
+                }
+            }elseif ($penarikan->project->pembayaran->pin->penawaran->kode_spd == 2){
+                if ($penarikan->project->kode_status == 'ON01' || $penarikan->project->kode_status == 'ON02' || $penarikan->project->kode_status == 'ON04'){
+                    $avaliable = 'Anda berada di metode penarikan selesai.';
+                }elseif($penarikan->project->kode_status == 'ON03'){
+                    $avaliable = 'Proyek telah dibatalkan.';
+                }else{
+                    $avaliable = Persentase_Penarikan::all()->only(6)->keyBy('value');
+                }
+            }else{
+                $avaliable = 'Sesuatu ada yang salah.';
             }
             return (new PenarikanDanaResourceController(['data' => $avaliable]))->response()->setStatusCode(200);
         } catch (ModelNotFoundException $ee) {

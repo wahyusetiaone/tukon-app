@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pdf;
 use App\Http\Controllers\Controller;
 use App\Models\Pembayaran;
 use App\Models\Penawaran;
+use App\Models\PenawaranOffline;
 use App\Models\Project;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -62,7 +63,7 @@ class PdfDomController extends Controller
             $data = Project::with('penarikan.transaksi_penarikan.persentase','progress','progress.onprogress','progress.onprogress.doc','pembayaran','pembayaran.transaksi_pembayaran','pembayaran.pin','pembayaran.pin.pengajuan','pembayaran.pin.pengajuan.client','pembayaran.pin.pengajuan.client.user','pembayaran.pin.penawaran','pembayaran.pin.penawaran.komponen','pembayaran.pin.tukang','pembayaran.pin.tukang.user')->where('id', $id)->first();
 
             $pdf = PDF::loadview('pdf.bast',['data'=>$data]);
-            $filename = str_replace(" ", "-", 'bast-'.$data->nama_proyek.'.pdf');
+            $filename = str_replace(" ", "-", 'bast-'.$data->pembayaran->pin->pengajuan->nama_proyek.'.pdf');
             $filename = strtolower($filename);
             return $pdf->stream($filename);
 
@@ -72,4 +73,69 @@ class PdfDomController extends Controller
         }
     }
 
+    public function surat_jalan($id)
+    {
+        try {
+            $data = Project::with('penarikan.transaksi_penarikan.persentase','progress','progress.onprogress','progress.onprogress.doc','pembayaran','pembayaran.transaksi_pembayaran','pembayaran.pin','pembayaran.pin.pengajuan','pembayaran.pin.pengajuan.client','pembayaran.pin.pengajuan.client.user','pembayaran.pin.penawaran','pembayaran.pin.penawaran.komponen','pembayaran.pin.tukang','pembayaran.pin.tukang.user')->where('id', $id)->first();
+
+            $pdf = PDF::loadview('pdf.surat_jalan',['data'=>$data]);
+            $filename = str_replace(" ", "-", 'surat_jalan-'.$data->pembayaran->pin->pengajuan->nama_proyek.'.pdf');
+            $filename = strtolower($filename);
+            return $pdf->stream($filename);
+
+//            return view('pdf.bast')->with(compact('data'));
+        }catch (ModelNotFoundException $ee){
+            return View('errors.404');
+        }
+    }
+
+    public function penawaran_offline($id)
+    {
+        try {
+            $data = PenawaranOffline::with('komponen', 'tukang')->where(['id' => $id])->firstOrFail();
+
+            $pdf = PDF::loadview('pdf.offline.penawaran',['data'=>$data]);
+            $filename = str_replace(" ", "-", 'penawaran_offline-'.$data->nama_proyek.'.pdf');
+            $filename = strtolower($filename);
+            return $pdf->stream($filename);
+
+
+//            return view('pdf.penawaran')->with(compact('data', 'kode'));
+        }catch (ModelNotFoundException $ee){
+            return View('errors.404');
+        }
+    }
+
+
+    public function bast_offline($id)
+    {
+        try {
+            $data = PenawaranOffline::with('komponen', 'tukang')->where(['id' => $id])->firstOrFail();
+
+            $pdf = PDF::loadview('pdf.offline.bast',['data'=>$data]);
+            $filename = str_replace(" ", "-", 'bast_offline-'.$data->nama_proyek.'.pdf');
+            $filename = strtolower($filename);
+            return $pdf->stream($filename);
+
+//            return view('pdf.bast')->with(compact('data'));
+        }catch (ModelNotFoundException $ee){
+            return View('errors.404');
+        }
+    }
+
+    public function surat_jalan_offline($id)
+    {
+        try {
+            $data = PenawaranOffline::with('komponen', 'tukang')->where(['id' => $id])->firstOrFail();
+
+            $pdf = PDF::loadview('pdf.offline.surat_jalan',['data'=>$data]);
+            $filename = str_replace(" ", "-", 'surat_jalan_offline-'.$data->nama_proyek.'.pdf');
+            $filename = strtolower($filename);
+            return $pdf->stream($filename);
+
+//            return view('pdf.bast')->with(compact('data'));
+        }catch (ModelNotFoundException $ee){
+            return View('errors.404');
+        }
+    }
 }

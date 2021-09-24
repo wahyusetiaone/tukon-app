@@ -11,20 +11,20 @@
             <div class="col-12">
                 <div class="callout callout-info">
                     <h5><i class="fas fa-info"></i> Note:</h5>
-                    Semua perubahan akan tersimpan jika tombol <b>Upload Penawaran</b> ditekan, pastikan untuk tidak
+                    Semua perubahan akan tersimpan jika tombol <b>Update Data Penawaran</b> ditekan, pastikan untuk tidak
                     menutup halaman ini sebelum melakukan upload penawaran agar semua data tidak hilang !
                 </div>
             </div>
             <div class="col-md-6">
 
-                <div class="card card-success">
+                <div class="card card-primary-dx">
                     <div class="card-header">
-                        <h3 class="card-title">Informasi Klien</h3>
+                        <h3 class="card-title text-white">Informasi Klien</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
                                     title="Collapse">
-                                <i class="fas fa-minus"></i></button>
+                                <i class="fas fa-minus text-white"></i></button>
                         </div>
                     </div>
                     <!-- form start -->
@@ -99,14 +99,14 @@
                 </div>
                 <!-- /.card -->
                 <!-- /.card -->
-                <div class="card card-warning">
+                <div class="card card-warning-dx">
                     <div class="card-header">
-                        <h3 class="card-title">Informasi Proyek</h3>
+                        <h3 class="card-title text-white">Informasi Proyek</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
                                     title="Collapse">
-                                <i class="fas fa-minus"></i></button>
+                                <i class="fas fa-minus text-white"></i></button>
                         </div>
                     </div>
                     <!-- form start -->
@@ -131,28 +131,6 @@
                                        class="form-control @error('alamat_proyek') is-invalid @enderror"
                                        id="alamat_proyek" name="alamat_proyek" placeholder="Alamat Proyek">
                                 @error('alamat_proyek')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="range_min">Budged Min</label>
-                                <input type="number" value="{{$data->range_min}}"
-                                       class="form-control @error('range_min') is-invalid @enderror"
-                                       id="range_min" name="range_min" min="10000">
-                                @error('range_min')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="range_max">Budged Max</label>
-                                <input type="number" value="{{$data->range_max}}"
-                                       class="form-control @error('range_max') is-invalid @enderror"
-                                       id="range_max" name="range_max" min="10000">
-                                @error('range_max')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -195,14 +173,14 @@
             </div>
             <div class="col-md-6">
 
-                <div class="card card-info">
+                <div class="card card-info-dx">
                     <div class="card-header">
-                        <h3 class="card-title">Komponen</h3>
+                        <h3 class="card-title text-white">Komponen</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
                                     title="Collapse">
-                                <i class="fas fa-minus"></i></button>
+                                <i class="fas fa-minus text-white"></i></button>
                         </div>
                     </div>
                     <div class="card-body p-0">
@@ -220,7 +198,7 @@
                             <tbody>
                             <tr>
                                 <td colspan="6" style="text-align: center;">
-                                    <button class="btn btn-success" id="btn-tbh-componen">
+                                    <button class="btn btn-primary" id="btn-tbh-componen">
                                         <i class="fa fa-plus-square"></i> Tambah Komponen
                                     </button>
                                 </td>
@@ -231,14 +209,14 @@
                     <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
-                <div class="card card-secondary">
+                <div class="card card-secondary-dx">
                     <div class="card-header">
-                        <h3 class="card-title">Presentase laba</h3>
+                        <h3 class="card-title text-white">Presentase laba</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
                                     title="Collapse">
-                                <i class="fas fa-minus"></i></button>
+                                <i class="fas fa-minus text-white"></i></button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -284,9 +262,9 @@
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-12">
-                                <a href="{{ url()->previous() }}" class="btn btn-secondary">Batal</a>
+                                <a href="{{ url()->previous() }}" class="btn btn-danger pl-5 pr-5">Batal</a>
                                 <button type="button" id="btnsubmitpenawaran" value="{{$data->id}}"
-                                        class="btn btn-success float-right">Update Data Penawaran
+                                        class="btn btn-primary float-right">Update Data Penawaran
                                 </button>
                             </div>
                         </div>

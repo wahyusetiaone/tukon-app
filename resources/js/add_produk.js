@@ -15,3 +15,8 @@ $(document).on('click', '[id^=btn-sub]', function (e) {
     });
     return false;
 });
+$('#path_add').change(function(){
+    var files = $(this)[0].files;
+    $('#count_file').text(files.length+' Gambar terpilih.')
+});
+

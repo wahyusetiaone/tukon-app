@@ -36,4 +36,8 @@ class Pengajuan extends Model
     public function client(){
         return $this->belongsTo(Clients::class,'kode_client','id');
     }
+
+    public function berkas(){
+        return $this->hasMany(Berkas::class, 'kode_pengajuan', 'id');
+    }
 }

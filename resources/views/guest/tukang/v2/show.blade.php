@@ -116,7 +116,7 @@
     <div class="col-9 pl-4 pr-4 pt-5">
         <div class="card w-100 bg-white rounded-0 shadow-none border-0 pl-3 pr-3 pt-1 pb-1">
             <span class="text-muted" style="display: inline-block">
-                Produk yang dimiliki oleh tukang
+                Produk yang dimiliki
             </span>
         </div>
         <div class="card w-100 bg-white rounded-0 shadow-none border-0 p-3 mb-5">

@@ -89,6 +89,11 @@ class HomeClientController extends Controller
        tukangs.updated_at as tukang_updated'))
             ->join('users', 'tukangs.id', '=', 'users.kode_user')->take(8)->get();
 
+        if (Auth::check()){
+            if (Auth::user()->kode_role == 2){
+                return view('client.home.v2.home_for_tukang')->with(compact('produk_terbaru', 'produk', 'top_tukang', 'tukang'));
+            }
+        }
         return view('client.home.v2.home')->with(compact('produk_terbaru', 'produk', 'top_tukang', 'tukang'));
     }
 }

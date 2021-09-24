@@ -7,6 +7,7 @@ use App\Http\Resources\UserResourceController;
 use App\Models\Clients;
 use App\Models\Tukang;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -21,6 +22,15 @@ class UserController extends Controller
             $user = Auth::user();
             $success['token'] = $user->createToken('nApp')->accessToken;
             if($user->email_verified_at !== NULL){
+
+                $success['kode_role'] = $user->kode_role;
+                if ($success['kode_role'] == 2){
+                    $success['kode'] = 'tukang';
+                }elseif ($success['kode_role'] == 3){
+                    $success['kode'] = 'client';
+                }else{
+                    $success['kode'] = 'admin';
+                }
                 return (new UserResourceController($success))->response()->setStatusCode(200);
             }else{
                 $success['verified'] = false;
@@ -94,7 +104,8 @@ class UserController extends Controller
         $input['password'] = bcrypt($input['password']);
         $input['kode_user'] = $new_id;
         $user = User::create($input);
-        $user->sendApiEmailVerificationNotification();
+//        $user->sendApiEmailVerificationNotification();
+        event(new Registered($user));
         $success['verified'] = false;
         $success['message'] = 'Please confirm yourself by clicking on verify user button sent to you on your email';
         $success['token'] = $user->createToken('nApp')->accessToken;

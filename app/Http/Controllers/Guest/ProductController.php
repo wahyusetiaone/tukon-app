@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Guest;
 use App\Http\Controllers\Controller;
 use App\Models\Produk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -17,6 +18,11 @@ class ProductController extends Controller
     {
         $produk = Produk::with('tukang.user')->paginate(12);
 
+        if (Auth::check()){
+            if (Auth::user()->kode_role == 2){
+                return view('guest.product.v2.all_for_tukang')->with(compact('produk'));
+            }
+        }
         return view('guest.product.v2.all')->with(compact('produk'));
     }
 
@@ -29,6 +35,11 @@ class ProductController extends Controller
     {
         $produk = Produk::with('tukang.user')->orderBy('created_at', 'desc')->paginate(9);
 
+        if (Auth::check()){
+            if (Auth::user()->kode_role == 2){
+                return view('guest.product.v2.all_for_tukang')->with(compact('produk'));
+            }
+        }
         return view('guest.product.v2.all')->with(compact('produk'));
     }
 
@@ -63,6 +74,11 @@ class ProductController extends Controller
     {
         $data = Produk::with('tukang.user')->find($id);
 
+        if (Auth::check()){
+            if (Auth::user()->kode_role == 2){
+                return view('guest.product.v2.show_for_tukang')->with(compact('data'));
+            }
+        }
         return view('guest.product.v2.show')->with(compact('data'));
     }
 

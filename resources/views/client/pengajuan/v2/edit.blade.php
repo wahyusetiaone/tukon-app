@@ -22,7 +22,8 @@
             <!-- title row -->
             <div class="row pl-3 pr-3">
                 <div class="col-8">
-                    <a style="color: black;" href="{{ url()->previous() }}"><i class="fas fa-chevron-left"></i> KEMBALI</a>
+                    <a style="color: black;" href="{{ route('show.pengajuan.client', $data->id) }}"><i
+                            class="fas fa-chevron-left"></i> KEMBALI</a>
                 </div>
                 <div class="col-4">
                     <p style="color: #008CC6;" class="float-right mb-0 pb-0">PENAWARAN PROYEK</p>
@@ -66,8 +67,8 @@
                                     <!-- text input -->
                                     <div class="form-group">
                                         <label>Minimum</label>
-                                        <input required value="{{$data->range_min}}" type="number"
-                                               class="form-control @error('range_min') is-invalid @enderror"
+                                        <input required value="{{$data->range_min}}" type="text"
+                                               class="form-control rupiah @error('range_min') is-invalid @enderror"
                                                id="range_min" name="range_min" placeholder="10000">
                                         @error('range_min')
                                         <span class="invalid-feedback" role="alert">
@@ -79,8 +80,8 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Maximum</label>
-                                        <input required value="{{$data->range_max}}" type="number"
-                                               class="form-control @error('range_max') is-invalid @enderror"
+                                        <input required value="{{$data->range_max}}" type="text"
+                                               class="form-control rupiah @error('range_max') is-invalid @enderror"
                                                id="range_max" name="range_max" placeholder="100000">
                                         @error('range_max')
                                         <span class="invalid-feedback" role="alert">
@@ -114,6 +115,37 @@
                             @enderror
                         </div>
                     </form>
+
+                    <!-- out off form -->
+                    @isset($data->berkas[0])
+                        <div class="form-group">
+                            <label for="diskripsi_proyek">Berkas</label>
+                            <div class="berkas">
+                                @foreach($data->berkas as $item)
+                                    <a href="{{asset($item->path)}}" target="_blank">{{$item->original_name}}</a>&nbsp;
+                                    &nbsp;
+                                    <a href="#" onclick="event.preventDefault(); document.getElementById('delete-berkas-form').submit();">
+                                        <i class="fas fa-trash text-red" title="Hapus File"></i>
+                                    </a>
+                                    <form id="delete-berkas-form" action="{{ route('remove.pengajuan.client.berkas', $data->id) }}" method="POST"
+                                          class="d-none">
+                                        @csrf
+                                        <input hidden type="number" value="{{$item->id}}" name="id">
+                                        <input hidden type="text" value="{{$item->path}}" name="path">
+                                    </form>
+                                    <br>
+                                @endforeach
+                            </div>
+                            <a href="#"
+                               onclick="event.preventDefault(); document.getElementById('berkas').click();"
+                               class="btn btn-info rounded-0 mt-3">TAMBAH FILE</a>
+                            <form id="add-berkas-form" action="{{ route('add.pengajuan.client.berkas', $data->id) }}" method="POST"
+                                  class="d-none" enctype="multipart/form-data">
+                                @csrf
+                                <input hidden type="file" name="berkas[]" id="berkas" multiple>
+                            </form>
+                        </div>
+                    @endisset
 
                 </div>
                 <div class="col-6">
@@ -186,8 +218,12 @@
                 </div>
                 <div class="col-12">
                     <div class="float-right">
-                        <button type="button" id="btn_hps_pengajuan" value="{{$data->id}}" class="btn btn-danger rounded-0">Hapus</button>
-                        <button type="button" id="btn_submit_pengajuan" class="btn btn-info rounded-0">Perbarui Pengajuan</button>
+                        <button type="button" id="btn_hps_pengajuan" value="{{$data->id}}"
+                                class="btn btn-danger rounded-0">Hapus
+                        </button>
+                        <button type="button" id="btn_submit_pengajuan" class="btn btn-info rounded-0">Perbarui
+                            Pengajuan
+                        </button>
                     </div>
                 </div>
             </div>

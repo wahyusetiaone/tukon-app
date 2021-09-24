@@ -16,6 +16,8 @@ mix.copyDirectory('resources/fonts', 'public/fonts');
 
 
 mix.js('resources/js/app.js', 'public/js')
+    //base_url
+    .js('resources/js/base_url.js', 'public/js')
 
     //pdf-mobile
     .js('resources/js/pdf_mobile.js', 'public/js')
@@ -50,6 +52,8 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/all_penarikan_dana.js', 'public/js')
     .js('resources/js/show_profile_tukang.js', 'public/js')
     .js('resources/js/show_change_photo_tukang.js', 'public/js')
+    .js('resources/js/app_root.js', 'public/js')
+
 
     //client
     .js('resources/js/form_pengajuan.js', 'public/js')
@@ -76,12 +80,15 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/konfirmasi_penarikan_admin.js', 'public/js')
     .js('resources/js/all_pengembalian_admin.js', 'public/js')
     .js('resources/js/konfirmasi_pengembalian_admin.js', 'public/js')
+    .js('resources/js/all_bpa_admin.js', 'public/js')
 
     .sass('resources/sass/app.scss', 'public/css')
 
     .postCss('resources/css/home_client.css', 'public/css')
     .postCss('resources/css/show_proyek.css', 'public/css')
     .postCss('resources/css/wishlist.css', 'public/css')
+    .postCss('resources/css/costume_app.css', 'public/css')
+    .postCss('resources/css/sidebar.css', 'public/css')
 
     //font awesome
     .copy(

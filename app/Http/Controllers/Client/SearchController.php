@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use http\Client\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class SearchController extends Controller
@@ -37,11 +38,22 @@ class SearchController extends Controller
             $db->where('kota', '=', $kota);
         }
 
-        $prov = callMomWithGet('https://ibnux.github.io/data-indonesia/propinsi.json');
+        $prov = callMomWithGet('https://dev.farizdotid.com/api/daerahindonesia/provinsi');
 
         $data = $db->paginate(9)->toArray();
 
+        if (Auth::check()){
+            if (Auth::user()->kode_user == 2 || Auth::user()->kode_user == 2){
+                return view('client.search.v2.search_for_tukang', ['obj' => $data, 'filter' => $filter, 'prov' => $prov]);
+            }
+        }
         return view('client.search.v2.search', ['obj' => $data, 'filter' => $filter, 'prov' => $prov]);
+    }
+    public function getKota($id)
+    {
+        $kota = callMomWithGet('https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi='.$id);
+
+        return response()->json($kota);
     }
 
     function query_produk()

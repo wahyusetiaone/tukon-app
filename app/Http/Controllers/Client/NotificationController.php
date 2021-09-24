@@ -17,7 +17,7 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        $data = NotificationHandler::where('user_id', Auth::id())->orderBy('created_at', 'desc')->paginate(10);
+        $data = NotificationHandler::where('user_id', Auth::id())->where('read',false)->orderBy('created_at', 'desc')->paginate(10);
         return view('client.notification.v2.all')->with(compact('data'));
     }
 

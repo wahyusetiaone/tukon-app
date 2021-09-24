@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PengajuanResourceController;
 use App\Http\Resources\WishlistResourceController;
+use App\Models\Berkas;
 use App\Models\History_Pengajuan;
 use App\Models\Pengajuan;
 use App\Models\Pin;
@@ -477,14 +478,34 @@ class PengajuanController extends Controller
     public function show_pengajuan_base_tukang(Request $request, int $id)
     {
 
-        if (!Pengajuan::whereId($id)->exists()){
+        if (!Pengajuan::whereId($id)->exists()) {
             return (new PengajuanResourceController(['error' => 'not found !!!']))->response()->setStatusCode(404);
         }
 
-        $data = Pin::with('pengajuan', 'pengajuan.client', 'pengajuan.client.user')
-        ->whereHas('pengajuan', function ($q) use ($id){
-            $q->where('id', $id);
-        })->first();
+        $data = Pin::with('pengajuan.berkas', 'pengajuan.client', 'pengajuan.client.user')
+            ->whereHas('pengajuan', function ($q) use ($id) {
+                $q->where('id', $id);
+            })->first();
+
+        return (new PengajuanResourceController($data))->response()->setStatusCode(200);
+    }
+
+    /**
+     * Display a listing of the resource.
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
+     */
+    public function show_pengajuan_base_client(Request $request, int $id)
+    {
+
+        if (!Pengajuan::whereId($id)->exists()) {
+            return (new PengajuanResourceController(['error' => 'not found !!!']))->response()->setStatusCode(404);
+        }
+
+        $data = Pin::with('pengajuan.berkas', 'pengajuan.client', 'pengajuan.client.user')
+            ->whereHas('pengajuan', function ($q) use ($id) {
+                $q->where('id', $id);
+            })->first();
 
         return (new PengajuanResourceController($data))->response()->setStatusCode(200);
     }
@@ -526,6 +547,114 @@ class PengajuanController extends Controller
             $old->update(['kode_status' => 'T04']);
 
             return (new PengajuanResourceController(['update_status' => $old]))->response()->setStatusCode(200);
+        } catch (ModelNotFoundException $e) {
+            return (new PengajuanResourceController(['error' => $e->getMessage()]))->response()->setStatusCode(401);
+        }
+    }
+
+    /**
+     * Tolak pengajuan base on PIN the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
+     */
+
+    public function addBerkas(Request $request, int $id)
+    {
+        if (!Pengajuan::whereId($id)->exists()) {
+            return (new PengajuanResourceController(['error' => 'Pengajuan tidak ditemukan !']))->response()->setStatusCode(401);
+        }
+
+        if (!Pengajuan::where(['id' => $id, 'kode_client' => Auth::id()])->exists()) {
+            return (new PengajuanResourceController(['error' => 'Anda tidak mempunyai hak untuk mengubah item ini !']))->response()->setStatusCode(401);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'berkas' => 'required|array',
+            'berkas.*' => 'required|mimes:pdf,docx|max:1000',
+        ]);
+
+        if ($validator->fails()) {
+            return (new PengajuanResourceController(['error' => $validator->errors()]))->response()->setStatusCode(401);
+        }
+
+        try {
+            foreach ($request->file('berkas') as $file) {
+                if ($file->isValid()) {
+                    $path = $file->store('berkas/pengajuan', 'public');
+                    $path = substr($path, 6);
+                    $path = "storage/berkas" . $path;
+
+                    $berkas = new Berkas();
+                    $berkas->kode_pengajuan = $id;
+                    $berkas->path = $path;
+                    $berkas->original_name = $file->getClientOriginalName();
+                    $berkas->save();
+
+                    $files_berkas[] = [
+                        'path' => $path,
+                    ];
+                }
+            }
+
+            return (new PengajuanResourceController(['update_status' => $files_berkas]))->response()->setStatusCode(200);
+        } catch (ModelNotFoundException $e) {
+            return (new PengajuanResourceController(['error' => $e->getMessage()]))->response()->setStatusCode(401);
+        }
+    }
+
+    /**
+     * Tolak pengajuan base on PIN the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
+     */
+
+    public function removeBerkas(Request $request, int $id)
+    {
+        if (!Pengajuan::whereId($id)->exists()) {
+            return (new PengajuanResourceController(['error' => 'Pengajuan tidak ditemukan !']))->response()->setStatusCode(401);
+        }
+
+        if (!Pengajuan::where(['id' => $id, 'kode_client' => Auth::id()])->exists()) {
+            return (new PengajuanResourceController(['error' => 'Anda tidak mempunyai hak untuk mengubah item ini !']))->response()->setStatusCode(401);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|array',
+            'id.*' => 'integer',
+            'path' => 'required|array',
+            'path.*' => 'string',
+        ]);
+
+        if ($validator->fails()) {
+            return (new PengajuanResourceController(['error' => $validator->errors()]))->response()->setStatusCode(401);
+        }
+
+        if ($request->has('id')){
+            foreach ($request->input('id') as $item){
+                if (!Berkas::whereId($item)->exists()){
+                    return (new PengajuanResourceController(['error' => 'Berkas tidak ditemukan !']))->response()->setStatusCode(401);
+                }
+            }
+        }
+
+        try {
+            if ($request->has('path')){
+                foreach ($request->input('path') as $item){
+                    momPleaseDeleteIt($item);
+                }
+            }
+
+            if ($request->has('id')){
+                Berkas::destroy($request->input('id'));
+            }
+
+            return (new PengajuanResourceController(['delete_status' => true]))->response()->setStatusCode(200);
         } catch (ModelNotFoundException $e) {
             return (new PengajuanResourceController(['error' => $e->getMessage()]))->response()->setStatusCode(401);
         }

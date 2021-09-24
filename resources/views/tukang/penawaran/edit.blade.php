@@ -11,19 +11,19 @@
             <div class="col-12">
                 <div class="callout callout-info">
                     <h5><i class="fas fa-info"></i> Note:</h5>
-                    Semua perubahan akan tersimpan jika tombol <b>Upload Penawaran</b> ditekan, pastikan untuk tidak
+                    Semua perubahan akan tersimpan jika tombol <b>Kirim Penawaran</b> ditekan, pastikan untuk tidak
                     menutup halaman ini sebelum melakukan upload penawaran agar semua data tidak hilang !
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="card card-primary" data-toggle="collapse">
+                <div class="card card-primary-dx" data-toggle="collapse">
                     <div class="card-header">
-                        <h3 class="card-title">Rincihan Projek</h3>
+                        <h3 class="card-title text-white">Rincihan Projek</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
                                     title="Collapse">
-                                <i class="fas fa-plus"></i></button>
+                                <i class="fas fa-plus text-white"></i></button>
                         </div>
                     </div>
                     <div class="card-body collapse">
@@ -31,9 +31,6 @@
                             <!-- title row -->
                             <div class="row">
                                 <div class="col-12">
-                                    <h4>
-                                        <i class="fas fa-globe"></i> Tukang Online (TUKON)
-                                    </h4>
                                     <div class="row">
                                         <div class="col-sm-12 invoice-col">
                                             <b>PIN ID #{{ sprintf("%06d", $data->id)}}</b><br>
@@ -140,7 +137,7 @@
                                 </div>
                                 <!-- /.col -->
                                 <div class="col-6">
-                                    <p class="lead">Deadline : {{indonesiaDate($data->pengajuan->deadline)}}</p>
+                                    <p style="font-size: 12pt;">Deadline : {{indonesiaDate($data->pengajuan->deadline)}}</p>
 
                                     <div class="table-responsive">
                                         <table class="table">
@@ -164,14 +161,14 @@
                     <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
-                <div class="card card-warning">
+                <div class="card card-warning-dx">
                     <div class="card-header">
-                        <h3 class="card-title">Riwayat Penawaran Projek Terakhir</h3>
+                        <h3 class="card-title text-white">Riwayat Penawaran Projek Terakhir</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
                                     title="Collapse">
-                                <i class="fas fa-minus"></i></button>
+                                <i class="fas fa-minus text-white"></i></button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -179,9 +176,6 @@
                             <!-- title row -->
                             <div class="row">
                                 <div class="col-12">
-                                    <h4>
-                                        <i class="fas fa-globe"></i> Tukang Online (TUKON)
-                                    </h4>
                                     <div class="row">
                                         <div class="col-sm-12 invoice-col">
                                             <b>PIN ID #{{ sprintf("%06d", $data->id)}}</b><br>
@@ -288,7 +282,7 @@
                                 </div>
                                 <!-- /.col -->
                                 <div class="col-6">
-                                    <p class="lead">Deadline : {{indonesiaDate($data->pengajuan->deadline)}}</p>
+                                    <p>Deadline : {{indonesiaDate($data->pengajuan->deadline)}}</p>
 
                                     <div class="table-responsive">
                                         <table class="table">
@@ -315,14 +309,14 @@
             </div>
             <div class="col-md-6">
 
-                <div class="card card-info">
+                <div class="card card-info-dx">
                     <div class="card-header">
-                        <h3 class="card-title">Komponen</h3>
+                        <h3 class="card-title text-white">Komponen</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
                                     title="Collapse">
-                                <i class="fas fa-minus"></i></button>
+                                <i class="fas fa-minus text-white"></i></button>
                         </div>
                     </div>
                     <div class="card-body p-0">
@@ -341,7 +335,7 @@
                             <tbody>
                             <tr>
                                 <td colspan="7" style="text-align: center;">
-                                    <button class="btn btn-success" id="btn-tbh-componen">
+                                    <button class="btn btn-primary" id="btn-tbh-componen">
                                         <i class="fa fa-plus-square"></i> Tambah Komponen
                                     </button>
                                 </td>
@@ -352,20 +346,21 @@
                     <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
-                <div class="card card-secondary">
+                <div class="card card-secondary-dx">
                     <div class="card-header">
-                        <h3 class="card-title">Presentase laba</h3>
+                        <h3 class="card-title text-white">Presentase Laba</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
                                     title="Collapse">
-                                <i class="fas fa-minus"></i></button>
+                                <i class="fas fa-minus text-white"></i></button>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="form-group">
                             <label for="inputEstimatedBudget">Presentase</label>
-                            <p> Berapa persen margin keuntungan yang anda kehendaki, presentase ini didasar i oleh harga
+                            <p>Presentase Laba akan ditambah dengan BPA (Biaya Penggunaan Aplikasi), untuk saat ini BPA diterapkan sebesar <b>{{$bpa->bpa}}% dari Total Komponen.</b></p>
+                            <p> Berapa persen margin keuntungan yang anda kehendaki, presentase ini didasari oleh harga
                                 total komponen.</p>
                         </div>
                         <div class="input-group mb-3">
@@ -384,6 +379,14 @@
                             <input type="number" id="inputTotalHargaKomponen" class="form-control" value="0" readonly>
                         </div>
 
+
+                        <label for="inputEstimatedBudget">Keuntungan (%)</label>
+                        <div class="input-group">
+                            <input type="number" id="bpa" value="{{$bpa->bpa}}" hidden class="form-control" value="0" readonly>
+                            <input type="number" id="old_bpa" value="{{$old_bpa->bpa}}" hidden class="form-control" value="0" readonly>
+                            <input type="number" id="inputKeuntunganPersen" class="form-control" value="0" readonly>
+                        </div>
+
                         <label for="inputEstimatedBudget">Keuntungan</label>
                         <div class="input-group">
                             <div class="input-group-append">
@@ -400,13 +403,32 @@
                             <input type="number" id="inputHargaTotal" class="form-control" value="0" readonly>
                         </div>
 
+                        <label for="inputEstimatedBudget">Metode Penarikan Dana</label>
+                        <p class="text-sm">Metode Penarikan adalah metode pencairan dana proyek.</p>
+                        @foreach($spd as $item)
+                            @if($item->id == $data->penawaran->kode_spd)
+                                <div class="form-check">
+                                    <input checked class="form-check-input" type="radio" name="kode_spd" id="{{$item->id}}" value="{{$item->id}}">
+                                    <label class="form-check-label" for="{{$item->id}}">
+                                        {{$item->nama}}
+                                    </label>
+                                </div>
+                            @else
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="kode_spd" id="{{$item->id}}" value="{{$item->id}}">
+                                    <label class="form-check-label" for="{{$item->id}}">
+                                        {{$item->nama}}
+                                    </label>
+                                </div>
+                            @endif
+                        @endforeach
                     </div>
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-12">
-                                <a href="{{ url()->previous() }}" class="btn btn-secondary">Batal</a>
+                                <a href="{{ url()->previous() }}" class="btn btn-danger pl-4 pr-4">Batal</a>
                                 <button type="button" id="btnsubmitpenawaran" value="{{$data->penawaran->id}}"
-                                        class="btn btn-success float-right">Kirim Penawaran
+                                        class="btn btn-primary float-right">Kirim Penawaran
                                 </button>
                             </div>
                         </div>

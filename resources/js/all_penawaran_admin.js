@@ -14,8 +14,6 @@ $(function() {
     }
     var table = $('#produk-table').DataTable({
         "responsive": true, "lengthChange": false, "autoWidth": true, searching: false,
-        processing: true,
-        serverSide: true,
         ajax: base_url+'/admin/penawaran/json'+query,
         columns: [
             { data: 'id', name: 'id' },

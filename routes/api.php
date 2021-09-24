@@ -58,7 +58,7 @@ Route::group(['prefix' => 'guest', 'as' => 'guest'], function () {
 
 Route::group(['middleware' => ['auth:api']], function () {
     Route::get('email/verify/{id}', 'App\Http\Controllers\API\VerificationApiController@verify')->name('verificationapi.verify');
-//    Route::get('email/verify/{id}/{hash}', 'App\Http\Controllers\API\VerificationApiController@verify')->name('verificationapi.verify');
+    Route::get('email/verify/{id}/{hash}', 'App\Http\Controllers\API\VerificationApiController@verify_hash')->name('verificationapi.verify_hash');
     Route::get('email/resend', 'App\Http\Controllers\API\VerificationApiController@resend')->name('verificationapi.resend');
 
 });
@@ -69,9 +69,15 @@ Route::group(['middleware' => ['auth:api', 'roles', 'verified:api']], function (
     Route::post('upload_image', 'App\Http\Controllers\API\UserController@upload_image');
 
     Route::group(['prefix' => 'pdf'], function () {
+        Route::group(['prefix' => 'offline'], function () {
+            Route::get('bast/{id}', [App\Http\Controllers\Pdf\ApiPdfDomController::class, 'bast_offline'])->name('pdf.offline.bast');
+            Route::get('surat-jalan/{id}', [App\Http\Controllers\Pdf\ApiPdfDomController::class, 'surat_jalan_offline'])->name('pdf.offline.surat_jalan');
+            Route::get('penawaran/{id}', [App\Http\Controllers\Pdf\ApiPdfDomController::class, 'penawaran_offline'])->name('pdf.offline.penawaran');
+        });
         Route::get('invoice/{id}', [App\Http\Controllers\Pdf\ApiPdfDomController::class, 'invoice'])->name('pdf.invoice');
         Route::get('bast/{id}', [App\Http\Controllers\Pdf\ApiPdfDomController::class, 'bast'])->name('pdf.bast');
         Route::get('penawaran/{id}', [App\Http\Controllers\Pdf\ApiPdfDomController::class, 'penawaran'])->name('pdf.penawaran');
+        Route::get('surat-jalan/{id}', [App\Http\Controllers\Pdf\ApiPdfDomController::class, 'surat_jalan'])->name('pdf.surat_jalan');
     });
     Route::group(['prefix' => 'tukang', 'as' => 'tukang', 'roles' => 'tukang'], function () {
         Route::group(['prefix' => 'produk', 'as' => 'produk'], function () {
@@ -120,6 +126,7 @@ Route::group(['middleware' => ['auth:api', 'roles', 'verified:api']], function (
         });
         Route::group(['prefix' => 'bpa', 'as' => 'bpa'], function () {
             Route::get('active', 'App\Http\Controllers\API\BPAController@index')->name('bpa.active');
+            Route::get('check/{id}', 'App\Http\Controllers\API\BPAController@check')->name('bpa.check');
 
         });
         Route::group(['prefix' => 'penarikan', 'as' => 'penarikan'], function () {
@@ -132,6 +139,9 @@ Route::group(['middleware' => ['auth:api', 'roles', 'verified:api']], function (
             Route::get('show', [App\Http\Controllers\API\NotificationController::class, 'index'])->name('notif.show');
             Route::get('mark/{id}', [App\Http\Controllers\API\NotificationController::class, 'markReaded'])->name('notif.mark.readed');
         });
+        Route::group(['prefix' => 'sistem-penarikan-dana', 'as' => 'sistem_penarikan_dana'], function () {
+            Route::get('get', [App\Http\Controllers\API\SistemPenarikanDanaController::class, 'index'])->name('get.spd');
+        });
     });
 
     Route::group(['prefix' => 'client', 'as' => 'client', 'roles' => 'klien'], function () {
@@ -139,11 +149,6 @@ Route::group(['middleware' => ['auth:api', 'roles', 'verified:api']], function (
         Route::post('rate-it/{kode_project}', 'App\Http\Controllers\API\RatingController@send')->name('send_it');
         Route::post('change-rate/{id}', 'App\Http\Controllers\API\RatingController@change')->name('change-it');
 
-        Route::group(['prefix' => 'pdf'], function () {
-            Route::get('invoice/{id}', [App\Http\Controllers\Pdf\ApiPdfDomController::class, 'invoice'])->name('pdf.invoice');
-            Route::get('bast/{id}', [App\Http\Controllers\Pdf\ApiPdfDomController::class, 'bast'])->name('pdf.bast');
-            Route::get('penawaran/{id}', [App\Http\Controllers\Pdf\ApiPdfDomController::class, 'penawaran'])->name('pdf.penawaran');
-        });
         Route::group(['prefix' => 'wishlist', 'as' => 'wishlist'], function () {
             Route::get('get', 'App\Http\Controllers\API\WishlistController@index')->name('get');
             Route::post('remove', 'App\Http\Controllers\API\WishlistController@remove')->name('remove');
@@ -159,6 +164,9 @@ Route::group(['middleware' => ['auth:api', 'roles', 'verified:api']], function (
             Route::post('remove/tukang/{id}', 'App\Http\Controllers\API\PengajuanController@destroy_tukang')->name('remove.tukang');
             Route::get('tukang/by/{kode_pengajuan}', 'App\Http\Controllers\API\PengajuanController@get_tukang_by_pengajuan')->name('tukang.by.pengajuan');
             Route::get('batal/{id}', 'App\Http\Controllers\API\PengajuanController@batal_pengajuan')->name('batal.pengajuan');
+            Route::post('add/berkas/{id}', 'App\Http\Controllers\API\PengajuanController@addBerkas')->name('add.berkas.pengajuan');
+            Route::post('remove/berkas/{id}', 'App\Http\Controllers\API\PengajuanController@removeBerkas')->name('remove.berkas.pengajuan');
+            Route::get('/show/{id}', 'App\Http\Controllers\API\PengajuanController@show_pengajuan_base_client')->name('show_pengajuan_base_client');
         });
         Route::group(['prefix' => 'penawaran', 'as' => 'penawaran'], function () {
             Route::get('show/{id}', 'App\Http\Controllers\API\PenawaranController@showclient')->name('penawaran.show.client');

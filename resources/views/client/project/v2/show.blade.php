@@ -44,7 +44,7 @@
                                 <div class="info-box-content">
                                         <span
                                             class="info-box-text text-center text-muted">Estimasi pengerjaan</span>
-                                    <span class="info-box-number text-center text-muted mb-0">20 (Hari)</span>
+                                    <span class="info-box-number text-center text-muted mb-0">{{$data->progress->deadlineinday}} Hari</span>
                                 </div>
                             </div>
                         </div>
@@ -62,7 +62,7 @@
                                         <h6 class="mt-0 pt0 text-center">{{$data->pembayaran->pin->pengajuan->client->user->name}}</h6>
                                     </div>
                                     <div class="col-3">
-                                        <p class="text-muted mb-0 pb-0 text-center">Tukang</p>
+                                        <p class="text-muted mb-0 pb-0 text-center">Penyedia Jasa</p>
                                         <h6 class="mt-0 pt0 text-center">{{$data->pembayaran->pin->tukang->user->name}}</h6>
                                     </div>
                                     <div class="col-12">

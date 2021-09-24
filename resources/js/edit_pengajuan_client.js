@@ -108,3 +108,9 @@ $(document).ready(function(){
 
     });
 });
+
+$(document).ready(function(){
+    $('#berkas').on('change', function(){
+        $('#add-berkas-form').submit();
+    });
+});

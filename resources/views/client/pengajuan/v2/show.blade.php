@@ -9,10 +9,10 @@
             <!-- title row -->
             <div class="row pl-3 pr-3">
                 <div class="col-8">
-                    <a style="color: black;" href="{{ url()->previous() }}"><i class="fas fa-chevron-left"></i> KEMBALI</a>
+                    <a style="color: black;" href="{{ route('penawaran.client') }}"><i class="fas fa-chevron-left"></i> KEMBALI</a>
                 </div>
                 <div class="col-4">
-                    <p style="color: #008CC6;" class="float-right mb-0 pb-0">PENAWARAN PROYEK</p>
+                    <p style="color: #008CC6;" class="float-right mb-0 pb-0">PENGAJUAN PROYEK</p>
                 </div>
             </div>
             <div class="row">
@@ -72,7 +72,7 @@
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th>Nama Tukang</th>
+                            <th>Penyedia Jasa</th>
                             <th>Alamat</th>
                         </tr>
                         </thead>
@@ -89,6 +89,17 @@
                 <!-- /.col -->
             </div>
             <!-- /.row -->
+            <div class="row invoice-info pl-3 pr-3">
+                <div class="col-sm-4 invoice-col">
+                    Berkas
+                    <address>
+                        @foreach($data->berkas as $item)
+                            <a href="{{asset($item->path)}}" target="_blank"><strong>{{$item->original_name}}</strong></a> <br>
+                        @endforeach
+                    </address>
+                </div>
+                <!-- /.col -->
+            </div>
 
             <div class="row pl-3 pr-3">
                 <!-- accepted payments column -->
@@ -141,9 +152,16 @@
                             </tr>
                         </table>
                     </div>
-                    <a class="btn btn-info rounded-0 btn-sm float-right" href="{{route('edit.pengajuan.client',$data->id)}}">
-                        Edit Pengajuan
-                    </a>
+                    @switch($data->pin[0]->status)
+                        @case('N01')
+                        <a class="btn btn-info rounded-0 btn-sm float-right" href="{{route('edit.pengajuan.client',$data->id)}}">
+                            Edit Pengajuan
+                        </a>
+                        @break
+                        @case('D01A') @case('D01B') @case('D02') @case('B01') @case('B02')
+                        <p class="text-right">Pengajuan tidak lagi dalam status aktif</p>
+                        @break
+                    @endswitch
                 </div>
                 <!-- /.col -->
             </div>

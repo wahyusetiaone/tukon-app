@@ -7,6 +7,7 @@ use App\Models\Produk;
 use App\Models\Project;
 use App\Models\Tukang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class TukangController extends Controller
@@ -20,6 +21,11 @@ class TukangController extends Controller
     {
         $tukang = Tukang::with('user')->paginate(9);
 
+        if (Auth::check()){
+            if (Auth::user()->kode_role == 2){
+                return view('guest.tukang.v2.all_for_tukang')->with(compact('tukang'));
+            }
+        }
         return view('guest.tukang.v2.all')->with(compact('tukang'));
     }
 
@@ -32,6 +38,11 @@ class TukangController extends Controller
     {
         $tukang = Tukang::with('user')->orderBy('rate', 'desc')->paginate(9);
 
+        if (Auth::check()){
+            if (Auth::user()->kode_role == 2){
+                return view('guest.tukang.v2.all_for_tukang')->with(compact('tukang'));
+            }
+        }
         return view('guest.tukang.v2.all')->with(compact('tukang'));
     }
 
@@ -74,6 +85,12 @@ class TukangController extends Controller
         })->whereHas('pembayaran.project', function ($q){
             $q->where(['kode_status' => 'ON05']);
         })->count();
+
+        if (Auth::check()){
+            if (Auth::user()->kode_role == 2){
+                return view('guest.tukang.v2.show_for_tukang')->with(compact('tukang', 'produk', 'proyek'));
+            }
+        }
         return view('guest.tukang.v2.show')->with(compact('tukang', 'produk', 'proyek'));
     }
 

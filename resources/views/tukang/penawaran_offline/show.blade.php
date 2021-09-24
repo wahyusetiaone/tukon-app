@@ -10,16 +10,6 @@
                     <!-- Main content -->
                     <div class="invoice p-3 mb-3">
                         <!-- title row -->
-                        <div class="row">
-                            <div class="col-12">
-                                <h4>
-                                    <i class="fas fa-globe"></i> Tukang Online (TUKON)
-                                </h4>
-                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Penawaran Offline Projek</p>
-
-                            </div>
-                            <!-- /.col -->
-                        </div>
                         <!-- info row -->
                         <div class="row invoice-info">
                             <div class="col-sm-4 invoice-col">
@@ -65,7 +55,6 @@
                                         <th>Nama Projek</th>
                                         <th>Alamat Projek</th>
                                         <th>Dealine</th>
-                                        <th>Range Harga</th>
                                         <th>Diskripsi Projek</th>
                                     </tr>
                                     </thead>
@@ -74,8 +63,6 @@
                                         <td>{{$data->nama_proyek}}</td>
                                         <td>{{$data->alamat_proyek}}</td>
                                         <td>{{indonesiaDate($data->deadline)}}</td>
-                                        <td>{{indonesiaRupiah($data->range_min)}}
-                                            - {{indonesiaRupiah($data->range_max)}}</td>
                                         <td>{{$data->diskripsi_proyek}}</td>
                                     </tr>
                                     </tbody>
@@ -185,7 +172,7 @@
                         <!-- this row will not appear when printing -->
                         <div class="row no-print">
                             <div class="col-12">
-                                <a href="invoice-print.html" target="_blank" class="btn btn-default"><i
+                                <a href="{{route('pdf.offline.penawaran', $data->id)}}" target="_blank" class="btn btn-primary"><i
                                         class="fas fa-print"></i> Print</a>
 
                                 <a href="{{route('data.penawaran.offline.edit',$data->id)}}">

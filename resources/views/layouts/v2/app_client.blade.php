@@ -10,7 +10,11 @@
         @endif
 
     </title>
-    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+
+    <!-- Force to view web -->
+    <meta name="viewport" content="width=1366">
+    <!-- Tell the browser to be responsive to screen width -->
+    {{--    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>--}}
     @stack('head_meta')
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <style>
@@ -88,9 +92,9 @@
             position: absolute;
             right:-10px;
             top:-15px;
-            width:20px;
-            height:20px;
-            font-size: 10pt;
+            width:15px;
+            height:15px;
+            font-size: 8pt;
             background:red;
             text-align: center;
             border-radius: 50%;
@@ -118,13 +122,6 @@
 </div>
 
 <script src="{{ asset('js/app.js') }}"></script>
-<script>
-    var unix_id = {!! \Illuminate\Support\Facades\Auth::id() !!};
-</script>
-
-@if(\Illuminate\Support\Facades\Auth::check())
-    <script src="{{ asset('js/app_client.js') }}" defer></script>
-@endif
 
 <script src="{{ asset('js/search.js') }}" defer></script>
 

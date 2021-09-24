@@ -35,7 +35,9 @@ class PembayaranController extends Controller
     {
         $data = Pembayaran::with('invoice','pin', 'pin.pengajuan', 'pin.tukang', 'pin.tukang.user', 'transaksi_pembayaran', 'project')->whereHas('pin.pengajuan', function ($query) {
             $query->where('kode_client', Auth::id());
-        })->paginate(5)->toArray();
+        })
+            ->orderByDesc('created_at')
+            ->paginate(5)->toArray();
         return view('client.pembayaran.v2.all')->with(compact('data'));
     }
 

@@ -10,8 +10,6 @@ $(function () {
             },
         ],
         "responsive": true, "lengthChange": false, "autoWidth": true,
-        processing: true,
-        serverSide: true,
         ajax: base_url + '/penarikan-dana/json',
         columns: [
             {data: 'id', name: 'id'},

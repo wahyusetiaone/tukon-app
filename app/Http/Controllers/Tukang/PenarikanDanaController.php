@@ -137,7 +137,7 @@ class PenarikanDanaController extends Controller
     public function show($id)
     {
         $user = Auth::id();
-        $data = PenarikanDana::with(['transaksi_penarikan.persentase','limitasi_penarikan','project.pembayaran.pin.pengajuan' => function ($query) {
+        $data = PenarikanDana::with(['project.pembayaran.pin.penawaran.spd','transaksi_penarikan.persentase','limitasi_penarikan','project.pembayaran.pin.pengajuan' => function ($query) {
             $query->select('id', 'nama_proyek');
         }])->whereHas('project.pembayaran.pin', function ($query) use ($user) {
             $query->where('kode_tukang', '=', $user);

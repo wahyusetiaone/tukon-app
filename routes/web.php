@@ -232,11 +232,16 @@ Route::group(['prefix' => '/callback/xendit/log'], function () {
 Route::get('/helper', [\App\Http\Controllers\HelperView::class, 'index'])->name('helperview');
 Route::get('/', [App\Http\Controllers\HomeClientController::class, 'index'])->name('/');
 Route::get('search/{fiter}/{search}', [App\Http\Controllers\Client\SearchController::class, 'index'])->name('search');
+Route::get('get/kota/{id}', [App\Http\Controllers\Client\SearchController::class, 'getKota'])->name('search.get.kota');
 
 Route::group(['prefix' => 'pdf'], function () {
+    Route::group(['prefix' => 'pdf'], function () {
+        Route::get('penawaran/{id}', [App\Http\Controllers\Pdf\PdfDomController::class, 'penawaran_offline'])->name('pdf.offline.penawaran');
+    });
     Route::get('invoice/{id}', [App\Http\Controllers\Pdf\PdfDomController::class, 'invoice'])->name('pdf.invoice');
     Route::get('bast/{id}', [App\Http\Controllers\Pdf\PdfDomController::class, 'bast'])->name('pdf.bast');
     Route::get('penawaran/{id}', [App\Http\Controllers\Pdf\PdfDomController::class, 'penawaran'])->name('pdf.penawaran');
+    Route::get('surat-jalan/{id}', [App\Http\Controllers\Pdf\PdfDomController::class, 'surat_jalan'])->name('pdf.surat_jalan');
 });
 
 Route::group(['prefix' => 'panel'], function () {
@@ -320,6 +325,8 @@ Route::group(['middleware' => ['auth', 'roles', 'verified']], function () {
             Route::post('add/image/{id}', [App\Http\Controllers\Client\PengajuanController::class, 'addImg'])->name('add.pengajuan.client.photo');
             Route::get('check-safe-args/{id}', [App\Http\Controllers\Client\PengajuanController::class, 'checkSafetyDelete'])->name('checksafeargs.pengajuan.client');
             Route::get('delete/{id}', [App\Http\Controllers\Client\PengajuanController::class, 'destroy'])->name('delete.pengajuan.client');
+            Route::post('delete/berkas/{id}', [App\Http\Controllers\Client\PengajuanController::class, 'removeBerkas'])->name('remove.pengajuan.client.berkas');
+            Route::post('add/berkas/{id}', [App\Http\Controllers\Client\PengajuanController::class, 'addBerkas'])->name('add.pengajuan.client.berkas');
         });
         Route::group(['prefix' => 'penawaran'], function () {
             Route::get('show/{id}', [App\Http\Controllers\Client\PenawaranController::class, 'show'])->name('show.penawaran.client');
@@ -374,6 +381,11 @@ Route::group(['middleware' => ['auth', 'roles', 'verified']], function () {
         Route::post('produk/delete/image/{id}', [App\Http\Controllers\Tukang\ProdukController::class, 'removeImg'])->name('remove.produk.photo');
         Route::post('produk/add/image/{id}', [App\Http\Controllers\Tukang\ProdukController::class, 'addImg'])->name('add.produk.photo');
 
+        Route::group(['prefix' => 'notification'], function () {
+            Route::get('all', [App\Http\Controllers\Tukang\NotificationController::class, 'index'])->name('notification');
+            Route::get('read/{id}/{deep_id}/{what}', [App\Http\Controllers\Tukang\NotificationController::class, 'read'])->name('notification.read');
+            Route::get('count/{id}', [App\Http\Controllers\Tukang\NotificationController::class, 'countNotification'])->name('notification.count');
+        });
         Route::group(['prefix' => 'pengajuan'], function () {
             Route::get('/', [App\Http\Controllers\Tukang\PengajuanController::class, 'index'])->name('pengajuan');
             Route::get('json', [App\Http\Controllers\Tukang\PengajuanController::class, 'json'])->name('data.pengajuan.json');
@@ -494,6 +506,13 @@ Route::group(['middleware' => ['auth', 'roles', 'verified']], function () {
             Route::get('konfirmasi-tolak/{id}', [App\Http\Controllers\Admin\PengembalianDanaController::class, 'rejectShow'])->name('reject.show.pengembalian-dana.admin');
             Route::post('terima', [App\Http\Controllers\Admin\PengembalianDanaController::class, 'accept'])->name('accept.pengembalian-dana.admin');
             Route::post('tolak', [App\Http\Controllers\Admin\PengembalianDanaController::class, 'reject'])->name('reject.pengembalian-dana.admin');
+        });
+        Route::group(['prefix' => 'pengaturan'], function () {
+            Route::group(['prefix' => 'bpa'], function () {
+                Route::get('/', [App\Http\Controllers\Admin\BPAController::class, 'index'])->name('pengaturan.bpa.index.admin');
+                Route::get('json', [App\Http\Controllers\Admin\BPAController::class, 'json'])->name('pengaturan.bpa.json.admin');
+                Route::post('update', [App\Http\Controllers\Admin\BPAController::class, 'update'])->name('pengaturan.bpa.update.admin');
+            });
         });
     });
 });

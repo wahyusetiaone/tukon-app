@@ -46,7 +46,8 @@
             "app/Helpers/JsonTypeHelper.php",
             "app/Helpers/DeleteFileHelper.php",
             "app/Helpers/BringMeAStar.php",
-            "app/Helpers/MasaLalu.php"
+            "app/Helpers/MasaLalu.php",
+            "app/Helpers/MomPleaseDeleteIt.php"
         ]
     },
     "autoload-dev": {

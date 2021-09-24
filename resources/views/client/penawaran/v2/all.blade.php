@@ -16,13 +16,43 @@
 
 @section('sub_contains')
     <div class="row">
+        <div class="col-12 pb-3">
+            <div class="row">
+                <div class="col-8"></div>
+                <div class="col-2">
+                    <a class="btn btn-block rounded-0 {!! (!request()->exists('only')) ? 'btn-info' : 'btn-outline-info'  !!}"
+                    {!!  (!request()->exists('only')) ? 'style="pointer-events: none;cursor: default;" onclick="return false"' : ''  !!}
+                    href="{{route('penawaran.client')}}">
+                        Aktif
+                    </a>
+                </div>
+                <div class="col-2">
+                    <a class="btn btn-block rounded-0 {!!(request()->exists('only')) ? ((request()->input('only') == 'batal') ? 'btn-info"' : 'btn-outline-info') : 'btn-outline-info' !!}"
+                       {!!(request()->exists('only')) ? ((request()->input('only') == 'batal') ? 'style="pointer-events: none;cursor: default;" onclick="return false"' : '') : '' !!}
+                       href="{{route('penawaran.client', ['only'=>'batal'])}}">
+                        Batal
+                    </a>
+                </div>
+            </div>
+        </div>
         @foreach($data['data'] as $dat)
             <div class="col-12 pb-3">
                 <div class="card shadow-sm bg-gradient-light p-3 mb-0 d-flex rounded-0">
                     <div class="row">
                         <div class="col-9">
                             <h4>{{$dat['nama_proyek']}}</h4>
-                            <p class="p-0 m-0">{{$dat['pin'][0]['status']}}</p>
+                            @switch($dat['pin'][0]['status'])
+                                @case('N01') @case('D01A') @case('D01B')
+                                <p class="p-0 m-0 text-info">Aktif</p>
+                                @break
+
+                                @case('B01') @case('B02')
+                                <p class="p-0 m-0 text-danger">Batal</p>
+                                @break
+
+                                @default
+                                <span>Something went wrong, please try again</span>
+                            @endswitch
                         </div>
                         <div class="col-3">
                             <a href="{{route('show.pengajuan.client',$dat['id'])}}">
@@ -35,7 +65,7 @@
                     <div class="card shadow-none bg-gray-light pl-3 pr-3 pt-1 pb-2 d-flex mb-0 rounded-0">
                         <div class="row">
                             <div class="col-3">
-                                <p class="text-muted mb-0 pb-0">Tukang</p>
+                                <p class="text-muted mb-0 pb-0">Penyedia Jasa</p>
                                 <h5 class="mt-0 pt0">{{$pen['tukang']['user']['name']}}</h5>
                             </div>
                             <div class="col-4 border-left">

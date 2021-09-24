@@ -3,14 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ config('app.name') }}</title>
-    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <!-- Force to view web -->
+    <meta name="viewport" content="width=1366">
+    <!-- Tell the browser to be responsive to screen width -->
+    {{--    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">--}}
     @stack('head_meta')
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/costume_app.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto">
 
     @yield('third_party_stylesheets')
 
     @stack('page_css')
+    <style type="text/css">
+        .item-kw {
+            padding-top: 5px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .item-kw-notify-badge {
+            position: absolute;
+            right: -8px;
+            top: -5px;
+            width: 20px;
+            height: 20px;
+            font-size: 10pt;
+            background: red;
+            text-align: center;
+            border-radius: 50%;
+            color: white;
+        }
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -20,54 +48,43 @@
         <!-- Left navbar links -->
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                <a class="nav-link icon" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
             </li>
         </ul>
 
         <ul class="navbar-nav ml-auto">
             <li class="nav-item user-menu">
+                <div class="item-kw">
+                    <a href="{{route('notification')}}">
+                        <span id="notif_klunting" class="item-kw-notify-badge" style="display: none">0</span>
+                        <img width="25px" height="25px" src="{{asset('images/icons/icon_notif.svg')}}" alt=""/>
+                    </a>
+                </div>
+            </li>
+            <li class="nav-item user-menu">
                 @if(Auth::guard('web')->user()->kode_role == 2)
                     <a href="{{route('show.user.ptofile', \Illuminate\Support\Facades\Auth::id())}}" class="nav-link">
-                        <img src="{{asset('images/profile.png')}}"
-                             class="user-image img-circle elevation-2" alt="User Image">
+                        @php
+                            $user = auth()->user()->load('tukang');
+                        @endphp
+                        @if(isset($client->path_icon))
+                            <img src="{{asset($user->tukang->path_icon)}}"
+                                 class="user-image img-circle" alt="User Image">
+                        @else
+                            <img src="{{asset('images/profile.png')}}"
+                                 class="user-image img-circle" alt="User Image">
+                        @endif
                         <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
                     </a>
-            @else
-                    <a href="#" class="btn btn-default btn-flat float-right"--}}
-                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                @else
+                    <a href="#" class="btn btn-default btn-flat float-right ml-4" --}}
+                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         Sign out
                     </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
             @endif
-            {{--                <a href="{{route('show.user.ptofile', \Illuminate\Support\Facades\Auth::id())}}" class="nav-link dropdown-toggle" data-toggle="dropdown">--}}
-            {{--                    <img src="{{asset('images/profile.png')}}"--}}
-            {{--                         class="user-image img-circle elevation-2" alt="User Image">--}}
-            {{--                    <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>--}}
-            {{--                </a>--}}
-            {{--                <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">--}}
-            {{--                    <!-- User image -->--}}
-            {{--                    <li class="user-header bg-primary">--}}
-            {{--                        <img src="{{asset('images/profile.png')}}"--}}
-            {{--                             class="img-circle elevation-2"--}}
-            {{--                             alt="User Image">--}}
-            {{--                        <p>--}}
-            {{--                            {{ Auth::user()->name }}--}}
-            {{--                            <small>Member since {{ Auth::user()->created_at->format('M. Y') }}</small>--}}
-            {{--                        </p>--}}
-            {{--                    </li>--}}
-            {{--                    <!-- Menu Footer-->--}}
-            {{--                    <li class="user-footer">--}}
-            {{--                        <a href="{{route('show.user.ptofile', \Illuminate\Support\Facades\Auth::id())}}" class="btn btn-default btn-flat">Profile</a>--}}
-            {{--                        <a href="#" class="btn btn-default btn-flat float-right"--}}
-            {{--                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">--}}
-            {{--                            Sign out--}}
-            {{--                        </a>--}}
-            {{--                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">--}}
-            {{--                            @csrf--}}
-            {{--                        </form>--}}
-            {{--                    </li>--}}
         </ul>
     </nav>
 
@@ -90,8 +107,13 @@
         reserved.
     </footer>
 </div>
-
-<script src="{{ asset('js/app.js') }}" ></script>
+<script src="{{ asset('js/app.js') }}"></script>
+@if(\Illuminate\Support\Facades\Auth::check())
+    <script>
+        var unix_id = {!! \Illuminate\Support\Facades\Auth::id() !!};
+    </script>
+    <script src="{{ asset('js/app_root.js') }}"></script>
+@endif
 
 @yield('third_party_scripts')
 

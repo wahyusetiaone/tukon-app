@@ -39,7 +39,7 @@
                             <h6 class="mt-0 pt0">{{$dat['pembayaran']['pin']['pengajuan']['nama_proyek']}}</h6>
                         </div>
                         <div class="col-3 border-left">
-                            <p class="text-muted mb-0 pb-0">Tukang</p>
+                            <p class="text-muted mb-0 pb-0">Penyedia Jasa</p>
                             <h6 class="mt-0 pt0">{{$dat['pembayaran']['pin']['tukang']['user']['name']}}</h6>
                         </div>
                         <div class="col-5 border-left">
@@ -68,7 +68,7 @@
                                         </button>
                                     </a>
                                 </div>
-                                @if($dat['penarikan']['persentase_penarikan'] <= 50)
+                                @if($dat['persentase_progress'] <= 50)
                                     @if($dat['kode_status'] == 'ON01' || $dat['kode_status'] == 'ON02' || $dat['kode_status'] == 'ON04')
                                         <div class="col-12 float-right pb-1">
                                             <button id="btn_cancle_proyek" value="{{$dat['id']}}" class="btn btn-outline-danger rounded-0 w-100">Batal</button>

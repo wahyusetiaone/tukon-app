@@ -80,7 +80,7 @@ class PenawaranObserver
                         $data->pin->kode_tukang,
                         'Penawaran',
                         'Klien memita revisi atas penawaran pada projek.',
-                        $data->pengajuan->nama_proyek,
+                        $data->pin->pengajuan->nama_proyek,
                         $data->id,
                         'tukang',
                         'update',
@@ -89,12 +89,12 @@ class PenawaranObserver
                 //deep_id == penawaran
                 if ($data->kode_status == "T02") {
                     createNotification(
-                        $data->pin->kode_tukang,
+                        $data->pin->pengajuan->kode_client,
                         'Penawaran',
                         'Tukang '.$data->pin->tukang->user->name.' mengirimkan revisi pada penawaran projek.',
-                        $data->pengajuan->nama_proyek,
+                        $data->pin->pengajuan->nama_proyek,
                         $data->id,
-                        'tukang',
+                        'client',
                         'update',
                         PenawaranEventController::eventCreated());
                 }

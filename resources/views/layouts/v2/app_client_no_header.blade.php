@@ -10,7 +10,11 @@
         @endif
 
     </title>
-    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+
+    <!-- Force to view web -->
+    <meta name="viewport" content="width=1366">
+    <!-- Tell the browser to be responsive to screen width -->
+{{--    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>--}}
     @stack('head_meta')
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 

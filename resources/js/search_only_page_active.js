@@ -56,13 +56,14 @@ $(document).ready(function () {
     function funCallKOta(valueSelected, kota, hasnokota) {
         $('#inKota').empty();
         if (hasnokota){
-            console.log('noo')
             $.ajax({
-                url: "https://ibnux.github.io/data-indonesia/kabupaten/" + valueSelected + ".json",
+                url: base_url+ '/get/kota/' + valueSelected,
                 type: "GET",
-                dataType: "json",
+                crossDomain: true,
+                dataType: 'json',
                 success: function (data) {
-                    data.forEach(function (item, index) {
+                    // console.log(data.kota_kabupaten);
+                    data.kota_kabupaten.forEach(function (item, index) {
                         $('#inKota').append('<option value="' + item.nama + '">' + item.nama + '</option>')
                     });
                 },
@@ -72,13 +73,14 @@ $(document).ready(function () {
                 }
             });
         }else {
-            console.log(kota)
             $.ajax({
-                url: "https://ibnux.github.io/data-indonesia/kabupaten/" + valueSelected + ".json",
+                url: base_url+ '/get/kota/' + valueSelected,
                 type: "GET",
-                dataType: "json",
+                crossDomain: true,
+                dataType: 'json',
                 success: function (data) {
-                    data.forEach(function (item, index) {
+                    // console.log(data.kota_kabupaten);
+                    data.kota_kabupaten.forEach(function (item, index) {
                         var active = '';
                         if(kota === item.nama){
                             active = 'selected';

@@ -9,8 +9,14 @@
         <div class="card shadow-none" style="width: 28rem;">
             <div class="card-header border-0">
                 <div class="pt-5">
-                    <h3 style="color: #4E4E4E !important;">Daftar Baru Sebagai Klien</h3>
-                    <p style="color: #4E4E4E !important;">Mohon melengkapi data anda</p>
+                    @if($registerAs == 'client')
+                        <h3 style="color: #4E4E4E !important;">Daftar Baru Sebagai Klient</h3>
+                        <p style="color: #4E4E4E !important;">Mohon melengkapi data anda</p>
+                    @endif
+                    @if($registerAs == 'tukang')
+                        <h3 style="color: #4E4E4E !important;">Daftar Baru Sebagai Penyedia Jasa</h3>
+                        <p style="color: #4E4E4E !important;">Mohon melengkapi data anda</p>
+                    @endif
                 </div>
             </div>
             <div class="card-body register-card-body">
@@ -50,7 +56,7 @@
                         </div>
 
                         <div class="input-group mb-3">
-                            <input type="number" name="role"  hidden value="3">
+                            <input type="number" name="role" hidden value="3">
                             <input type="text"
                                    class="form-control pt-4 pb-4 pl-3 shadow-sm @error('role') is-invalid @enderror"
                                    value="{{ucfirst($registerAs)}}" readonly

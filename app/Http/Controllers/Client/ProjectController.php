@@ -23,18 +23,21 @@ class ProjectController extends Controller
         if ($request->input('only') == 'selesai') {
             $data = Project::with('penarikan','pembayaran', 'pembayaran.pin', 'pembayaran.pin.pengajuan', 'pembayaran.pin.penawaran', 'pembayaran.pin.tukang', 'pembayaran.pin.tukang.user')->whereHas('pembayaran.pin.pengajuan', function ($query) {
                 $query->where('kode_client', Auth::id());
-            })->where('kode_status', 'ON05')->paginate(10)->toArray();
+            })->where('kode_status', 'ON05')
+                ->orderByDesc('created_at')->paginate(10)->toArray();
         } elseif ($request->input('only') == 'batal') {
             $data = Project::with('penarikan','pembayaran', 'pembayaran.pin', 'pembayaran.pin.pengajuan', 'pembayaran.pin.penawaran', 'pembayaran.pin.tukang', 'pembayaran.pin.tukang.user')->whereHas('pembayaran.pin.pengajuan', function ($query) {
                 $query->where('kode_client', Auth::id());
-            })->where('kode_status', 'ON03')->paginate(10)->toArray();
+            })->where('kode_status', 'ON03')
+                ->orderByDesc('created_at')->paginate(10)->toArray();
         } else {
             $data = Project::with('penarikan','pembayaran', 'pembayaran.pin', 'pembayaran.pin.pengajuan', 'pembayaran.pin.penawaran', 'pembayaran.pin.tukang', 'pembayaran.pin.tukang.user')->whereHas('pembayaran.pin.pengajuan', function ($query) {
                 $query->where('kode_client', Auth::id());
             })
                 ->where('kode_status', 'ON01')
                 ->orWhere('kode_status', 'ON02')
-                ->orWhere('kode_status', 'ON04')->paginate(10)->toArray();
+                ->orWhere('kode_status', 'ON04')
+                ->orderByDesc('created_at')->paginate(10)->toArray();
         }
         return view('client.project.v2.all')->with(compact('data'));
     }
@@ -178,8 +181,8 @@ class ProjectController extends Controller
                 Alert::error('Error', 'Maaf proyek tidak lagi dalam status "Pengerjaan" maka pembatalan tidak dapat dilakukan !!!');
                 return redirect()->back();
             }
-            if ($validasi->penarikan->persentase_penarikan >= 50) {
-                Alert::error('Error', 'Penarikan Dana disisi Tukang sudah mencapai 50% atau lebih, proyek tidak dapat dibatalkan !!!');
+            if ($validasi->persentase_progress >= 50) {
+                Alert::error('Error', 'Progress proyek sudah mencapai 50% atau lebih, proyek tidak dapat dibatalkan !!!');
                 return redirect()->back();
             }
             $validasi->update(['kode_status' => 'ON03']);

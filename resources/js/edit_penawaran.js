@@ -10,6 +10,9 @@ var tbl_komponen = document.getElementById("tbl_komponen");
 var presentase = document.getElementById("inputPresentase");
 var h_total_c = document.getElementById("inputTotalHargaKomponen");
 var h_keuntungan = document.getElementById("inputKeuntungan");
+var h_keuntunganPersen = document.getElementById("inputKeuntunganPersen");
+var h_bpa = document.getElementById("bpa");
+var h_old_bpa = document.getElementById("old_bpa");
 var h_total = document.getElementById("inputHargaTotal");
 var addList = [];
 var removeList = [];
@@ -64,7 +67,8 @@ listofcomponent.forEach(function myFunction(item) {
     sum += parseInt(item[1]);
 });
 h_total_c.value = sum;
-keuntungan = (sum * parseInt(presentase.value)) / 100;
+h_keuntunganPersen.value = (parseInt(presentase.value) - parseInt(h_old_bpa.value))+parseInt(h_bpa.value);
+keuntungan = (sum * parseInt(h_keuntunganPersen.value)) / 100;
 h_keuntungan.value = keuntungan;
 h_total.value = sum + keuntungan;
 
@@ -196,7 +200,8 @@ $(document).on('click', '[id^=btn_del_com]', function () {
 $(document).ready(function () {
     $('#inputPresentase').on('change', function () {
         sum = parseInt(h_total_c.value);
-        keuntungan = (sum * parseInt(presentase.value)) / 100;
+        h_keuntunganPersen.value = (parseInt(presentase.value) - parseInt(h_old_bpa.value))+parseInt(h_bpa.value);
+        keuntungan = (sum * parseInt(h_keuntunganPersen.value)) / 100;
         h_keuntungan.value = keuntungan;
         h_total.value = sum + keuntungan;
     }).change();
@@ -277,7 +282,8 @@ $(document).on('click', '[id^=btnsubmitpenawaran]', function () {
                 url: base_url + '/penawaran/update/'+data.val(),
                 type: "post",
                 data: {
-                    'keuntungan': parseInt(presentase.value),
+                    'kode_spd' : parseInt($("input[name='kode_spd']:checked").val()),
+                    'keuntungan': parseInt(h_keuntunganPersen.value),
                     'harga_total': parseInt(h_total.value),
                     'dump_add': dump_add,
                     'dump_remove': dump_remove

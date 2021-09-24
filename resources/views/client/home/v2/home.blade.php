@@ -213,10 +213,10 @@
                 <div style="width: 404px; height: 400px;" class="d-block w-100 p-2">
                     <div class="row p-2">
                         <div class="col-12">
-                            <h2 class="font-weight-bold">Tukang Terbaik Pilihan Pelanggan Kami </h2>
+                            <h2 class="font-weight-bold">Penyedia Jasa Terbaik Pilihan Pelanggan Kami </h2>
                         </div>
                         <div class="col-12">
-                            <p class="pt-1">Tukang yang paling banyak dan memiliki rating tertinggi.</p>
+                            <p class="pt-1">Penyedia jasa yang paling banyak dan memiliki rating tertinggi.</p>
                         </div>
                         <div class="col-12">
                             <a href="{{route('all.top.tukang.guest')}}">
@@ -233,15 +233,18 @@
             <li>
                 <div class="item__third">
                     <div class="container-ban">
-                        <img src="{{asset('images/def_tukang.png')}}" class="d-block w-100 p-2" alt="">
+                        @if(isset($ptr->path_icon))
+                            <img src="{{asset($ptr->path_icon)}}" height="459px;" class="d-block w-100 p-2" alt="">
+                        @else
+                            <img src="{{asset('images/def_tukang.png')}}" class="d-block w-100 p-2" alt="">
+                        @endif
                         <div class="bottom-left">
                             <div class="row">
                                 <div class="col-8">
                                     <div class="card rounded-0 border-0 bg-gray-light pt-2 pb-2 pl-4 pr-4 text-left"
                                          style="width: 180px; opacity: 0.8">
                                         <p class="pb-0 mb-0"><strong>{{$ptr->name}}</strong><br><span
-                                                class="text-muted">{{$ptr->kota}}</span><br><span
-                                                class="text-muted">{{$ptr->nomor_telepon}}</span></p>
+                                                class="text-muted">{{$ptr->kota}}</span></p>
                                         {!! bringMeAStar(($ptr->rate*100)/5) !!}
                                     </div>
                                 </div>
@@ -266,10 +269,24 @@
             <div class="row pl-5 pr-5">
                 <ul id="lightSliderV2" class="pt-4">
                     @foreach($produk as $ptr)
+                        @if(isset($ptr->path))
+                            @if($ptr->multipath)
+                                @php
+                                    $path = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAllBMVEUAmf8Al/8Alf8Ak/8Am/8Amv+Dyv8Anf/x+v////9Drv8An//t9/8Akf+23v/2/f/A4/+y2f8hpf8sqf8Aof/U7v90wP/p9P8Ajf+V0//o+P9OrP/e8v+k1f+Nyv9tvP9Zuv/M5/9Ktf9ctP/X8f/W6f9esP9Fqf96xP85sP+t3/+R0f8mqv9uuP9Yu/93v/+Kxv+34/9+itgGAAADxklEQVR4nO3Ya3uaShSGYdaMAorKWSsHD7FR0yRt8///3AYEDWjc/dCQva/rub+Y107GWTCzMDUMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/AfJ35qnM9H92BelgjC09PnTtRUGA2V8EO+QYmgYqPNYKSZ2LjV3Ym9UlC9s257MgtPKVDCbFNFUciveI5vHYqgdm9M6rxcTe7IN1c3Ym+Jzlw/OVL149qtUyxz5L4Z6yOLAuI736LfHYyDT6DjxBmWOtu5DpIPl6Cg3Yo+CsNqfYuRJce1lPJqXt0tFW+863iVPw+r2qMD+Xfyg/azcFaI29k6u4leQnVu+5N/1KW7cUK7i/Rnq1+mbX/wYufPTftRvM+sqfgUJ7aFhHJLmCk8fZ7oba9bg/EvO8HomtSwqVMusOX97N5VO/JwS/oX6XexS2SeH+uOVuVCdWI+Uld+sNvJubDmdFLtUP+bN+CB7lU78rCI+JCJ6PDkqQ47njiIPk0C1YzN87J6WK07sOd2JlMqz4k1rMW/qcLbPqhM/sZZbBod0v15mm7KjLL3zIQnsULdjs0ax3PIsSRh731ozBWm6N2OvfOaF9lMzfDhb6nbsu8LDW5yMsgepKpydz9jAfdLteHl2jxczVd7BQWsi9RzH7mhZPVjDdxfE/6Hb8Qvu4WFXXHqrXaHljnU7Xo6PFBu1LLBzoIL0kM5/TNa6qvA8+FThu9h3hafjI/73ogM+X7alU1TYju/qEcsedbZoPZHo0C0e6uHk5Ty8rLAV+6+wWlw02Ygyt03rkKei07Tj+9FOPPI/WKg246iarc6W96w68a+v/o/oRa7kNTs3z5+LQSdexpZncGznt1cqO/sganFs/jWK5934Ccv/A9OsqDBN9s0DcLbVnXgeWnVRdeqo12RfVug34yW19934aUXcVT2yrO2yXkkw+XkVa3UXrTrqjYlkHkfF89MO6r9OVtexV1IvUv8aReX3lZFTvaFXiXEVa1HdRcuO+m6m+g8s+ZbMypckr7JodyVXsU/mKrAMGUQruzopkmc7S4xo5VatoRNP8qaLirNYn9923nbRUMQZb4tGU5af5MW9s8ZZ1Y87sU87L/Z8f5bFx1MnsfzMK2O99E6sXHaZRJdv3sM83s58P068+uG+KbOXeMObsT9ipb9M8/gaNR88SNem+WG8N1OwN01znTYlSLQ7mse0uQad2Kfy2/L7/z6p8ofx7kzqaqY7EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4H/lHxB4QrAbb7G8AAAAAElFTkSuQmCC';
+                                    $myArray = explode(',', $ptr->path);
+                                    $path = $myArray[0];
+                                @endphp
+                            @else
+                                @php
+                                    $path = $ptr->path;
+                                @endphp
+                            @endif
+                        @else
+                        @endif
                         <li>
                             <div class="item__third">
                                 <div class="card border-0 rounded-0 shadow-none">
-                                    <img src="{{asset('images/def_produk.png')}}" class="d-block w-100" alt="">
+                                    <img src="{{asset($path)}}" height="250px" class="d-block w-100" alt="">
                                     <div class="card-body border-0 rounded-0">
                                         <div class="row">
                                             <div class="col-8">

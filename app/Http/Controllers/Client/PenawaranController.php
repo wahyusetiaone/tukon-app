@@ -17,9 +17,27 @@ class PenawaranController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = Pengajuan::with('pin', 'pin.penawaran', 'pin.tukang','pin.tukang.user')->where('kode_client',Auth::id())->paginate(5)->toArray();
+        if($request->input('only') == 'batal'){
+            $data = Pengajuan::with('pin', 'pin.penawaran', 'pin.tukang','pin.tukang.user')->where('kode_client',Auth::id())
+                ->whereHas('pin', function ($q){
+                    $q->where('status', 'B01')
+                        ->orWhere('status', 'B02')
+                        ->orWhere('status', 'B04');
+                })
+                ->orderByDesc('created_at')
+                ->paginate(5)->toArray();
+        }else{
+            $data = Pengajuan::with('pin', 'pin.penawaran', 'pin.tukang','pin.tukang.user')->where('kode_client',Auth::id())
+                ->whereHas('pin', function ($q){
+                    $q->where('status', 'N01')
+                        ->orWhere('status', 'D01A')
+                        ->orWhere('status', 'DO1B');
+                })
+                ->orderByDesc('created_at')
+                ->paginate(5)->toArray();
+        }
         return view('client.penawaran.v2.all')->with(compact('data'));
     }
 

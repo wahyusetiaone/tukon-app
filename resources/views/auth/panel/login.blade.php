@@ -24,7 +24,7 @@
                 <form method="post" action="{{ url('/login') }}">
                     @csrf
                     <div class="form-group pt-5">
-                        <input type="email"
+                        <input type="email" required
                                class="form-control pt-4 pb-4 pl-3 shadow-sm @error('email') is-invalid @enderror"
                                id="email"
                                name="email" placeholder="email...">
@@ -35,7 +35,7 @@
                         @enderror
                     </div>
                     <div class="input-group mb-3 pt-3">
-                        <input type="password" name="password"
+                        <input type="password" name="password" id="password" required
                                class="form-control pt-4 pb-4 pl-3 shadow-sm @error('password') is-invalid @enderror"
                                placeholder="password...">
                         @error('password')
@@ -46,7 +46,7 @@
                         <div class="input-group-append ">
                         <span class="input-group-text shadow-sm"
                               style="color: #B0B0B0 !important; background-color:transparent !important;">
-                            <i class="fas fa-eye-slash"></i>
+                            <i class="fas fa-eye-slash" id="togglePassword"></i>
                         </span>
                         </div>
                     </div>
@@ -75,4 +75,21 @@
 @endsection
 
 @section('third_party_scripts')
+    <script type="text/javascript">
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#password');
+
+        togglePassword.addEventListener('click', function (e) {
+            // toggle the type attribute
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            $(this).toggleClass('fa-eye').toggleClass('fa-eye-slash');
+            // toggle the eye slash icon
+            // if (type === 'text'){
+            //     this.toggleClass('fa-eye');
+            // }else {
+            //     this.toggleClass('fa-eye-slash');
+            // }
+        });
+    </script>
 @endsection

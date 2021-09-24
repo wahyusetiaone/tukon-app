@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @push('head_meta')
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <meta name="csrf-token" content="{{ csrf_token() }}"/>
 @endpush
 
 @section('content')
@@ -11,18 +11,19 @@
             <div class="col-12">
                 <div class="callout callout-info">
                     <h5><i class="fas fa-info"></i> Note:</h5>
-                    Semua perubahan akan tersimpan jika tombol <b>Upload Penawaran</b> ditekan, pastikan untuk tidak menutup halaman ini sebelum melakukan upload penawaran agar semua data tidak hilang !
+                    Semua perubahan akan tersimpan jika tombol <b>Kirim Penawaran</b> ditekan, pastikan untuk tidak
+                    menutup halaman ini sebelum melakukan upload penawaran agar semua data tidak hilang !
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="card card-primary">
+                <div class="card card-primary-dx">
                     <div class="card-header">
-                        <h3 class="card-title">Rincihan Projek</h3>
+                        <h3 class="card-title text-white">Rincihan Projek</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
                                     title="Collapse">
-                                <i class="fas fa-minus"></i></button>
+                                <i class="fas fa-minus text-white"></i></button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -166,14 +167,14 @@
             </div>
             <div class="col-md-6">
 
-                <div class="card card-info">
+                <div class="card card-info-dx">
                     <div class="card-header">
-                        <h3 class="card-title">Komponen</h3>
+                        <h3 class="card-title text-white">Komponen</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
                                     title="Collapse">
-                                <i class="fas fa-minus"></i></button>
+                                <i class="fas fa-minus text-white"></i></button>
                         </div>
                     </div>
                     <div class="card-body p-0">
@@ -181,7 +182,7 @@
                             <thead>
                             <tr>
                                 <th>Nama Komponen</th>
-                                <th>Merk/   Type</th>
+                                <th>Merk/ Type</th>
                                 <th>Spesifikasi</th>
                                 <th>Satuan</th>
                                 <th>Total Unit</th>
@@ -203,23 +204,27 @@
                     <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
-                <div class="card card-secondary">
+                <div class="card card-secondary-dx">
                     <div class="card-header">
-                        <h3 class="card-title">Presentase laba</h3>
+                        <h3 class="card-title text-white">Presentase laba</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
                                     title="Collapse">
-                                <i class="fas fa-minus"></i></button>
+                                <i class="fas fa-minus text-white"></i></button>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="form-group">
                             <label for="inputEstimatedBudget">Presentase</label>
-                            <p> Berapa persen margin keuntungan yang anda kehendaki, presentase ini didasar i oleh harga total komponen.</p>
+                            <p>Presentase Laba akan ditambah dengan BPA (Biaya Penggunaan Aplikasi), untuk saat ini BPA
+                                diterapkan sebesar <b>{{$bpa->bpa}}% dari Total Komponen.</b></p>
+                            <p> Berapa persen margin keuntungan yang anda kehendaki, presentase ini didasari oleh harga
+                                total komponen.</p>
                         </div>
                         <div class="input-group mb-3">
-                            <input type="number" id="inputPresentase" class="form-control" value="10" max="100" step="1">
+                            <input type="number" id="inputPresentase" class="form-control" value="10" max="100"
+                                   step="1">
                             <div class="input-group-append">
                                 <span class="input-group-text">%</span>
                             </div>
@@ -231,6 +236,13 @@
                                 <span class="input-group-text">Rp.</span>
                             </div>
                             <input type="number" id="inputTotalHargaKomponen" class="form-control" value="0" readonly>
+                        </div>
+
+                        <label for="inputEstimatedBudget">Keuntungan (%)</label>
+                        <div class="input-group">
+                            <input type="number" id="bpa" value="{{$bpa->bpa}}" hidden class="form-control" value="0"
+                                   readonly>
+                            <input type="number" id="inputKeuntunganPersen" class="form-control" value="0" readonly>
                         </div>
 
                         <label for="inputEstimatedBudget">Keuntungan</label>
@@ -249,12 +261,33 @@
                             <input type="number" id="inputHargaTotal" class="form-control" value="0" readonly>
                         </div>
 
+                        <label for="inputEstimatedBudget">Metode Penarikan Dana</label>
+                        <p class="text-sm">Metode Penarikan adalah metode pencairan dana proyek.</p>
+                        @foreach($spd as $item)
+                            @if($item->id == 1)
+                            <div class="form-check">
+                                <input checked class="form-check-input" type="radio" name="kode_spd" id="{{$item->id}}" value="{{$item->id}}">
+                                <label class="form-check-label" for="{{$item->id}}">
+                                    {{$item->nama}}
+                                </label>
+                            </div>
+                            @else
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="kode_spd" id="{{$item->id}}" value="{{$item->id}}">
+                                    <label class="form-check-label" for="{{$item->id}}">
+                                        {{$item->nama}}
+                                    </label>
+                                </div>
+                            @endif
+                        @endforeach
                     </div>
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-12">
-                                <a href="{{ url()->previous() }}" class="btn btn-secondary">Batal</a>
-                                <button type="button" id="btnsubmitpenawaran" value="{{$data->id}}" class="btn btn-success float-right">Kirim Penawaran</button>
+                                <a href="{{ url()->previous() }}" class="btn btn-danger pl-5 pr-5">Batal</a>
+                                <button type="button" id="btnsubmitpenawaran" value="{{$data->id}}"
+                                        class="btn btn-primary float-right">Kirim Penawaran
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -267,5 +300,5 @@
     <!-- /.content -->
 @endsection
 @push('page_scripts')
-            <script src="{{ asset('js/add_penawaran_by_pengajuan.js') }}" defer></script>
+    <script src="{{ asset('js/add_penawaran_by_pengajuan.js') }}" defer></script>
 @endpush

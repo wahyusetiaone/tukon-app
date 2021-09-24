@@ -8,6 +8,7 @@ use App\Models\BPA;
 use App\Models\Komponen;
 use App\Models\Penawaran;
 use App\Models\Pin;
+use App\Models\Sistem_Penarikan_Dana;
 use App\Models\Tukang;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -26,9 +27,9 @@ class PenawaranController extends Controller
         return Datatables::of($data)->addIndexColumn()
             ->addColumn('action', function($data){
                 if ($data->pengajuan->deleted_at == null) {
-                    $button = '<a href="' . url('penawaran/show') . '/' . $data->kode_penawaran . '"><button type="button" name="show" id="' . $data->id . '" class="edit btn btn-primary btn-sm">Show</button></a>';
+                    $button = '<a href="' . url('penawaran/show') . '/' . $data->kode_penawaran . '"><button type="button" name="show" id="' . $data->id . '" class="edit btn btn-primary btn-sm pl-4 pr-4">Lihat</button></a>';
                 }else{
-                    $button = '<a href="' . url('penawaran/show') . '/' . $data->kode_penawaran . '"><button type="button" name="show" id="' . $data->id . '" class="edit btn btn-danger btn-sm" disabled>Deleted</button></a>';
+                    $button = '<a href="' . url('penawaran/show') . '/' . $data->kode_penawaran . '"><button type="button" name="show" id="' . $data->id . '" class="edit btn btn-danger btn-sm pl-4 pr-4" disabled>Hapus</button></a>';
                 }
                 return $button;
             })
@@ -54,11 +55,14 @@ class PenawaranController extends Controller
     public function create(int $id)
     {
         $user = Auth::user()->kode_user;
+        $bpa = BPA::first();
+        $spd = Sistem_Penarikan_Dana::all();
+
         $tukang = Tukang::with('user')->where('id',$user)->firstOrFail();
         try {
             $data = Pin::with('pengajuan','pengajuan.client','pengajuan.client.user')->where(['id' => $id])->firstOrFail();
 
-            return view('tukang.penawaran.add')->with(compact('data','tukang'));
+            return view('tukang.penawaran.add')->with(compact('data','tukang', 'bpa', 'spd'));
         }catch (ModelNotFoundException $ee){
             return View('error.404');
         }
@@ -72,6 +76,7 @@ class PenawaranController extends Controller
      */
     public function store(Request $request)
     {
+
         $request['kode_status'] = 'T02';
         try {
             Pin::where(['id' => $request->input('kode_pin')])->firstOrFail();
@@ -126,14 +131,18 @@ class PenawaranController extends Controller
     public function edit($id)
     {
         $user = Auth::user()->kode_user;
+        $bpa = BPA::first();
+        $spd = Sistem_Penarikan_Dana::all();
         try {
             $tukang = Tukang::with('user')->where('id',$user)->firstOrFail();
             $data = Pin::with('revisi','pengajuan','pengajuan.client','pengajuan.client.user','penawaran','penawaran.komponen')->where(['kode_penawaran' => $id,'kode_tukang' => $user])->firstOrFail();
+            $old_bpa = BPA::where('id', $data->penawaran->kode_bpa)->first();
 
-            return view('tukang.penawaran.edit')->with(compact('data', 'tukang'));
+            return view('tukang.penawaran.edit')->with(compact('spd','data', 'tukang','bpa', 'old_bpa'));
         }catch (ModelNotFoundException $ee){
             return view('errors.404');
-        }    }
+        }
+    }
 
     /**
      * Update the specified resource in storage.
@@ -171,7 +180,7 @@ class PenawaranController extends Controller
             }
             return (new PenawaranResourceController(['status' => $data]))->response()->setStatusCode(200);
         } catch (ModelNotFoundException $e) {
-            return (new PenawaranResourceController(['error' => $e->getMessage()]))->response()->setStatusCode(401);
+            return (new PenawaranResourceController(['error' => $e]))->response()->setStatusCode(401);
         }
     }
 

@@ -65,7 +65,7 @@
                         <tr>
                             <th>Nama Proyek</th>
                             <th>Alamat Proyek</th>
-                            <th>Tukang</th>
+                            <th>Penyedia Jasa</th>
                             <th>Pembayaran</th>
                         </tr>
                         </thead>

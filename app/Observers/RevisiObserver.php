@@ -31,7 +31,8 @@ class RevisiObserver
             //ubah kode_sattus pin
             Pin::where(['kode_penawaran' => $penawaran->id])->update(['kode_revisi'=>$id]);
             //ubah status penawaran
-            Penawaran::where(['id' => $ko])->update(['kode_status'=>'T02A']);
+            $pena = Penawaran::where('id',$ko)->first();
+            $pena->update(['kode_status'=>'T02A']);
             //create history
             $h_penawaran = new History_Penawaran();
             $h_penawaran->kode_penawaran = $penawaran->id;

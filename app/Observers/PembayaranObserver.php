@@ -46,7 +46,7 @@ class PembayaranObserver
                     $data->pin->pengajuan->kode_client,
                     'Pembayaran',
                     'Tagihan untuk proyek anda.',
-                    $data->nama_proyek,
+                    $data->pin->pengajuan->nama_proyek,
                     $data->id,
                     'client',
                     'add',

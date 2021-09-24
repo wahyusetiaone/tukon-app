@@ -226,7 +226,7 @@ class ProjectController extends Controller
             if ($validasi->kode_status != 'ON01') {
                 return (new ProjectResourceController(['error' => 'Maaf proyek tidak lagi dalam status "Pengerjaan" maka pembatalan tidak dapat dilakukan !!!']))->response()->setStatusCode(401);
             }
-            if ($validasi->penarikan->persentase_penarikan >= 50) {
+            if ($validasi->persentase_progress >= 50) {
                 return (new ProjectResourceController(['error' => 'Penarikan Dana disisi Tukang sudah mencapai 50% atau lebih, proyek tidak dapat dibatalkan !!!']))->response()->setStatusCode(401);
             }
             $validasi->update(['kode_status' => 'ON03']);

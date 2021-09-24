@@ -23,7 +23,9 @@ class PengembalianDanaController extends Controller
     {
         $data = PengembalianDana::with('project.pembayaran.pin.pengajuan')->whereHas('project.pembayaran.pin.pengajuan', function ($query) {
             $query->where('kode_client', Auth::id());
-        })->paginate(10)->toArray();
+        })
+            ->orderByDesc('created_at')
+            ->paginate(10)->toArray();
 
         return view('client.pengembalian_dana.v2.all')->with(compact('data'));
     }

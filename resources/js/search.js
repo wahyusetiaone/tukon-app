@@ -1,4 +1,4 @@
-import { base_url } from './app.js'
+import { base_url } from './base_url.js'
 
 $(document).ready(function () {
     $("#search_input").keypress(function(event) {

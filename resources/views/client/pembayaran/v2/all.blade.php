@@ -39,7 +39,7 @@
                             <h5 class="mt-0 pt0">{{$dat['pin']['pengajuan']['nama_proyek']}}</h5>
                         </div>
                         <div class="col-3 border-left">
-                            <p class="text-muted mb-0 pb-0">Tukang</p>
+                            <p class="text-muted mb-0 pb-0">Penyedia Jasa</p>
                             <h5 class="mt-0 pt0">{{$dat['pin']['tukang']['user']['name']}}</h5>
                         </div>
                         <div class="col-3 border-left">

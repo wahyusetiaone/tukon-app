@@ -35,42 +35,68 @@
             <div class="float-right pr-5">
                 <div class="row align-items-center">
                     <div class="col-4">
-                        <a href="{{route('wishlist')}}">
-                            <img width="31px" height="27px" src="{{asset('images/icons/wishlist.svg')}}">
-                        </a>
+                        @if(auth()->check())
+                            @if(auth()->user()->kode_role == 3)
+                                <a href="{{route('wishlist')}}">
+                                    <img width="31px" height="27px" src="{{asset('images/icons/wishlist.svg')}}">
+                                </a>
+                            @endif
+                        @endif
                     </div>
                     <div class="col-4">
-                        <div class="item-kw">
-                            <a href="{{route('notification.client')}}" >
-                                <span id="notif_klunting" class="item-kw-notify-badge" style="display: none">0</span>
-                                <img src="{{asset('images/icons/icon_notif.svg')}}"  alt="" />
-                            </a>
-                        </div>
-{{--                        <span class="badge badge-light">9</span>--}}
-{{--                        <img width="32px" height="30px" src="{{asset('images/icons/icon_notif.svg')}}">--}}
+                        @if(auth()->check())
+                            @if(auth()->user()->kode_role == 3)
+                                <div class="item-kw">
+                                    <a href="{{route('notification.client')}}">
+                                        <span id="notif_klunting" class="item-kw-notify-badge" style="display: none">0</span>
+                                        <img src="{{asset('images/icons/icon_notif.svg')}}" alt=""/>
+                                    </a>
+                                </div>
+                            @endif
+                        @endif
                     </div>
                     <div class="col-4">
                         <div class="dropdown">
                             @if (Route::has('login'))
                                 @auth
-                                    @php
-                                        $user = auth()->user();
-                                        $user->load('client');
-                                    @endphp
-                                    <img class="dropbtn img-circle" width="49px" height="49px"
-                                         src="{{asset($user->client->path_foto)}}">
-                                    <div class="dropdown-content">
-                                        <a href="{{route('show.user.ptofile.client')}}">Profile</a>
-                                        <a href="{{route('penawaran.client')}}">Pesanan</a>
-                                        <a href="#"
-                                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                            Sign out
-                                        </a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                              class="d-none">
-                                            @csrf
-                                        </form>
-                                    </div>
+                                    @if(auth()->user()->kode_role == 3)
+                                        @php
+                                            $user = auth()->user();
+                                            $user->load('client');
+                                        @endphp
+                                        <img class="dropbtn img-circle" width="49px" height="49px"
+                                             src="{{asset($user->client->path_foto)}}">
+                                        <div class="dropdown-content">
+                                            <a href="{{route('show.user.ptofile.client')}}">Profile</a>
+                                            <a href="{{route('penawaran.client')}}">Pesanan</a>
+                                            <a href="#"
+                                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                Sign out
+                                            </a>
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                  class="d-none">
+                                                @csrf
+                                            </form>
+                                        </div>
+                                    @else
+                                        @php
+                                            $user = auth()->user();
+                                            $user->load('tukang');
+                                        @endphp
+                                        <img class="dropbtn img-circle" width="49px" height="49px"
+                                             src="{{asset($user->tukang->path_icon)}}">
+                                        <div class="dropdown-content">
+                                            <a href="{{route('home')}}">Home</a>
+                                            <a href="#"
+                                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                Sign out
+                                            </a>
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                  class="d-none">
+                                                @csrf
+                                            </form>
+                                        </div>
+                                    @endif
                                 @else
                                     <img class="dropbtn" width="49px" height="49px"
                                          src="{{asset('images/icons/profile.svg')}}">

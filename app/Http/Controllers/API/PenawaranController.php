@@ -28,21 +28,23 @@ class PenawaranController extends Controller
     {
         $id = Auth::id();
         try {
-            if($request->input('only') == 'batal'){
-                $data = Penawaran::with('bpa', 'komponen', 'pin','pin.revisi','pin.pembayaran', 'pin.pengajuan', 'pin.pengajuan.client', 'pin.pengajuan.client.user')->whereHas('pin', function ($query) use ($id) {
-                    $query->where([['kode_tukang', $id],['status', 'B01']])
-                        ->orWhere([['kode_tukang', $id],['status', 'B02']])
-                        ->orWhere([['kode_tukang', $id],['status', 'B04']]);
+            if ($request->input('only') == 'batal') {
+                $data = Penawaran::with('bpa', 'komponen', 'pin', 'pin.revisi', 'pin.pembayaran', 'pin.pengajuan', 'pin.pengajuan.client', 'pin.pengajuan.client.user')->whereHas('pin', function ($query) use ($id) {
+                    $query->where([['kode_tukang', $id], ['status', 'B01']])
+                        ->orWhere([['kode_tukang', $id], ['status', 'B02']])
+                        ->orWhere([['kode_tukang', $id], ['status', 'B04']]);
                 })->paginate(10);
-            }elseif($request->input('only') == 'menunggu-pembayaran'){
-                $data = Penawaran::with('bpa', 'komponen', 'pin','pin.revisi','pin.pembayaran', 'pin.pengajuan', 'pin.pengajuan.client', 'pin.pengajuan.client.user')->whereHas('pin', function ($query) use ($id) {
-                    $query->where([['kode_tukang', $id],['status', 'D02']]);
+            } elseif ($request->input('only') == 'menunggu-pembayaran') {
+                $data = Penawaran::with('bpa', 'komponen', 'pin', 'pin.revisi', 'pin.pembayaran', 'pin.pengajuan', 'pin.pengajuan.client', 'pin.pengajuan.client.user')->whereHas('pin', function ($query) use ($id) {
+                    $query->where([['kode_tukang', $id], ['status', 'D02']]);
+                })->whereHas('pin.pembayaran', function ($q){
+                    $q->where('kode_status', 'P01');
                 })->paginate(10);
-            }else{
-                $data = Penawaran::with('bpa', 'komponen', 'pin','pin.revisi','pin.pembayaran', 'pin.pengajuan', 'pin.pengajuan.client', 'pin.pengajuan.client.user')->whereHas('pin', function ($query) use ($id) {
-                    $query->where([['kode_tukang', $id],['status', 'N01']]);
-                    $query->orWhere([['kode_tukang', $id],['status', 'D01A']]);
-                    $query->orWhere([['kode_tukang', $id],['status', 'D01B']]);
+            } else {
+                $data = Penawaran::with('bpa', 'komponen', 'pin', 'pin.revisi', 'pin.pembayaran', 'pin.pengajuan', 'pin.pengajuan.client', 'pin.pengajuan.client.user')->whereHas('pin', function ($query) use ($id) {
+                    $query->where([['kode_tukang', $id], ['status', 'N01']]);
+                    $query->orWhere([['kode_tukang', $id], ['status', 'D01A']]);
+                    $query->orWhere([['kode_tukang', $id], ['status', 'D01B']]);
                 })->paginate(10);
             }
             return (new PenawaranResourceController($data))->response()->setStatusCode(200);
@@ -60,6 +62,7 @@ class PenawaranController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'kode_pin' => 'required|integer',
+            'kode_spd' => 'required|integer',
             'keuntungan' => 'required',
             'kode_bpa' => 'required|integer',
             'nama_komponen' => 'required|array',
@@ -95,6 +98,7 @@ class PenawaranController extends Controller
             $total_unit_komponen = $request->input('total_unit_komponen');
             $bpa = BPA::orderBy('created_at', 'DESC')->firstOrFail();
             $tt_harga = kalkulasiBiayaPenawaranBaru($request->input('keuntungan'), $bpa->bpa, $harga, $total_unit_komponen);
+            $request['keuntungan'] = ($request['keuntungan'] + $bpa->bpa);
             $request['harga_total'] = $tt_harga;
             $data = Penawaran::create($request->except(['nama_komponen', 'harga_komponen', 'merk_type_komponen', 'spesifikasi_komponen', 'satuan_komponen', 'total_unit_komponen']));
 
@@ -103,7 +107,7 @@ class PenawaranController extends Controller
                 $komponen = new Komponen();
                 $komponen->kode_penawaran = $data->id;
                 $komponen->nama_komponen = $nama[$i];
-                $komponen->harga = $harga[$i];
+                $komponen->harga = $harga[$i] * $total_unit_komponen[$i];
                 $komponen->merk_type = $merk_type_komponen[$i];
                 $komponen->spesifikasi_teknis = $spesifikasi_komponen[$i];
                 $komponen->satuan = $satuan_komponen[$i];
@@ -141,13 +145,13 @@ class PenawaranController extends Controller
     public function show($id)
     {
 
-        if (!Penawaran::whereId($id)->exists()){
+        if (!Penawaran::whereId($id)->exists()) {
             return (new PenawaranResourceController(['error' => 'Item penawaran tidak ditemukan.']))->response()->setStatusCode(401);
         }
 
         try {
-            $data = Penawaran::with('bpa', 'komponen', 'pin','pin.revisi','pin.pembayaran', 'pin.pengajuan', 'pin.pengajuan.client', 'pin.pengajuan.client.user')->where('id', $id)->get();
-            if (Auth::id() != $data[0]->pin->kode_tukang) {
+            $data = Penawaran::with('bpa', 'komponen', 'pin', 'pin.revisi', 'pin.pembayaran', 'pin.pengajuan.berkas', 'pin.pengajuan.client', 'pin.pengajuan.client.user')->where('id', $id)->first();
+            if (Auth::id() != $data->pin->kode_tukang) {
                 return (new PenawaranResourceController(['error' => 'Anda tidak mempunyai akses atas item penawaran ini !']))->response()->setStatusCode(401);
             }
             return (new PenawaranResourceController($data))->response()->setStatusCode(200);
@@ -235,6 +239,8 @@ class PenawaranController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
+            'kode_bpa' => 'integer|max:100',
+            'kode_spd' => 'integer',
             'keuntungan' => 'integer|max:100',
             'update_komponen' => 'array',
             'update_komponen.*.id' => 'integer',
@@ -282,8 +288,26 @@ class PenawaranController extends Controller
             })->where('id', $id)->firstOrFail();
             //untuk handle rollback jika terjadi kegagalan transaksi
             DB::transaction(function () use ($request, $id, $penawaran) {
+                $keu = $penawaran->keuntungan;
+                $bpa = $penawaran->kode_bpa;
+                $v_bpa = 0;
+                if ($request->has('keuntungan')) {
+                    $x_old = BPA::where('id', $bpa)->first();
+                    $v_bpa = $x_old->bpa;
+                    $keu = $request->input('keuntungan');
+                }
+                if ($request->has('kode_bpa')) {
+                    $x_old = BPA::where('id', $bpa)->first();
+                    if (!$request->has('keuntungan')) {
+                        $keu -= $x_old->bpa;
+                    }
+                    $bpa = $request->input('kode_bpa');
+                    $x_bpa = BPA::where('id', $bpa)->first();
+                    $v_bpa = $x_bpa->bpa;
+                }
                 if ($request->has('update_komponen')) {
                     foreach ($request->input('update_komponen') as $item) {
+                        $item['new_data']['harga'] = $item['new_data']['harga'] * $item['new_data']['total_unit'];
                         Komponen::where('id', $item['id'])->update($item['new_data']);
                     }
                 }
@@ -293,6 +317,7 @@ class PenawaranController extends Controller
                 if ($request->has('new_komponen')) {
 
                     foreach ($request->input('new_komponen') as $item) {
+                        $item['harga'] = $item['harga'] * $item['total_unit'];
                         $komponen = new Komponen();
                         $komponen->fill($item);
                         $komponen->kode_penawaran = $id;
@@ -300,8 +325,11 @@ class PenawaranController extends Controller
                     }
                 }
                 $total_harga_komponen = Komponen::where('kode_penawaran', $id)->sum('harga');
-                $total_harga = kalkulasiBiayaPenawaranUpdate($request->input('keuntungan'), $penawaran->bpa->bpa, $total_harga_komponen);
-                Penawaran::where('id', $id)->update(['kode_status' => 'T02', 'keuntungan' => $request->input('keuntungan'), 'harga_total' => $total_harga]);
+                $total_harga = kalkulasiBiayaPenawaranUpdate($keu, $v_bpa, $total_harga_komponen);
+                if ($request->has('bpa') || $request->has('keuntungan')) {
+                    $keu += $v_bpa;
+                }
+                Penawaran::where('id', $id)->update(['kode_bpa' => $bpa, 'kode_spd' => $request->input('kode_spd'),'kode_status' => 'T02', 'keuntungan' => $keu, 'harga_total' => $total_harga]);
             });
 
             return (new PenawaranResourceController(['status' => true]))->response()->setStatusCode(200);

@@ -195,7 +195,7 @@ $(document).on('click', '[id^=btnsubmitpenawaran]', function () {
                 $('<input>').attr({
                     type: 'hidden',
                     name: 'harga_total',
-                    value: h_keuntungan.value
+                    value: h_total.value
                 }).appendTo('form');
             })
 

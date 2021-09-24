@@ -18,6 +18,7 @@ class Penawaran extends Model
      */
     protected $fillable = [
         'kode_pin',
+        'kode_spd',
         'kode_bpa',
         'keuntungan',
         'harga_total',
@@ -26,6 +27,10 @@ class Penawaran extends Model
 
     public function pin(){
         return $this->belongsTo(Pin::class, 'kode_pin', 'id');
+    }
+
+    public function spd(){
+        return $this->hasOne(Sistem_Penarikan_Dana::class, 'id', 'kode_spd');
     }
 
     public function komponen(){

@@ -39,7 +39,7 @@
                             <div class="card-body">
                                 <div class="d-flex justify-content-center">
                                     <p class="pt-2">
-                                    <h4 style="color: #4E4E4E !important;"><strong>TUKANG</strong></h4>
+                                    <h4 style="color: #4E4E4E !important;"><strong>PENYEDIA JASA</strong></h4>
                                     </p>
                                 </div>
                                 <!-- /.d-flex -->

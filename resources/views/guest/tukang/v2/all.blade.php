@@ -112,8 +112,14 @@
                         <div class="col-12 col-sm-6 col-md-3 d-flex align-items-stretch flex-column p-0">
                             <div class="item__third">
                                 <div class="container-ban">
-                                    <img src="{{asset('images/def_tukang.png')}}" class="d-block w-100 p-2" alt="">
-                                    <div class="bottom-left">
+
+                        @if(isset($ptr->path_icon))
+                            <img src="{{asset($ptr->path_icon)}}" height="447px;" class="d-block w-100 p-2" alt="">
+                        @else
+                            <img src="{{asset('images/def_tukang.png')}}" class="d-block w-100 p-2" alt="">
+                        @endif
+
+                                                            <div class="bottom-left">
                                         <div class="row">
                                             <div class="col-8">
                                                 <div

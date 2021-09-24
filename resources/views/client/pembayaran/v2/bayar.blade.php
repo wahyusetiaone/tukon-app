@@ -21,17 +21,17 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <p class="text-bold pb-0 mb-0">Nama Proyek</p>
-                                        <p class="text-muted">Bla bla bla</p>
+                                        <p class="text-muted">{{$data->pin->pengajuan->nama_proyek}}</p>
                                     </div>
                                     <div class="col-6">
                                         <div class="float-right text-right">
-                                            <p class="text-bold pb-0 mb-0">Nama Proyek</p>
-                                            <p class="text-muted">Bla bla bla</p>
+                                            <p class="text-bold pb-0 mb-0">Penyedia Jasa</p>
+                                            <p class="text-muted">{{$data->pin->tukang->user->name}}</p>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <p class="text-bold pb-0 mb-0">Alamat Proyek</p>
-                                        <p class="text-muted">Bla bla bla</p>
+                                        <p class="text-muted">{{$data->pin->pengajuan->alamat}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -42,7 +42,7 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="float-right text-right">
-                                            <p class="text-bold pb-0 mb-0">Rp. 200.000.000</p>
+                                            <p class="text-bold pb-0 mb-0">{{indonesiaRupiah($data->total_tagihan, false)}}</p>
                                         </div>
                                     </div>
                                 </div>

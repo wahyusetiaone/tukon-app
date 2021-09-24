@@ -16,6 +16,7 @@ class CreatePenawaransTable extends Migration
         Schema::create('penawarans', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('kode_pin')->default(0);
+            $table->bigInteger('kode_spd')->default(1);
             $table->integer('keuntungan');
             $table->bigInteger('kode_bpa')->default(0);
             $table->bigInteger('harga_total');

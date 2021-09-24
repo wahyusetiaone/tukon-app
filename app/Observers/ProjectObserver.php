@@ -19,10 +19,11 @@ class ProjectObserver
     /**
      * Handle the OnStepProgress "created" event.
      *
-     * @param  \App\Models\Project  $project
+     * @param \App\Models\Project $project
      * @return void
      */
-    public function created(Project $project){
+    public function created(Project $project)
+    {
         $data = Project::with('pembayaran', 'pembayaran.pin', 'pembayaran.pin.pengajuan', 'pembayaran.pin.penawaran', 'pembayaran.pin.penawaran.bpa')->where('id', $project->id)->first();
         $fdate = $data->pembayaran->pin->pengajuan->deadline;
         $tdate = date("Y-m-d H:i:s");
@@ -44,8 +45,8 @@ class ProjectObserver
         $penarikadana->kode_limitasi = 1;
         $bpa = $data->pembayaran->pin->penawaran->bpa->bpa;
         $total_bayar = $data->pembayaran->total_tagihan;
-        $total_dana = $total_bayar - ($total_bayar * ($bpa/100));
-        $limitasi = $total_dana * ($lim->value/100);
+        $total_dana = $total_bayar - ($total_bayar * ($bpa / 100));
+        $limitasi = $total_dana * ($lim->value / 100);
         $penarikadana->total_dana = $total_dana;
         $penarikadana->limitasi = $limitasi;
         $penarikadana->sisa_penarikan = $limitasi;
@@ -55,7 +56,7 @@ class ProjectObserver
     /**
      * Handle the OnStepProgress "updating" event.
      *
-     * @param  \App\Models\Project  $project
+     * @param \App\Models\Project $project
      * @return boolean
      */
 //    public function updating(Project $project){
@@ -77,16 +78,17 @@ class ProjectObserver
     /**
      * Handle the Progress "updated" event.
      *
-     * @param  \App\Models\Project  $project
+     * @param \App\Models\Project $project
      * @return void
      */
-    public function updated(Project $project){
-        if ($project->kode_status == "ON03"){
+    public function updated(Project $project)
+    {
+        if ($project->kode_status == "ON03") {
             $penarikan_dana = PenarikanDana::where('kode_project', $project->id)->first();
             $penalty = Penalty::take(1)->first();
             $cutoff = $penarikan_dana->persentase_penarikan + $penalty->value;
-            $roff = 100-$cutoff;
-            $return = ($penarikan_dana->total_dana*$roff)/100;
+            $roff = 100 - $cutoff;
+            $return = ($penarikan_dana->total_dana * $roff) / 100;
 
             $pengembalian = new PengembalianDana();
             $pengembalian->kode_project = $project->id;
@@ -96,11 +98,11 @@ class ProjectObserver
             $pengembalian->kode_penalty = $penalty->id;
             $pengembalian->save();
         }
-        if ($project->kode_status == "ON05"){
+        if ($project->kode_status == "ON05") {
             $penarikan_dana = PenarikanDana::where('kode_project', $project->id)->first();
             //kode 2 adalah 100%
             $limitasi = Limitasi_Penarikan::where('id', 2)->first();
-            $sisa_dari_total_dana = $penarikan_dana->total_dana*($limitasi->value/100);
+            $sisa_dari_total_dana = $penarikan_dana->total_dana * ($limitasi->value / 100);
             $penarikan_dana->kode_limitasi = $limitasi->id;
             $penarikan_dana->limitasi = $penarikan_dana->limitasi + $sisa_dari_total_dana;
             $penarikan_dana->sisa_penarikan = $penarikan_dana->sisa_penarikan + $sisa_dari_total_dana;
@@ -109,17 +111,17 @@ class ProjectObserver
         $this->notificationHandling($project, 'updated');
     }
 
-    private function notificationHandling(Project  $project, String $action)
+    private function notificationHandling(Project $project, string $action)
     {
         $data = Project::with('pembayaran.pin.pengajuan.client.user', 'pembayaran.pin.tukang.user')->whereId($project->id)->first();
-        switch ($action){
+        switch ($action) {
             case 'updated':
                 //deep_id == project
                 if ($data->kode_status == "ON01") {
                     createNotification(
                         $data->pembayaran->pin->pengajuan->kode_client,
                         'Proyek',
-                        'Tukang '.$data->pembayaran->pin->tukang->user->name.' upload progress terbaru.',
+                        'Tukang ' . $data->pembayaran->pin->tukang->user->name . ' upload progress terbaru.',
                         $data->pembayaran->pin->pengajuan->nama_proyek,
                         $data->id,
                         'client',

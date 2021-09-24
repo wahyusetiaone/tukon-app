@@ -27,7 +27,7 @@
                                 <strong>Info Pengembalian Dana</strong>
                                 <address>
                                     <span
-                                        class="text-muted"> Nama : </span><br><strong>{{$data->project->pembayaran->pin->tukang->user->name}}</strong><br>
+                                        class="text-muted"> Nama : </span><br><strong>{{$data->project->pembayaran->pin->pengajuan->client->user->name}}</strong><br>
                                     <span
                                         class="text-muted">Nama Proyek: </span><br>{{$data->project->pembayaran->pin->pengajuan->nama_proyek}}
                                     <br>
@@ -146,7 +146,7 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <p>Dana yang akan dikembalikan adalah sisa dari potongan Penarikan Dana oleh Tukang
+                                <p>Dana yang akan dikembalikan adalah sisa dari potongan Penarikan Dana oleh Penyedia Jasa
                                     serta
                                     Biaya Penalty (20%) dan juga Biaya Pengunaan Aplikasi (2%). Lebih jelasnya mohon
                                     untuk membaca keterangan disamping.</p>

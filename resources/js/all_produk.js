@@ -4,8 +4,6 @@ import { base_url } from './app.js'
 $(function() {
     var table = $('#produk-table').DataTable({
         "responsive": true, "lengthChange": false, "autoWidth": true,
-        processing: true,
-        serverSide: true,
         ajax: base_url+'/produk/json',
         columns: [
             { data: 'id', name: 'id' },
@@ -13,6 +11,16 @@ $(function() {
             { data: 'range_min', name: 'range_min' },
             { data: 'range_max', name: 'range_max' },
             { data: 'action', name: 'action', orderable:false, serachable:false, sClass:'text-center'},
+        ],
+        columnDefs: [
+            {
+                targets: 2,
+                render: $.fn.dataTable.render.number( '.', ',', '2', 'Rp. ' )
+            },
+            {
+                targets: 3,
+                render: $.fn.dataTable.render.number( '.', ',', '2', 'Rp. ' )
+            },
         ]
     });
 

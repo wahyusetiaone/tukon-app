@@ -55,6 +55,38 @@ class VerificationApiController extends Controller
     }
 
     /**
+     * Mark the authenticated user's email address as verified.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function verify_hash(Request $request)
+    {
+        $user = User::findOrFail($request['id']);
+
+        $verified = true;
+        if (! hash_equals((string) $request['id'],
+            (string) $user->getKey())) {
+            $verified = false;
+        }
+
+        if (! hash_equals((string) $request['hash'],
+            sha1($user->getEmailForVerification()))) {
+            $verified = false;
+        }
+
+        if (! $user->hasVerifiedEmail()) {
+            if ($verified){
+                $user->markEmailAsVerified();
+
+                event(new Verified($user));
+            }
+        }
+
+        return response()->json('Email verified!');
+    }
+
+    /**
      * Resend the email verification notification.
      *
      * @param \Illuminate\Http\Request $request

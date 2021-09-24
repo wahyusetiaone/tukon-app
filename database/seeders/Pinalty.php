@@ -16,6 +16,6 @@ class Pinalty extends Seeder
     {
         $penalty = new Penalty();
         $penalty->value = 20;
-        $penalty->active = true;
+        $penalty->save();
     }
 }

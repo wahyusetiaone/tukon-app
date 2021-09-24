@@ -23,7 +23,7 @@ class PenawaranOfflineController extends Controller
         $data = PenawaranOffline::with('komponen', 'path')->where('kode_tukang', Auth::id())->get();
         return Datatables::of($data)->addIndexColumn()
             ->addColumn('action', function ($data) {
-                $button = '<a href="' . url('penawaran-offline/show') . '/' . $data->id . '"><button type="button" name="show" id="' . $data->id . '" class="edit btn btn-primary btn-sm">Show</button></a>';
+                $button = '<a href="' . url('penawaran-offline/show') . '/' . $data->id . '"><button type="button" name="show" id="' . $data->id . '" class="edit btn btn-primary btn-sm pl-4 pr-4">Lihat</button></a>';
                 return $button;
             })
             ->rawColumns(['action'])
@@ -66,8 +66,6 @@ class PenawaranOfflineController extends Controller
             'alamat_client' => 'required',
             'nama_proyek' => 'required',
             'alamat_proyek' => 'required',
-            'range_min' => 'required|integer|min:10000',
-            'range_max' => 'required|integer|min:10000',
             'deadline' => 'required|date|after:now',
             'diskripsi_proyek' => 'required',
             'image' => 'required|array',
@@ -236,8 +234,6 @@ class PenawaranOfflineController extends Controller
         $request->validate([
             'nama_proyek' => 'required',
             'alamat_proyek' => 'required',
-            'range_min' => 'required|integer|min:10000',
-            'range_max' => 'required|integer|min:10000',
             'deadline' => 'required|date|after:now',
             'diskripsi_proyek' => 'required'
         ]);

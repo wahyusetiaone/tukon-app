@@ -21,10 +21,13 @@ class PengajuanController extends Controller
         $data = Pin::with('pengajuan','pengajuan.client','pengajuan.client.user')->where('kode_tukang', $user)->get();
         return Datatables::of($data)->addIndexColumn()
             ->addColumn('action', function($data){
-                if ($data->pengajuan->deleted_at == null){
-                    $button = '<a href="'.url('pengajuan/show').'/'.$data->id.'"><button type="button" name="show" id="'.$data->id.'" class="edit btn btn-primary btn-sm">Show</button></a>';
+                if ($data->kode_status == 'B01'){
+                    $button = '<a href="'.url('pengajuan/show').'/'.$data->id.'"><button type="button" name="show" id="'.$data->id.'" class="edit btn btn-danger btn-sm pl-4 pr-4" disabled>Dihapus</button></a>';
+                }elseif ($data->kode_status == 'B02'){
+                    $button = '<a href="'.url('pengajuan/show').'/'.$data->id.'"><button type="button" name="show" id="'.$data->id.'" class="edit btn btn-danger btn-sm pl-4 pr-4" disabled>Dihapus</button></a>';
                 }else{
-                    $button = '<a href="'.url('pengajuan/show').'/'.$data->id.'"><button type="button" name="show" id="'.$data->id.'" class="edit btn btn-danger btn-sm" disabled>Deleted</button></a>';
+                    $button = '<a href="'.url('pengajuan/show').'/'.$data->id.'"><button type="button" name="show" id="'.$data->id.'" class="edit btn btn-primary btn-sm pl-4 pr-4">Lihat</button></a>';
+
                 }
                 return $button;
             })

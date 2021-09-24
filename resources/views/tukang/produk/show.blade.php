@@ -49,8 +49,8 @@
                                     <!-- text input -->
                                     <div class="form-group">
                                         <label>Minimum</label>
-                                        <input required value="{{$data->range_min}}" type="number"
-                                               class="form-control @error('range_min') is-invalid @enderror"
+                                        <input required value="{{$data->range_min}}" type="text"
+                                               class="form-control rupiah @error('range_min') is-invalid @enderror"
                                                id="range_min" name="range_min" placeholder="10000">
                                         @error('range_min')
                                         <span class="invalid-feedback" role="alert">
@@ -62,8 +62,8 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Maximum</label>
-                                        <input required value="{{$data->range_max}}" type="number"
-                                               class="form-control @error('range_max') is-invalid @enderror"
+                                        <input required value="{{$data->range_max}}" type="text"
+                                               class="form-control rupiah @error('range_max') is-invalid @enderror"
                                                id="range_max" name="range_max" placeholder="100000">
                                         @error('range_max')
                                         <span class="invalid-feedback" role="alert">

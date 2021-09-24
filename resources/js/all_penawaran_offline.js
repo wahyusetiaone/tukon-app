@@ -4,8 +4,6 @@ import { base_url } from './app.js'
 $(function() {
     var table = $('#produk-table').DataTable({
         "responsive": true, "lengthChange": false, "autoWidth": true,
-        processing: true,
-        serverSide: true,
         ajax: base_url+'/penawaran-offline/json',
         columns: [
             { data: 'id', name: 'id' },

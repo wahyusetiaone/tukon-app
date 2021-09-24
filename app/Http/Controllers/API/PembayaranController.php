@@ -28,8 +28,6 @@ class PembayaranController extends Controller
      */
     public function index()
     {
-        $kode_user = User::with('client')->find(Auth::id())->kode_user;
-
         $validasi = Pembayaran::with('pin.tukang.user', 'pin.penawaran.komponen', 'transaksi_pembayaran', 'pin.pengajuan')->whereHas('pin.pengajuan', function ($query) {
             $query->where('kode_client', Auth::id());
         })->orderByDesc('created_at')->get();
