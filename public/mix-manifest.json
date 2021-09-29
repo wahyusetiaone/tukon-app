@@ -1,5 +1,6 @@
 {
     "/js/app.js": "/js/app.js",
+    "/js/registrasi.js": "/js/registrasi.js",
     "/js/base_url.js": "/js/base_url.js",
     "/js/pdf_mobile.js": "/js/pdf_mobile.js",
     "/js/echo.js": "/js/echo.js",

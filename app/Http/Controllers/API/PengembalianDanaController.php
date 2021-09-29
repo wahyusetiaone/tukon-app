@@ -74,4 +74,20 @@ class PengembalianDanaController extends Controller
         return (new PengembalianDanaResourceController(['error' => 'Tidak ada akses untuk merubah data ini !!!']))->response()->setStatusCode(401);
 
     }
+
+    public function show(int $id){
+
+        if (!PengembalianDana::whereId($id)->exists()){
+            return (new PengembalianDanaResourceController(['error' => 'Item tidak ditemukan.']))->response()->setStatusCode(401);
+        }
+
+        try {
+            $pengembalian = PengembalianDana::with('project.pembayaran.pin.pengajuan.client.user', 'project.penarikan', 'transaksi', 'penalty')->whereHas('project.pembayaran.pin.pengajuan', function ($query) {
+                $query->where('kode_client', Auth::id());
+            })->where('id', $id)->first();
+            return (new PengembalianDanaResourceController(['data' => $pengembalian]))->response()->setStatusCode(200);
+        } catch (ModelNotFoundException $ee) {
+            return (new PengembalianDanaResourceController(['error' => 'Item tidak ditemukan.']))->response()->setStatusCode(401);
+        }
+    }
 }

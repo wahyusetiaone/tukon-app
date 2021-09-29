@@ -204,6 +204,7 @@ Route::group(['middleware' => ['auth:api', 'roles', 'verified:api']], function (
         Route::group(['prefix' => 'pengembalian-dana', 'as' => 'pengembalian-dana'], function () {
             Route::get('get', 'App\Http\Controllers\API\PengembalianDanaController@index')->name('get');
             Route::post('ajukan/{id}', 'App\Http\Controllers\API\PengembalianDanaController@ajukan')->name('ajukan');
+            Route::get('show/{id}', 'App\Http\Controllers\API\PengembalianDanaController@show')->name('show');
         });
         Route::group(['prefix' => 'notification'], function () {
             Route::get('show', [App\Http\Controllers\API\NotificationController::class, 'index'])->name('notif.show');

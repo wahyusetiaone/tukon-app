@@ -16,6 +16,9 @@ mix.copyDirectory('resources/fonts', 'public/fonts');
 
 
 mix.js('resources/js/app.js', 'public/js')
+    //auth
+    .js('resources/js/registrasi.js', 'public/js')
+
     //base_url
     .js('resources/js/base_url.js', 'public/js')
 

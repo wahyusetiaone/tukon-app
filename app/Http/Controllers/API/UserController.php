@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResourceController;
 use App\Models\Clients;
 use App\Models\Tukang;
+use App\Models\TukangFotoKantor;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -67,26 +68,45 @@ class UserController extends Controller
                 'alamat' => 'required',
                 'nomor_telepon' => 'required|max:12',
                 'lokasi' => 'required',
+                'provinsi' => 'required',
                 'kota' => 'required',
+                'image' => 'required',
             ]);
 
             if ($validator_tk->fails()) {
                 return (new UserResourceController(['error' => $validator_tk->errors()]))->response()->setStatusCode(401);
             }
 
-            Tukang::create([
+            $user = Tukang::create([
                 'id' => $new_id,
                 'nomor_telepon' => $input['nomor_telepon'],
                 'kota' => $input['kota'],
+                'provinsi' => 'required',
                 'alamat' => $input['alamat'],
                 'kode_lokasi' => $input['lokasi']
             ]);
+            //save foto kantor
+            if ($request->hasfile('image')) {
+                $file = $request->file('image');
+                if ($file->isValid()) {
+                    $path = $file->store('tukang/kantor', 'public');
+                    $path = substr($path, 6);
+                    $path = "storage" . $path;
+
+                    TukangFotoKantor::create([
+                        'tukang_id' => $user->id,
+                        'path' => $path,
+                        'original_name' => $file->getClientOriginalName()
+                    ]);
+                }
+            }
         }
 
         if ($input['kode_role'] == 3) {
             $validator_cl = Validator::make($request->all(), [
                 'alamat' => 'required',
                 'kota' => 'required',
+                'provinsi' => 'required',
                 'nomor_telepon' => 'required|max:12',
             ]);
 

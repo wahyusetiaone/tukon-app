@@ -38,7 +38,7 @@ class SearchController extends Controller
             $db->where('kota', '=', $kota);
         }
 
-        $prov = callMomWithGet('https://dev.farizdotid.com/api/daerahindonesia/provinsi');
+        $prov = callMomWithGet(env('API_PROVINSI'));
 
         $data = $db->paginate(9)->toArray();
 
@@ -49,6 +49,7 @@ class SearchController extends Controller
         }
         return view('client.search.v2.search', ['obj' => $data, 'filter' => $filter, 'prov' => $prov]);
     }
+
     public function getKota($id)
     {
         $kota = callMomWithGet('https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi='.$id);

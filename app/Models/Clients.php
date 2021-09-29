@@ -17,6 +17,7 @@ class Clients extends Model
         'nomor_telepon',
         'path_foto',
         'alamat',
+        'provinsi',
         'kota'
     ];
 

@@ -18,6 +18,7 @@ class Tukang extends Model
         'id',
         'nomor_telepon',
         'path_icon',
+        'provinsi',
         'kota',
         'alamat',
         'kode_lokasi',
@@ -48,5 +49,9 @@ class Tukang extends Model
 
     public function voterate(){
         return $this->hasMany(VoteRate::class, 'kode_tukang', 'id');
+    }
+
+    public function foto_kantor(){
+        return $this->hasMany(TukangFotoKantor::class, 'tukang_id', 'id');
     }
 }

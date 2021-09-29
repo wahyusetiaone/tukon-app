@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Clients;
 use App\Models\Roles;
 use App\Models\Tukang;
+use App\Models\TukangFotoKantor;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -95,7 +96,8 @@ class RegisterController extends Controller
             Tukang::create([
                 'id' => $new_id,
                 'nomor_telepon' => $data['nomor_telepon_tk'],
-                'kota' => $data['kota_tk'],
+                'provinsi' => $data['provinsi'],
+                'kota' => $data['kota'],
                 'alamat' => $data['alamat_tk']
             ]);
         }
@@ -104,15 +106,16 @@ class RegisterController extends Controller
             Clients::create([
                 'id' => $new_id,
                 'nomor_telepon' => $data['nomor_telepon_cl'],
+                'provinsi' => $data['provinsi'],
+                'kota' => $data['kota'],
                 'alamat' => $data['alamat_cl'],
-                'kota' => $data['kota_cl'],
             ]);
         }
 
         return $user;
     }
 
-    public function showRegistrationForm(Request  $request)
+    public function showRegistrationForm(Request $request)
     {
         $roles = Roles::all();
         $data = [
@@ -120,6 +123,7 @@ class RegisterController extends Controller
             'registerAs' => $request->session()->get('registerAs'),
             'name' => $request->session()->get('name'),
             'email' => $request->session()->get('email'),
+            'provinsi' => callMomWithGet(env('API_PROVINSI'))
         ];
         return view("auth.panel.reguster_component.form", with($data));
     }
@@ -142,7 +146,7 @@ class RegisterController extends Controller
         $email = $request->input('email');
 
         return redirect()->route('register')
-            ->with('registerAs',$registerAs)
+            ->with('registerAs', $registerAs)
             ->with('name', $name)
             ->with('email', $email);
     }
@@ -150,18 +154,45 @@ class RegisterController extends Controller
     /**
      * Handle a registration request for the application.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
     public function register(Request $request)
     {
         $this->validator($request->all())->validate();
+        $user = $this->create($request->all());
 
-        event(new Registered($user = $this->create($request->all())));
+        event(new Registered($user));
 
-         $this->guard()->login($user);
+        $this->guard()->login($user);
 
         return $this->registered($request, $user)
             ?: redirect($this->redirectPath());
+    }
+
+    /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user)
+    {
+        //save foto kantor
+        if ($request->hasfile('image')) {
+            $file = $request->file('image');
+            if ($file->isValid()) {
+                $path = $file->store('tukang/kantor', 'public');
+                $path = substr($path, 6);
+                $path = "storage" . $path;
+
+                TukangFotoKantor::create([
+                    'tukang_id' => $user->id,
+                    'path' => $path,
+                    'original_name' => $file->getClientOriginalName()
+                ]);
+            }
+        }
     }
 }
