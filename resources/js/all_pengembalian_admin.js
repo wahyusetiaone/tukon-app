@@ -4,7 +4,7 @@ import { base_url } from './app.js'
 $(function() {
     var table = $('#produk-table').DataTable({
         "responsive": true, "lengthChange": false, "autoWidth": true,
-        ajax: base_url+'/admin/pengembalian-dana/json',
+        ajax: base_url+'/su/pengembalian-dana/json',
         columnDefs: [
             {
                 targets: 3,

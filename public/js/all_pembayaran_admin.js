@@ -60863,7 +60863,7 @@ $(function () {
     "responsive": true,
     "lengthChange": false,
     "autoWidth": true,
-    ajax: _app_js__WEBPACK_IMPORTED_MODULE_1__.base_url + '/admin/pembayaran/json',
+    ajax: _app_js__WEBPACK_IMPORTED_MODULE_1__.base_url + '/su/pembayaran/json',
     columnDefs: [{
       targets: 3,
       render: $.fn.dataTable.render.number(',', '.', 2, 'Rp. ')

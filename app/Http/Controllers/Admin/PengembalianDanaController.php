@@ -17,7 +17,7 @@ class PengembalianDanaController extends Controller
         $data = PengembalianDana::with('project.pembayaran.pin.pengajuan.client.user')->where('kode_status', 'PM02')->get();
         return Datatables::of($data)->addIndexColumn()
             ->addColumn('action', function ($data) {
-                $button = '<a href="' . url('admin/pengembalian-dana/show/' . $data->id) . '"><button type="button" name="show" id="' . $data->id . '" class="edit btn btn-warning btn-sm">Konfirmasi</button></a>';
+                $button = '<a href="' . url('su/pengembalian-dana/show/' . $data->id) . '"><button type="button" name="show" id="' . $data->id . '" class="edit btn btn-warning btn-sm">Konfirmasi</button></a>';
                 return $button;
             })
             ->rawColumns(['action'])

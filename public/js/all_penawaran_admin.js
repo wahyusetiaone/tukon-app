@@ -60875,7 +60875,7 @@ $(function () {
     "lengthChange": false,
     "autoWidth": true,
     searching: false,
-    ajax: _app_js__WEBPACK_IMPORTED_MODULE_1__.base_url + '/admin/penawaran/json' + query,
+    ajax: _app_js__WEBPACK_IMPORTED_MODULE_1__.base_url + '/su/penawaran/json' + query,
     columns: [{
       data: 'id',
       name: 'id'

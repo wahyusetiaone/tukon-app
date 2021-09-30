@@ -84,6 +84,7 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/all_pengembalian_admin.js', 'public/js')
     .js('resources/js/konfirmasi_pengembalian_admin.js', 'public/js')
     .js('resources/js/all_bpa_admin.js', 'public/js')
+    .js('resources/js/add_admin_user_admin.js', 'public/js')
 
     .sass('resources/sass/app.scss', 'public/css')
 

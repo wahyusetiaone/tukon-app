@@ -21,6 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('login', 'App\Http\Controllers\API\UserController@login');
 Route::post('register', 'App\Http\Controllers\API\UserController@register');
+Route::post('register/admin-cabang/{hash}', 'App\Http\Controllers\API\UserController@registerAdminCabang')->name('register.admin-cabang');
 
 Route::post('password/forgot-password', 'App\Http\Controllers\API\ForgotPasswordController@sendResetLinkResponse')->name('passwords.sent');
 Route::post('password/reset', 'App\Http\Controllers\API\ResetPasswordController@sendResetResponse')->name('passwords.reset');

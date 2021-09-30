@@ -13,7 +13,8 @@
                         <div class="row">
                             <div class="col-12">
                                 <label for="search">Pencarian</label>
-                                <i class="fas fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="top"
+                                <i class="fas fa-question-circle" data-toggle="tooltip" data-html="true"
+                                   data-placement="top"
                                    title="<p><small>Isi dengan <strong>ID Pengajuan</strong> atau <strong>Nama Klien</strong> dalam kolom pencarian</small></p>"></i>
                             </div>
                         </div>
@@ -49,16 +50,35 @@
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">{{$title}}.</h3>
+            @if($title == 'Daftar Admin Cabang')
+                <div class="float-right">
+                    <a href="{{route('add.pengguna.admincabang.admin')}}" class="btn btn-primary-cs">Tambah Admin</a>
+                    <a href="#" class="btn btn-primary-cs" data-toggle="tooltip" data-html="true"
+                       data-placement="bottom"
+                       title="<p><small>Atur Default <strong>Bonus Admin Cabang</strong>.</small></p>">
+                        <i class="fas fa-cog"></i>
+                    </a>
+                </div>
+            @endif
         </div>
         <!-- /.card-header -->
         <div class="card-body">
             <table id="produk-table" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Nama Klien</th>
-                    <th>Email</th>
-                    <th>Tindakan</th>
+                    @if($title == 'Daftar Admin Cabang')
+                        <th>Id</th>
+                        <th>Email</th>
+                        <th>Akses</th>
+                        <th>Status</th>
+                        <th>Tindakan</th>
+
+                    @else
+                        <th>Id</th>
+                        <th>Nama</th>
+                        <th>Email</th>
+                        <th>Tindakan</th>
+                    @endif
                 </tr>
                 </thead>
                 <tbody>

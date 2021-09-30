@@ -33,9 +33,9 @@ class PengajuanController extends Controller
         return Datatables::of($data)->addIndexColumn()
             ->addColumn('action', function ($data) {
                 if (isset($data->pengajuan->deleted_at)) {
-                    $button = '<a href="' . url('admin/pengajuan/show') . '/' . $data->id . '"><button type="button" name="show" id="' . $data->id . '" class="edit btn btn-danger btn-sm" disabled>Deleted</button></a>';
+                    $button = '<a href="' . url('su/pengajuan/show') . '/' . $data->id . '"><button type="button" name="show" id="' . $data->id . '" class="edit btn btn-danger btn-sm" disabled>Deleted</button></a>';
                 } else {
-                    $button = '<a href="' . url('admin/pengajuan/show') . '/' . $data->id . '"><button type="button" name="show" id="' . $data->id . '" class="edit btn btn-primary btn-sm">Show</button></a>';
+                    $button = '<a href="' . url('su/pengajuan/show') . '/' . $data->id . '"><button type="button" name="show" id="' . $data->id . '" class="edit btn btn-primary btn-sm">Show</button></a>';
                 }
                 return $button;
             })

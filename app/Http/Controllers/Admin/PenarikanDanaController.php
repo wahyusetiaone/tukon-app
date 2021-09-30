@@ -23,7 +23,7 @@ class PenarikanDanaController extends Controller
         })->where('kode_status', '=', 'PN03')->get();
         return Datatables::of($data)->addIndexColumn()
             ->addColumn('action', function ($data) {
-                $button = '<a href="' . url('admin/penarikan-dana/show/' . $data->id) . '"><button type="button" name="show" id="' . $data->id . '" class="edit btn btn-warning btn-sm">Konfirmasi</button></a>';
+                $button = '<a href="' . url('su/penarikan-dana/show/' . $data->id) . '"><button type="button" name="show" id="' . $data->id . '" class="edit btn btn-warning btn-sm">Konfirmasi</button></a>';
                 return $button;
             })
             ->rawColumns(['action'])

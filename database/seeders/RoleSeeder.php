@@ -16,7 +16,7 @@ class RoleSeeder extends Seeder
     {
 
         $role = new Roles();
-        $role->nama_role='admin';
+        $role->nama_role='superadmin';
         $role->save();
 
         $role1 = new Roles();
@@ -26,5 +26,9 @@ class RoleSeeder extends Seeder
         $role2 = new Roles();
         $role2->nama_role='klien';
         $role2->save();
+
+        $role = new Roles();
+        $role->nama_role='admin';
+        $role->save();
     }
 }

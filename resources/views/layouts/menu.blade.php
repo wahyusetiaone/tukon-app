@@ -58,6 +58,13 @@
             </a>
         </li>
         <li class="nav-item">
+            <a href="{{ route('pengguna.admincabang.admin') }}"
+               class="nav-link {{ (request()->segment(3) == 'admin-cabang') ? 'active' : '' }}">
+                <i class="far fa-user nav-icon"></i>
+                <p>Admin Cabang</p>
+            </a>
+        </li>
+        <li class="nav-item">
             <a href="{{ route('pengaturan.bpa.index.admin') }}"
                class="nav-link {{ (request()->segment(3) == 'bpa') ? 'active' : '' }}">
                 <i class="fas fa-cog nav-icon"></i>

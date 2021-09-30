@@ -60864,7 +60864,7 @@ $(function () {
     "lengthChange": false,
     "autoWidth": true,
     searching: false,
-    ajax: _app_js__WEBPACK_IMPORTED_MODULE_0__.base_url + '/admin/pengaturan/bpa/json',
+    ajax: _app_js__WEBPACK_IMPORTED_MODULE_0__.base_url + '/su/pengaturan/bpa/json',
     columns: [{
       data: 'id',
       name: 'id'

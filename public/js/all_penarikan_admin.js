@@ -60863,7 +60863,7 @@ $(function () {
     "responsive": true,
     "lengthChange": false,
     "autoWidth": true,
-    ajax: _app_js__WEBPACK_IMPORTED_MODULE_1__.base_url + '/admin/penarikan-dana/json',
+    ajax: _app_js__WEBPACK_IMPORTED_MODULE_1__.base_url + '/su/penarikan-dana/json',
     columnDefs: [{
       targets: 3,
       render: $.fn.dataTable.render.number(',', '.', 2, 'Rp. ')

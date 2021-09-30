@@ -369,7 +369,7 @@ Route::group(['middleware' => ['auth', 'roles', 'verified']], function () {
     });
 
     //tukang
-    Route::group(['roles' => ['admin', 'tukang']], function () {
+    Route::group(['roles' => ['superadmin', 'tukang']], function () {
         Route::get('home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
         Route::get('produk', [App\Http\Controllers\Tukang\ProdukController::class, 'index'])->name('produk');
         Route::get('produk/add', [App\Http\Controllers\Tukang\ProdukController::class, 'create'])->name('add.produk');
@@ -457,7 +457,7 @@ Route::group(['middleware' => ['auth', 'roles', 'verified']], function () {
         });
     });
     //admin
-    Route::group(['prefix' => 'admin', 'roles' => 'admin'], function () {
+    Route::group(['prefix' => 'su', 'roles' => 'superadmin'], function () {
         Route::group(['prefix' => 'pembayaran'], function () {
             Route::get('/', [App\Http\Controllers\Admin\PembayaranController::class, 'index'])->name('pembayaran.admin');
             Route::get('json', [App\Http\Controllers\Admin\PembayaranController::class, 'json'])->name('data.pembayaran.json.admin');
@@ -485,6 +485,13 @@ Route::group(['middleware' => ['auth', 'roles', 'verified']], function () {
                 Route::get('/', [App\Http\Controllers\Admin\UserController::class, 'indextukang'])->name('pengguna.tukang.admin');
                 Route::get('json', [App\Http\Controllers\Admin\UserController::class, 'jsontukang'])->name('data.pengguna.tukang.json.admin');
                 Route::get('show/{id}', [App\Http\Controllers\Admin\UserController::class, 'showtukang'])->name('show.pengguna.tukang.admin');
+            });
+            Route::group(['prefix' => 'admin-cabang'], function () {
+                Route::get('/', [App\Http\Controllers\Admin\UserController::class, 'indexadmin'])->name('pengguna.admincabang.admin');
+                Route::get('json', [App\Http\Controllers\Admin\UserController::class, 'jsonadmin'])->name('data.pengguna.admincabang.json.admin');
+                Route::get('show/{id}', [App\Http\Controllers\Admin\UserController::class, 'showtukang'])->name('show.pengguna.admincabang.admin');
+                Route::get('add', [App\Http\Controllers\Admin\UserController::class, 'addadmin'])->name('add.pengguna.admincabang.admin');
+                Route::post('store', [App\Http\Controllers\Admin\UserController::class, 'storeadmin'])->name('store.pengguna.admincabang.admin');
             });
             Route::post('banned/{id}', [App\Http\Controllers\Admin\BanController::class, 'banned'])->name('pengguna.banned.admin');
             Route::get('unbanned/{id}', [App\Http\Controllers\Admin\BanController::class, 'unbanned'])->name('pengguna.unbanned.admin');

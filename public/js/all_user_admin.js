@@ -60867,8 +60867,10 @@ $(function () {
 
   if (last === 'tukang') {
     query = "tukang/json?";
-  } else {
+  } else if (last === 'klien') {
     query = "klien/json?";
+  } else if (last === 'admin-cabang') {
+    query = "admin-cabang/json?";
   }
 
   if (a.indexOf('?') > -1) {
@@ -60878,29 +60880,64 @@ $(function () {
     $('#query').val(c);
   }
 
-  var table = $('#produk-table').DataTable({
-    "responsive": true,
-    "lengthChange": false,
-    "autoWidth": true,
-    searching: false,
-    ajax: _app_js__WEBPACK_IMPORTED_MODULE_1__.base_url + '/admin/user/' + query,
-    columns: [{
-      data: 'id',
-      name: 'id'
-    }, {
-      data: 'user.name',
-      name: 'user.name'
-    }, {
-      data: 'user.email',
-      name: 'user.name'
-    }, {
-      data: 'action',
-      name: 'action',
-      orderable: false,
-      serachable: false,
-      sClass: 'text-center'
-    }]
-  });
+  if (last === 'admin-cabang') {
+    $('#produk-table').DataTable({
+      "responsive": true,
+      "lengthChange": false,
+      "autoWidth": true,
+      searching: false,
+      ajax: _app_js__WEBPACK_IMPORTED_MODULE_1__.base_url + '/su/user/' + query,
+      columns: [{
+        data: 'id',
+        name: 'id'
+      }, {
+        data: 'email',
+        name: 'email'
+      }, {
+        data: 'link',
+        name: 'link',
+        orderable: false,
+        serachable: false,
+        sClass: 'text-center'
+      }, {
+        data: 'status',
+        name: 'status',
+        orderable: false,
+        serachable: false,
+        sClass: 'text-center'
+      }, {
+        data: 'action',
+        name: 'action',
+        orderable: false,
+        serachable: false,
+        sClass: 'text-center'
+      }]
+    });
+  } else {
+    $('#produk-table').DataTable({
+      "responsive": true,
+      "lengthChange": false,
+      "autoWidth": true,
+      searching: false,
+      ajax: _app_js__WEBPACK_IMPORTED_MODULE_1__.base_url + '/su/user/' + query,
+      columns: [{
+        data: 'id',
+        name: 'id'
+      }, {
+        data: 'name',
+        name: 'name'
+      }, {
+        data: 'email',
+        name: 'email'
+      }, {
+        data: 'status',
+        name: 'status',
+        orderable: false,
+        serachable: false,
+        sClass: 'text-center'
+      }]
+    });
+  }
 });
 $(function () {
   $('[data-toggle="tooltip"]').tooltip();

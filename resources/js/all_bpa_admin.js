@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 $(function () {
 $('#produk-table').DataTable({
         "responsive": true, "lengthChange": false, "autoWidth": true, searching: false,
-        ajax: base_url + '/admin/pengaturan/bpa/json',
+        ajax: base_url + '/su/pengaturan/bpa/json',
         columns: [
             {data: 'id', name: 'id'},
             {data: 'bpa', name: 'bpa'},

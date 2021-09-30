@@ -14,7 +14,7 @@ $(function() {
     }
     var table = $('#produk-table').DataTable({
         "responsive": true, "lengthChange": false, "autoWidth": true, searching: false,
-        ajax: base_url+'/admin/penawaran/json'+query,
+        ajax: base_url+'/su/penawaran/json'+query,
         columns: [
             { data: 'id', name: 'id' },
             { data: 'pin.pengajuan.nama_proyek', name: 'pin.pengajuan.nama_proyek' },

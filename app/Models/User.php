@@ -22,6 +22,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $fillable = [
         'name',
         'email',
+        'email_verified_at',
         'kode_role',
         'kode_user',
         'password',
@@ -96,7 +97,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(Clients::class, 'id', 'kode_user');
     }
 
+    public function admin()
+    {
+        return $this->hasOne(Admin::class, 'id', 'kode_user');
+    }
+
     public function ban(){
         return $this->hasOne(Ban::class, 'user_id', 'id');
+    }
+
+    public function pre(){
+        return $this->hasOne(PreRegistrationAdmin::class, 'email', 'email');
     }
 }
