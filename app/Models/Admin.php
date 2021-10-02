@@ -20,4 +20,8 @@ class Admin extends Model
     public function user(){
         return $this->belongsTo(User::class, 'id', 'kode_user');
     }
+
+    public function has_cabang(){
+        return $this->hasMany(HasCabang::class, 'admin_id', 'id');
+    }
 }

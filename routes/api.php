@@ -213,8 +213,20 @@ Route::group(['middleware' => ['auth:api', 'roles', 'verified:api']], function (
         });
     });
 
+    Route::group(['prefix' => 'admin-cabang', 'as' => 'admin-cabang', 'roles' => 'admin'], function () {
+        Route::group(['prefix' => 'cabang'], function () {
+            Route::get('/', [App\Http\Controllers\API\AdminCabang\CabangController::class, 'index'])->name('all.cabang.admincabang');
+            Route::get('get/{idcabang}', [App\Http\Controllers\API\AdminCabang\CabangController::class, 'getTukangFromCabang'])->name('all.tukang.cabang.admincabang');
+        });
+        Route::group(['prefix' => 'tukang'], function () {
+            Route::get('show/{id}', [App\Http\Controllers\API\AdminCabang\TukangController::class, 'show'])->name('show.tukang.admincabang');
+        });
+        Route::group(['prefix' => 'verification'], function () {
+            Route::post('ajukan/{id}', [App\Http\Controllers\API\AdminCabang\VerificationController::class, 'ajukan_verification'])->name('ajukan.verification.admincabang');
+        });
+    });
     if (env('DEV_MODE', true)) {
-        Route::group(['prefix' => 'admin', 'as' => 'admin', 'roles' => 'admin'], function () {
+        Route::group(['prefix' => 'admin', 'as' => 'admin', 'roles' => 'su'], function () {
             Route::post('pembayaran/accept/{id}', 'App\Http\Controllers\API\AdminPembayaranController@accept')->name('accept');
             Route::post('pembayaran/reject/{id}', 'App\Http\Controllers\API\AdminPembayaranController@reject')->name('reject');
         });

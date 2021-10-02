@@ -72,7 +72,6 @@
                         <th>Akses</th>
                         <th>Status</th>
                         <th>Tindakan</th>
-
                     @else
                         <th>Id</th>
                         <th>Nama</th>

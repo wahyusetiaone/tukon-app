@@ -54,4 +54,12 @@ class Tukang extends Model
     public function foto_kantor(){
         return $this->hasMany(TukangFotoKantor::class, 'tukang_id', 'id');
     }
+
+    public function cabang(){
+        return $this->belongsTo(Cabang::class, 'kota', 'kode_cabang');
+    }
+
+    public function verification(){
+        return $this->hasOne(VerificationTukang::class, 'tukang_id', 'id');
+    }
 }

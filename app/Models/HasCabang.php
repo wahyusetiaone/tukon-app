@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class HasCabang extends Model
 {
     use HasFactory;
+
+    public function admin(){
+        return $this->belongsTo(Admin::class,'admin_id', 'id');
+    }
+
+    public function cabang(){
+        return $this->belongsTo(Cabang::class, 'cabang_id', 'id');
+    }
+
 }
