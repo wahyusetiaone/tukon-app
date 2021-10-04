@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Events\ProyekEventController;
+use App\Models\BACabang;
 use App\Models\BonusAdminCabang;
 use App\Models\Limitasi_Penarikan;
 use App\Models\PemasukanAplikasi;
@@ -113,11 +114,24 @@ class ProjectObserver
     public function updated(Project $project)
     {
         if ($project->kode_status == "ON03") {
-            $penarikan_dana = PenarikanDana::where('kode_project', $project->id)->first();
+            $penarikan_dana = PenarikanDana::with('project.pembayaran.pin.tukang','project.pembayaran.pin.penawaran.komponen','project.pembayaran.pin.penawaran.bac')->where('kode_project', $project->id)->first();
             $penalty = Penalty::take(1)->first();
             $cutoff = $penarikan_dana->persentase_penarikan + $penalty->value;
             $roff = 100 - $cutoff;
             $return = ($penarikan_dana->total_dana * $roff) / 100;
+
+            if ($penarikan_dana->project->pembayaran->pin->tukang->verifikasi_lokasi){
+                $harga_asli = 0;
+                foreach ($penarikan_dana->project->pembayaran->pin->penawaran->komponen as $item){
+                    $harga_asli += $item->harga;
+                }
+                $return +=  ($harga_asli * $penarikan_dana->project->pembayaran->pin->penawaran->bac->bac) / 100;
+
+                //ubah status bonus ke batal
+                $bonus = BonusAdminCabang::where('kode_project', $project->id)->first();
+                $bonus->kode_status = 'BA05';
+                $bonus->save();
+            }
 
             $pengembalian = new PengembalianDana();
             $pengembalian->kode_project = $project->id;

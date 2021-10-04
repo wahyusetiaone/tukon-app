@@ -68,7 +68,7 @@
                                 <table class="table table-striped">
                                     <thead>
                                     <tr>
-                                        <th scope="col">Total Dana</th>
+                                        <th scope="col">Total Pembayaran</th>
                                         <th scope="col">Dana Ditarik</th>
                                         <th scope="col">Penalty</th>
                                         <th scope="col">Total Return</th>
@@ -76,7 +76,7 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <th scope="row">{{indonesiaRupiah($data->project->penarikan->total_dana)}}</th>
+                                        <th scope="row">{{indonesiaRupiah($data->project->pembayaran->total_tagihan)}}</th>
                                         <td>
                                             {{indonesiaRupiah($data->project->penarikan->penarikan)}}
                                             <br>

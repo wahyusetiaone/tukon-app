@@ -202,8 +202,8 @@ class KodeStatusSeeder extends Seeder
 
         $kode28 = new KodeStatus();
         $kode28->kode_status='BA02';
-        $kode28->nama_kode='Bonus Admin Saldo';
-        $kode28->keterangan='Saldo';
+        $kode28->nama_kode='Bonus Diajukan';
+        $kode28->keterangan='Diajukan';
         $kode28->save();
 
         $kode29 = new KodeStatus();
@@ -211,5 +211,17 @@ class KodeStatusSeeder extends Seeder
         $kode29->nama_kode='Bonus Admin Cair';
         $kode29->keterangan='Dicairkan';
         $kode29->save();
+
+        $kode30 = new KodeStatus();
+        $kode30->kode_status='BA04';
+        $kode30->nama_kode='Bonus Admin Ditolak';
+        $kode30->keterangan='Dicairkan';
+        $kode30->save();
+
+        $kode31 = new KodeStatus();
+        $kode31->kode_status='BA05';
+        $kode31->nama_kode='Bonus Dibatalkan';
+        $kode31->keterangan='Bonus dibatalkan karena Proyek dibatalkan';
+        $kode31->save();
     }
 }
