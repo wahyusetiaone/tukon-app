@@ -123,7 +123,14 @@
 
 <script src="{{ asset('js/app.js') }}"></script>
 
-<script src="{{ asset('js/search.js') }}" defer></script>
+<script src="{{ asset('js/search.js') }}"></script>
+
+@if(\Illuminate\Support\Facades\Auth::check())
+    <script>
+        var unix_id = {!! \Illuminate\Support\Facades\Auth::id() !!};
+    </script>
+    <script src="{{ asset('js/app_root.js') }}"></script>
+@endif
 
 @yield('third_party_scripts')
 @stack('page_scripts')
