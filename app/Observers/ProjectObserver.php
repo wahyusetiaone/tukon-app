@@ -3,7 +3,9 @@
 namespace App\Observers;
 
 use App\Events\ProyekEventController;
+use App\Models\BonusAdminCabang;
 use App\Models\Limitasi_Penarikan;
+use App\Models\PemasukanAplikasi;
 use App\Models\Penalty;
 use App\Models\PenarikanDana;
 use App\Models\PengembalianDana;
@@ -24,7 +26,7 @@ class ProjectObserver
      */
     public function created(Project $project)
     {
-        $data = Project::with('pembayaran', 'pembayaran.pin', 'pembayaran.pin.pengajuan', 'pembayaran.pin.penawaran', 'pembayaran.pin.penawaran.bpa')->where('id', $project->id)->first();
+        $data = Project::with('pembayaran', 'pembayaran.pin', 'pembayaran.pin.pengajuan', 'pembayaran.pin.penawaran', 'pembayaran.pin.penawaran.bpa', 'pembayaran.pin.penawaran.bac', 'pembayaran.pin.penawaran.tukang.verification')->where('id', $project->id)->first();
         $fdate = $data->pembayaran->pin->pengajuan->deadline;
         $tdate = date("Y-m-d H:i:s");
         $datetime1 = new DateTime($fdate);
@@ -44,8 +46,29 @@ class ProjectObserver
         $penarikadana->kode_project = $project->id;
         $penarikadana->kode_limitasi = 1;
         $bpa = $data->pembayaran->pin->penawaran->bpa->bpa;
+        $bac = $data->pembayaran->pin->penawaran->bac->bac;
         $total_bayar = $data->pembayaran->total_tagihan;
-        $total_dana = $total_bayar - ($total_bayar * ($bpa / 100));
+
+        //keuntungan app
+        $k_bpa = ($total_bayar * ($bpa / 100));
+        $app = new PemasukanAplikasi();
+        $app->deep_id = $data->id;
+        $app->keterangan = 'Pembayaran Proyek';
+        $app->jumlah = $k_bpa;
+        $app->save();
+
+        if ($data->pembayaran->pin->penawaran->tukang->verifikasi_lokasi){
+            //bonus admin
+            $k_bac = ($total_bayar * ($bac / 100));
+            $admin = new BonusAdminCabang();
+            $admin->kode_project = $data->id;
+            $admin->admin_id = $data->pembayaran->pin->penawaran->tukang->verification->admin_id;
+            $admin->bonus = $k_bac;
+            $admin->save();
+            $k_bpa += $k_bac;
+        }
+
+        $total_dana = $total_bayar - $k_bpa;
         $limitasi = $total_dana * ($lim->value / 100);
         $penarikadana->total_dana = $total_dana;
         $penarikadana->limitasi = $limitasi;

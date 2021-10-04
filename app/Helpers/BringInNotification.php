@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\VerificationEventController;
 use App\Models\NotificationHandler as NotificationHandler;
 use \App\Events\PembayaranEventController as PembayaranEventController;
 use \App\Events\PenarikanDanaEventController as PenarikanDanaEventController;
@@ -25,6 +26,9 @@ if (!function_exists("bringInNotification")) {
                 break;
             case ProyekEventController::eventCreated():
                 broadcast(new ProyekEventController($notificationHandler, $unReadNotif));
+                break;
+            case VerificationEventController::eventCreated():
+                broadcast(new VerificationEventController($notificationHandler, $unReadNotif));
                 break;
         }
     }

@@ -24,4 +24,8 @@ class Admin extends Model
     public function has_cabang(){
         return $this->hasMany(HasCabang::class, 'admin_id', 'id');
     }
+
+    public function verification(){
+        return $this->hasMany(VerificationTukang::class, 'admin_id', 'id');
+    }
 }

@@ -18,6 +18,7 @@ use App\Models\Transaksi_Pembayaran;
 use App\Models\Transaksi_Penarikan;
 use App\Models\Transaksi_Pengembalian;
 use App\Models\User;
+use App\Models\VerificationTukang;
 use App\Models\VoteRate;
 use App\Observers\DocumentationProgressObserver;
 use App\Observers\InvoiceObserver;
@@ -34,6 +35,7 @@ use App\Observers\TransaksiPembayaranObserver;
 use App\Observers\TransaksiPenarikanDanaObserver;
 use App\Observers\TransaksiPengembalianDanaObserver;
 use App\Observers\UserObserver;
+use App\Observers\VerificationTukangObserver;
 use App\Observers\VoteRateObserver;
 use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
@@ -89,5 +91,6 @@ class AppServiceProvider extends ServiceProvider
         Pengajuan::observe(PengajuanObserver::class);
         Pembayaran::observe(PembayaranObserver::class);
         Invoice::observe(InvoiceObserver::class);
+        VerificationTukang::observe(VerificationTukangObserver::class);
     }
 }

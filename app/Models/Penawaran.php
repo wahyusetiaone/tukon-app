@@ -20,6 +20,7 @@ class Penawaran extends Model
         'kode_pin',
         'kode_spd',
         'kode_bpa',
+        'kode_bac',
         'keuntungan',
         'harga_total',
         'kode_status',
@@ -43,6 +44,10 @@ class Penawaran extends Model
 
     public function bpa(){
         return $this->hasOne(BPA::class, 'id', 'kode_bpa');
+    }
+
+    public function bac(){
+        return $this->hasOne(BACabang::class, 'id', 'kode_bac');
     }
 
     public function getTotalHargaKomponen() {

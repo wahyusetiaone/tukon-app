@@ -193,5 +193,23 @@ class KodeStatusSeeder extends Seeder
         $kode26->nama_kode='Tukang Verified';
         $kode26->keterangan='Tukang Verified';
         $kode26->save();
+
+        $kode27 = new KodeStatus();
+        $kode27->kode_status='BA01';
+        $kode27->nama_kode='Bonus Admin Pendding';
+        $kode27->keterangan='Pendding';
+        $kode27->save();
+
+        $kode28 = new KodeStatus();
+        $kode28->kode_status='BA02';
+        $kode28->nama_kode='Bonus Admin Saldo';
+        $kode28->keterangan='Saldo';
+        $kode28->save();
+
+        $kode29 = new KodeStatus();
+        $kode29->kode_status='BA03';
+        $kode29->nama_kode='Bonus Admin Cair';
+        $kode29->keterangan='Dicairkan';
+        $kode29->save();
     }
 }

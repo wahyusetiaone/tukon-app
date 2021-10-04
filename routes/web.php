@@ -475,6 +475,13 @@ Route::group(['middleware' => ['auth', 'roles', 'verified']], function () {
             Route::get('json', [App\Http\Controllers\Admin\PengajuanController::class, 'json'])->name('data.pengajuan.json.admin');
             Route::get('show/{id}', [App\Http\Controllers\Admin\PengajuanController::class, 'show'])->name('show.pengajuan.admin');
         });
+        Route::group(['prefix' => 'verification-tukang'], function () {
+            Route::get('/', [App\Http\Controllers\Admin\VerificationTukangController::class, 'index'])->name('verification-tukang.admin');
+            Route::get('json', [App\Http\Controllers\Admin\VerificationTukangController::class, 'json'])->name('data.verification-tukang.json.admin');
+            Route::get('show/{id}', [App\Http\Controllers\Admin\VerificationTukangController::class, 'show'])->name('show.verification-tukang.admin');
+            Route::get('verifikasi/terima/{id}', [App\Http\Controllers\Admin\VerificationTukangController::class, 'verifikasi'])->name('terima.verification-tukang.admin');
+            Route::post('verifikasi/tolak/{id}', [App\Http\Controllers\Admin\VerificationTukangController::class, 'tolak'])->name('tolak.verification-tukang.admin');
+        });
         Route::group(['prefix' => 'user'], function () {
             Route::group(['prefix' => 'klien'], function () {
                 Route::get('/', [App\Http\Controllers\Admin\UserController::class, 'indexclient'])->name('pengguna.client.admin');

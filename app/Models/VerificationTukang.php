@@ -17,13 +17,18 @@ class VerificationTukang extends Model
       'email',
       'alamat',
       'koordinat',
+      'catatan',
     ];
+
+    public function admin(){
+        return $this->belongsTo(Admin::class, 'admin_id', 'id');
+    }
 
     public function tukang(){
         return $this->belongsTo(Tukang::class, 'tukang_id', 'id');
     }
 
     public function berkas(){
-        return $this->hasOne(BerkasVerificationTukang::class, 'verificationtukang_id', 'id');
+        return $this->hasMany(BerkasVerificationTukang::class, 'verificationtukang_id', 'id');
     }
 }

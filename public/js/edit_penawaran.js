@@ -60904,7 +60904,7 @@ listofcomponent.forEach(function myFunction(item) {
   sum += parseInt(item[1]);
 });
 h_total_c.value = sum;
-h_keuntunganPersen.value = parseInt(presentase.value) - parseInt(h_old_bpa.value) + parseInt(h_bpa.value);
+h_keuntunganPersen.value = parseInt(presentase.value) + parseInt(h_bpa.value);
 keuntungan = sum * parseInt(h_keuntunganPersen.value) / 100;
 h_keuntungan.value = keuntungan;
 h_total.value = sum + keuntungan;
@@ -60943,7 +60943,7 @@ $(document).on('click', '[id^=btn-tbh-componen]', function (e) {
         sum += parseInt(item[1]);
       });
       h_total_c.value = sum;
-      keuntungan = sum * parseInt(presentase.value) / 100;
+      keuntungan = sum * parseInt(h_keuntunganPersen.value) / 100;
       h_keuntungan.value = keuntungan;
       h_total.value = sum + keuntungan;
     }
@@ -60980,7 +60980,7 @@ $(document).on('click', '[id^=btn_del_com]', function () {
 $(document).ready(function () {
   $('#inputPresentase').on('change', function () {
     sum = parseInt(h_total_c.value);
-    h_keuntunganPersen.value = parseInt(presentase.value) - parseInt(h_old_bpa.value) + parseInt(h_bpa.value);
+    h_keuntunganPersen.value = parseInt(presentase.value) + parseInt(h_bpa.value);
     keuntungan = sum * parseInt(h_keuntunganPersen.value) / 100;
     h_keuntungan.value = keuntungan;
     h_total.value = sum + keuntungan;

@@ -44,6 +44,13 @@
             </a>
         </li>
         <li class="nav-item">
+            <a href="{{ route('verification-tukang.admin') }}"
+               class="nav-link {{ (request()->segment(2) == 'verification-tukang') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-check"></i>
+                <p>Verifikasi</p>
+            </a>
+        </li>
+        <li class="nav-item">
             <a href="{{ route('pengguna.client.admin') }}"
                class="nav-link {{ (request()->segment(3) == 'klien') ? 'active' : '' }}">
                 <i class="far fa-user nav-icon"></i>

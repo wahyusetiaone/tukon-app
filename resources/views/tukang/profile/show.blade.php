@@ -43,8 +43,13 @@
                                              alt="User profile picture">
                                     @endif
                                 </a>
-                            </div>
 
+                                @isset($client->verifikasi_lokasi)
+                                    @if($client->verifikasi_lokasi)
+                                        <span class="badge badge-success">Akun Terverifikasi</span></h6>
+                                    @endif
+                                @endisset
+                            </div>
                             <h3 class="profile-username text-center">{{$client->user->name}}</h3>
 
                             <p class="text-muted text-center">{{$client->kota}}</p>

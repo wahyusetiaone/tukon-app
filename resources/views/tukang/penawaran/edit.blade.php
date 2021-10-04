@@ -364,7 +364,10 @@
                                 total komponen.</p>
                         </div>
                         <div class="input-group mb-3">
-                            <input type="number" id="inputPresentase" class="form-control" value="{{$data->penawaran->keuntungan}}" max="100"
+                            @php
+                            $kurang = $data->penawaran->keuntungan - ($data->penawaran->bpa->bpa + $data->penawaran->bac->bac);
+                            @endphp
+                            <input type="number" id="inputPresentase" class="form-control" value="{{$kurang}}" max="100"
                                    step="1">
                             <div class="input-group-append">
                                 <span class="input-group-text">%</span>

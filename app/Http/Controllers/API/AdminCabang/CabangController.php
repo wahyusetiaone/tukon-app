@@ -19,7 +19,7 @@ class CabangController extends Controller
      */
     public function index()
     {
-        $data = Admin::with('has_cabang.cabang')->whereId(Auth::id())->paginate(10);
+        $data = Admin::with('has_cabang.cabang')->whereId(Auth::id())->first();
 
         return (new CabangResourceController(['data' => $data]))->response()->setStatusCode(200);
     }

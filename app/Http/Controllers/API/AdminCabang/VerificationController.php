@@ -56,7 +56,7 @@ class VerificationController extends Controller
                         $name = $file->store($s_path, 'public');
                         $berkas = new BerkasVerificationTukang();
                         $berkas->verificationtukang_id = $data->id;
-                        $berkas->path = $path . $name;
+                        $berkas->path = 'storage/' . $name;
                         $berkas->original_name = $file->getClientOriginalName();
                         $berkas->save();
                     }
@@ -66,7 +66,7 @@ class VerificationController extends Controller
                     $name = $file_personal->store($s_path, 'public');
                     $berkas = new BerkasVerificationTukang();
                     $berkas->verificationtukang_id = $data->id;
-                    $berkas->path = $path . $name;
+                    $berkas->path = 'storage/' . $name;
                     $berkas->original_name = $file_personal->getClientOriginalName();
                     $berkas->save();
                 }
@@ -75,7 +75,7 @@ class VerificationController extends Controller
                     $name = $file_ktp->store($s_path, 'public');
                     $berkas = new BerkasVerificationTukang();
                     $berkas->verificationtukang_id = $data->id;
-                    $berkas->path = $path . $name;
+                    $berkas->path = 'storage/' . $name;
                     $berkas->original_name = $file_ktp->getClientOriginalName();
                     $berkas->save();
                 }

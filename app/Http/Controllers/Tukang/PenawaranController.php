@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Tukang;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PenawaranResourceController;
+use App\Models\BACabang;
 use App\Models\BPA;
 use App\Models\Komponen;
 use App\Models\Penawaran;
@@ -16,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
+use stdClass;
 use Yajra\DataTables\DataTables;
 
 class PenawaranController extends Controller
@@ -55,10 +57,22 @@ class PenawaranController extends Controller
     public function create(int $id)
     {
         $user = Auth::user()->kode_user;
-        $bpa = BPA::first();
+
         $spd = Sistem_Penarikan_Dana::all();
 
         $tukang = Tukang::with('user')->where('id',$user)->firstOrFail();
+
+        if ($tukang->verifikasi_lokasi){
+            //BPA memuat 2 item
+            $base_bpa = BPA::first();
+            $base_bac = BACabang::first();
+            $bpa = new stdClass;
+
+            $bpa->bpa = $base_bpa->bpa + $base_bac->bac;
+        }else{
+            $bpa = BPA::first();
+        }
+
         try {
             $data = Pin::with('pengajuan','pengajuan.client','pengajuan.client.user')->where(['id' => $id])->firstOrFail();
 
@@ -81,6 +95,7 @@ class PenawaranController extends Controller
         try {
             Pin::where(['id' => $request->input('kode_pin')])->firstOrFail();
             $request['kode_bpa'] = BPA::select('id')->orderBy('created_at','desc')->first()->id;
+            $request['kode_bac'] = BACabang::select('id')->orderBy('created_at','desc')->first()->id;
             $data = Penawaran::create($request->except(['komponen']));
             $dump = $request->input('dump');
             Log::info($dump[0]);
@@ -131,12 +146,33 @@ class PenawaranController extends Controller
     public function edit($id)
     {
         $user = Auth::user()->kode_user;
-        $bpa = BPA::first();
+
+        $tukang = Tukang::with('user')->where('id',$user)->firstOrFail();
+
+        if ($tukang->verifikasi_lokasi){
+            //BPA memuat 2 item
+            $base_bpa = BPA::first();
+            $base_bac = BACabang::first();
+            $bpa = new stdClass;
+
+            $bpa->bpa = $base_bpa->bpa + $base_bac->bac;
+        }else{
+            $bpa = BPA::first();
+        }
+
         $spd = Sistem_Penarikan_Dana::all();
         try {
-            $tukang = Tukang::with('user')->where('id',$user)->firstOrFail();
             $data = Pin::with('revisi','pengajuan','pengajuan.client','pengajuan.client.user','penawaran','penawaran.komponen')->where(['kode_penawaran' => $id,'kode_tukang' => $user])->firstOrFail();
-            $old_bpa = BPA::where('id', $data->penawaran->kode_bpa)->first();
+
+            if ($tukang->verifikasi_lokasi){
+                //old juga memuat 2 item
+                $base_old_bpa = BPA::where('id', $data->penawaran->kode_bpa)->first();
+                $base_old_bac = BACabang::where('id', $data->penawaran->kode_bac)->first();
+                $old_bpa = new stdClass;
+                $old_bpa->bpa = $base_old_bpa->bpa + $base_old_bac->bac;
+            }else{
+                $old_bpa = BPA::where('id', $data->penawaran->kode_bpa)->first();
+            }
 
             return view('tukang.penawaran.edit')->with(compact('spd','data', 'tukang','bpa', 'old_bpa'));
         }catch (ModelNotFoundException $ee){
