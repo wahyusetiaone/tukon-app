@@ -528,6 +528,16 @@ Route::group(['middleware' => ['auth', 'roles', 'verified']], function () {
                 Route::post('update', [App\Http\Controllers\Admin\BPAController::class, 'update'])->name('pengaturan.bpa.update.admin');
             });
         });
+
+        Route::group(['prefix' => 'pencairan-bonus'], function () {
+            Route::get('/', [App\Http\Controllers\Admin\PencairanBonusController::class, 'index'])->name('pencairan.admin');
+            Route::get('json', [App\Http\Controllers\Admin\PencairanBonusController::class, 'json'])->name('data.pencairan.json.admin');
+            Route::get('show/{id}', [App\Http\Controllers\Admin\PencairanBonusController::class, 'show'])->name('show.pencairan.admin');
+            Route::get('konfirmasi-terima/{id}', [App\Http\Controllers\Admin\PencairanBonusController::class, 'acceptShow'])->name('accept.show.pencairan.admin');
+            Route::get('konfirmasi-tolak/{id}', [App\Http\Controllers\Admin\PencairanBonusController::class, 'rejectShow'])->name('reject.show.pencairan.admin');
+            Route::post('terima', [App\Http\Controllers\Admin\PencairanBonusController::class, 'accept'])->name('accept.pencairan.admin');
+            Route::post('tolak', [App\Http\Controllers\Admin\PencairanBonusController::class, 'reject'])->name('reject.pencairan.admin');
+        });
     });
 });
 

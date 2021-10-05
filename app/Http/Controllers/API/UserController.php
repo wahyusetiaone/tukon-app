@@ -85,7 +85,7 @@ class UserController extends Controller
                 'id' => $new_id,
                 'nomor_telepon' => $input['nomor_telepon'],
                 'kota' => $input['kota'],
-                'provinsi' => 'required',
+                'provinsi' => $input['provinsi'],
                 'alamat' => $input['alamat'],
                 'kode_lokasi' => $input['lokasi']
             ]);

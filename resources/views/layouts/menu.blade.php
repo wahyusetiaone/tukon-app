@@ -23,6 +23,13 @@
             </a>
         </li>
         <li class="nav-item">
+            <a href="{{ route('pencairan.admin') }}"
+               class="nav-link {{ (request()->segment(2) == 'pencairan-bonus') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-credit-card"></i>
+                <p>Pencairan</p>
+            </a>
+        </li>
+        <li class="nav-item">
             <a href="{{ route('pengembalian-dana.admin') }}"
                class="nav-link {{ (request()->segment(2) == 'pengembalian-dana') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-credit-card"></i>

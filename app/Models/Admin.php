@@ -28,4 +28,8 @@ class Admin extends Model
     public function verification(){
         return $this->hasMany(VerificationTukang::class, 'admin_id', 'id');
     }
+
+    public function bonus(){
+        return $this->hasMany(BonusAdminCabang::class, 'admin_id', 'id');
+    }
 }

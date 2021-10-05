@@ -44,6 +44,10 @@ class BonusAdminCabang extends Model
             ->where('admin_id', $auth)->paginate(10);
     }
 
+    public function admin(){
+        return $this->belongsTo(Admin::class, 'admin_id', 'id');
+    }
+
     public function project()
     {
         return $this->belongsTo(Project::class, 'kode_project', 'id');

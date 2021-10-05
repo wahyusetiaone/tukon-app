@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Events\BonusEventController;
 use App\Models\BonusAdminCabang;
 
 class BonusObserver
@@ -40,7 +41,7 @@ class BonusObserver
                     $bonus->id,
                     'admin_cabang',
                     'created',
-                    BonusAdminCabang::eventCreated());
+                    BonusEventController::eventCreated());
                 break;
             case 'updated':
                 //deep_id == bonus
@@ -53,7 +54,7 @@ class BonusObserver
                         $bonus->id,
                         'admin',
                         'update',
-                        BonusAdminCabang::eventCreated());
+                        BonusEventController::eventCreated());
                 }
                 //deep_id == bonus
                 if ($bonus->kode_status == "BA03") {
@@ -65,7 +66,7 @@ class BonusObserver
                         $bonus->id,
                         'admin_cabang',
                         'update',
-                        BonusAdminCabang::eventCreated());
+                        BonusEventController::eventCreated());
                 }
                 //deep_id == bonus
                 if ($bonus->kode_status == "BA04") {
@@ -77,7 +78,7 @@ class BonusObserver
                         $bonus->id,
                         'admin_cabang',
                         'update',
-                        BonusAdminCabang::eventCreated());
+                        BonusEventController::eventCreated());
                 }
                 //deep_id == bonus
                 if ($bonus->kode_status == "BA05") {
@@ -89,7 +90,7 @@ class BonusObserver
                         $bonus->id,
                         'admin_cabang',
                         'update',
-                        BonusAdminCabang::eventCreated());
+                        BonusEventController::eventCreated());
                 }
                 break;
         }

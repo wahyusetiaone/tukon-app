@@ -7,6 +7,7 @@ use App\Http\Resources\CabangResourceController;
 use App\Http\Resources\TukangResourceController;
 use App\Models\Admin;
 use App\Models\HasCabang;
+use App\Models\Tukang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -32,19 +33,18 @@ class CabangController extends Controller
     public function getTukangFromCabang(Request $request,int $idcabang)
     {
         if ($request->input('only') == 'unverified') {
-            $data = HasCabang::with('cabang.tukang')
-                ->whereHas('cabang.tukang', function ($q){
-                    $q->where('verifikasi_lokasi', false);
+            $data = Tukang::with('user')
+                ->whereHas('cabang',function ($q) use ($idcabang){
+                    $q->where('id', $idcabang);
                 })
-                ->where('cabang_id', $idcabang)
-                ->where('admin_id',Auth::id())->paginate(10);
+                ->where('verifikasi_lokasi', false)
+                ->paginate(10);
         }else if ($request->input('only') == 'verified') {
-            $data = HasCabang::with('cabang.tukang')
-                ->whereHas('cabang.tukang', function ($q){
-                    $q->where('verifikasi_lokasi', true);
+            $data = Tukang::with('user')
+                ->whereHas('cabang',function ($q) use ($idcabang){
+                    $q->where('id', $idcabang);
                 })
-                ->where('cabang_id', $idcabang)
-                ->where('admin_id',Auth::id())->paginate(10);
+                ->where('verifikasi_lokasi', true)->paginate(10);
         }
 
         return (new CabangResourceController(['data' => $data]))->response()->setStatusCode(200);
