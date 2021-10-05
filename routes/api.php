@@ -228,6 +228,9 @@ Route::group(['middleware' => ['auth:api', 'roles', 'verified:api']], function (
             Route::get('/', [App\Http\Controllers\API\AdminCabang\BonusController::class, 'index'])->name('get.bonus.admincabang');
             Route::get('ajukan/{id}', [App\Http\Controllers\API\AdminCabang\BonusController::class, 'ajukan'])->name('ajukan.bonus.admincabang');
         });
+        Route::group(['prefix' => 'dashboard'], function () {
+            Route::get('/', [App\Http\Controllers\API\AdminCabang\DashboardController::class, 'index'])->name('dashboard.admincabang');
+        });
     });
     if (env('DEV_MODE', true)) {
         Route::group(['prefix' => 'admin', 'as' => 'admin', 'roles' => 'su'], function () {

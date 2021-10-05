@@ -178,20 +178,20 @@ class KodeStatusSeeder extends Seeder
 
         $kode24 = new KodeStatus();
         $kode24->kode_status='V01';
-        $kode24->nama_kode='Tukang Belum Verified';
-        $kode24->keterangan='Tukang Belum Verified';
+        $kode24->nama_kode='Menunggu Verification';
+        $kode24->keterangan='Menunggu Verification';
         $kode24->save();
 
         $kode25 = new KodeStatus();
         $kode25->kode_status='V02';
-        $kode25->nama_kode='Menunggu Verification';
-        $kode25->keterangan='Menunggu di Verification';
+        $kode25->nama_kode='Tukang Verified';
+        $kode25->keterangan='Tukang Verified';
         $kode25->save();
 
         $kode26 = new KodeStatus();
-        $kode26->kode_status='V01';
-        $kode26->nama_kode='Tukang Verified';
-        $kode26->keterangan='Tukang Verified';
+        $kode26->kode_status='V03';
+        $kode26->nama_kode='Tolak Verification';
+        $kode26->keterangan='Tolak Verification';
         $kode26->save();
 
         $kode27 = new KodeStatus();

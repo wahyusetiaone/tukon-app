@@ -30,7 +30,7 @@ class TransaksiPencairanBonusObserver
     {
         if ($tr->kode_status == 'TB02'){
             $bonus = BonusAdminCabang::find($tr->bonus_admin_id);
-            $bonus->kode_status ='BA04';
+            $bonus->kode_status ='BA01';
             $bonus->save();
         }
         if ($tr->kode_status == 'TB03'){
