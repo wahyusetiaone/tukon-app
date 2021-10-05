@@ -394,13 +394,13 @@ Route::group(['middleware' => ['auth', 'roles', 'verified']], function () {
         });
 
         Route::group(['prefix' => 'penawaran'], function () {
-            Route::get('/', [App\Http\Controllers\Tukang\PenawaranController::class, 'index'])->name('penawaran');
-            Route::get('json', [App\Http\Controllers\Tukang\PenawaranController::class, 'json'])->name('data.penawaran.json');
-            Route::get('show/{id}', [App\Http\Controllers\Tukang\PenawaranController::class, 'show'])->name('show.penawaran');
-            Route::get('edit/{id}', [App\Http\Controllers\Tukang\PenawaranController::class, 'edit'])->name('edit.penawaran');
-            Route::get('add/bypengajuan/{id}', [App\Http\Controllers\Tukang\PenawaranController::class, 'create'])->name('add.penawaran.bypengajuan');
-            Route::post('store', [App\Http\Controllers\Tukang\PenawaranController::class, 'store'])->name('store.penawaran.json');
-            Route::post('update/{id}', [App\Http\Controllers\Tukang\PenawaranController::class, 'update'])->name('update.penawaran.json');
+            Route::get('/', [App\Http\Controllers\Tukang\PenawaranControllerV2::class, 'index'])->name('penawaran');
+            Route::get('json', [App\Http\Controllers\Tukang\PenawaranControllerV2::class, 'json'])->name('data.penawaran.json');
+            Route::get('show/{id}', [App\Http\Controllers\Tukang\PenawaranControllerV2::class, 'show'])->name('show.penawaran');
+            Route::get('edit/{id}', [App\Http\Controllers\Tukang\PenawaranControllerV2::class, 'edit'])->name('edit.penawaran');
+            Route::get('add/bypengajuan/{id}', [App\Http\Controllers\Tukang\PenawaranControllerV2::class, 'create'])->name('add.penawaran.bypengajuan');
+            Route::post('store', [App\Http\Controllers\Tukang\PenawaranControllerV2::class, 'store'])->name('store.penawaran.json');
+            Route::post('update/{id}', [App\Http\Controllers\Tukang\PenawaranControllerV2::class, 'update'])->name('update.penawaran.json');
         });
         Route::group(['prefix' => 'penawaran-offline'], function () {
             Route::get('/', [App\Http\Controllers\Tukang\PenawaranOfflineController::class, 'index'])->name('penawaran.offline');

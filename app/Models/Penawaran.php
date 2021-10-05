@@ -23,6 +23,7 @@ class Penawaran extends Model
         'kode_bac',
         'keuntungan',
         'harga_total',
+        'harga',
         'kode_status',
     ];
 

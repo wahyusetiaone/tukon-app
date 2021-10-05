@@ -25,7 +25,7 @@ class DashboardController extends Controller
         $dashbord['verification_success'] = VerificationTukang::where('admin_id', Auth::id())->where('status', 'V02')->count();
         $dashbord['verification_pandding'] = VerificationTukang::where('admin_id', Auth::id())->where('status', 'V01')->count();
         $dashbord['verification_gagal'] = VerificationTukang::where('admin_id', Auth::id())->where('status', 'V03')->count();
-        $dashbord['bonus'] = BonusAdminCabang::with('project.pembayaran.pin.pengajuan')->where('admin_id',Auth::id())->latest()->limit(5)->get();
+        $dashbord['bonus'] = BonusAdminCabang::with('project.pembayaran.pin.pengajuan','project.pembayaran.pin.tukang.user')->where('admin_id',Auth::id())->latest()->limit(5)->get();
 
         return (new DashboardResourceController(['data' => $dashbord]))->response()->setStatusCode(200);
     }

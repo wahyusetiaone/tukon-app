@@ -20,6 +20,7 @@ class CreatePenawaransTable extends Migration
             $table->integer('keuntungan');
             $table->bigInteger('kode_bpa')->default(0);
             $table->bigInteger('kode_bac')->nullable();
+            $table->bigInteger('harga')->nullable();
             $table->bigInteger('harga_total');
             $table->string('kode_status',4);
             $table->timestamps();

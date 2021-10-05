@@ -134,43 +134,6 @@
             </div>
             <!-- /.row -->
             <div class="row pr-3 pl-3">
-                <div class="col-12 table-responsive">
-                    <h5>Informasi Penawaran Projek</h5>
-
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Nama Komponen</th>
-                            <th>Merk / Type</th>
-                            <th>Spesifikasi Teknis</th>
-                            <th>Satuan</th>
-                            <th>Total Item</th>
-                            <th>Harga Total</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @php
-                            $thargakomponen = 0;
-                        @endphp
-                        @foreach($data->komponen as $item)
-                            <tr>
-                                <td>{{$item->nama_komponen}}</td>
-                                <td>{{$item->merk_type}}</td>
-                                <td>{{$item->spesifikasi_teknis}}</td>
-                                <td>{{$item->satuan}}</td>
-                                <td>{{$item->total_unit}}</td>
-                                <td>{{indonesiaRupiah($item->harga)}}</td>
-                                @php
-                                    $thargakomponen += $item->harga;
-                                @endphp
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <!-- /.col -->
-            </div>
-            <div class="row pr-3 pl-3">
                 <!-- accepted payments column -->
                 <div class="col-6">
                     <p class="lead">Foto:</p>
@@ -213,12 +176,8 @@
                     <div class="table-responsive">
                         <table class="table">
                             <tr>
-                                <th style="width:50%">Total Harga Komponen:</th>
-                                <td>{{indonesiaRupiah($thargakomponen)}}</td>
-                            </tr>
-                            <tr>
                                 <th style="width:50%">Harga Jasa (Rp.):</th>
-                                <td>{{indonesiaRupiah(($thargakomponen*$data->keuntungan)/100)}}</td>
+                                <td>{{indonesiaRupiah(($data->harga*$data->keuntungan)/100)}}</td>
                             </tr>
                             <tr>
                                 <th style="width:50%">Total Harga (Rp.):</th>
