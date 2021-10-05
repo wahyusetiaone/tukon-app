@@ -33,4 +33,8 @@ class Project extends Model
     public function voterate(){
         return $this->hasOne(VoteRate::class, 'kode_project', 'id');
     }
+
+    public function bonusadmin(){
+        return $this->hasOne(BonusAdminCabang::class, 'kode_project', 'id');
+    }
 }

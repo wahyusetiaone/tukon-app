@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\BonusAdminCabang;
 use App\Models\DocumentationProgress;
 use App\Models\Invoice;
 use App\Models\OnProgress;
@@ -16,10 +17,12 @@ use App\Models\Rate;
 use App\Models\Revisi;
 use App\Models\Transaksi_Pembayaran;
 use App\Models\Transaksi_Penarikan;
+use App\Models\Transaksi_Pencairan_Bonus;
 use App\Models\Transaksi_Pengembalian;
 use App\Models\User;
 use App\Models\VerificationTukang;
 use App\Models\VoteRate;
+use App\Observers\BonusObserver;
 use App\Observers\DocumentationProgressObserver;
 use App\Observers\InvoiceObserver;
 use App\Observers\OnProgressObserver;
@@ -33,6 +36,7 @@ use App\Observers\RateObserver;
 use App\Observers\RevisiObserver;
 use App\Observers\TransaksiPembayaranObserver;
 use App\Observers\TransaksiPenarikanDanaObserver;
+use App\Observers\TransaksiPencairanBonusObserver;
 use App\Observers\TransaksiPengembalianDanaObserver;
 use App\Observers\UserObserver;
 use App\Observers\VerificationTukangObserver;
@@ -92,5 +96,7 @@ class AppServiceProvider extends ServiceProvider
         Pembayaran::observe(PembayaranObserver::class);
         Invoice::observe(InvoiceObserver::class);
         VerificationTukang::observe(VerificationTukangObserver::class);
+        Transaksi_Pencairan_Bonus::observe(TransaksiPencairanBonusObserver::class);
+        BonusAdminCabang::observe(BonusObserver::class);
     }
 }

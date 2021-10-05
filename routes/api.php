@@ -224,6 +224,10 @@ Route::group(['middleware' => ['auth:api', 'roles', 'verified:api']], function (
         Route::group(['prefix' => 'verification'], function () {
             Route::post('ajukan/{id}', [App\Http\Controllers\API\AdminCabang\VerificationController::class, 'ajukan_verification'])->name('ajukan.verification.admincabang');
         });
+        Route::group(['prefix' => 'bonus'], function () {
+            Route::get('/', [App\Http\Controllers\API\AdminCabang\BonusController::class, 'index'])->name('get.bonus.admincabang');
+            Route::get('ajukan/{id}', [App\Http\Controllers\API\AdminCabang\BonusController::class, 'ajukan'])->name('ajukan.bonus.admincabang');
+        });
     });
     if (env('DEV_MODE', true)) {
         Route::group(['prefix' => 'admin', 'as' => 'admin', 'roles' => 'su'], function () {
