@@ -43,36 +43,16 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="range">Jangkauan Harga</label>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <!-- text input -->
-                                    <div class="form-group">
-                                        <label>Minimum</label>
-                                        <input required value="{{$data->range_min}}" type="text"
-                                               class="form-control rupiah @error('range_min') is-invalid @enderror"
-                                               id="range_min" name="range_min" placeholder="10000">
-                                        @error('range_min')
-                                        <span class="invalid-feedback" role="alert">
+                            <!-- text input -->
+                            <label>Harga</label>
+                            <input required value="{{$data->harga}}" type="text"
+                                   class="form-control rupiah @error('harga') is-invalid @enderror"
+                                   id="harga" name="harga" placeholder="10000">
+                            @error('harga')
+                            <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label>Maximum</label>
-                                        <input required value="{{$data->range_max}}" type="text"
-                                               class="form-control rupiah @error('range_max') is-invalid @enderror"
-                                               id="range_max" name="range_max" placeholder="100000">
-                                        @error('range_max')
-                                        <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label for="diskripsi">Diskripsi Produk</label>

@@ -1,7 +1,7 @@
 import Swal from "sweetalert2";
 
 $(document).ready(function () {
-    $('a[name="add_to_wish"]').click(function () {
+    $('button[name="add_to_wish"]').click(function () {
         var data = $(this);
         if (!data.hasClass("disabled")){
             Swal.fire({
@@ -23,6 +23,7 @@ $(document).ready(function () {
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
                             console.log(textStatus, errorThrown);
+                            window.location.href = '/panel/login';
                         }
                     });
                 }

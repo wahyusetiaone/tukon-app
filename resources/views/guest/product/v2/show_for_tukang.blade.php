@@ -75,12 +75,12 @@
                             <div class="row  mt-5">
                                 <div class="col-12">
                                     <div class="card bg-gray-light rounded-0 shadow-none border-0">
-                                        <h2 class="text-bold p-3" style="color:#008CC6; text-align: center">{{indonesiaRupiah($data->range_min, false)}} - {{indonesiaRupiah($data->range_max, false)}}</h2>
+                                        <h2 class="text-bold p-3" style="color:#008CC6; text-align: center">{{indonesiaRupiah($data->harga, false)}}</h2>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="row text-muted">
                         <div class="col-12">

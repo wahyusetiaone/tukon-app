@@ -70,10 +70,9 @@ class SearchController extends Controller
        tukangs.path_icon as path_icon,
        tukangs.created_at as tukang_created,
        tukangs.updated_at as tukang_updated,
-       produks.id as kode_produk,
+       produks.id as id,
        produks.nama_produk as nama_produk,
-       produks.range_min as range_min,
-       produks.range_max as range_max,
+       produks.harga as harga,
        produks.diskripsi as diskripsi,
        produks.path as path,
        produks.multipath as multipath,
@@ -87,7 +86,7 @@ class SearchController extends Controller
     {
         return DB::table('tukangs')
             ->select(DB::raw('users.name,
-       tukangs.id as kode_tukang,
+       tukangs.id as id,
        tukangs.nomor_telepon as nomor_telepon,
        tukangs.kota as kota,
        tukangs.alamat as alamat,

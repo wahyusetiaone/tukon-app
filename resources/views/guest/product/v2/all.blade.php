@@ -110,8 +110,7 @@
                                     <div class="card-body" style="background-color: #F9F9F9;">
                                         <h4>{{$ptr->nama_produk}}</h4>
                                         <p class="text-muted">{{$ptr->name}}</p>
-                                        <p class="card-text text-bold">{{indonesiaRupiah($ptr->range_min)}}
-                                            - {{indonesiaRupiah($ptr->range_max)}}</p>
+                                        <p class="card-text text-bold">{{indonesiaRupiah($ptr->harga)}}</p>
                                         {!! bringMeAStar(($ptr->rate*100)/5) !!}
                                     </div>
                                 </div>

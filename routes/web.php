@@ -496,7 +496,7 @@ Route::group(['middleware' => ['auth', 'roles', 'verified']], function () {
             Route::group(['prefix' => 'admin-cabang'], function () {
                 Route::get('/', [App\Http\Controllers\Admin\UserController::class, 'indexadmin'])->name('pengguna.admincabang.admin');
                 Route::get('json', [App\Http\Controllers\Admin\UserController::class, 'jsonadmin'])->name('data.pengguna.admincabang.json.admin');
-                Route::get('show/{id}', [App\Http\Controllers\Admin\UserController::class, 'showtukang'])->name('show.pengguna.admincabang.admin');
+                Route::get('show/{id}', [App\Http\Controllers\Admin\UserController::class, 'showadmin'])->name('show.pengguna.admincabang.admin');
                 Route::get('add', [App\Http\Controllers\Admin\UserController::class, 'addadmin'])->name('add.pengguna.admincabang.admin');
                 Route::post('store', [App\Http\Controllers\Admin\UserController::class, 'storeadmin'])->name('store.pengguna.admincabang.admin');
             });

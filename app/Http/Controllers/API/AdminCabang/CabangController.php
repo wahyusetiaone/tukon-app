@@ -33,7 +33,7 @@ class CabangController extends Controller
     public function getTukangFromCabang(Request $request,int $idcabang)
     {
         if ($request->input('only') == 'unverified') {
-            $data = Tukang::with('user')
+            $data = Tukang::with('user','verification')
                 ->whereHas('cabang',function ($q) use ($idcabang){
                     $q->where('id', $idcabang);
                 })

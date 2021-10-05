@@ -18,7 +18,7 @@ class TukangController extends Controller
      */
     public function show(int $id)
     {
-        $data = Tukang::with('user','foto_kantor')->whereId($id)->first();
+        $data = Tukang::with('user','foto_kantor','verification')->whereId($id)->first();
 
         return (new TukangResourceController(['data' => $data]))->response()->setStatusCode(200);
     }

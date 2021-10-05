@@ -203,9 +203,9 @@ class UserController extends Controller
                 return $sm;
             })->addColumn('action', function ($data) {
                 if (isset($data->pengajuan->deleted_at)) {
-                    $button = '<a href="' . url('su/user/admin/show') . '/' . $data->id . '"><button type="button" name="show" id="' . $data->id . '" class="edit btn btn-danger btn-sm" disabled>Deleted</button></a>';
+                    $button = '<a href="' . url('su/user/admin-cabang/show') . '/' . $data->id . '"><button type="button" name="show" id="' . $data->id . '" class="edit btn btn-danger btn-sm" disabled>Deleted</button></a>';
                 } else {
-                    $button = '<a href="' . url('su/user/admin/show') . '/' . $data->id . '"><button type="button" name="show" id="' . $data->id . '" class="edit btn btn-primary btn-sm">Show</button></a>';
+                    $button = '<a href="' . url('su/user/admin-cabang/show') . '/' . $data->id . '"><button type="button" name="show" id="' . $data->id . '" class="edit btn btn-primary btn-sm">Show</button></a>';
                 }
                 return $button;
             })
@@ -232,9 +232,9 @@ class UserController extends Controller
     public function showadmin($id)
     {
         try {
-            $data = Tukang::with('user.ban')->where(['id' => $id])->firstOrFail();
+            $data = PreRegistrationAdmin::with('user.ban', 'user.admin')->where(['id' => $id])->firstOrFail();
 
-            return view('admin.user.show')->with(compact('data'));
+            return view('admin.user.admin.show')->with(compact('data'));
         } catch (ModelNotFoundException $ee) {
             return View('errors.404');
         }

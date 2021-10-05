@@ -42,8 +42,7 @@ class ProdukController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nama_produk' => 'required',
-            'range_min' => 'required|integer',
-            'range_max' => 'required|integer',
+            'harga' => 'required|integer',
             'diskripsi' => 'required',
             'path_photo' => 'required',
             'path.*' => 'mimes:jpg,jpeg,png|max:1000',

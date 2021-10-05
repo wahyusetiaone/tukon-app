@@ -17,8 +17,7 @@ class CreateProduksTable extends Migration
             $table->id();
             $table->bigInteger('kode_tukang')->default(0);
             $table->string('nama_produk', 50);
-            $table->bigInteger('range_min');
-            $table->bigInteger('range_max');
+            $table->bigInteger('harga');
             $table->text('diskripsi')->nullable();
             $table->boolean('multipath')->nullable();
             $table->text('path')->nullable();

@@ -8,19 +8,14 @@ $(function() {
         columns: [
             { data: 'id', name: 'id' },
             { data: 'nama_produk', name: 'nama_produk' },
-            { data: 'range_min', name: 'range_min' },
-            { data: 'range_max', name: 'range_max' },
+            { data: 'harga', name: 'harga' },
             { data: 'action', name: 'action', orderable:false, serachable:false, sClass:'text-center'},
         ],
         columnDefs: [
             {
                 targets: 2,
                 render: $.fn.dataTable.render.number( '.', ',', '2', 'Rp. ' )
-            },
-            {
-                targets: 3,
-                render: $.fn.dataTable.render.number( '.', ',', '2', 'Rp. ' )
-            },
+            }
         ]
     });
 

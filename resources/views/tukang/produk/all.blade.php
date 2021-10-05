@@ -17,8 +17,7 @@
                 <tr>
                     <th>Id</th>
                     <th>Nama Produk</th>
-                    <th>Harga Min</th>
-                    <th>Harga Maks</th>
+                    <th>Harga</th>
                     <th>Tindakan</th>
                 </tr>
                 </thead>

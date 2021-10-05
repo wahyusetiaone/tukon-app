@@ -175,8 +175,7 @@
                                 <div class="card-body" style="background-color: #F9F9F9;">
                                     <h4>{{$ptr->nama_produk}}</h4>
                                     <p class="text-muted">{{$ptr->name}}</p>
-                                    <p class="card-text text-bold">{{indonesiaRupiah($ptr->range_min)}}
-                                        - {{indonesiaRupiah($ptr->range_max)}}</p>
+                                    <p class="card-text text-bold">{{indonesiaRupiah($ptr->harga)}}</p>
                                     {!! bringMeAStar(($ptr->rate*100)/5) !!}
                                 </div>
                             </div>
@@ -281,8 +280,7 @@
                                             <div class="col-8">
                                                 <h5 class="card-title"><strong>{{$ptr->nama_produk}}</strong></h5>
                                                 <p class="card-text">{{$ptr->name}}.</p>
-                                                <p class="card-text">{{indonesiaRupiah($ptr->range_min, false)}}
-                                                    - {{indonesiaRupiah($ptr->range_max, false)}}</p>
+                                                <p class="card-text">{{indonesiaRupiah($ptr->harga, false)}}</p>
                                             </div>
                                             <div class="col-4">
                                                 <a href="{{route('show.produk.guest', $ptr->kode_produk)}}"
