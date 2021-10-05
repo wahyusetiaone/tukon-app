@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResourceController;
 use App\Models\Admin;
+use App\Models\Ban;
 use App\Models\Cabang;
 use App\Models\Clients;
 use App\Models\HasCabang;
@@ -228,6 +229,7 @@ class UserController extends Controller
     public function details()
     {
         $user = Auth::user();
+        $data['is_banned'] = Ban::where('user_id',Auth::id())->exists();
         $data['auth'] = $user;
         if ($user->kode_role == 2) {
             $data_tk = User::find($user->kode_user);
