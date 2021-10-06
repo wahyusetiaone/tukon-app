@@ -60924,6 +60924,36 @@ $(document).on('click', '[id^=konfirmasi-btn]', function () {
   });
   return false;
 });
+$(document).on('click', '[id^=btn_tolak_nego]', function () {
+  var data = $(this);
+  sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+    icon: 'warning',
+    text: 'Apa kamu yakin akan menolak penawaran ini?',
+    showCancelButton: true,
+    confirmButtonText: 'Tolak',
+    confirmButtonColor: '#F44336'
+  }).then(function (result) {
+    if (result.isConfirmed) {
+      $('#fcm-tolak-nego').submit();
+    }
+  });
+  return false;
+});
+$(document).on('click', '[id^=btn_setuju_nego]', function () {
+  var data = $(this);
+  sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+    icon: 'question',
+    text: 'Apa kamu yakin akan menyetujui penawaran ini?',
+    showCancelButton: true,
+    confirmButtonText: 'Setuju',
+    confirmButtonColor: '#4CAF50'
+  }).then(function (result) {
+    if (result.isConfirmed) {
+      $('#fcm-setuju-nego').submit();
+    }
+  });
+  return false;
+});
 })();
 
 /******/ })()

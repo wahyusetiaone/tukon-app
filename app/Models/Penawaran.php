@@ -54,4 +54,8 @@ class Penawaran extends Model
     public function getTotalHargaKomponen() {
         return $this->komponen()->sum(DB::raw('harga'));
     }
+
+    public function nego(){
+        return $this->hasOne(NegoPenawaran::class, 'kode_penawaran', 'id');
+    }
 }

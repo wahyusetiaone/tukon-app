@@ -24,8 +24,20 @@ class BonusAdminCabang extends Model
                 $selector = 'BA01';
                 $deklor = 'ON01';
                 break;
-            case 'penarikan' :
+            case 'avaliable' :
                 $selector = 'BA01';
+                $deklor = 'ON05';
+                break;
+            case 'diajukan' :
+                $selector = 'BA02';
+                $deklor = 'ON05';
+                break;
+            case 'dicairkan' :
+                $selector = 'BA03';
+                $deklor = 'ON05';
+                break;
+            case 'ditolak' :
+                $selector = 'BA04';
                 $deklor = 'ON05';
                 break;
             case 'batal' :

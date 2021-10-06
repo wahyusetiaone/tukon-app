@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\BonusAdminCabang;
 use App\Models\DocumentationProgress;
 use App\Models\Invoice;
+use App\Models\NegoPenawaran;
 use App\Models\OnProgress;
 use App\Models\OnStepProgress;
 use App\Models\Pembayaran;
@@ -25,6 +26,7 @@ use App\Models\VoteRate;
 use App\Observers\BonusObserver;
 use App\Observers\DocumentationProgressObserver;
 use App\Observers\InvoiceObserver;
+use App\Observers\NegoPenawaranObserver;
 use App\Observers\OnProgressObserver;
 use App\Observers\PembayaranObserver;
 use App\Observers\PenawaranObserver;
@@ -87,6 +89,7 @@ class AppServiceProvider extends ServiceProvider
         Transaksi_Pembayaran::observe(TransaksiPembayaranObserver::class);
         Progress::observe(ProgressObserver::class);
         Project::observe(ProjectObserver::class);
+        //TODO:harus dihapus
         Revisi::observe(RevisiObserver::class);
         OnProgress::observe(OnProgressObserver::class);
         DocumentationProgress::observe(DocumentationProgressObserver::class);
@@ -98,5 +101,6 @@ class AppServiceProvider extends ServiceProvider
         VerificationTukang::observe(VerificationTukangObserver::class);
         Transaksi_Pencairan_Bonus::observe(TransaksiPencairanBonusObserver::class);
         BonusAdminCabang::observe(BonusObserver::class);
+        NegoPenawaran::observe(NegoPenawaranObserver::class);
     }
 }

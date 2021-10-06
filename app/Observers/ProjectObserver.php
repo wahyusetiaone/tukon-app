@@ -51,10 +51,7 @@ class ProjectObserver
 
         $harga_total = $data->pembayaran->total_tagihan;
         //harga_asli
-        $total_bayar = 0;
-        foreach ($data->pembayaran->pin->penawaran->komponen as $item){
-            $total_bayar += $item->harga;
-        }
+        $total_bayar = $data->pembayaran->pin->penawaran->harga;
 
         //keuntungan app
         $k_bpa = ($total_bayar * ($bpa / 100));

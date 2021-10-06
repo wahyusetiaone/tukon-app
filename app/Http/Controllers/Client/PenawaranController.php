@@ -71,7 +71,7 @@ class PenawaranController extends Controller
     public function show($id)
     {
         try {
-            $data = Penawaran::with('pin','pin.pengajuan','pin.pengajuan.client.user','pin.tukang','pin.tukang.user','komponen','pin.pembayaran')->whereHas('pin.pengajuan.client', function ($query){
+            $data = Penawaran::with('nego','pin','pin.pengajuan','pin.pengajuan.client.user','pin.tukang','pin.tukang.user','komponen','pin.pembayaran')->whereHas('pin.pengajuan.client', function ($query){
                 $query->where('id', Auth::id());
             })->where(['id' => $id])->firstOrFail();
 

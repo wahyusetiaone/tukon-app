@@ -44,22 +44,35 @@
                                     </span>
                                 </div>
                             @endif
+                        @elseif($data->pin->status == "B01")
+                            <div class="pl-2 pr-2 pb-4">
+                                <h5 class="text-danger"><i class="fas fa-exclamation-triangle text-danger pr-1"></i> Penawaran Ditolak !!!</h5>
+                                <span class="text-black">Penawaran telah anda tolak !</span>
+                            </div>
+                        @elseif($data->pin->status == "B02")
+                            <div class="pl-2 pr-2 pb-4">
+                                <h5 class="text-danger"><i class="fas fa-exclamation-triangle text-danger pr-1"></i> Penawaran Ditolak !!!</h5>
+                                <span class="text-black">Penawaran telah ditolak Penyedia Jasa !</span>
+                            </div>
                         @endif
                     @elseif($data->kode_status == "T02A")
-                        @if(isset($data->pin->kode_revisi))
-                            <div class="pl-2 pr-2 pb-4">
-                                <h5 class="text-red"><i class="fas fa-ban text-red pr-1"></i> Penawaran Ditolak !!!</h5>
-                                <span class="text-red">Penawaran telah anda tolak, tukang akan segera mengirim ulang revisi penawaran !
+                        <div class="pl-2 pr-2 pb-4">
+                            <h5 class="text-warning"><i class="fas fa-exclamation-triangle text-warning pr-1"></i> Penawaran Nego !!!</h5>
+                            <span class="text-black">Penawaran telah anda nego, tukang akan segera merespon !
                                 <br>
-                                Catatan Penolakan : <b>{{$data->pin->revisi[0]->note}}</b>
+                                Harga Nego : <b>{{indonesiaRupiah($data->nego->harga_nego)}}</b>
                                 </span>
-                            </div>
-                        @else
-                            <div class="pl-2 pr-2 pb-4">
-                                <h5 class="text-red"><i class="fas fa-ban text-red pr-1"></i> Penawaran Ditolak !!!</h5>
-                                <span class="text-red">Penawaran telah anda tolak, tukang akan segera mengirim ulang revisi penawaran !</span>
-                            </div>
-                        @endif
+                        </div>
+                    @elseif($data->pin->status == "B01")
+                        <div class="pl-2 pr-2 pb-4">
+                            <h5 class="text-danger"><i class="fas fa-exclamation-triangle text-danger pr-1"></i> Penawaran Ditolak !!!</h5>
+                            <span class="text-black">Penawaran telah anda tolak !</span>
+                        </div>
+                    @elseif($data->pin->status == "B02")
+                        <div class="pl-2 pr-2 pb-4">
+                            <h5 class="text-danger"><i class="fas fa-exclamation-triangle text-danger pr-1"></i> Penawaran Ditolak !!!</h5>
+                            <span class="text-black">Penawaran telah ditolak Penyedia Jasa !</span>
+                        </div>
                     @endif
                 </div>
                 <div class="col-2 pr-4  ">
@@ -195,15 +208,41 @@
                 <div class="col-12">
                     @if($data->kode_status == "T02" || $data->kode_status == "S02")
                         @if($data->pin->status == "N01")
-                            <button type="button" id="tolak-btn" value="{{$kode}}/{{$data->id}}"
-                                    class="btn btn-danger float-right border-0 rounded-0" style="margin-right: 5px;">
-                                Tolak
-                            </button>
+                            @if(isset($data->nego))
+                                <div class="float-right">
+                                    <form class="pb-3" id="fcm-acc-nego" method="post" action="{{route('persetujuanweb.accpet_nego_client', [\Illuminate\Support\Facades\Auth::id(),$data->id])}}">
+                                        @csrf
+                                        <label for="harga">Pilih Harga</label>
 
-                            <button type="button" id="terima-btn" value="{{$kode}}/{{$data->id}}"
-                                    class="btn btn-success float-right border-0 rounded-0" style="color: white; background-color: #008CC6;margin-right: 5px;">
-                                Terima
-                            </button>
+                                        <select name="harga" class="form-control mr-4">
+                                            <option value="old">{{indonesiaRupiah($data->harga_total, false)}}</option>
+                                            <option value="new">{{indonesiaRupiah($data->nego->harga_nego, false)}}</option>
+                                        </select>
+                                    </form>
+                                    <form id="fcm-tolak-nego" method="get" action="{{route('persetujuanweb.batal_client', $data->id)}}">
+                                        @csrf
+                                    </form>
+
+                                    <button type="button" id="btn-acc-nego"
+                                            class="btn btn-info border-0 rounded-0" style="margin-right: 5px;">
+                                        Terima
+                                    </button>
+                                    <button type="button" id="btn-tolak-nego"
+                                            class="btn btn-danger border-0 rounded-0" style="margin-right: 5px;">
+                                        Tolak
+                                    </button>
+                                </div>
+                            @else
+                                <button type="button" id="tolak-btn" value="{{$kode}}/{{$data->id}}"
+                                        class="btn btn-warning float-right border-0 rounded-0" style="margin-right: 5px;">
+                                    Nego
+                                </button>
+
+                                <button type="button" id="terima-btn" value="{{$kode}}/{{$data->id}}"
+                                        class="btn btn-success float-right border-0 rounded-0" style="color: white; background-color: #008CC6;margin-right: 5px;">
+                                    Terima
+                                </button>
+                            @endif
                         @elseif($data->pin->status == "D01A")
                             <p class="text-muted float-right">Menunggu Persetujuan Tukang</p>
                         @elseif($data->pin->status == "D02")
@@ -212,9 +251,29 @@
                             @elseif($data->pin->pembayaran->kode_status == "P03")
                                 <p class="text-muted float-right">Lihat Proyek</p>
                             @endif
+                        @elseif($data->pin->status == "B02")
+                            <p disabled
+                               class="float-right" style="margin-right: 5px;">
+                                Penawaran ditolak Penyedia Jasa
+                            </p>
+                        @elseif($data->pin->status == "B01")
+                            <p disabled
+                               class="float-right" style="margin-right: 5px;">
+                                Penawaran Anda Tolak
+                            </p>
                         @endif
                     @elseif($data->kode_status == "T02A")
-                        <p class="text-muted float-right">Menunggu Revisi dari Tukang</p>
+                        <p class="text-muted float-right">Menunggu Pesetujuan Nego dari Tukang</p>
+                    @elseif($data->pin->status == "B02")
+                        <p disabled
+                           class="float-right" style="margin-right: 5px;">
+                            Penawaran ditolak Penyedia Jasa
+                        </p>
+                    @elseif($data->pin->status == "B01")
+                        <p disabled
+                           class="float-right" style="margin-right: 5px;">
+                            Penawaran Anda Tolak
+                        </p>
                     @endif
                 </div>
             </div>

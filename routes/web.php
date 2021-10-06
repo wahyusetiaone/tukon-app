@@ -333,7 +333,9 @@ Route::group(['middleware' => ['auth', 'roles', 'verified']], function () {
         });
         Route::group(['prefix' => 'persetujuan', 'as' => 'persetujuan'], function () {
             Route::get('accept/{kode}/{id}', [App\Http\Controllers\Client\PersetujuanController::class, 'accept_client'])->name('web.accpet_client');
-            Route::get('revisi/{kode}/{id}/{note}', [App\Http\Controllers\Client\PersetujuanController::class, 'revisi_client'])->name('web.revisi_client');
+            Route::post('nego/accept/{kode}/{id}', [App\Http\Controllers\Client\PersetujuanController::class, 'accept_nego_client'])->name('web.accpet_nego_client');
+            Route::get('nego/{kode}/{id}/{harganego}', [App\Http\Controllers\Client\PersetujuanController::class, 'nego_client'])->name('web.nego_client');
+            Route::get('nego/tolak/{id}', [App\Http\Controllers\Client\PersetujuanController::class, 'batal_client'])->name('web.batal_client');
         });
         Route::group(['prefix' => 'pembayaran'], function () {
             Route::get('show/{id}', [App\Http\Controllers\Client\PembayaranController::class, 'show'])->name('show.pembayaran.client');
@@ -401,6 +403,8 @@ Route::group(['middleware' => ['auth', 'roles', 'verified']], function () {
             Route::get('add/bypengajuan/{id}', [App\Http\Controllers\Tukang\PenawaranControllerV2::class, 'create'])->name('add.penawaran.bypengajuan');
             Route::post('store', [App\Http\Controllers\Tukang\PenawaranControllerV2::class, 'store'])->name('store.penawaran.json');
             Route::post('update/{id}', [App\Http\Controllers\Tukang\PenawaranControllerV2::class, 'update'])->name('update.penawaran.json');
+            Route::post('nego/setuju/{id}', [App\Http\Controllers\Tukang\PenawaranControllerV2::class, 'setuju_nego'])->name('nego.setuju.penawaran');
+            Route::post('nego/tolak/{id}', [App\Http\Controllers\Tukang\PenawaranControllerV2::class, 'tolak_nego'])->name('nego.tolak.penawaran');
         });
         Route::group(['prefix' => 'penawaran-offline'], function () {
             Route::get('/', [App\Http\Controllers\Tukang\PenawaranOfflineController::class, 'index'])->name('penawaran.offline');

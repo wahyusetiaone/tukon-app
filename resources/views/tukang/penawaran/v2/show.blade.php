@@ -40,19 +40,12 @@
                             @endif
                         @endif
                     @elseif($data->penawaran->kode_status == "T02A")
-                        @if(isset($data->kode_revisi))
-                            <div class="callout callout-danger">
-                                <h5><i class="fas fa-ban"></i> Penawaran Ditolak !!!</h5>
-                                Penawaran anda ditolak, mohon untuk mengajukan ulang revisi penawaran !
-                                <br>
-                                Catatan Penolakan : <b>{{$data->revisi[0]->note}}</b>
-                            </div>
-                        @else
-                            <div class="callout callout-danger">
-                                <h5><i class="fas fa-ban"></i> Penawaran Ditolak !!!</h5>
-                                Penawaran anda ditolak, mohon untuk mengajukan ulang revisi penawaran !
-                            </div>
-                    @endif
+                        <div class="callout callout-warning">
+                            <h5><i class="fas fa-exclamation-triangle"></i> Penawaran Nego !!!</h5>
+                            Penawaran anda dinego oleh klien, mohon untuk segera merespon penawaran !
+                            <br>
+                            Harga Nego : <b>{{indonesiaRupiah($data->penawaran->nego->harga_nego)}}</b>
+                        </div>
                 @endif
 
 
@@ -220,13 +213,50 @@
                                                 Lihat Projek
                                             </button>
                                         @endif
+                                    @elseif($data->status == "B02")
+                                        <p disabled
+                                           class="float-right" style="margin-right: 5px;">
+                                            Penawaran Anda Tolak
+                                        </p>
+                                    @elseif($data->status == "B01")
+                                        <p disabled
+                                           class="float-right" style="margin-right: 5px;">
+                                            Penawaran ditolak Klien
+                                        </p>
                                     @endif
                                 @elseif($data->penawaran->kode_status == "T02A")
-                                    <a href="{{route('edit.penawaran', $data->kode_penawaran)}}">
-                                        <button type="button" class="btn btn-info float-right">
-                                            <i class="fas fa-download text-white"></i> Ajukan Ulang Revisi
-                                        </button>
-                                    </a>
+                                    <button type="button" class="btn btn-info rounded-0 float-right" id="btn_setuju_nego">
+                                        Setuju
+                                    </button>
+                                    <button type="button" class="btn btn-danger rounded-0 mr-3 float-right"  id="btn_tolak_nego">
+                                        Tolak
+                                    </button>
+
+                                    <form id="fcm-tolak-nego"
+                                          action="{{route('nego.tolak.penawaran', $data->kode_penawaran)}}"
+                                          method="post">
+                                        @csrf
+                                        <input type="number" name="nego_id" value="{{$data->penawaran->nego->id}}"
+                                               hidden>
+                                    </form>
+
+                                    <form id="fcm-setuju-nego"
+                                          action="{{route('nego.setuju.penawaran', $data->kode_penawaran)}}"
+                                          method="post">
+                                        @csrf
+                                        <input type="number" name="nego_id" value="{{$data->penawaran->nego->id}}"
+                                               hidden>
+                                    </form>
+                                @elseif($data->status == "B02")
+                                    <p disabled
+                                            class="float-right" style="margin-right: 5px;">
+                                        Penawaran Anda Tolak
+                                    </p>
+                                @elseif($data->status == "B01")
+                                    <p disabled
+                                            class="float-right" style="margin-right: 5px;">
+                                        Penawaran ditolak Klien
+                                    </p>
                                 @endif
                             </div>
                         </div>

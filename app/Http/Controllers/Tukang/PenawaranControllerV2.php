@@ -7,11 +7,13 @@ use App\Http\Resources\PenawaranResourceController;
 use App\Models\BACabang;
 use App\Models\BPA;
 use App\Models\Komponen;
+use App\Models\NegoPenawaran;
 use App\Models\Penawaran;
 use App\Models\Pin;
 use App\Models\Sistem_Penarikan_Dana;
 use App\Models\Tukang;
 use App\Models\User;
+use App\Observers\NegoPenawaranObserver;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -118,7 +120,7 @@ class PenawaranControllerV2 extends Controller
         $user = Auth::user()->kode_user;
         try {
             $tukang = Tukang::with('user')->where('id',$user)->firstOrFail();
-            $data = Pin::with('revisi','pengajuan','pengajuan.client','pengajuan.client.user','penawaran','pembayaran')->where(['kode_penawaran' => $id,'kode_tukang' => $user])->firstOrFail();
+            $data = Pin::with('revisi','pengajuan','pengajuan.client','pengajuan.client.user','penawaran.nego','pembayaran')->where(['kode_penawaran' => $id,'kode_tukang' => $user])->firstOrFail();
 
             return view('tukang.penawaran.v2.show')->with(compact('data', 'tukang'));
         }catch (ModelNotFoundException $ee){
@@ -188,6 +190,57 @@ class PenawaranControllerV2 extends Controller
             return redirect()->route('show.penawaran', $data->id);
         } catch (ModelNotFoundException $e) {
             Alert::success('Error', 'Gagal melakukan Penawaran!');
+            return redirect()->back();
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
+     */
+    public function tolak_nego(Request $request, $id)
+    {
+        if (!Penawaran::whereId($id)->exists()){
+            Alert::success('Error', 'Penawaran tidak ditemukan!');
+            return redirect()->back();
+        }
+
+        try {
+            $data = NegoPenawaran::whereId($request->input('nego_id'))->first();
+            $data->disetujui = false;
+            $data->save();
+            Alert::success('Succesfully Updated', 'Berhasil menolak harga Nego Penawaran!');
+            return redirect()->back();
+        } catch (ModelNotFoundException $e) {
+            Alert::success('Error', 'Gagal menolak harga Nego Penawaran!');
+            return redirect()->back();
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
+     */
+    public function setuju_nego(Request $request, $id)
+    {
+        if (!Penawaran::whereId($id)->exists()){
+            Alert::success('Error', 'Penawaran tidak ditemukan!');
+            return redirect()->back();
+        }
+        try {
+            $data = NegoPenawaran::whereId($request->input('nego_id'))->first();
+            $data->disetujui = true;
+            $data->save();
+            Alert::success('Succesfully Updated', 'Berhasil menyetujui harga Nego Penawaran!');
+            return redirect()->back();
+        } catch (ModelNotFoundException $e) {
+            Alert::success('Error', 'Gagal menyetujui harga Nego Penawaran!');
             return redirect()->back();
         }
     }

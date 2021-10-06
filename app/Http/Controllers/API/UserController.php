@@ -240,7 +240,7 @@ class UserController extends Controller
             $data['data'] = $data_cl->client;
         }
         if ($user->kode_role == 4) {
-            $data_ad = Admin::find($user->kode_user);
+            $data_ad = User::find($user->kode_user);
             $data['data'] = $data_ad->admin;
         }
 
