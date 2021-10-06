@@ -51,6 +51,7 @@
     "/js/all_pengembalian_admin.js": "/js/all_pengembalian_admin.js",
     "/js/konfirmasi_pengembalian_admin.js": "/js/konfirmasi_pengembalian_admin.js",
     "/js/all_bpa_admin.js": "/js/all_bpa_admin.js",
+    "/js/all_bac_admin.js": "/js/all_bac_admin.js",
     "/js/add_admin_user_admin.js": "/js/add_admin_user_admin.js",
     "/js/all_verification_admin.js": "/js/all_verification_admin.js",
     "/js/show_verification_admin.js": "/js/show_verification_admin.js",

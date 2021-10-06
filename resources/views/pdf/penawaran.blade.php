@@ -85,11 +85,11 @@
     Kepada Yth :<br>
     <b>{{$data->pin->pengajuan->client->user->name}}</b><br>
     Di Tempat<br>
-    Perihal : {{$data->pin->pengajuan->nama_proyek}}
+    Perihal : <b>{{$data->pin->pengajuan->nama_proyek}}</b>
 </p>
 <p>
     Dengan Hormat,<br>
-    Bersama surat ini kami mengajukan penawaran kerjasama dalam proyek {{$data->pin->pengajuan->nama_proyek}} dengan RAB
+    Bersama surat ini kami mengajukan penawaran kerjasama dalam proyek <b>{{$data->pin->pengajuan->nama_proyek}}</b> dengan RAB
     sebagai berikut :
 </p>
 <table class="table">
@@ -99,37 +99,21 @@
     <tr>
         <th scope="col"><small>No</small></th>
         <th scope="col"><small>Nama Item</small></th>
-        <th scope="col"><small>Spesifikasi</small></th>
-        <th scope="col"><small>Satuan</small></th>
-        <th scope="col"><small>Total Unit</small></th>
-        <th scope="col"><small>Harga Peritem</small></th>
-        <th scope="col"><small>Total</small></th>
+        <th scope="col"><small>Harga</small></th>
     </tr>
     </thead>
     <tbody>
-    @foreach($data->komponen as $item)
-        <tr>
-            <th scope="row"><small>{{$nomor}}</small></th>
-            <td><small>{{$item->nama_komponen}}</small></td>
-            <td><small>{{$item->spesifikasi_teknis}}</small></td>
-            <td><small>{{$item->satuan}}</small></td>
-            <td><small>{{$item->total_unit}}</small></td>
-            <td><small>{{indonesiaRupiah(($item->harga/$item->total_unit))}}</small></td>
-            <td><small>{{indonesiaRupiah($item->harga)}}</small></td>
-        </tr>
-        {{$nomor +=1}}
-        {{$tt += $item->harga}}
-    @endforeach
-    <tr class="table">
-        <th scope="col" colspan="6"><small class="float-right"><strong>Total</strong></small></th>
-        <td><small>{{indonesiaRupiah($tt)}}</small></td>
+    <tr>
+        <th scope="row"><small>1</small></th>
+        <td><small>Bahan dan alat yang digunakan untuk melaksanakan pekerjaan proyek.</small></td>
+        <td><small>{{indonesiaRupiah($data->harga)}}</small></td>
     </tr>
     <tr class="table borderless">
-        <th scope="col" colspan="6"><small class="float-right"><strong>Jasa</strong></small></th>
-        <td><small>{{indonesiaRupiah(($tt*$data->keuntungan)/100)}}</small></td>
+        <th scope="col" colspan="2"><small class="float-right"><strong>Jasa</strong></small></th>
+        <td><small>{{indonesiaRupiah(($data->harga*$data->keuntungan)/100)}}</small></td>
     </tr>
     <tr class="table borderless">
-        <th scope="col" colspan="6"><small class="float-right"><strong>Total Harga</strong></small></th>
+        <th scope="col" colspan="2"><small class="float-right"><strong>Total Harga</strong></small></th>
         <td><small>{{indonesiaRupiah($data->harga_total)}}</small></td>
     </tr>
     </tbody>

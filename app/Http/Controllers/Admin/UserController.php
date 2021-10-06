@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Mail\RegisterAdminCabangMail;
 use App\Models\Admin;
+use App\Models\BACabang;
 use App\Models\Clients;
 use App\Models\PreRegistrationAdmin;
 use App\Models\Tukang;
@@ -220,7 +221,8 @@ class UserController extends Controller
      */
     public function indexadmin()
     {
-        return view('admin.user.all')->with(['title' => "Daftar Admin Cabang", 'placehold' => 'ID, Nama atau Email Admin Cabang']);;
+        $bac = BACabang::first();
+        return view('admin.user.all')->with(['title' => "Daftar Admin Cabang", 'placehold' => 'ID, Nama atau Email Admin Cabang', 'bac' => $bac]);;
     }
 
     /**

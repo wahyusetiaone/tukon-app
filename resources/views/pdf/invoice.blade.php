@@ -105,29 +105,21 @@
     </center>
 
     <table style="width: 100%; border-color: #000 !important;" class="table borderless">
-        <thead>
+        {{$nomor = 1 }}
+        {{$tt = 0 }}
+        <thead class="thead-dark">
         <tr>
-            <th style="text-align: center; vertical-align: middle;">#</th>
-            <th style="vertical-align: middle;">Description</th>
-            <th style="text-align: center; vertical-align: middle;">Quantity</th>
-            <th style="text-align: center; vertical-align: middle;">Unit Cost</th>
-            <th style="text-align: center; vertical-align: middle;">Total</th>
+            <th scope="col"><small>No</small></th>
+            <th scope="col"><small>Nama Item</small></th>
+            <th scope="col"><small>Harga</small></th>
         </tr>
         </thead>
         <tbody>
-        @php $tt = 0 @endphp
-        @foreach($data->pin->penawaran->komponen as $item)
-            <tr>
-                <td style="text-align: center; vertical-align: middle;">#</td>
-                <td style="vertical-align: middle;">
-                    {{$item->nama_komponen}}
-                </td>
-                <td style="text-align: center; vertical-align: middle;">{{$item->total_unit}}</td>
-                <td style="text-align: center; vertical-align: middle;">{{indonesiaRupiah($item->harga / $item->total_unit)}}</td>
-                <td style="text-align: center; vertical-align: middle;">{{indonesiaRupiah($item->harga)}}</td>
-                @php $tt += $item->harga @endphp
-            </tr>
-        @endforeach
+        <tr>
+            <th scope="row"><small>1</small></th>
+            <td><small>Bahan dan alat yang digunakan untuk melaksanakan pekerjaan proyek.</small></td>
+            <td><small>{{indonesiaRupiah($data->pin->penawaran->harga)}}</small></td>
+        </tr>
         </tbody>
         <table style="width: 100%">
             <tbody>
@@ -150,19 +142,8 @@
                         pembongkaran / penarikan
                     </div>
                 </td>
-                <td style="width:15%; text-align: right; vertical-align: bottom;">Subtotal :</td>
-                <td style="width:40%; text-align: right; vertical-align: bottom;">{{indonesiaRupiah($tt)}}</td>
-            </tr>
-            <tr>
-                <td style="width:15%; text-align: right; vertical-align: bottom;">PPN :</td>
-                <td style="width:40%; text-align: right; vertical-align: bottom;">{{indonesiaRupiah(0)}}</td>
-            </tr>
-            <tr>
                 <td style="width:15%; text-align: right; vertical-align: bottom;">Jasa :</td>
-                @php
-                    $jasa = ($tt*$data->pin->penawaran->keuntungan)/100;
-                @endphp
-                <td style="width:40%; text-align: right; vertical-align: bottom;">{{indonesiaRupiah($jasa)}}</td>
+                <td style="width:40%; text-align: right; vertical-align: bottom;">{{indonesiaRupiah(($data->pin->penawaran->harga*$data->pin->penawaran->keuntungan)/100)}}</td>
             </tr>
             <tr>
                 <td style="width:15%; text-align: right; vertical-align: bottom;">Total :</td>

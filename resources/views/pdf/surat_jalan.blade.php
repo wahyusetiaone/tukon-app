@@ -101,29 +101,16 @@
     <tr>
         <th scope="col"><small>No</small></th>
         <th scope="col"><small>Nama Item</small></th>
-        <th scope="col"><small>Spesifikasi</small></th>
-        <th scope="col"><small>Satuan</small></th>
-        <th scope="col"><small>Total Unit</small></th>
         <th scope="col"><small>Pengecekan</small></th>
     </tr>
     </thead>
     <tbody>
-    @foreach($data->pembayaran->pin->penawaran->komponen as $item)
-        <tr>
-            <th scope="row"><small{{$nomor}}</small></th>
-            <td><small>{{$item->nama_komponen}}</small></td>
-            <td><small>{{$item->spesifikasi_teknis}}</small></td>
-            <td><small>{{$item->satuan}}</small></td>
-            <td><small>{{$item->total_unit}}</small></td>
-            <td><input type="checkbox"/></td>
-        </tr>
-        {{$nomor +=1}}
-    @endforeach
-    <tr class="table">
-        <th scope="col" colspan="5"><small class="float-right"><strong>Lengkap</strong></small></th>
-        <td><input type="checkbox"/></i>
-        </td>
+    <tr>
+        <th scope="row"><small{{$nomor}}</small></th>
+        <td><small>Bahan dan alat yang digunakan untuk melaksanakan pekerjaan proyek.</small></td>
+        <td><input type="checkbox"/></td>
     </tr>
+    {{$nomor +=1}}
     </tbody>
 </table>
 <p>Mohon diperiksa kembali keadaan barang dan diterima.</p>

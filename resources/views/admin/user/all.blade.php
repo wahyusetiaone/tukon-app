@@ -53,9 +53,9 @@
             @if($title == 'Daftar Admin Cabang')
                 <div class="float-right">
                     <a href="{{route('add.pengguna.admincabang.admin')}}" class="btn btn-primary-cs">Tambah Admin</a>
-                    <a href="#" class="btn btn-primary-cs" data-toggle="tooltip" data-html="true"
+                    <a href="{{route('pengaturan.bac.index.admin')}}" class="btn btn-primary-cs" data-toggle="tooltip" data-html="true"
                        data-placement="bottom"
-                       title="<p><small>Atur Default <strong>Bonus Admin Cabang</strong>.</small></p>">
+                       title="<p><small>Default Default <strong>{{$bac->bac}}%</strong>. Atur ulang <strong>Bonus Admin Cabang</strong></small></p>">
                         <i class="fas fa-cog"></i>
                     </a>
                 </div>

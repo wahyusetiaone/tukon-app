@@ -100,14 +100,15 @@ Route::group(['middleware' => ['auth:api', 'roles', 'verified:api']], function (
                 Route::get('delete/{id}', 'App\Http\Controllers\API\PenawaranOfflineController@destroy')->name('delete');
                 Route::get('show/{id}', 'App\Http\Controllers\API\PenawaranOfflineController@show')->name('show');
             });
-            Route::get('get', 'App\Http\Controllers\API\PenawaranController@index')->name('get');
-            Route::get('show/{id}', 'App\Http\Controllers\API\PenawaranController@show')->name('show');
-            Route::post('add', 'App\Http\Controllers\API\PenawaranController@create')->name('add');
-            Route::post('update/{id}', 'App\Http\Controllers\API\PenawaranController@update')->name('update');
-            Route::delete('remove/{id}', 'App\Http\Controllers\API\PenawaranController@destroy')->name('remove');
-            Route::post('updatev2/{id}', 'App\Http\Controllers\API\PenawaranController@updatev2')->name('updatev2');
-            Route::delete('komponen/remove/{id}', 'App\Http\Controllers\API\PenawaranController@destroy_komponen')->name('komponen.remove');
-            Route::post('komponen/update/{id}', 'App\Http\Controllers\API\PenawaranController@update_komponen')->name('komponen.update');
+            Route::get('get', 'App\Http\Controllers\API\PenawaranControllerV2@index')->name('get');
+            Route::get('show/{id}', 'App\Http\Controllers\API\PenawaranControllerV2@show')->name('show');
+            Route::post('add', 'App\Http\Controllers\API\PenawaranControllerV2@create')->name('add');
+            Route::post('update/{id}', 'App\Http\Controllers\API\PenawaranControllerV2@update')->name('update');
+            Route::delete('remove/{id}', 'App\Http\Controllers\API\PenawaranControllerV2@destroy')->name('remove');
+            Route::group(['prefix' => 'nego', 'as' => 'nego'], function () {
+                Route::post('tolak/{id}', 'App\Http\Controllers\API\NegoPenawaranController@tolak_nego')->name('tolak');
+                Route::post('setuju/{id}', 'App\Http\Controllers\API\NegoPenawaranController@setuju_nego')->name('setuju');
+            });
         });
         Route::group(['prefix' => 'persetujuan', 'as' => 'persetujuan'], function () {
             Route::get('accept/{id}', 'App\Http\Controllers\API\PersetujuanController@accept_tukang')->name('accpet_tukang');
@@ -128,7 +129,10 @@ Route::group(['middleware' => ['auth:api', 'roles', 'verified:api']], function (
         Route::group(['prefix' => 'bpa', 'as' => 'bpa'], function () {
             Route::get('active', 'App\Http\Controllers\API\BPAController@index')->name('bpa.active');
             Route::get('check/{id}', 'App\Http\Controllers\API\BPAController@check')->name('bpa.check');
-
+        });
+        Route::group(['prefix' => 'bac', 'as' => 'bac'], function () {
+            Route::get('active', 'App\Http\Controllers\API\BACController@index')->name('bac.active');
+            Route::get('check/{id}', 'App\Http\Controllers\API\BACController@check')->name('bac.check');
         });
         Route::group(['prefix' => 'penarikan', 'as' => 'penarikan'], function () {
             Route::get('get', 'App\Http\Controllers\API\PenarikanDanaController@index')->name('get');
@@ -171,6 +175,11 @@ Route::group(['middleware' => ['auth:api', 'roles', 'verified:api']], function (
         });
         Route::group(['prefix' => 'penawaran', 'as' => 'penawaran'], function () {
             Route::get('show/{id}', 'App\Http\Controllers\API\PenawaranController@showclient')->name('penawaran.show.client');
+            Route::group(['prefix' => 'nego', 'as' => 'nego'], function () {
+                Route::get('/{kode}/{id}/{harganego}', 'App\Http\Controllers\API\NegoPenawaranController@nego_client')->name('nego');
+                Route::post('setuju/{kode}/{id}', 'App\Http\Controllers\API\NegoPenawaranController@accept_nego_client')->name('setuju');
+                Route::get('batal/{id}', 'App\Http\Controllers\API\NegoPenawaranController@batal_client')->name('batal');
+            });
         });
         Route::group(['prefix' => 'persetujuan', 'as' => 'persetujuan'], function () {
             Route::get('accept/{id}', 'App\Http\Controllers\API\PersetujuanController@accept_client')->name('accpet_client');

@@ -23,7 +23,7 @@ class PdfDomController extends Controller
     public function invoice($id)
     {
         try {
-            $data = Pembayaran::with('pin.pengajuan.client.user','pin.penawaran.komponen')->whereHas('pin.pengajuan', function ($query) {
+            $data = Pembayaran::with('pin.pengajuan.client.user','pin.penawaran')->whereHas('pin.pengajuan', function ($query) {
                 $query->where('kode_client', Auth::id());
             })->where(['id' => $id])->firstOrFail();
 
@@ -41,7 +41,7 @@ class PdfDomController extends Controller
     public function penawaran($id)
     {
         try {
-            $data = Penawaran::with('pin','pin.pengajuan','pin.pengajuan.client.user','pin.tukang','pin.tukang.user','komponen','pin.pembayaran')->whereHas('pin.pengajuan.client', function ($query){
+            $data = Penawaran::with('pin','pin.pengajuan','pin.pengajuan.client.user','pin.tukang','pin.tukang.user','pin.pembayaran')->whereHas('pin.pengajuan.client', function ($query){
                 $query->where('id', Auth::id());
             })->where(['id' => $id])->firstOrFail();
 
@@ -76,7 +76,7 @@ class PdfDomController extends Controller
     public function surat_jalan($id)
     {
         try {
-            $data = Project::with('penarikan.transaksi_penarikan.persentase','progress','progress.onprogress','progress.onprogress.doc','pembayaran','pembayaran.transaksi_pembayaran','pembayaran.pin','pembayaran.pin.pengajuan','pembayaran.pin.pengajuan.client','pembayaran.pin.pengajuan.client.user','pembayaran.pin.penawaran','pembayaran.pin.penawaran.komponen','pembayaran.pin.tukang','pembayaran.pin.tukang.user')->where('id', $id)->first();
+            $data = Project::with('penarikan.transaksi_penarikan.persentase','progress','progress.onprogress','progress.onprogress.doc','pembayaran','pembayaran.transaksi_pembayaran','pembayaran.pin','pembayaran.pin.pengajuan','pembayaran.pin.pengajuan.client','pembayaran.pin.pengajuan.client.user','pembayaran.pin.penawaran','pembayaran.pin.tukang','pembayaran.pin.tukang.user')->where('id', $id)->first();
 
             $pdf = PDF::loadview('pdf.surat_jalan',['data'=>$data]);
             $filename = str_replace(" ", "-", 'surat_jalan-'.$data->pembayaran->pin->pengajuan->nama_proyek.'.pdf');

@@ -503,6 +503,11 @@ Route::group(['middleware' => ['auth', 'roles', 'verified']], function () {
                 Route::get('show/{id}', [App\Http\Controllers\Admin\UserController::class, 'showadmin'])->name('show.pengguna.admincabang.admin');
                 Route::get('add', [App\Http\Controllers\Admin\UserController::class, 'addadmin'])->name('add.pengguna.admincabang.admin');
                 Route::post('store', [App\Http\Controllers\Admin\UserController::class, 'storeadmin'])->name('store.pengguna.admincabang.admin');
+                Route::group(['prefix' => 'bac'], function () {
+                    Route::get('/', [App\Http\Controllers\Admin\BACController::class, 'index'])->name('pengaturan.bac.index.admin');
+                    Route::get('json', [App\Http\Controllers\Admin\BACController::class, 'json'])->name('pengaturan.bac.json.admin');
+                    Route::post('update', [App\Http\Controllers\Admin\BACController::class, 'update'])->name('pengaturan.bac.update.admin');
+                });
             });
             Route::post('banned/{id}', [App\Http\Controllers\Admin\BanController::class, 'banned'])->name('pengguna.banned.admin');
             Route::get('unbanned/{id}', [App\Http\Controllers\Admin\BanController::class, 'unbanned'])->name('pengguna.unbanned.admin');
