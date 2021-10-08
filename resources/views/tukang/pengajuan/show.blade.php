@@ -143,7 +143,7 @@
                                     <a href="{{route('add.penawaran.bypengajuan', $data->id)}}">
                                         <button type="button" class="btn btn-primary float-right"
                                                 style="margin-right: 5px;">
-                                            <i class="fas fa-download"></i> Terima & Kirim Penawaran
+                                            <i class="fas fa-download"></i> Terima & Buat Penawaran
                                         </button>
                                     </a>
                                 @elseif($data->kode_penawaran != null &&$data->status == 'N01')

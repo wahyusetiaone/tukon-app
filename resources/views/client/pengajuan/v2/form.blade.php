@@ -140,7 +140,7 @@
                                 </div>
                                 <div class="col-6 border-left pl-4">
                                     <div class="form-group">
-                                        <p>Blueprint / Sketsa Proyek *</p>
+                                        <p>Desain / Gambar kerja *</p>
                                         <p style="font-size: 11pt">Ketentuan :
                                             <br>
                                             1.Upload file yang memiliki format Jpg dan Png<br>

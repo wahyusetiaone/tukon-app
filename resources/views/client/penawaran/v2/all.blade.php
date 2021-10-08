@@ -21,8 +21,8 @@
                 <div class="col-8"></div>
                 <div class="col-2">
                     <a class="btn btn-block rounded-0 {!! (!request()->exists('only')) ? 'btn-info' : 'btn-outline-info'  !!}"
-                    {!!  (!request()->exists('only')) ? 'style="pointer-events: none;cursor: default;" onclick="return false"' : ''  !!}
-                    href="{{route('penawaran.client')}}">
+                       {!!  (!request()->exists('only')) ? 'style="pointer-events: none;cursor: default;" onclick="return false"' : ''  !!}
+                       href="{{route('penawaran.client')}}">
                         Aktif
                     </a>
                 </div>
@@ -50,13 +50,17 @@
                                 <p class="p-0 m-0 text-danger">Batal</p>
                                 @break
 
+                                @case('B99')
+                                <p class="p-0 m-0 text-danger">Pengajuan Expaired</p>
+                                @break
+
                                 @default
                                 <span>Something went wrong, please try again</span>
                             @endswitch
                         </div>
                         <div class="col-3">
                             <a href="{{route('show.pengajuan.client',$dat['id'])}}">
-                                <button class="btn btn-info float-right">Lihat Pengajuan</button>
+                                <button class="btn btn-info float-right">Detail Pengajuan</button>
                             </a>
                         </div>
                     </div>
@@ -94,13 +98,13 @@
                                        href="{{route('show.penawaran.client',$pen['penawaran']['id'])}}">
                                         <i class="fas fa-eye">
                                         </i>
-                                        Lihat
+                                        Detail
                                     </a>
                                 @else
                                     <a class="btn btn-outline-secondary float-right mt-3 disabled" href="#">
                                         <i class="fas fa-eye">
                                         </i>
-                                        Lihat
+                                        Detail
                                     </a>
                                 @endif
                             </div>
@@ -115,11 +119,21 @@
                     @if($data['total'] == 0)
                         Belum Ada Data
                     @else
-                        @foreach($data['links'] as $dat)
-                            <li class="page-item {{$dat['active'] ? "active" : ""}} {{$dat['url'] ?? 'disabled'}}">
-                                <a class="page-link" href="{{$dat['url']}}">@php echo $dat['label']; @endphp</a>
-                            </li>
-                        @endforeach
+                        @if(request()->exists('only'))
+                            @if(request()->input('only') == 'batal')
+                                @foreach($data['links'] as $dat)
+                                    <li class="page-item {{$dat['active'] ? "active" : ""}} {{$dat['url'] ?? 'disabled'}}">
+                                        <a class="page-link" href="{{$dat['url'].'&only=batal'}}">@php echo $dat['label']; @endphp</a>
+                                    </li>
+                                @endforeach
+                            @endif
+                        @else
+                            @foreach($data['links'] as $dat)
+                                <li class="page-item {{$dat['active'] ? "active" : ""}} {{$dat['url'] ?? 'disabled'}}">
+                                    <a class="page-link" href="{{$dat['url']}}">@php echo $dat['label']; @endphp</a>
+                                </li>
+                            @endforeach
+                        @endif
                     @endif
                 </ul>
             </nav>

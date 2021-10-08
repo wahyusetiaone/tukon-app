@@ -230,7 +230,7 @@
                             </div>
 
                             <label for="inputEstimatedBudget">Metode Penarikan Dana</label>
-                            <p class="text-sm">Metode Penarikan adalah metode pencairan dana proyek.</p>
+                            <p class="text-sm">Silahkan pilih pembayaran yang di inginkan.</p>
                             @foreach($spd as $item)
                                 @if($item->id == 1)
                                     <div class="form-check">

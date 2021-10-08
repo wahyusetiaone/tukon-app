@@ -19,6 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('oauth', 'App\Http\Controllers\API\OAuthGoogleController@check');
 Route::post('login', 'App\Http\Controllers\API\UserController@login');
 Route::post('register', 'App\Http\Controllers\API\UserController@register');
 Route::post('register/admin-cabang/{hash}', 'App\Http\Controllers\API\UserController@registerAdminCabang')->name('register.admin-cabang');

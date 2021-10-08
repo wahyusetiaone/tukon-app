@@ -24,7 +24,8 @@ class PenawaranController extends Controller
                 ->whereHas('pin', function ($q){
                     $q->where('status', 'B01')
                         ->orWhere('status', 'B02')
-                        ->orWhere('status', 'B04');
+                        ->orWhere('status', 'B04')
+                        ->orWhere('status', 'B99');
                 })
                 ->orderByDesc('created_at')
                 ->paginate(5)->toArray();
