@@ -34,7 +34,7 @@ class PersetujuanController extends Controller
                 if (!is_null($penawaran->pin->kode_penawaran)) {
 
                     $data = Pin::find($penawaran->pin->id);
-                    $data->update(['status' => 'D01A']);
+                    $data->update(['status' => 'D02']);
                     return (new PersetujuanResourceController(['update_status' => $data]))->response()->setStatusCode(200);
                 } else {
                     return (new PersetujuanResourceController(['error' => "Tidak bisa melakukan persetujuan projek karena tukang belum melakukan penawaran!!"]))->response()->setStatusCode(401);

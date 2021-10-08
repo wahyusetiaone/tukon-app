@@ -47,6 +47,7 @@
     "/js/all_pengajuan_admin.js": "/js/all_pengajuan_admin.js",
     "/js/all_user_admin.js": "/js/all_user_admin.js",
     "/js/show_profile_user_admin.js": "/js/show_profile_user_admin.js",
+    "/js/show_profile_user_admincabang_admin.js": "/js/show_profile_user_admincabang_admin.js",
     "/js/konfirmasi_penarikan_admin.js": "/js/konfirmasi_penarikan_admin.js",
     "/js/all_pengembalian_admin.js": "/js/all_pengembalian_admin.js",
     "/js/konfirmasi_pengembalian_admin.js": "/js/konfirmasi_pengembalian_admin.js",

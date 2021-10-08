@@ -50,6 +50,7 @@ class VerificationController extends Controller
             DB::transaction(function () use ($request, $id, $path, $s_path, &$data) {
                 $request['tukang_id'] = $id;
                 $request['admin_id'] = Auth::id();
+                $request['alokasi_bonus_id'] = Auth::id();
                 $data = VerificationTukang::create($request->except(['foto_ktp', 'foto_personal', 'foto_kantor']));
                 foreach ($request->file('foto_kantor') as $file) {
                     if ($file->isValid()) {

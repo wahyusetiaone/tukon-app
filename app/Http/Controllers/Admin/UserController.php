@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\RegisterAdminCabangMail;
 use App\Models\Admin;
 use App\Models\BACabang;
+use App\Models\BonusAdminCabang;
 use App\Models\Clients;
 use App\Models\PreRegistrationAdmin;
 use App\Models\Tukang;
@@ -235,8 +236,10 @@ class UserController extends Controller
     {
         try {
             $data = PreRegistrationAdmin::with('user.ban', 'user.admin')->where(['id' => $id])->firstOrFail();
-
-            return view('admin.user.admin.show')->with(compact('data'));
+            $bonusActive =  BonusAdminCabang::with('project')->whereHas('project', function ($q){
+                $q->where('kode_status', 'ON01');
+            })->where('kode_status', 'BA01')->where('admin_id', $data->user->id)->get();
+            return view('admin.user.admin.show')->with(compact('data', 'bonusActive'));
         } catch (ModelNotFoundException $ee) {
             return View('errors.404');
         }

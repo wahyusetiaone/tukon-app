@@ -62,11 +62,16 @@ class ProjectObserver
         $app->save();
 
         if ($data->pembayaran->pin->tukang->verifikasi_lokasi){
+            $dialihkan = false;
+            if ($data->pembayaran->pin->tukang->verification->alokasi_bonus_id != $data->pembayaran->pin->tukang->verification->admin_id){
+                $dialihkan = true;
+            }
             //bonus admin
             $k_bac = ($total_bayar * ($bac / 100));
             $admin = new BonusAdminCabang();
             $admin->kode_project = $data->id;
-            $admin->admin_id = $data->pembayaran->pin->tukang->verification->admin_id;
+            $admin->admin_id = $data->pembayaran->pin->tukang->verification->alokasi_bonus_id;
+            $admin->dialihkan = $dialihkan;
             $admin->bonus = $k_bac;
             $admin->save();
             $k_bpa += $k_bac;

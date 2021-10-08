@@ -35,7 +35,7 @@ class PersetujuanController extends Controller
                 if (!is_null($penawaran->pin->kode_penawaran)) {
 
                     $data = Pin::find($penawaran->pin->id);
-                    $data->update(['status' => 'D01A']);
+                    $data->update(['status' => 'D02']);
                     return (new PersetujuanResourceController(['update_status' => 1]))->response()->setStatusCode(200);
                 } else {
                     return (new PersetujuanResourceController(['update_status' => 0, 'error' => "Tidak bisa melakukan persetujuan projek karena tukang belum melakukan penawaran!!"]))->response()->setStatusCode(401);
@@ -70,7 +70,7 @@ class PersetujuanController extends Controller
                         $harga_total = $harga + (($harga * $penawaran->keuntungan) / 100);
                         $penawaran->update(['harga' => $harga, 'harga_total' => $harga_total]);
                     }
-                    $data->update(['status' => 'D01A']);
+                    $data->update(['status' => 'D02']);
 
                     Alert::success('Succesfully Saved', 'Berhasil menyetujui penawaran!');
                     return redirect()->back();

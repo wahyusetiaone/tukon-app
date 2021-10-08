@@ -522,6 +522,8 @@ Route::group(['middleware' => ['auth', 'roles', 'verified']], function () {
             });
             Route::post('banned/{id}', [App\Http\Controllers\Admin\BanController::class, 'banned'])->name('pengguna.banned.admin');
             Route::get('unbanned/{id}', [App\Http\Controllers\Admin\BanController::class, 'unbanned'])->name('pengguna.unbanned.admin');
+            Route::post('banned/admin-cabang/{id}', [App\Http\Controllers\Admin\BanController::class, 'bannedAdminCabang'])->name('pengguna.admincabang.banned.admin');
+            Route::get('unbanned/admin-cabang/{id}', [App\Http\Controllers\Admin\BanController::class, 'unbannedAdminCabang'])->name('pengguna.admincabang.unbanned.admin');
         });
         Route::group(['prefix' => 'penarikan-dana'], function () {
             Route::get('/', [App\Http\Controllers\Admin\PenarikanDanaController::class, 'index'])->name('penarikan.admin');

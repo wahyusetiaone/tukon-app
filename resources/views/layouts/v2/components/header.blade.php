@@ -78,13 +78,31 @@
                                                 @csrf
                                             </form>
                                         </div>
-                                    @else
+                                    @elseif(auth()->user()->kode_role == 2)
                                         @php
                                             $user = auth()->user();
                                             $user->load('tukang');
                                         @endphp
                                         <img class="dropbtn img-circle" width="49px" height="49px"
                                              src="{{asset($user->tukang->path_icon)}}">
+                                        <div class="dropdown-content">
+                                            <a href="{{route('home')}}">Home</a>
+                                            <a href="#"
+                                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                Sign out
+                                            </a>
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                  class="d-none">
+                                                @csrf
+                                            </form>
+                                        </div>
+                                    @else
+                                        @php
+                                            $user = auth()->user();
+                                            $user->load('tukang');
+                                        @endphp
+                                        <img class="dropbtn img-circle" width="49px" height="49px"
+                                             src="{{asset('images/icons/profile.svg')}}">
                                         <div class="dropdown-content">
                                             <a href="{{route('home')}}">Home</a>
                                             <a href="#"

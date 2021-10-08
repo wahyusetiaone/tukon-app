@@ -45,41 +45,36 @@
                                 </a>
                             </div>
 
-                            <h3 class="profile-username text-center">{{$data->user->name ?? 'Admin Cabang'}}</h3>
+                            <h3 class="profile-username text-center">{{$data->user->name}}</h3>
 
-                            <p class="text-muted text-center">{{$data->user->admin->kota ?? 'Kota Admin'}}</p>
-
-                            @isset($data->user)
-                                <div class="form-group">
-                                    <form id="frm-banned" action="{{route('pengguna.banned.admin', $data->user->id)}}"
-                                          method="POST">
-                                        @csrf
-                                        <input type="text" name="reason" hidden>
-                                    </form>
-                                    @if(isset($data->user->ban))
-                                        <a href="#">
-                                            <button class="btn btn-warning form-control" value="{{$data->user->id}}"
-                                                    id="btn_unbanned">Unbanned Account
-                                            </button>
-                                        </a>
-                                        <br>
-                                        <br>
-                                        <div class="form-group">
-                                            <label for="banned">Alasan :</label>
-                                            <textarea type="text" disabled
-                                                      class="form-control @error('banned') is-invalid @enderror"
-                                                      id="banned"
-                                                      name="banned"> {{$data->user->ban->reason}}</textarea>
-                                        </div>
-                                    @else
-                                        <a href="#">
-                                            <button class="btn btn-danger form-control" id="btn_banned">Banned Account
-                                            </button>
-                                        </a>
-                                    @endif
-                                </div>
-                            @endisset
-
+                            <p class="text-muted text-center">{{$data->kota}}</p>
+                            @if(isset($bonusActive))
+                                <p class="profile-username text-info text-sm text-center mb-0">Bonus Proyek Status Pandding </p>
+                                <p class="profile-username text-info text-center mt-0">{{count($bonusActive)}}</p>
+                            @endif
+                            <div class="form-group">
+                                <form id="frm-banned" action="{{route('pengguna.admincabang.banned.admin', $data->user->id)}}" method="POST">
+                                    @csrf
+                                    <input type="text" name="reason" hidden>
+                                </form>
+                                @if(isset($data->user->ban))
+                                    <a href="#">
+                                        <button class="btn btn-warning form-control" value="{{$data->user->id}}" id="btn_unbanned">Unbanned Account</button>
+                                    </a>
+                                    <br>
+                                    <br>
+                                    <div class="form-group">
+                                        <label for="banned">Alasan :</label>
+                                        <textarea type="text" disabled
+                                                  class="form-control @error('banned') is-invalid @enderror" id="banned"
+                                                  name="banned"> {{$data->user->ban->reason}}</textarea>
+                                    </div>
+                                @else
+                                    <a href="#">
+                                        <button class="btn btn-danger form-control" id="btn_banned">Banned Account</button>
+                                    </a>
+                                @endif
+                            </div>
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -179,5 +174,5 @@
     <script type="text/javascript">
         var url = '{{$data->path_foto}}'
     </script>
-    <script src="{{ asset('js/show_profile_user_admin.js') }}" defer></script>
+    <script src="{{ asset('js/show_profile_user_admincabang_admin.js') }}" defer></script>
 @endpush

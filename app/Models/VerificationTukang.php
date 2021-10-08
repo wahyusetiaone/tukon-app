@@ -12,6 +12,7 @@ class VerificationTukang extends Model
     protected $fillable = [
       'tukang_id',
       'admin_id',
+      'alokasi_bonus_id',
       'nama_tukang',
       'no_hp',
       'email',

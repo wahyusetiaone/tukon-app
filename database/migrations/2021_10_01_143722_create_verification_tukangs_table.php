@@ -17,6 +17,7 @@ class CreateVerificationTukangsTable extends Migration
             $table->id();
             $table->bigInteger('tukang_id')->unsigned();
             $table->bigInteger('admin_id')->unsigned();
+            $table->bigInteger('alokasi_bonus_id')->unsigned();
             $table->string('nama_tukang', 255);
             $table->string('no_hp', 255);
             $table->string('email', 255)->nullable();
@@ -29,6 +30,8 @@ class CreateVerificationTukangsTable extends Migration
                 ->references('id')->on('tukangs')
                 ->onDelete('cascade');
             $table->foreign('admin_id')
+                ->references('id')->on('admins');
+            $table->foreign('alokasi_bonus_id')
                 ->references('id')->on('admins');
         });
     }

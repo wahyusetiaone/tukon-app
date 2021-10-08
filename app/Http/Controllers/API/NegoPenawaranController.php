@@ -66,7 +66,7 @@ class NegoPenawaranController extends Controller
                         $harga_total = $harga + (($harga * $penawaran->keuntungan) / 100);
                         $penawaran->update(['harga' => $harga, 'harga_total' => $harga_total]);
                     }
-                    $data->update(['status' => 'D01A']);
+                    $data->update(['status' => 'D02']);
                     return (new NegoPenawaranResourceController(['data' => 'Berhasil menyetujui penawaran!']))->response()->setStatusCode(200);
                 } else {
                     return (new NegoPenawaranResourceController(['error' => 'Tidak bisa melakukan persetujuan projek karena tukang belum melakukan penawaran!']))->response()->setStatusCode(401);

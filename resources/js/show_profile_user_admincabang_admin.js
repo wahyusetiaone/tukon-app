@@ -41,14 +41,14 @@ $(document).on('click', '[id^=btn_unbanned]', function (e) {
     var idU = $(this).val();
     Swal.fire({
         icon: 'question',
-        text: 'Apakah yakin ingin unbanned akun ini ?',
+        text: 'Apakah yakin ingin unbanned akun ini, bonus proyek dalam status pending akan dialokasi ke aplikasi pusat ?',
         showCancelButton: true,
         confirmButtonText: 'Ya',
         confirmButtonColor: '#03A9F4',
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: base_url+"/su/user/unbanned/"+idU,
+                url: base_url+"/su/user/unbanned/admin-cabang/"+idU,
                 type: "get",
                 success: function(data){
                     Swal.fire(
@@ -62,7 +62,7 @@ $(document).on('click', '[id^=btn_unbanned]', function (e) {
                 error: function(error){
                     Swal.fire(
                         'Error !',
-                        error,
+                        error.message,
                         'success'
                     )
                 }
