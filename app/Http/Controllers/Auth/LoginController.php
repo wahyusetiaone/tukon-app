@@ -4,9 +4,16 @@ namespace App\Http\Controllers\Auth;
 
 use App\Events\PrivateChannelTest;
 use App\Http\Controllers\Controller;
+use App\Models\Roles;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use http\Exception;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
+use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
 {
@@ -43,9 +50,10 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        if ($user->kode_role == 3){
+        if ($user->kode_role == 3) {
             return redirect()->route('homeclient');
         }
         return redirect()->route('home');
     }
+
 }

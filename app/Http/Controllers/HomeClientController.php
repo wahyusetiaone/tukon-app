@@ -88,6 +88,9 @@ class HomeClientController extends Controller
             ->join('users', 'tukangs.id', '=', 'users.kode_user')->take(8)->get();
 
         if (Auth::check()){
+            if (Auth::user()->kode_user == 0){
+                return redirect()->route('register.need.more', Auth::id());
+            }
             if (Auth::user()->kode_role == 2){
                 return view('client.home.v2.home_for_tukang')->with(compact('produk_terbaru', 'produk', 'top_tukang', 'tukang'));
             }

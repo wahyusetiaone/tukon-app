@@ -12,6 +12,7 @@ use App\Models\Pin;
 use App\Models\Tukang;
 use App\Models\User;
 use App\Models\Wishlist;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -61,6 +62,7 @@ class PengajuanController extends Controller
             'diskripsi_proyek' => 'required',
             'alamat' => 'required',
             'deadline' => 'required|date_format:Y-m-d H:i:s',
+            'expired' => 'required|date_format:Y-m-d H:i:s',
             'range_min' => 'required|integer',
             'range_max' => 'required|integer',
             'kode_tukang' => 'required|array',
@@ -96,13 +98,16 @@ class PengajuanController extends Controller
             $request['path'] = $full_path;
             $request['offline'] = false;
             $request['kode_status'] = 'T01';
-            $data = Pengajuan::create($request->except(['kode_tukang']));
+            $data = Pengajuan::create($request->except(['kode_tukang', 'expired']));
             $data['links'] = $files;
+            //create datetime
+            $date = date('Y-m-d h:i:s', strtotime($request->input('expired')));
             foreach ($request->input('kode_tukang') as $tukang) {
                 $pin = new Pin();
                 $pin->kode_pengajuan = $data->id;
                 $pin->kode_tukang = $tukang;
                 $pin->status = "N01";
+                $pin->expired_at = $date;
                 $pin->save();
             }
             $data['kode_tukang'] = $request->input('kode_tukang');
@@ -128,6 +133,7 @@ class PengajuanController extends Controller
             'diskripsi_proyek' => 'required',
             'alamat' => 'required',
             'deadline' => 'required|date_format:Y-m-d H:i:s',
+            'expired' => 'required|date_format:Y-m-d H:i:s',
             'range_min' => 'required|integer',
             'range_max' => 'required|integer',
             'kode_tukang' => 'required|array',
@@ -170,6 +176,7 @@ class PengajuanController extends Controller
             $request['path'] = $full_path;
             $request['offline'] = false;
             $request['kode_status'] = 'T01';
+            $data = Pengajuan::create($request->except(['kode_tukang', 'expired']));
             DB::transaction(function () use ($request, $files, &$data) {
                 $data = Pengajuan::create($request->except(['kode_tukang']));
                 $data['links'] = $files;
@@ -178,6 +185,7 @@ class PengajuanController extends Controller
                     $pin->kode_pengajuan = $data->id;
                     $pin->kode_tukang = $tukang;
                     $pin->status = "N01";
+                    $pin->expired_at = $date;
                     $pin->save();
                 }
                 $data['kode_tukang'] = $request->input('kode_tukang');

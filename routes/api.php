@@ -174,7 +174,7 @@ Route::group(['middleware' => ['auth:api', 'roles', 'verified:api']], function (
             Route::get('/show/{id}', 'App\Http\Controllers\API\PengajuanController@show_pengajuan_base_client')->name('show_pengajuan_base_client');
         });
         Route::group(['prefix' => 'penawaran', 'as' => 'penawaran'], function () {
-            Route::get('show/{id}', 'App\Http\Controllers\API\PenawaranController@showclient')->name('penawaran.show.client');
+            Route::get('show/{id}', 'App\Http\Controllers\API\PenawaranControllerV2@showclient')->name('penawaran.show.client');
             Route::group(['prefix' => 'nego', 'as' => 'nego'], function () {
                 Route::get('/{kode}/{id}/{harganego}', 'App\Http\Controllers\API\NegoPenawaranController@nego_client')->name('nego');
                 Route::post('setuju/{kode}/{id}', 'App\Http\Controllers\API\NegoPenawaranController@accept_nego_client')->name('setuju');

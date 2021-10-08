@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 
 class Pin extends Model
 {
@@ -19,7 +20,17 @@ class Pin extends Model
         'kode_pengajuan',
         'kode_tukang',
         'status',
+        'expired_at',
     ];
+
+
+    public function scopeGetExpiredNow($query){
+        return $query
+            ->where('expired_at','<=', Carbon::now())
+            ->where('kode_penawaran','=', null)
+            ->where('status','=', 'N01')
+            ->get();
+    }
 
     public function pengajuan()
     {

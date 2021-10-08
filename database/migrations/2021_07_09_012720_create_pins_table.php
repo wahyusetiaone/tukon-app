@@ -19,6 +19,7 @@ class CreatePinsTable extends Migration
             $table->bigInteger('kode_tukang');
             $table->bigInteger('kode_penawaran')->nullable();
             $table->string('status', 4);
+            $table->timestamp('expired_at')->nullable();
             $table->bigInteger('kode_revisi')->nullable();
             $table->timestamps();
         });

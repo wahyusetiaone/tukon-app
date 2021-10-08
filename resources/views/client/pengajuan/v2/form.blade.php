@@ -186,6 +186,18 @@
                                         </span>
                                         @enderror
                                     </div>
+                                    <div class="form-group">
+                                        <label for="expired">Kadaluwarsa Pengajuan *</label>
+                                        <input type="datetime-local" min="{{date("Y-m-d")}}"
+                                               class="form-control @error('expired') is-invalid @enderror"
+                                               id="expired"
+                                               name="expired">
+                                        @error('expired')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">

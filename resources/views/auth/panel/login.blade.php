@@ -13,7 +13,7 @@
 @endsection
 
 @section('content')
-    <div class="col-12 d-flex justify-content-center pt-5">
+    <div class="col-12 d-flex justify-content-center">
         <div class="card shadow-none" style="width: 24rem;">
             <div class="card-header border-0">
                 <div class="pt-5">
@@ -23,7 +23,7 @@
             <div class="card-body pt-0">
                 <form method="post" action="{{ url('/login') }}">
                     @csrf
-                    <div class="form-group pt-5">
+                    <div class="form-group">
                         <input type="email" required
                                class="form-control pt-4 pb-4 pl-3 shadow-sm @error('email') is-invalid @enderror"
                                id="email"
@@ -50,12 +50,19 @@
                         </span>
                         </div>
                     </div>
-                    <div class="form-group pt-5">
+                    <div class="form-group pt-3">
                         <button type="submit" class="btn pt-2 pb-2 shadow-none btn-block rounded-0"
                                 style="background-color: #008CC6; color: #FFFFFF">MASUK
                         </button>
                     </div>
                 </form>
+
+                <div class="form-group pt-1">
+                    <p style="color: darkgrey" class="text-center">Atau</p>
+                    <a href="{{ route('google',request()->segment(2))}}" class="btn pt-2 pb-2 shadow-none btn-block rounded-0"
+                       style="background-color: #008CC6; color: #FFFFFF"> <i class="fab fa-google"></i> GOOGLE
+                    </a>
+                </div>
                 <div class="d-flex pt-4">
                     <p class="d-flex flex-column">
                         <a href="{{ route('password.request') }}">

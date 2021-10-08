@@ -16,6 +16,9 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        if (Auth::user()->kode_user == 0){
+            redirect()->route('register.need.more', Auth::id());
+        }
     }
 
     /**

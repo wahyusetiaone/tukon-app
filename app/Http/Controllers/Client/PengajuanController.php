@@ -9,6 +9,7 @@ use App\Models\Clients;
 use App\Models\Pengajuan;
 use App\Models\Pin;
 use App\Models\Produk;
+use DateTime;
 use Facade\FlareClient\View;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -69,6 +70,7 @@ class PengajuanController extends Controller
             'path_add' => 'required',
             'range_min' => 'required',
             'range_max' => 'required',
+            'expired' => 'required',
             'path_add.*' => 'mimes:jpg,jpeg,png|max:1000',
             'path_berkas.*' => 'mimes:pdf,docx,doc|max:1000'
         ]);
@@ -97,7 +99,10 @@ class PengajuanController extends Controller
             $request['path'] = $full_path;
             $request['offline'] = false;
             $request['kode_status'] = 'T01';
-            $data = Pengajuan::create($request->except(['kode_tukang']));
+            $data = Pengajuan::create($request->except(['kode_tukang','expired']));
+
+            //create datetime
+            $date = date('Y-m-d h:i:s', strtotime($request->input('expired')));
             if ((boolean)$multi) {
                 $arr = explode('_', $kode_tukang);
                 foreach ($arr as $tukang) {
@@ -105,6 +110,7 @@ class PengajuanController extends Controller
                     $pin->kode_pengajuan = $data->id;
                     $pin->kode_tukang = (int)$tukang;
                     $pin->status = "N01";
+                    $pin->expired_at = $date;
                     $pin->save();
                 }
             } else {
@@ -113,6 +119,7 @@ class PengajuanController extends Controller
                 $pin->kode_pengajuan = $data->id;
                 $pin->kode_tukang = $arr;
                 $pin->status = "N01";
+                $pin->expired_at = $date;
                 $pin->save();
             }
 

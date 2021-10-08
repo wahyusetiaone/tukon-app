@@ -131,7 +131,7 @@ class PenawaranControllerV2 extends Controller
     public function showclient($id)
     {
         try {
-            $data = Penawaran::with('pin', 'pin.tukang.user', 'pin.pengajuan', 'pin.pengajuan.client', 'pin.pengajuan.client.user', 'pin.revisi')->where('id', $id)->firstOrFail();
+            $data = Penawaran::with('pin','nego', 'pin.tukang.user', 'pin.pengajuan', 'pin.pengajuan.client', 'pin.pengajuan.client.user')->where('id', $id)->firstOrFail();
             if (Auth::id() != $data->pin->pengajuan->kode_client) {
                 return (new PenawaranResourceController(['error' => 'Anda tidak mempunyai akses atas item penawaran ini !']))->response()->setStatusCode(401);
             }

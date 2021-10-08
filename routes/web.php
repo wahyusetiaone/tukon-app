@@ -264,6 +264,17 @@ Route::group(['prefix' => 'panel'], function () {
     Route::post('register/check', [App\Http\Controllers\Auth\RegisterController::class, 'checkEmail'])->name('register.check');
 });
 
+//Sosial media
+Route::group(['prefix' => 'auth'], function () {
+    /// arahkan ke link ini ketika user klik "login with google"
+    Route::get('/redirect/{as}', [App\Http\Controllers\Auth\OAuthGoogleController::class, 'google'])->name('google');
+    /// siapkan route untuk menampung callback dari google
+    Route::get('/callback', [App\Http\Controllers\Auth\OAuthGoogleController::class, 'google_callback']);
+    /// More data needed
+    Route::get('{id}/register/more', [App\Http\Controllers\Auth\OAuthGoogleController::class, 'moreregister'])->name('register.need.more');
+    Route::post('{id}/register/more/store', [App\Http\Controllers\Auth\OAuthGoogleController::class, 'store_moreregister'])->name('register.need.more.store');
+});
+
 Route::get('forbiden-mobile-view', function () {
     return view('mobile.app_mobile');
 });

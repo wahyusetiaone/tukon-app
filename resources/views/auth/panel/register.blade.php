@@ -13,7 +13,7 @@
 @endsection
 
 @section('content')
-    <div class="col-12 d-flex justify-content-center pt-5">
+    <div class="col-12 d-flex justify-content-center pt-2">
         <div class="card shadow-none" style="width: 24rem;">
             <div class="card-header border-0">
                 <div class="pt-5">
@@ -52,6 +52,13 @@
                         </button>
                     </div>
                 </form>
+
+                <div class="form-group pt-1">
+                    <p style="color: darkgrey" class="text-center">Atau</p>
+                    <a href="{{ route('google',request()->segment(2))}}" class="btn pt-2 pb-2 shadow-none btn-block rounded-0"
+                       style="background-color: #008CC6; color: #FFFFFF"> <i class="fab fa-google"></i> GOOGLE
+                    </a>
+                </div>
                 <div class="d-flex pt-4">
                     <p class="ml-auto d-flex flex-column text-right">
                         <span style="color: #008CC6 !important;"> <span style="color: black!important;">Sudah punya akun ? </span><a
