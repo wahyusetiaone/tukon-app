@@ -34,5 +34,10 @@ class InvoiceObserver
             $pembayaran->kode_status = 'P03';
             $pembayaran->save();
         }
+        if ($invoice->status == 'EXPIRED'){
+            $pembayaran = Pembayaran::where('id',$invoice->kode_pembayaran)->first();
+            $pembayaran->kode_status = 'P02';
+            $pembayaran->save();
+        }
     }
 }

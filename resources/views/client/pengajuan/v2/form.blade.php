@@ -188,7 +188,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="expired">Kadaluwarsa Pengajuan *</label>
-                                        <input type="datetime-local" min="{{date("Y-m-d")}}"
+                                        <input type="date" min="{{date("Y-m-d")}}"
                                                class="form-control @error('expired') is-invalid @enderror"
                                                id="expired"
                                                name="expired">

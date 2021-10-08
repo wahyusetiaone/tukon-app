@@ -32,6 +32,9 @@ abstract class Payment {
             'description' => $invoiceParcel->getDescription(),
             'amount' => $invoiceParcel->getAmount(),
             'payment_methods' => [$invoiceParcel->getPaymentMethods()],
+            //1 hari = 24 jam = 86400
+            //2 hari = 48 jam = 172800
+            'invoice_duration' => 172800,
             'items' => [
                 array(
                     'name' =>$invoiceParcel->getItemName(),

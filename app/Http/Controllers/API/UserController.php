@@ -130,6 +130,9 @@ class UserController extends Controller
 
         $input['password'] = bcrypt($input['password']);
         $input['kode_user'] = $new_id;
+        if ($request->has('google_id')){
+            $input['email_verified_at'] = now();
+        }
         $user = User::create($input);
 //        $user->sendApiEmailVerificationNotification();
         event(new Registered($user));

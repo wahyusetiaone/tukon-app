@@ -21,7 +21,7 @@ class OAuthGoogleController extends Controller
             return (new UserResourceController(['error' => $validator->errors()]))->response()->setStatusCode(401);
         }
 
-        if (User::where('email', $request->input('email'))) {
+        if (User::where('email', $request->input('email'))->exists()) {
             Auth::login(User::where('email', $request->input('email'))->first());
             $user = Auth::user();
             $success['token'] = $user->createToken('nApp')->accessToken;

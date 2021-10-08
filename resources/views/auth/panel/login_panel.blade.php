@@ -21,6 +21,9 @@
                 </div>
             </div>
             <div class="card-body">
+                @if (session('message'))
+                    <div class="alert alert-danger">{{ session('message') }}</div>
+                @endif
                 <center>
                     <a href="{{route('panel.login.as', 'client')}}">
                         <div class="card" style="width: 20rem;">

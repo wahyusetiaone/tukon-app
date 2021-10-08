@@ -102,7 +102,7 @@ class PengajuanController extends Controller
             $data = Pengajuan::create($request->except(['kode_tukang','expired']));
 
             //create datetime
-            $date = date('Y-m-d h:i:s', strtotime($request->input('expired')));
+            $date = $request->input('expired').' '.date('H:i:s');
             if ((boolean)$multi) {
                 $arr = explode('_', $kode_tukang);
                 foreach ($arr as $tukang) {
@@ -110,7 +110,7 @@ class PengajuanController extends Controller
                     $pin->kode_pengajuan = $data->id;
                     $pin->kode_tukang = (int)$tukang;
                     $pin->status = "N01";
-                    $pin->expired_at = $date;
+                    $pin->expired_at = date('Y-m-d H:i:s', strtotime($date));
                     $pin->save();
                 }
             } else {
@@ -119,7 +119,7 @@ class PengajuanController extends Controller
                 $pin->kode_pengajuan = $data->id;
                 $pin->kode_tukang = $arr;
                 $pin->status = "N01";
-                $pin->expired_at = $date;
+                $pin->expired_at = date('Y-m-d H:i:s', strtotime($date));
                 $pin->save();
             }
 
