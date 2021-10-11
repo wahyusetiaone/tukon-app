@@ -71,3 +71,20 @@ $(document).on('click', '[id^=btn_unbanned]', function (e) {
     });
     return false;
 });
+
+$(document).on('click', '[id^=btn_banned_has_active_proyek]', function (e) {
+    e.preventDefault();
+    var idU = $(this).val();
+    Swal.fire({
+        icon: 'warning',
+        text: 'Akun ini memiliki proyek aktif, anda wajib mengalihkan proyek terlebih dahulu untuk melakukan banned !',
+        showCancelButton: true,
+        confirmButtonText: 'Alihkan & Ban',
+        confirmButtonColor: '#F44336',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = base_url+"/su/user/tukang/pengalihan-proyek/show/"+idU;
+        }
+    });
+    return false;
+});

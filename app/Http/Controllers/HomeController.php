@@ -16,11 +16,6 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        if (Auth::check()){
-            if (Auth::user()->kode_user == 0){
-                redirect()->route('register.need.more', Auth::id());
-            }
-        }
     }
 
     /**
@@ -30,6 +25,11 @@ class HomeController extends Controller
      */
     public function index()
     {
+        if (Auth::check()){
+            if (Auth::user()->kode_user == 0){
+                return redirect()->route('register.need.more', Auth::id());
+            }
+        }
         return view('home');
     }
 }

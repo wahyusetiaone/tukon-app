@@ -60924,14 +60924,14 @@ $(function () {
         data: 'id',
         name: 'id'
       }, {
-        data: 'name',
-        name: 'name'
+        data: 'user.name',
+        name: 'user.name'
       }, {
-        data: 'email',
-        name: 'email'
+        data: 'user.email',
+        name: 'user.email'
       }, {
-        data: 'status',
-        name: 'status',
+        data: 'action',
+        name: 'action',
         orderable: false,
         serachable: false,
         sClass: 'text-center'

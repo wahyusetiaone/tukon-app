@@ -76,11 +76,8 @@ class OAuthGoogleController extends Controller
                 Auth::login($createUser);
 
                 //redirect
-                if ($kode_role == 1 || $kode_role == 2){
-                    return redirect('/home');
-                }elseif($kode_role == 3){
-                    return redirect('/');
-                }
+                return redirect()->route('register.need.more', $createUser->id);
+
             }
 
         } catch (Exception $exception) {

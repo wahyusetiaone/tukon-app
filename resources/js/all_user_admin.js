@@ -43,9 +43,9 @@ $(function () {
             ajax: base_url + '/su/user/' + query,
             columns: [
                 {data: 'id', name: 'id'},
-                {data: 'name', name: 'name'},
-                {data: 'email', name: 'email'},
-                {data: 'status', name: 'status', orderable: false, serachable: false, sClass: 'text-center'},
+                {data: 'user.name', name: 'user.name'},
+                {data: 'user.email', name: 'user.email'},
+                {data: 'action', name: 'action', orderable: false, serachable: false, sClass: 'text-center'},
             ]
         });
     }

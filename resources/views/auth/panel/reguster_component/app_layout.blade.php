@@ -65,6 +65,10 @@
         <br>
         <br>
         @include('layouts.v2.components.footer')
+
+        @isset($message)
+            {{var_dump($message)}}
+        @endisset
     </div>
 </div>
 

@@ -245,23 +245,28 @@ Route::group(['prefix' => 'pdf'], function () {
 });
 
 Route::group(['prefix' => 'panel'], function () {
-    Route::get('login', function (){
+    Route::get('login', function () {
         return view('auth.panel.login_panel');
     })->name('panel.login');
 
-    Route::get('/{as}/login', function (){
+    Route::get('/{as}/login', function () {
         return view('auth.panel.login');
     })->name('panel.login.as');
 
-    Route::get('register', function (){
+    Route::get('register', function () {
         return view('auth.panel.register_panel');
     })->name('panel.register');
 
-    Route::get('/{as}/register', function (){
+    Route::get('/{as}/register', function () {
         return view('auth.panel.register');
     })->name('panel.register.as');
 
-    Route::post('register/check', [App\Http\Controllers\Auth\RegisterController::class, 'checkEmail'])->name('register.check');
+    Route::get('/{as}/register-with-nohp', function () {
+        return view('auth.panel.register_with_no_hp');
+    })->name('panel.register.as.with_no_hp');
+
+    Route::post('register/check/email', [App\Http\Controllers\Auth\RegisterController::class, 'checkEmail'])->name('register.check.email');
+    Route::post('register/check/no-hp', [App\Http\Controllers\Auth\RegisterController::class, 'checkNoHp'])->name('register.check.nohp');
 });
 
 //Sosial media
@@ -296,8 +301,11 @@ Route::group(['prefix' => 'guest'], function () {
 Auth::routes(['verify' => true]);
 //replace verify email to custom view
 Route::get('/email/verify', function () {
-    return view('auth.panel.verify');
-})->middleware('auth')->name('verification.notice');
+    return view('auth.panel.verify.email');
+})->middleware('auth')->name('verification.notice.email');
+Route::get('/no-hp/verify', function () {
+    return view('auth.panel.verify.no_hp');
+})->middleware('auth')->name('verification.notice.nohp');
 //verify successfully custom view
 Route::get('/verification-successfully', function () {
     return view('auth.verify.success');
@@ -305,6 +313,8 @@ Route::get('/verification-successfully', function () {
 Route::get('/reset-password-successfully', function () {
     return view('auth.passwords.successfully_reset_password');
 })->middleware('auth')->name('password.reset.successfully');
+Route::post('verification/number-phone', [\App\Http\Controllers\Auth\VerificationController::class, 'verification'])
+    ->middleware('auth')->name('verification.no_hp');
 
 Route::group(['middleware' => ['auth', 'roles', 'verified']], function () {
     Route::group(['prefix' => 'client', 'roles' => 'klien'], function () {
@@ -507,6 +517,11 @@ Route::group(['middleware' => ['auth', 'roles', 'verified']], function () {
                 Route::get('/', [App\Http\Controllers\Admin\UserController::class, 'indextukang'])->name('pengguna.tukang.admin');
                 Route::get('json', [App\Http\Controllers\Admin\UserController::class, 'jsontukang'])->name('data.pengguna.tukang.json.admin');
                 Route::get('show/{id}', [App\Http\Controllers\Admin\UserController::class, 'showtukang'])->name('show.pengguna.tukang.admin');
+                Route::group(['prefix' => 'pengalihan-proyek'], function () {
+                    Route::get('show/{id}', [App\Http\Controllers\Admin\PengalihanProyekController::class, 'show'])->name('pengguna.tukang.show.pengalihan.proyek.admin');
+                    Route::get('cari/penyedia-jasa/{query}', [App\Http\Controllers\Admin\PengalihanProyekController::class, 'cariPenyediajasa'])->name('pengguna.tukang.cari.pengalihan.proyek.admin');
+                    Route::post('store/pengalihan-proyek/{id}', [App\Http\Controllers\Admin\PengalihanProyekController::class, 'storePengalihanProyek'])->name('pengguna.tukang.store.pengalihan.proyek.admin');
+                });
             });
             Route::group(['prefix' => 'admin-cabang'], function () {
                 Route::get('/', [App\Http\Controllers\Admin\UserController::class, 'indexadmin'])->name('pengguna.admincabang.admin');

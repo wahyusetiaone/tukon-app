@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="card-body pt-0">
-                <form method="post" action="{{ route('register.check') }}">
+                <form method="post" action="{{ route('register.check.email') }}" id="fcm-register">
                     @csrf
                     <input type='text' hidden name="typeof" value="{{Request::segment(2)}}">
                     <div class="form-group pt-5">
@@ -46,6 +46,10 @@
                         </span>
                         @enderror
                     </div>
+                    @if(Request::segment(2) == 'tukang')
+                        <a href="{{route('panel.register.as.with_no_hp', request()->segment(2))}}" class="float-right text-sm text-info"> Gunakan nomor
+                            Handphone ?</a>
+                    @endif
                     <div class="form-group pt-5">
                         <button type="submit" class="btn pt-2 pb-2 shadow-none btn-block rounded-0"
                                 style="background-color: #008CC6; color: #FFFFFF">DAFTAR
@@ -55,7 +59,8 @@
 
                 <div class="form-group pt-1">
                     <p style="color: darkgrey" class="text-center">Atau</p>
-                    <a href="{{ route('google',request()->segment(2))}}" class="btn pt-2 pb-2 shadow-none btn-block rounded-0"
+                    <a href="{{ route('google',request()->segment(2))}}"
+                       class="btn pt-2 pb-2 shadow-none btn-block rounded-0"
                        style="background-color: #008CC6; color: #FFFFFF"> <i class="fab fa-google"></i> GOOGLE
                     </a>
                 </div>
@@ -72,4 +77,21 @@
 @endsection
 
 @section('third_party_scripts')
+    <script type="text/javascript">
+
+        var isEmail = true;
+
+        function nomor() {
+            if (isEmail) {
+                $("#inp-nomor").show();
+                $("#inp-email").hide();
+                $('a#btn_chng').text('Gunakan Email ?')
+            } else {
+                $("#inp-nomor").hide();
+                $("#inp-email").show();
+                $('a#btn_chng').text('Gunakan nomor Handphone ?')
+            }
+            isEmail = !isEmail;
+        }
+    </script>
 @endsection

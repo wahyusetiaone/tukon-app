@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\IsUserBannedApi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,10 +21,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('oauth', 'App\Http\Controllers\API\OAuthGoogleController@check');
-Route::post('login', 'App\Http\Controllers\API\UserController@login');
+Route::post('login', 'App\Http\Controllers\API\UserController@login')->middleware('verified');
+Route::get('logout', 'App\Http\Controllers\API\UserController@logout');
 Route::post('register', 'App\Http\Controllers\API\UserController@register');
 Route::post('register/admin-cabang/{hash}', 'App\Http\Controllers\API\UserController@registerAdminCabang')->name('register.admin-cabang');
-
 Route::post('password/forgot-password', 'App\Http\Controllers\API\ForgotPasswordController@sendResetLinkResponse')->name('passwords.sent');
 Route::post('password/reset', 'App\Http\Controllers\API\ResetPasswordController@sendResetResponse')->name('passwords.reset');
 
@@ -59,14 +60,15 @@ Route::group(['prefix' => 'guest', 'as' => 'guest'], function () {
 });
 
 Route::group(['middleware' => ['auth:api']], function () {
+    Route::post('no-hp/verify/{id}', 'App\Http\Controllers\API\VerificationApiController@verifyOTP')->name('verificationapi.verify.otp');
     Route::get('email/verify/{id}', 'App\Http\Controllers\API\VerificationApiController@verify')->name('verificationapi.verify');
     Route::get('email/verify/{id}/{hash}', 'App\Http\Controllers\API\VerificationApiController@verify_hash')->name('verificationapi.verify_hash');
     Route::get('email/resend', 'App\Http\Controllers\API\VerificationApiController@resend')->name('verificationapi.resend');
 
 });
 
-Route::group(['middleware' => ['auth:api', 'roles', 'verified:api']], function () {
-    Route::get('details', 'App\Http\Controllers\API\UserController@details');
+Route::group(['middleware' => ['auth:api', 'roles', 'verified:api', 'api.isban']], function () {
+    Route::get('details', 'App\Http\Controllers\API\UserController@details')->withoutMiddleware(IsUserBannedApi::class);
     Route::post('update', 'App\Http\Controllers\API\UserController@update');
     Route::post('upload_image', 'App\Http\Controllers\API\UserController@upload_image');
 
@@ -81,6 +83,7 @@ Route::group(['middleware' => ['auth:api', 'roles', 'verified:api']], function (
         Route::get('penawaran/{id}', [App\Http\Controllers\Pdf\ApiPdfDomController::class, 'penawaran'])->name('pdf.penawaran');
         Route::get('surat-jalan/{id}', [App\Http\Controllers\Pdf\ApiPdfDomController::class, 'surat_jalan'])->name('pdf.surat_jalan');
     });
+
     Route::group(['prefix' => 'tukang', 'as' => 'tukang', 'roles' => 'tukang'], function () {
         Route::group(['prefix' => 'produk', 'as' => 'produk'], function () {
             Route::get('get', 'App\Http\Controllers\API\ProdukController@index')->name('get');
@@ -235,11 +238,11 @@ Route::group(['middleware' => ['auth:api', 'roles', 'verified:api']], function (
             Route::post('ajukan/{id}', [App\Http\Controllers\API\AdminCabang\VerificationController::class, 'ajukan_verification'])->name('ajukan.verification.admincabang');
         });
         Route::group(['prefix' => 'bonus'], function () {
-            Route::get('/', [App\Http\Controllers\API\AdminCabang\BonusController::class, 'index'])->name('get.bonus.admincabang');
-            Route::get('ajukan/{id}', [App\Http\Controllers\API\AdminCabang\BonusController::class, 'ajukan'])->name('ajukan.bonus.admincabang');
+            Route::get('/', [App\Http\Controllers\API\AdminCabang\BonusController::class, 'index'])->name('get.bonus.admincabang')->withoutMiddleware([IsUserBannedApi::class]);
+            Route::get('ajukan/{id}', [App\Http\Controllers\API\AdminCabang\BonusController::class, 'ajukan'])->name('ajukan.bonus.admincabang')->withoutMiddleware([IsUserBannedApi::class]);
         });
         Route::group(['prefix' => 'dashboard'], function () {
-            Route::get('/', [App\Http\Controllers\API\AdminCabang\DashboardController::class, 'index'])->name('dashboard.admincabang');
+            Route::get('/', [App\Http\Controllers\API\AdminCabang\DashboardController::class, 'index'])->name('dashboard.admincabang')->withoutMiddleware([IsUserBannedApi::class]);
         });
     });
     if (env('DEV_MODE', true)) {

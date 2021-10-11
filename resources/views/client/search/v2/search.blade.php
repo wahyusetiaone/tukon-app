@@ -254,7 +254,7 @@
 
 @section('third_party_scripts')
     <script src="{{ asset('js/all_produk_guest.js') }}"></script>
-    <script src="{{ mix('js/search_only_page_active.js') }}" defer></script>
+    <script src="{{ asset('js/search_only_page_active.js') }}" defer></script>
     <script type="text/javascript">
         var frontStars = document.getElementsByClassName("front-stars")[0];
         var percentage = 100 / 5 * 4.63;

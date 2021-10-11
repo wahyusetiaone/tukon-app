@@ -27,6 +27,9 @@ class Tukang extends Model
         'bank',
     ];
 
+
+
+
     public function user(){
         return $this->belongsTo(User::class, 'id', 'kode_user');
     }

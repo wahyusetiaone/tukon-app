@@ -64,7 +64,7 @@
         @include('auth.panel.layouts.footer')
     </div>
 </div>
-<script src="{{ asset('js/app.js') }}" defer></script>
+<script src="{{ asset('js/app.js') }}"></script>
 @yield('third_party_scripts')
 </body>
 </html>

@@ -18,15 +18,10 @@ class IsUserBanned
     public function handle(Request $request, Closure $next)
     {
         $message = 'Akunmu telah di suspend, mohon kontak Admin Tukon untuk informasi lebih lanjut.';
-        if ($request->expectsJson()) {
-            return response()->json([
-                'message' => $message
-            ], 401);
-        } else {
-            if (auth()->check() && Ban::where('user_id',auth()->id())->exists()) {
-                auth()->logout();
-                return redirect()->route('panel.login')->with('message', $message);
-            }
+
+        if (auth()->check() && Ban::where('user_id', auth()->id())->exists()) {
+            auth()->logout();
+            return redirect()->route('panel.login')->with('message', $message);
         }
 
         return $next($request);

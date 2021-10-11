@@ -9,6 +9,7 @@ use App\Models\BACabang;
 use App\Models\BonusAdminCabang;
 use App\Models\Clients;
 use App\Models\PreRegistrationAdmin;
+use App\Models\Project;
 use App\Models\Tukang;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -132,8 +133,12 @@ class UserController extends Controller
     {
         try {
             $data = Tukang::with('user.ban')->where(['id' => $id])->firstOrFail();
+            $proyek = Project::with('pembayaran.pin')
+                ->whereHas('pembayaran.pin', function ($q) use ($id){
+                    $q->where('kode_tukang', $id);
+                })->where('kode_status', 'ON01')->count();
 
-            return view('admin.user.show')->with(compact('data'));
+            return view('admin.user.show')->with(compact('data', 'proyek'));
         } catch (ModelNotFoundException $ee) {
             return View('errors.404');
         }

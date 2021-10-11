@@ -22,6 +22,7 @@
             <div class="card-body register-card-body">
                 <form id="form-regis" method="post" action="{{ route('register') }}" enctype="multipart/form-data">
                     @csrf
+                    <input hidden type="text" name="type_reg" value="{{$type_reg}}">
                     @if($registerAs == 'client')
                         <div class="input-group mb-3">
                             <input type="text"
@@ -74,7 +75,7 @@
                         <div id="hidden_cl">
                             <div class="input-group mb-3">
                                 <input type="number"
-                                       name="nomor_telepon_cl"
+                                       name="nomor_telepon"
                                        class="form-control pt-4 pb-4 pl-3 shadow-sm @error('nomor_telepon') is-invalid @enderror"
                                        value="{{ old('nomor_telepon_cl') }}"
                                        placeholder="0878xxxx">
@@ -187,12 +188,13 @@
                             </div>
                             <!-- /.col -->
                         </div>
+
                     @elseif($registerAs == 'tukang')
                         <div class="input-group mb-3">
                             <input type="text"
-                                   name="name" readonly
+                                   name="name"
                                    class="form-control pt-4 pb-4 pl-3 shadow-sm pt-4 pb-4 pl-3 shadow-sm @error('name') is-invalid @enderror"
-                                   value="{{ $name }}"
+                                   @isset($email,$name) value="{{ $name }}" readonly @endisset
                                    placeholder="Full name">
                             <div class="input-group-append">
                                 <div class="input-group-text"><span class="fas fa-user"></span></div>
@@ -206,8 +208,8 @@
 
                         <div class="input-group mb-3">
                             <input type="email"
-                                   name="email" readonly
-                                   value="{{ $email }}"
+                                   name="email"
+                                   @isset($email,$name) value="{{ $email }}" readonly @endisset
                                    class="form-control pt-4 pb-4 pl-3 shadow-sm @error('email') is-invalid @enderror"
                                    placeholder="Email">
                             <div class="input-group-append">
@@ -235,13 +237,12 @@
                     </span>
                             @enderror
                         </div>
-
                         <div id="hidden_tk">
                             <div class="input-group mb-3">
                                 <input type="number"
-                                       name="nomor_telepon_tk"
+                                       name="nomor_telepon"
                                        class="form-control pt-4 pb-4 pl-3 shadow-sm @error('nomor_telepon') is-invalid @enderror"
-                                       value="{{ old('nomor_telepon_tk') }}"
+                                       @isset($no_hp) value="{{$no_hp}}" readonly @endisset
                                        placeholder="0878xxxx">
                                 <div class="input-group-append">
                                     <div class="input-group-text"><span class="fas fa-phone"></span></div>

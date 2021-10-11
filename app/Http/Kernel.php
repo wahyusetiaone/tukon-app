@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\IsUserBanned;
+use App\Http\Middleware\IsUserBannedApi;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -67,5 +68,6 @@ class Kernel extends HttpKernel
 //        'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
 //        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'roles' => \App\Http\Middleware\Role::class,
+        'api.isban' => \App\Http\Middleware\IsUserBannedApi::class,
     ];
 }

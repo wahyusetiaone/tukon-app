@@ -24,9 +24,12 @@ class User extends Authenticatable
         'name',
         'email',
         'email_verified_at',
+        'no_hp',
+        'no_hp_verified_at',
         'kode_role',
         'kode_user',
         'password',
+        'registration_use',
     ];
 
     /**
@@ -46,6 +49,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'no_hp_verified_at' => 'datetime',
     ];
 
     public function sendApiEmailVerificationNotification()
@@ -87,6 +91,24 @@ class User extends Authenticatable
     {
         return (strtolower($role)==strtolower($this->have_role->nama_role)) ? true : false;
     }
+
+    public function scopeHasEmail($query){
+        return $query->whereNotNull('email');
+    }
+
+    public function scopeHasNoHp($query){
+        return $query->whereNotNull('no_hp');
+    }
+
+    public function scopeIsVerifiedEmail($query){
+        return $query->whereNotNull('email_verified_at');
+    }
+
+    public function scopeIsVerifiedNoHp($query){
+        return $query->whereNotNull('no_hp_verified_at');
+    }
+
+    //relation
 
     public function tukang()
     {

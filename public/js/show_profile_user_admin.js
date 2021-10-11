@@ -60905,7 +60905,7 @@ $(document).on('click', '[id^=btn_unbanned]', function (e) {
   }).then(function (result) {
     if (result.isConfirmed) {
       $.ajax({
-        url: _app__WEBPACK_IMPORTED_MODULE_1__.base_url + "/admin/user/unbanned/" + idU,
+        url: _app__WEBPACK_IMPORTED_MODULE_1__.base_url + "/su/user/unbanned/" + idU,
         type: "get",
         success: function success(data) {
           sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Successfuly !', 'Berhasil melakukan unbanned account !', 'success').then(function (res) {
@@ -60916,6 +60916,22 @@ $(document).on('click', '[id^=btn_unbanned]', function (e) {
           sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Error !', _error, 'success');
         }
       });
+    }
+  });
+  return false;
+});
+$(document).on('click', '[id^=btn_banned_has_active_proyek]', function (e) {
+  e.preventDefault();
+  var idU = $(this).val();
+  sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+    icon: 'warning',
+    text: 'Akun ini memiliki proyek aktif, anda wajib mengalihkan proyek terlebih dahulu untuk melakukan banned !',
+    showCancelButton: true,
+    confirmButtonText: 'Alihkan & Ban',
+    confirmButtonColor: '#F44336'
+  }).then(function (result) {
+    if (result.isConfirmed) {
+      window.location.href = _app__WEBPACK_IMPORTED_MODULE_1__.base_url + "/su/user/tukang/pengalihan-proyek/show/" + idU;
     }
   });
   return false;

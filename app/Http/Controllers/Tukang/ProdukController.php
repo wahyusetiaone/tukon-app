@@ -18,8 +18,7 @@ class ProdukController extends Controller
 {
     public function json()
     {
-        $tukang = Tukang::find(Auth::id());
-        $data = $tukang->produk;
+        $data = Produk::where('kode_tukang', Auth::id())->get();
         return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function ($data) {

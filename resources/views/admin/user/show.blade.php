@@ -49,6 +49,10 @@
 
                             <p class="text-muted text-center">{{$data->kota}}</p>
 
+                            @isset($proyek)
+                                <p class="text-muted text-center">Proyek Aktif : {{$proyek}}</p>
+                            @endisset
+
                             <div class="form-group">
                                 <form id="frm-banned" action="{{route('pengguna.banned.admin', $data->user->id)}}"
                                       method="POST">
@@ -70,10 +74,17 @@
                                                   name="banned"> {{$data->user->ban->reason}}</textarea>
                                     </div>
                                 @else
+                                    @if(isset($proyek))
+                                        <a href="#">
+                                            <button class="btn btn-danger form-control" value="{{$data->id}}" id="btn_banned_has_active_proyek">Banned Account
+                                            </button>
+                                        </a>
+                                    @else
                                     <a href="#">
                                         <button class="btn btn-danger form-control" id="btn_banned">Banned Account
                                         </button>
                                     </a>
+                                    @endif
                                 @endif
                             </div>
                         </div>

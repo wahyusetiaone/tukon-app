@@ -9,10 +9,12 @@ use App\Models\Ban;
 use App\Models\Cabang;
 use App\Models\Clients;
 use App\Models\HasCabang;
+use App\Models\OTP;
 use App\Models\PreRegistrationAdmin;
 use App\Models\Tukang;
 use App\Models\TukangFotoKantor;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,11 +26,16 @@ class UserController extends Controller
 
     public function login()
     {
-        if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
+        if (request('email') != null){
+            $authh = Auth::attempt(['email' => request('email'), 'password' => request('password')]);
+        }
+        if (request('no_hp') != null){
+            $authh = Auth::attempt(['no_hp' => request('no_hp'), 'password' => request('password')]);
+        }
+        if ($authh) {
             $user = Auth::user();
             $success['token'] = $user->createToken('nApp')->accessToken;
             if($user->email_verified_at !== NULL){
-
                 $success['kode_role'] = $user->kode_role;
                 if ($success['kode_role'] == 2){
                     $success['kode'] = 'tukang';
@@ -54,10 +61,12 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'google_id' => 'string',
             'name' => 'required',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'email|unique:users,email',
+            'nomor_telepon' => 'string|unique:users,no_hp',
             'kode_role' => 'required',
             'password' => 'required',
             'c_password' => 'required|same:password',
+            'registration_use' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -130,14 +139,31 @@ class UserController extends Controller
 
         $input['password'] = bcrypt($input['password']);
         $input['kode_user'] = $new_id;
+        $input['no_hp'] = $input['nomor_telepon'];
         if ($request->has('google_id')){
             $input['email_verified_at'] = now();
         }
         $user = User::create($input);
 //        $user->sendApiEmailVerificationNotification();
-        event(new Registered($user));
+//        event(new Registered($user));
+
+        if ($input['registration_use'] == 'no_hp'){
+            //send sms
+            //dummy buat code OTP
+            $otp = new OTP();
+            $otp->user_id = $user->id;
+            $otp->code = 'T-999999';
+            //expired 5 minute
+            $otp->expired_at = Carbon::now()->addMinutes(5);
+            $otp->save();
+            $success['message'] = 'Kode OTP Telah dikirim, Mohon Periksa Handphone anda !';
+        }else if ($input['registration_use'] == 'email'){
+            //send email
+            $user->sendEmailVerificationNotification();
+            $success['message'] = 'Konfirmasi dengan mengklik tombol pada email yang telah kami kirimkan ke anda !';
+        }
+
         $success['verified'] = false;
-        $success['message'] = 'Please confirm yourself by clicking on verify user button sent to you on your email';
         $success['token'] = $user->createToken('nApp')->accessToken;
         $success['name'] = $user->name;
 
@@ -370,5 +396,15 @@ class UserController extends Controller
             return (new UserResourceController(['status_upload' => $data]))->response()->setStatusCode(200);
         }
 
+    }
+
+    public function logout(Request $request)
+    {
+        if (Auth::check()) {
+            $request->user()->token()->revoke();
+        }
+        return response()->json([
+            'message' => 'Successfully logged out'
+        ]);
     }
 }

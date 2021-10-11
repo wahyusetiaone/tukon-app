@@ -58,6 +58,7 @@
     "/js/show_verification_admin.js": "/js/show_verification_admin.js",
     "/js/all_pencairan_admin.js": "/js/all_pencairan_admin.js",
     "/js/konfirmasi_pencairan_admin.js": "/js/konfirmasi_pencairan_admin.js",
+    "/js/show_pengalihan_proyek_admin.js": "/js/show_pengalihan_proyek_admin.js",
     "/css/app.css": "/css/app.css",
     "/css/costume_app.css": "/css/costume_app.css",
     "/css/wishlist.css": "/css/wishlist.css",

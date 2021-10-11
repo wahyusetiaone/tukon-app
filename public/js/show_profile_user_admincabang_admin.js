@@ -60898,14 +60898,14 @@ $(document).on('click', '[id^=btn_unbanned]', function (e) {
   var idU = $(this).val();
   sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
     icon: 'question',
-    text: 'Apakah yakin ingin unbanned akun ini ?',
+    text: 'Apakah yakin ingin unbanned akun ini, bonus proyek dalam status pending akan dialokasi ke aplikasi pusat ?',
     showCancelButton: true,
     confirmButtonText: 'Ya',
     confirmButtonColor: '#03A9F4'
   }).then(function (result) {
     if (result.isConfirmed) {
       $.ajax({
-        url: _app__WEBPACK_IMPORTED_MODULE_1__.base_url + "/admin/user/unbanned/admin-cabang/" + idU,
+        url: _app__WEBPACK_IMPORTED_MODULE_1__.base_url + "/su/user/unbanned/admin-cabang/" + idU,
         type: "get",
         success: function success(data) {
           sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Successfuly !', 'Berhasil melakukan unbanned account !', 'success').then(function (res) {
@@ -60913,7 +60913,7 @@ $(document).on('click', '[id^=btn_unbanned]', function (e) {
           });
         },
         error: function error(_error) {
-          sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Error !', _error, 'success');
+          sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Error !', _error.message, 'success');
         }
       });
     }
