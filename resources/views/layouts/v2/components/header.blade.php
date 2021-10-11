@@ -119,8 +119,8 @@
                                     <img class="dropbtn" width="49px" height="49px"
                                          src="{{asset('images/icons/profile.svg')}}">
                                     <div class="dropdown-content">
-                                        <a href="{{route('panel.login')}}">Login</a>
-                                        <a href="{{route('panel.register')}}">Daftar</a>
+                                        <a href="{{route('panel.login')}}" class="w-100">Login</a>
+                                        <a href="{{route('panel.register')}}" class="w-100">Daftar</a>
                                     </div>
                                 @endauth
                             @endif
