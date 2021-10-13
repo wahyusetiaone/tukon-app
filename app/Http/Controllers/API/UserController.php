@@ -149,13 +149,7 @@ class UserController extends Controller
 
         if ($input['registration_use'] == 'no_hp'){
             //send sms
-            //dummy buat code OTP
-            $otp = new OTP();
-            $otp->user_id = $user->id;
-            $otp->code = 'T-999999';
-            //expired 5 minute
-            $otp->expired_at = Carbon::now()->addMinutes(5);
-            $otp->save();
+            generateOTP($user->id);
             $success['message'] = 'Kode OTP Telah dikirim, Mohon Periksa Handphone anda !';
         }else if ($input['registration_use'] == 'email'){
             //send email
@@ -165,6 +159,7 @@ class UserController extends Controller
 
         $success['verified'] = false;
         $success['token'] = $user->createToken('nApp')->accessToken;
+        $success['id'] = $user->id;
         $success['name'] = $user->name;
 
         return (new UserResourceController($success))->response()->setStatusCode(200);
@@ -228,6 +223,7 @@ class UserController extends Controller
         $user = User::create($input);
         $success['verified'] = true;
         $success['token'] = $user->createToken('nApp')->accessToken;
+        $success['id'] = $user->id;
         $success['name'] = $user->name;
 
         //add cabang

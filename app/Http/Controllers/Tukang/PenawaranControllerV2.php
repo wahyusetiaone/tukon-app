@@ -120,7 +120,7 @@ class PenawaranControllerV2 extends Controller
         $user = Auth::user()->kode_user;
         try {
             $tukang = Tukang::with('user')->where('id',$user)->firstOrFail();
-            $data = Pin::with('revisi','pengajuan','pengajuan.client','pengajuan.client.user','penawaran.nego','pembayaran')->where(['kode_penawaran' => $id,'kode_tukang' => $user])->firstOrFail();
+            $data = Pin::with('pengajuan','pengajuan.client','pengajuan.client.user','penawaran.nego','pembayaran')->where(['kode_penawaran' => $id,'kode_tukang' => $user])->firstOrFail();
 
             return view('tukang.penawaran.v2.show')->with(compact('data', 'tukang'));
         }catch (ModelNotFoundException $ee){
@@ -153,7 +153,7 @@ class PenawaranControllerV2 extends Controller
 
         $spd = Sistem_Penarikan_Dana::all();
         try {
-            $data = Pin::with('revisi','pengajuan','pengajuan.client','pengajuan.client.user','penawaran','penawaran.komponen')->where(['kode_penawaran' => $id,'kode_tukang' => $user])->firstOrFail();
+            $data = Pin::with('pengajuan','pengajuan.client','pengajuan.client.user','penawaran')->where(['kode_penawaran' => $id,'kode_tukang' => $user])->firstOrFail();
 
             if ($tukang->verifikasi_lokasi){
                 //old juga memuat 2 item

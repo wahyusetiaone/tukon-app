@@ -85,7 +85,7 @@ class ProjekController extends Controller
     {
         $user = Auth::id();
         try {
-            $data = Project::with('progress', 'progress.onprogress', 'progress.onprogress.doc', 'pembayaran', 'pembayaran.transaksi_pembayaran', 'pembayaran.pin', 'pembayaran.pin.pengajuan', 'pembayaran.pin.pengajuan.client', 'pembayaran.pin.pengajuan.client.user', 'pembayaran.pin.penawaran', 'pembayaran.pin.penawaran.komponen', 'pembayaran.pin.tukang', 'pembayaran.pin.tukang.user')->where('id', $id)->first();
+            $data = Project::with('progress', 'progress.onprogress', 'progress.onprogress.doc', 'pembayaran', 'pembayaran.transaksi_pembayaran', 'pembayaran.pin', 'pembayaran.pin.pengajuan', 'pembayaran.pin.pengajuan.client', 'pembayaran.pin.pengajuan.client.user', 'pembayaran.pin.penawaran', 'pembayaran.pin.penawaran', 'pembayaran.pin.tukang', 'pembayaran.pin.tukang.user')->where('id', $id)->first();
 
             return view('tukang.project.show')->with(compact('data'));
         } catch (ModelNotFoundException $ee) {

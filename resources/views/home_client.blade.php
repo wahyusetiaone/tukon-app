@@ -434,12 +434,12 @@
 @section('third_party_scripts')
     <script src="{{ asset('js/home_client.js') }}" defer></script>
     <script src="{{ asset('js/echo.js') }}"></script>
-    <script type="text/javascript">
-        @if(\Illuminate\Support\Facades\Auth::check())
-            window.Echo.channel('private-user.{{ \Illuminate\Support\Facades\Auth::id() }}')
-            .listen('PrivateChannelTest', (e) => {
-                console.log(e);
-            });
-        @endif
-    </script>
+{{--    <script type="text/javascript">--}}
+{{--        @if(\Illuminate\Support\Facades\Auth::check())--}}
+{{--            window.Echo.channel('private-user.{{ \Illuminate\Support\Facades\Auth::id() }}')--}}
+{{--            .listen('PrivateChannelTest', (e) => {--}}
+{{--                console.log(e);--}}
+{{--            });--}}
+{{--        @endif--}}
+{{--    </script>--}}
 @endsection

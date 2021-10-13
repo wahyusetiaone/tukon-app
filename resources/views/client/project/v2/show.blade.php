@@ -122,11 +122,6 @@
                                                 class="description">Disetujui - {{indonesiaDate($data->pembayaran->pin->penawaran->created_at)}}</span>
                                         </div>
                                         <!-- /.user-block -->
-                                        <p> Komponen yang di ajukan :
-                                            @foreach($data->pembayaran->pin->penawaran->komponen as $item)
-                                                {{$item->nama_komponen}},
-                                            @endforeach
-                                        </p>
                                         <p>
                                             <a href="{{route('show.penawaran.client',$data->pembayaran->pin->penawaran->id)}}" class="link text-sm"><i class="fas fa-link mr-1"></i> Lihat
                                                 Penawaran</a>

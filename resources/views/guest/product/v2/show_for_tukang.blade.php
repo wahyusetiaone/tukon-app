@@ -106,7 +106,7 @@
                                     {!! bringMeAStar(($data->tukang->rate*100)/5) !!}
                                 </div>
                                 <div class="col-6 pt-2">
-                                    <span style="color: #FFBC0B;" id="star_value_2"></span>
+                                    <span style="color: #FFBC0B;" id="star_value_2" hidden></span>
                                 </div>
                             </div>
                         </div>
@@ -115,7 +115,6 @@
                 <div class="col-6 pr-2 pt-4">
                     <div class="float-right">
                         <p class="p-0 m-0 text-bold" style="text-align: right">Kontak</p>
-                        <p class="p-0 m-0 text-muted" style="text-align: right">{{$data->tukang->nomor_telepon}}</p>
                         <p class="p-0 m-0 text-muted" style="text-align: right">{{$data->tukang->user->email}}</p>
                     </div>
                 </div>

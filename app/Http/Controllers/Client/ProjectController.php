@@ -72,10 +72,10 @@ class ProjectController extends Controller
     public function show($id)
     {
         try {
-            $data = Project::with('penarikan.transaksi_penarikan.persentase', 'progress', 'progress.onprogress', 'progress.onprogress.doc', 'pembayaran', 'pembayaran.transaksi_pembayaran', 'pembayaran.pin', 'pembayaran.pin.pengajuan', 'pembayaran.pin.pengajuan.client', 'pembayaran.pin.pengajuan.client.user', 'pembayaran.pin.penawaran', 'pembayaran.pin.penawaran.komponen', 'pembayaran.pin.tukang', 'pembayaran.pin.tukang.user')->where('id', $id)->first();
+            $data = Project::with('penarikan.transaksi_penarikan.persentase', 'progress', 'progress.onprogress', 'progress.onprogress.doc', 'pembayaran', 'pembayaran.transaksi_pembayaran', 'pembayaran.pin', 'pembayaran.pin.pengajuan', 'pembayaran.pin.pengajuan.client', 'pembayaran.pin.pengajuan.client.user', 'pembayaran.pin.penawaran', 'pembayaran.pin.tukang', 'pembayaran.pin.tukang.user')->where('id', $id)->first();
 
             if ($data->kode_status == 'ON03') {
-                $data = Project::with('penarikan.transaksi_penarikan.persentase', 'progress', 'progress.onprogress', 'progress.onprogress.doc', 'pembayaran', 'pembayaran.transaksi_pembayaran', 'pembayaran.pin', 'pembayaran.pin.pengajuan', 'pembayaran.pin.pengajuan.client', 'pembayaran.pin.pengajuan.client.user', 'pembayaran.pin.penawaran', 'pembayaran.pin.penawaran.komponen', 'pembayaran.pin.tukang', 'pembayaran.pin.tukang.user', 'pengembalian')->where('id', $id)->first();
+                $data = Project::with('penarikan.transaksi_penarikan.persentase', 'progress', 'progress.onprogress', 'progress.onprogress.doc', 'pembayaran', 'pembayaran.transaksi_pembayaran', 'pembayaran.pin', 'pembayaran.pin.pengajuan', 'pembayaran.pin.pengajuan.client', 'pembayaran.pin.pengajuan.client.user', 'pembayaran.pin.penawaran', 'pembayaran.pin.tukang', 'pembayaran.pin.tukang.user', 'pengembalian')->where('id', $id)->first();
             }
             return view('client.project.v2.show')->with(compact('data'));
         } catch (ModelNotFoundException $ee) {

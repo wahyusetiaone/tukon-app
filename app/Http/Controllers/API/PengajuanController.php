@@ -439,7 +439,7 @@ class PengajuanController extends Controller
     public function get_tukang_by_pengajuan(int $kode_pengajuan)
     {
         try {
-            $data = Pengajuan::with('pin.penawaran.komponen', 'pin.tukang.user')->where('id', $kode_pengajuan)->get();
+            $data = Pengajuan::with('pin.penawaran.komponen', 'pin.tukang.user')->where('id', $kode_pengajuan)->first();
             return (new PengajuanResourceController($data))->response()->setStatusCode(200);
         } catch (ModelNotFoundException $ee) {
             return (new PengajuanResourceController(['status' => 0, 'error' => 'record not found or you do have access this record.', 'message' => $ee->getMessage()]))->response()->setStatusCode(401);

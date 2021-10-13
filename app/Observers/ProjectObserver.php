@@ -27,7 +27,7 @@ class ProjectObserver
      */
     public function created(Project $project)
     {
-        $data = Project::with('pembayaran', 'pembayaran.pin', 'pembayaran.pin.pengajuan', 'pembayaran.pin.penawaran', 'pembayaran.pin.penawaran.bpa', 'pembayaran.pin.penawaran.bac', 'pembayaran.pin.tukang.verification', 'pembayaran.pin.penawaran.komponen')->where('id', $project->id)->first();
+        $data = Project::with('pembayaran', 'pembayaran.pin', 'pembayaran.pin.pengajuan', 'pembayaran.pin.penawaran', 'pembayaran.pin.penawaran.bpa', 'pembayaran.pin.penawaran.bac', 'pembayaran.pin.tukang.verification')->where('id', $project->id)->first();
         $fdate = $data->pembayaran->pin->pengajuan->deadline;
         $tdate = date("Y-m-d H:i:s");
         $datetime1 = new DateTime($fdate);
@@ -116,17 +116,14 @@ class ProjectObserver
     public function updated(Project $project)
     {
         if ($project->kode_status == "ON03") {
-            $penarikan_dana = PenarikanDana::with('project.pembayaran.pin.tukang','project.pembayaran.pin.penawaran.komponen','project.pembayaran.pin.penawaran.bac')->where('kode_project', $project->id)->first();
+            $penarikan_dana = PenarikanDana::with('project.pembayaran.pin.tukang','project.pembayaran.pin.penawaran.bac')->where('kode_project', $project->id)->first();
             $penalty = Penalty::take(1)->first();
             $cutoff = $penarikan_dana->persentase_penarikan + $penalty->value;
             $roff = 100 - $cutoff;
             $return = ($penarikan_dana->total_dana * $roff) / 100;
 
             if ($penarikan_dana->project->pembayaran->pin->tukang->verifikasi_lokasi){
-                $harga_asli = 0;
-                foreach ($penarikan_dana->project->pembayaran->pin->penawaran->komponen as $item){
-                    $harga_asli += $item->harga;
-                }
+                $harga_asli = $penarikan_dana->project->pembayaran->pin->penawaran->harga;
                 $return +=  ($harga_asli * $penarikan_dana->project->pembayaran->pin->penawaran->bac->bac) / 100;
 
                 //ubah status bonus ke batal

@@ -114,7 +114,7 @@ class VerificationApiController extends Controller
     public function verifyOTP(Request $request, int $id)
     {
         $this->validate($request, [
-            'code' => 'required|max:8'
+            'code' => 'required|string|max:8'
         ]);
 
         if (!OTP::where('code', $request->input('code'))->exists()){
@@ -126,7 +126,7 @@ class VerificationApiController extends Controller
             $user = User::whereId(Auth::id())->first();
             $user->no_hp_verified_at =  Carbon::now()->toDateTime();
             $user->save();
-            return response()->json(['error' => 'Nomor Handphone berhasil diverifikasi'], 200);
+            return response()->json(['success' => 'Nomor Handphone berhasil diverifikasi'], 200);
         }else{
             return response()->json(['error' => 'Kode tidak cocok!'], 403);
         }

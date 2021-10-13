@@ -89,8 +89,6 @@ class AppServiceProvider extends ServiceProvider
         Transaksi_Pembayaran::observe(TransaksiPembayaranObserver::class);
         Progress::observe(ProgressObserver::class);
         Project::observe(ProjectObserver::class);
-        //TODO:harus dihapus
-        Revisi::observe(RevisiObserver::class);
         OnProgress::observe(OnProgressObserver::class);
         DocumentationProgress::observe(DocumentationProgressObserver::class);
         Transaksi_Penarikan::observe(TransaksiPenarikanDanaObserver::class);

@@ -57,7 +57,7 @@ class ProjectController extends Controller
     {
         $kode_user = User::with('client')->find(Auth::id())->kode_user;
 
-        $validasi = Project::with('pembayaran', 'pembayaran.pin', 'pembayaran.pin.penawaran.komponen', 'pembayaran.pin.pengajuan', 'pembayaran.pin.penawaran', 'penarikan', 'progress.onprogress.doc')->find($id);
+        $validasi = Project::with('pembayaran', 'pembayaran.pin', 'pembayaran.pin.pengajuan', 'pembayaran.pin.penawaran', 'penarikan', 'progress.onprogress.doc')->find($id);
 
         if ($kode_user == $validasi->pembayaran->pin->pengajuan->kode_client) {
             return (new ProjectResourceController($validasi))->response()->setStatusCode(200);

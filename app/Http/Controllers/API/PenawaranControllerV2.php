@@ -29,19 +29,19 @@ class PenawaranControllerV2 extends Controller
         $id = Auth::id();
         try {
             if ($request->input('only') == 'batal') {
-                $data = Penawaran::with('bpa', 'komponen', 'pin', 'pin.revisi', 'pin.pembayaran', 'pin.pengajuan', 'pin.pengajuan.client', 'pin.pengajuan.client.user')->whereHas('pin', function ($query) use ($id) {
+                $data = Penawaran::with('bpa', 'pin', 'pin.pembayaran', 'pin.pengajuan', 'pin.pengajuan.client', 'pin.pengajuan.client.user')->whereHas('pin', function ($query) use ($id) {
                     $query->where([['kode_tukang', $id], ['status', 'B01']])
                         ->orWhere([['kode_tukang', $id], ['status', 'B02']])
                         ->orWhere([['kode_tukang', $id], ['status', 'B04']]);
                 })->paginate(10);
             } elseif ($request->input('only') == 'menunggu-pembayaran') {
-                $data = Penawaran::with('bpa', 'komponen', 'pin', 'pin.revisi', 'pin.pembayaran', 'pin.pengajuan', 'pin.pengajuan.client', 'pin.pengajuan.client.user')->whereHas('pin', function ($query) use ($id) {
+                $data = Penawaran::with('bpa', 'pin', 'pin.pembayaran', 'pin.pengajuan', 'pin.pengajuan.client', 'pin.pengajuan.client.user')->whereHas('pin', function ($query) use ($id) {
                     $query->where([['kode_tukang', $id], ['status', 'D02']]);
                 })->whereHas('pin.pembayaran', function ($q){
                     $q->where('kode_status', 'P01');
                 })->paginate(10);
             } else {
-                $data = Penawaran::with('bpa', 'komponen', 'pin', 'pin.revisi', 'pin.pembayaran', 'pin.pengajuan', 'pin.pengajuan.client', 'pin.pengajuan.client.user')->whereHas('pin', function ($query) use ($id) {
+                $data = Penawaran::with('bpa', 'pin', 'pin.pembayaran', 'pin.pengajuan', 'pin.pengajuan.client', 'pin.pengajuan.client.user')->whereHas('pin', function ($query) use ($id) {
                     $query->where([['kode_tukang', $id], ['status', 'N01']]);
                     $query->orWhere([['kode_tukang', $id], ['status', 'D01A']]);
                     $query->orWhere([['kode_tukang', $id], ['status', 'D01B']]);
@@ -112,7 +112,7 @@ class PenawaranControllerV2 extends Controller
         }
 
         try {
-            $data = Penawaran::with('bpa','nego', 'bac', 'pin', 'pin.revisi', 'pin.pembayaran', 'pin.pengajuan.berkas', 'pin.pengajuan.client', 'pin.pengajuan.client.user')->where('id', $id)->first();
+            $data = Penawaran::with('bpa','nego', 'bac', 'pin', 'pin.pembayaran', 'pin.pengajuan.berkas', 'pin.pengajuan.client', 'pin.pengajuan.client.user')->where('id', $id)->first();
             if (Auth::id() != $data->pin->kode_tukang) {
                 return (new PenawaranResourceController(['error' => 'Anda tidak mempunyai akses atas item penawaran ini !']))->response()->setStatusCode(401);
             }

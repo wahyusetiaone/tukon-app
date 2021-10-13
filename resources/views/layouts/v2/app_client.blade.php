@@ -128,7 +128,11 @@
     <script>
         var unix_id = {!! \Illuminate\Support\Facades\Auth::id() !!};
     </script>
-    <script src="{{ asset('js/app_root.js') }}"></script>
+    @if(\Illuminate\Support\Facades\Auth::user()->kode_role == 3)
+        <script src="{{ asset('js/app_client.js') }}"></script>
+    @else
+        <script src="{{ asset('js/app_root.js') }}"></script>
+    @endif
 @endif
 
 @yield('third_party_scripts')

@@ -36,10 +36,6 @@ class Penawaran extends Model
         return $this->hasOne(Sistem_Penarikan_Dana::class, 'id', 'kode_spd');
     }
 
-    public function komponen(){
-        return $this->hasMany(Komponen::class, 'kode_penawaran', 'id');
-    }
-
     public function history_penawaran(){
         return $this->hasMany(History_Penawaran::class, 'kode_penawaran', 'id');
     }

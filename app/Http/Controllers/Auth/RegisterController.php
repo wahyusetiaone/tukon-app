@@ -201,13 +201,7 @@ class RegisterController extends Controller
 
         if ($request->input('type_reg') == 'no_hp'){
             //send sms
-            //dummy buat code OTP
-            $otp = new OTP();
-            $otp->user_id = $user->id;
-            $otp->code = 'T-999999';
-            //expired 5 minute
-            $otp->expired_at = Carbon::now()->addMinutes(5);
-            $otp->save();
+            generateOTP($user->id);
 
         }else if ($request->input('type_reg') == 'email'){
             //send email
