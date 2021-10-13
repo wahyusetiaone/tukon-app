@@ -153,7 +153,9 @@ class UserController extends Controller
             $success['message'] = 'Kode OTP Telah dikirim, Mohon Periksa Handphone anda !';
         }else if ($input['registration_use'] == 'email'){
             //send email
-            $user->sendEmailVerificationNotification();
+            if (!$request->has('google_id')){
+                $user->sendEmailVerificationNotification();
+            }
             $success['message'] = 'Konfirmasi dengan mengklik tombol pada email yang telah kami kirimkan ke anda !';
         }
 

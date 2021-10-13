@@ -20,6 +20,7 @@ class CreateTransaksiPenarikansTable extends Migration
             $table->bigInteger('penarikan');
             $table->text('catatan_penolakan');
             $table->text('bukti_tf_admin');
+            $table->string('kode_status', 4);
             $table->timestamps();
         });
     }
