@@ -118,7 +118,7 @@ class VerificationApiController extends Controller
         ]);
 
         if (!OTP::where('code', $request->input('code'))->exists()){
-            return response()->json(['error' => 'Kode tidak ditemukan!'], 404);
+            return response()->json(['error' => 'Kode tidak ditemukan!'], 401);
         }
         $otp = OTP::where('code', $request->input('code'))->first();
 
@@ -128,7 +128,7 @@ class VerificationApiController extends Controller
             $user->save();
             return response()->json(['success' => 'Nomor Handphone berhasil diverifikasi'], 200);
         }else{
-            return response()->json(['error' => 'Kode tidak cocok!'], 403);
+            return response()->json(['error' => 'Kode tidak cocok!'], 401);
         }
     }
 }

@@ -34,8 +34,9 @@ class UserController extends Controller
         }
         if ($authh) {
             $user = Auth::user();
+            $success['id'] = $user->id;
             $success['token'] = $user->createToken('nApp')->accessToken;
-            if($user->email_verified_at !== NULL){
+            if($user->email_verified_at !== NULL || $user->no_hp_verified_at){
                 $success['kode_role'] = $user->kode_role;
                 if ($success['kode_role'] == 2){
                     $success['kode'] = 'tukang';
@@ -47,7 +48,6 @@ class UserController extends Controller
                 return (new UserResourceController($success))->response()->setStatusCode(200);
             }else{
                 $success['verified'] = false;
-                $success['message'] = 'Please confirm yourself by clicking on verify user button sent to you on your email';
                 return (new UserResourceController($success))->response()->setStatusCode(401);
             }
         } else {

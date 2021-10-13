@@ -50,7 +50,7 @@ class VerifyAccountMiddleware
                 if (!User::whereId(Auth::id())->hasEmail()->isVerifiedEmail()->exists()){
                     if ($request->expectsJson()) {
                         $respon->original['message'] = 'Email Belum di verifikasi';
-                        return response()->json($respon->original, 403);
+                        return response()->json($respon->original, 401);
                     } else {
                         return redirect(route('verification.notice.email'));
                     }
@@ -61,7 +61,7 @@ class VerifyAccountMiddleware
                 if (!User::whereId(Auth::id())->hasNoHp()->isVerifiedNoHp()->exists()){
                     if ($request->expectsJson()) {
                         $respon->original['message'] = 'Nomor Handphone Belum di verifikasi';
-                        return response()->json($respon->original, 403);
+                        return response()->json($respon->original, 401);
                     } else {
                         return redirect(route('verification.notice.nohp'));
                     }
