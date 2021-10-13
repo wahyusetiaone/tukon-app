@@ -19,7 +19,7 @@ class CreateClientsTable extends Migration
             $table->string('alamat',255);
             $table->string('provinsi',255);
             $table->string('kota',100);
-            $table->string('kode_lokasi', 6)->nullable();
+            $table->string('kode_lokasi', 255)->nullable();
             $table->string('path_foto', 255)->default('storage/images/photos/def_profile.svg');
             $table->timestamps();
         });

@@ -100,6 +100,7 @@ class RegisterController extends Controller
                 'nomor_telepon' => $data['nomor_telepon'],
                 'provinsi' => $data['provinsi'],
                 'kota' => $data['kota'],
+                'kode_lokasi' => $data['kode_lokasi'],
                 'alamat' => $data['alamat_tk']
             ]);
         }
@@ -111,6 +112,7 @@ class RegisterController extends Controller
                 'provinsi' => $data['provinsi'],
                 'kota' => $data['kota'],
                 'alamat' => $data['alamat_cl'],
+                'kode_lokasi' => $data['kode_lokasi'],
             ]);
         }
 
@@ -150,11 +152,15 @@ class RegisterController extends Controller
         $email = $request->input('email');
         $type_reg = 'email';
 
-        return redirect()->route('register')
-            ->with('registerAs', $registerAs)
-            ->with('name', $name)
-            ->with('type_reg', $type_reg)
-            ->with('email', $email);
+        //set session
+        session([
+            'registerAs' => $registerAs,
+            'name' => $name,
+            'type_reg' => $type_reg,
+            'email' => $email
+        ]);
+
+        return redirect()->route('register');
     }
     /**
      * Store a newly created resource in storage.
@@ -172,8 +178,14 @@ class RegisterController extends Controller
         $no_hp = $request->input('no_hp');
         $type_reg = 'no_hp';
 
-        return redirect()->route('register')
-            ->with(compact('registerAs', 'no_hp', 'type_reg'));
+        //set session
+        session([
+            'registerAs' => $registerAs,
+            'no_hp' => $no_hp,
+            'type_reg' => $type_reg
+        ]);
+
+        return redirect()->route('register');
     }
 
     /**
@@ -223,6 +235,15 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
+        //remove session
+        if($request->session()->has('registerAs')) {
+            $request->session()->forget('registerAs');
+            $request->session()->forget('email');
+            $request->session()->forget('no_hp');
+            $request->session()->forget('type_reg');
+
+        }
+
         //save foto kantor
         if ($request->hasfile('image')) {
             $file = $request->file('image');

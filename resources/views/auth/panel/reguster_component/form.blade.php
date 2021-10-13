@@ -2,6 +2,16 @@
 
 @section('third_party_stylesheets')
     <link href="{{ asset('css/wishlist.css') }}" rel="stylesheet">
+    <style type="text/css">
+        /* Set the size of the div element that contains the map */
+        #map {
+            height: 200px;
+            /* The height is 270 pixels */
+            width: 407px;
+            /* The width is the width of the web page */
+        }
+    </style>
+
 @endsection
 
 @section('content')
@@ -157,6 +167,15 @@
                                    placeholder="Retype password">
                             <div class="input-group-append">
                                 <div class="input-group-text"><span class="fas fa-lock"></span></div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <!--The div element for the map -->
+                                <div id="map"></div>
+                                <input type="text" id="kode_lokasi" name="kode_lokasi" hidden>
+                                <p class="text-sm text-info">Pastikan lokasi diatas adalah kantor anda. Anda dapat memindah lokasi dengan mengeser petanya.</p>
                             </div>
                         </div>
 
@@ -326,11 +345,25 @@
 
                         <div class="row">
                             <div class="col-8">
-                                <img width="270px" height="200px" id="preview" src="{{asset('images/img_kantor.svg')}}"/>
+                                <img width="270px" height="200px" id="preview"
+                                     src="{{asset('images/img_kantor.svg')}}"/>
                             </div>
                             <div class="col-4">
-                                <button type="button" onclick="event.preventDefault(); document.getElementById('t_image').click();" style="margin-top: 127px;background-color: #008CC6; color: white;" class="btn rounded-0" id="btn_img">Pilih Foto Kantor</button>
+                                <button type="button"
+                                        onclick="event.preventDefault(); document.getElementById('t_image').click();"
+                                        style="margin-top: 127px;background-color: #008CC6; color: white;"
+                                        class="btn rounded-0" id="btn_img">Pilih Foto Kantor
+                                </button>
                                 <input type="file" accept="image/*" id="t_image" name="image" hidden>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <!--The div element for the map -->
+                                <div id="map"></div>
+                                <input type="text" id="kode_lokasi" name="kode_lokasi" hidden>
+                                <p class="text-sm text-info">Pastikan lokasi diatas adalah kantor anda. Anda dapat memindah lokasi dengan mengeser petanya.</p>
                             </div>
                         </div>
 
@@ -372,5 +405,50 @@
 @section('third_party_scripts')
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/registrasi.js') }}" defer></script>
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQsm8Oczc3DfX8Khl2Ah0cL-qQhA_fUEA"
+    ></script>
+    <script src="https://unpkg.com/location-picker/dist/location-picker.min.js"></script>
 
+    <script>
+        // // Initialize and add the map
+        // function initMap() {
+        //     // The location of Kantor -7.597306516133232, 110.74012611887392
+        //     const kantor = { lat: -7.597306516133232, lng: 110.74012611887392 };
+        //     // The map, centered at Uluru
+        //     const map = new google.maps.Map(document.getElementById("map"), {
+        //         zoom: 16,
+        //         center: kantor,
+        //         disableDefaultUI: true,
+        //         draggable: false,
+        //         zoomControl: false,
+        //         scrollwheel: false,
+        //         disableDoubleClickZoom: true
+        //     });
+        //
+        //     // The marker, positioned at Uluru
+        //     const marker = new google.maps.Marker({
+        //         position: kantor,
+        //         map: map,
+        //     });
+        // }
+
+        const kantor = {lat: -7.597306516133232, lng: 110.74012611887392};
+        var locationPicker = new locationPicker('map', {
+            setCurrentPosition: true, // You can omit this, defaults to true
+        }, {
+            zoom: 15, // You can set any google map options here, zoom defaults to 15
+            center: kantor,
+            streetViewControl: false,
+
+        });
+
+        google.maps.event.addListener(locationPicker.map, 'idle', function (event) {
+            // Get current location and show it in HTML
+            var location = locationPicker.getMarkerPosition();
+            document.getElementById('kode_lokasi').value = '{"latitude":' + location.lat + ',"longitude":'+location.lng+'}';
+        });
+
+    </script>
 @endsection
