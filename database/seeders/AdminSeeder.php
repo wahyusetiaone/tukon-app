@@ -15,7 +15,7 @@ class AdminSeeder extends Seeder
     public function run()
     {
         $admin = new Admin();
-        $admin->id = 0;
+        $admin->id = 1;
         $admin->nomor_telepon = '081882881286';
         $admin->alamat = 'Admin Pusat';
         $admin->provinsi = 'Admin Pusat';

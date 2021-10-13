@@ -15,8 +15,8 @@ class UserSeeder extends Seeder
     public function run()
     {
         $admin = new User();
-        $admin->id = 0;
-        $admin->google_id = '000000000000000000000000000000';
+        $admin->id = 1;
+        $admin->google_id = '000000000000000000000';
         $admin->name = 'Superadmin';
         $admin->email = 'wahyusetiaone27@gmail.com';
         $admin->email_verified_at = now();
@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
         $admin->no_hp_verified_at = now();
         $admin->password = '$2y$10$FmANfVYv5L8I6jDW9nBGFelyRWDgUBCytTsFIlKIp55/4N.K9yC.W';
         $admin->kode_role = 1;
-        $admin->kode_user = 0;
+        $admin->kode_user = 1;
         $admin->save();
     }
 }

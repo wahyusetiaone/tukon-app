@@ -105,7 +105,8 @@ class OAuthGoogleController extends Controller
                 'nomor_telepon' => $request->input('nomor_telepon_tk'),
                 'provinsi' => $request->input('provinsi'),
                 'kota' => $request->input('kota'),
-                'alamat' => $request->input('alamat_tk')
+                'alamat' => $request->input('alamat_tk'),
+                'kode_lokasi' => $request->input('kode_lokasi')
             ]);
             //save foto kantor
             if ($request->hasfile('image')) {
@@ -130,6 +131,7 @@ class OAuthGoogleController extends Controller
                 'provinsi' => $request->input('provinsi'),
                 'kota' => $request->input('kota'),
                 'alamat' => $request->input('alamat_cl'),
+                'kode_lokasi' => $request->input('kode_lokasi')
             ]);
             return redirect('/');
         }
