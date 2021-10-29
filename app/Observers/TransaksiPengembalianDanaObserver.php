@@ -42,7 +42,7 @@ class TransaksiPengembalianDanaObserver
             case 'created':
                 //deep_id == pengembalian_dana
                 createNotification(
-                    0,
+                    1,
                     'Pengembalian Dana',
                     'Pengajuan Pengembalian Dana Klien ' . $data->pengembalian_dana->project->pembayaran->pin->pengajuan->client->user . ' masuk. ',
                     $data->nama_proyek,

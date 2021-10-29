@@ -56,7 +56,7 @@ class PembayaranObserver
                 //deep_id == pembayaran
                 if ($data->kode_status == "P01B") {
                     createNotification(
-                        0,
+                        1,
                         'Pembayaran',
                         'Pembayaran untuk proyek '.$data->pin->pengajuan->nama_proyek.' telah dibayar oleh '.$data->pin->pengajuan->client->user->name.' !!!',
                         $data->nama_proyek,

@@ -96,19 +96,19 @@ Route::group(['prefix' => 'trigger'], function () {
     Route::get('bisayokbisa', function () {
 
         // want to broadcast PrivateChannelTest event
-//        $msg = new NotificationHandler();
-//        $msg->user_id = 8;
-//        $msg->title = "Proyek";
-//        $msg->message = "Proyek Telah Selesai";
-//        $msg->name = "Buat Rumah";
-//        $msg->deep_id = 12;
-//        $msg->role = "client"; //client/tukang/admin
-//        $msg->action = "update"; //add/cancel/update
-//        $msg->read = false;
-//        $msg->save();
-//        $unReadNotif = NotificationHandler::select('id')->where('user_id', 8)->count();
+        $msg = new NotificationHandler();
+        $msg->user_id = 0;
+        $msg->title = "Test Event";
+        $msg->message = "Test Event";
+        $msg->name = "Test Event";
+        $msg->deep_id = 0;
+        $msg->role = "client"; //client/tukang/admin
+        $msg->action = "update"; //add/cancel/update
+        $msg->read = false;
+        $msg->save();
+        $unReadNotif = 8;
 //        broadcast(new PrivateChannelTest($msg,$unReadNotif));
-//        bringInNotification($msg, $unReadNotif, \App\Events\ProyekEventController::eventCreated());
+        bringInNotification($msg, $unReadNotif, \App\Events\VerificationEventController::eventCreated());
 ////
 
 //       \App\Models\Pin::find(2)->update(['status' => 'B01']);
@@ -206,9 +206,9 @@ Route::group(['prefix' => 'trigger'], function () {
 //        );
 //        var_dump($getEWalletChargeStatus);
 
-        $data = \App\Models\Invoice::where('kode_pembayaran', 1)->first();
-        $data->status = 'PAID';
-        $data->save();
+//        $data = \App\Models\Invoice::where('kode_pembayaran', 1)->first();
+//        $data->status = 'PAID';
+//        $data->save();
 
         return '<h1>Yokk Event Trigger :</h1>';
     });

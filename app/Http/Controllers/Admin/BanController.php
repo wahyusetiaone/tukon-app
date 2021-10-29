@@ -91,7 +91,7 @@ class BanController extends Controller
                 })->where('kode_status', 'BA01')->where('admin_id', $id)->get();
 
                 foreach ($bonusActive as $item) {
-                    $item->update(['admin_id' => 0, 'dialihkan' => true]);
+                    $item->update(['admin_id' => 1, 'dialihkan' => true]);
                 }
 
                 $has = Ban::with('user')->whereHas('user', function ($q) use ($id) {
@@ -107,7 +107,7 @@ class BanController extends Controller
 
                 //alokasi bonus pindah ke pusat
                 $v = VerificationTukang::where('admin_id', $id);
-                $v->update(['alokasi_bonus_id' => 0]);
+                $v->update(['alokasi_bonus_id' => 1]);
 
             });
             Alert::success('Succesfuly', 'Berhasil melakukan Banned Account !!!');

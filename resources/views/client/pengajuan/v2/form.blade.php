@@ -261,6 +261,10 @@
                 $('#pills-home-tab').click(); // Select tab by name
                 $('#btn_as_icon_two').css({"backgroundColor": "#F0F0F0"});
             });
+            var today = new Date();
+            today.setDate(today.getDate() + 1);
+            today = today.toISOString().split('T')[0];
+            document.getElementsByName("expired")[0].setAttribute('min', today);
         });
     </script>
     <script src="{{ asset('js/form_pengajuan.js') }}" defer></script>

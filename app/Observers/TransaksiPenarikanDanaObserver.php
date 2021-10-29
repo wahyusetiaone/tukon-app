@@ -69,7 +69,7 @@ class TransaksiPenarikanDanaObserver
                         'update',
                         PenarikanDanaEventController::eventCreated());
                     createNotification(
-                        0,
+                        1,
                         'Penarikan Dana',
                         'Tukang '.$data->penarikan_dana->project->pembayaran->pin->tukang->user->name.' ingin melakukan penarikan dana !',
                         $data->penarikan_dana->project->pembayaran->pin->pengajuan->nama_proyek,
